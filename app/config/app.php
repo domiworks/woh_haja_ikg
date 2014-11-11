@@ -39,7 +39,7 @@ return array(
 	|
 	*/
 
-	'timezone' => 'Asia/Jakarta',
+	'timezone' => 'UTC',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -60,12 +60,12 @@ return array(
 	|--------------------------------------------------------------------------
 	|
 	| This key is used by the Illuminate encrypter service and should be set
-	| to a random, long string, otherwise these encrypted values will not
-	| be safe. Make sure to change it before deploying any application!
+	| to a random, 32 character string, otherwise these encrypted strings
+	| will not be safe. Please do this before deploying an application!
 	|
 	*/
 
-	'key' => 'YourSecretKey!!!',
+	'key' => 'lIBFysDZYaXdY209vGxbTZpioSUxKahM',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -113,8 +113,7 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-		'Way\Generators\GeneratorsServiceProvider',
-		'Jenssegers\Agent\AgentServiceProvider',
+
 	),
 
 	/*
@@ -179,7 +178,7 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-		'Agent'            => 'Jenssegers\Agent\Facades\Agent',
+
 	),
 
 );

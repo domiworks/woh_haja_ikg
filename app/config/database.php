@@ -55,7 +55,7 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'gki_git',
+			'database'  => 'gki_4_0',
 			'username'  => 'root',
 			'password'  => '',
 			'charset'   => 'utf8',

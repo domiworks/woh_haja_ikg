@@ -8,14 +8,20 @@
 <!-- end css -->
 
 <div class="s_sidebar">
+	<!-- input data-->
 	<ul>		
-		<li>{{HTML::linkRoute('view_kebaktian', 'Kebaktian')}}</li>
-		<li>{{HTML::linkRoute('view_anggota', 'Anggota')}}</li>
-		<li>{{HTML::linkRoute('view_baptis', 'Baptis')}}</li>
-		<li>{{HTML::linkRoute('view_atestasi', 'Atestasi')}}</li>
-		<li>{{HTML::linkRoute('view_pernikahan', 'Pernikahan')}}</li>
-		<li>{{HTML::linkRoute('view_kedukaan', 'Kedukaan')}}</li>
-		<li>{{HTML::linkRoute('view_dkh', 'Dkh')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_kebaktian', 'Input Data Kebaktian')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_anggota', 'Input Data Anggota')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_baptis', 'Input Data Baptis')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_atestasi', 'Input Data Atestasi')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_pernikahan', 'Input Data Pernikahan')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_kedukaan', 'Input Data Kedukaan')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_dkh', 'Input Data Dkh')}}</li>
+	</ul>
+	
+	<!-- olahdata -->
+	<ul>
+		<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
 	</ul>
 </div>
 
@@ -101,7 +107,7 @@
 		<tr>		
 			<td>Jenis kelamin</td>
 			<td>:</td>
-			<td>{{ Form::radio('gender', '1', '', array('id'=>'f_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita <span class="red">*</span></td>
+			<td>{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita <span class="red">*</span></td>
 		</tr>		
 		<tr>
 			<td>Wilayah</td>
@@ -238,7 +244,7 @@
 			arr_hp[arr_hp.length] = $('#f_hp'+$i+'').val();			
 		}
 			data.append('arr_hp', arr_hp);					
-		$gender = $('#f_jenis_kelamin').val();	
+		$gender = $('input[name="gender"]:checked').val();	
 			data.append('gender', $gender);
 		$wilayah = $('#f_wilayah').val();	
 			data.append('wilayah', $wilayah);

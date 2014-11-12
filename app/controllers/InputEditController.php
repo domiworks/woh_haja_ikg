@@ -8,8 +8,9 @@ class InputEditController extends BaseController {
 	{		
 		$list_jenis_kegiatan = $this->getListJenisKegiatan();		
 		$list_pembicara = $this->getListPendeta();
+		$list_gereja = $this->getListGereja();
 		return View::make('pages.user_inputdata.kebaktian', 
-			compact('list_jenis_kegiatan', 'list_pembicara')
+			compact('list_jenis_kegiatan', 'list_pembicara', 'list_gereja')
 		);					
 	}
 	
@@ -74,13 +75,12 @@ class InputEditController extends BaseController {
 	
 	public function postKebaktian()
 	{		
-		//NOTE :
-		//$kebaktian->id_gereja = ...	
+		//NOTE :			
 		//masukin data ke persembahan ... 
 		
-		$input = Input::get('data');		
+		$input = Input::get('data');			
 		
-		$kebaktian = new Kegiatan();		
+		$kebaktian = new Kegiatan();										
 		if($input['id_pendeta'] == '')
 		{
 			$kebaktian->id_pendeta = null;
@@ -109,9 +109,10 @@ class InputEditController extends BaseController {
 		$kebaktian->banyak_komisi = $input['banyak_komisi'];
 		$kebaktian->banyak_pemusik_pria = $input['banyak_pemusik_pria'];
 		$kebaktian->banyak_pemusik_wanita = $input['banyak_pemusik_wanita'];
-		$kebaktian->banyak_pemusik = $input['banyak_pemusik'];
-		$kebaktian->keterangan = $input['keterangan'];
-				
+		$kebaktian->banyak_pemusik = $input['banyak_pemusik'];		
+		$kebaktian->id_gereja = $input['id_gereja'];
+		$kebaktian->keterangan = $input['keterangan'];					
+		
 		try{
 			$kebaktian->save();
 			return true;			
@@ -336,18 +337,37 @@ class InputEditController extends BaseController {
 	
 	public function postKedukaan()
 	{
+		
 		$input = Input::get('data');
 		
 		$duka = new Kedukaan();
 		$duka->no_kedukaan = $input['no_kedukaan'];
 		$duka->id_gereja = $input['id_gereja'];
-		$duka->id_jemaat = $input['id_jemaat'];
-		$duka->tanggal_meninggal = $input['tanggal_meninggal'];
+		$duka->id_jemaat = $input['id_jemaat'];		
 		$duka->keterangan = $input['keterangan'];
+		
 		try{
 			$duka->save();
 			
-			return true;			
+			//save tanggal_meninggal anggota
+			$anggota = Anggota::find($input['id_jemaat']);
+			if(count($anggota) != 0)
+			{
+				$anggota->tanggal_meninggal = $input['tanggal_meninggal'];
+				try{
+					$anggota->save();
+					
+					return "berhasil";
+				}catch(Exception $e){
+					return $e;
+				}
+			}
+			else
+			{
+				return "gagal";
+			}
+			
+			return "berhasil";			
 		}catch(Exception $e){
 			return $e;
 		}
@@ -364,257 +384,14 @@ class InputEditController extends BaseController {
 		try{
 			$dkh->save();
 			
-			return true;
+			return "berhasil";
 		}catch(Exception $e){
 			return $e;
 		}
 							
 	}
 	
-	//--------------------------------------------------GET LIST--------------------------------------------------
 	
-	//get list gereja
-	public function getListGereja()
-	{		
-		$count = DB::table('gereja')->orderBy('id','asc')->lists('nama','id');
-		if(count($count) != 0)
-		{
-			return $count;
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	//get list wilayah
-	public function getListWilayah()
-	{
-		$arrWilayah = array(
-			'' => 'pilih!',
-			'I' => 'I',
-			'II' => 'II',
-			'III' => 'III',
-			'IV' => 'IV',
-			'V' => 'V',
-			'VI' => 'VI',
-			'VII' => 'VII',
-			'VIII' => 'VIII',
-			'IX' => 'IX',
-			'X' => 'X',
-			'XI' => 'X1',
-			'XII' => 'XII',
-			'XIII' => 'XIII',
-			'XIV' => 'XIV',
-			'XV' => 'XI'
-		);		
-		return $arrWilayah;
-	}
-	
-	//get list gol_darah	
-	public function getListGolonganDarah()
-	{
-		$arrGolonganDarah = array(
-			'' => 'pilih!',
-			'A +' => 'A +',
-			'B +' => 'B +',
-			'A B+' => 'AB +',
-			'O +' => 'O +',
-			'A -' => 'A -',
-			'B -' => 'B -',
-			'A B-' => 'AB -',
-			'O -' => 'O -'	
-		);
-		return $arrGolonganDarah;
-	}
-			
-	//get list pendidikan
-	public function getListPendidikan()
-	{
-		$arrPendidikan = array(
-			'' => 'pilih!',
-			'TK' => 'TK',
-			'SD' => 'SD',
-			'SLTP' => 'SLTP',
-			'SMU' => 'SMU',
-			'Kejuruan' => 'Kejuruan',
-			'D-1' => 'D-1',
-			'D-2' => 'D-2',
-			'D-3' => 'D-3',
-			'S-1' => 'S-1',
-			'S-2' => 'S-2',
-			'S-3' => 'S-3',
-			'Lain-Lain' => 'Lain-Lain'
-		);			
-		return $arrPendidikan;
-	}
-	
-	//get list pekerjaan
-	public function getListPekerjaan()
-	{
-		$arrPekerjaan = array(
-			'' => 'pilih!',
-			'Wirausaha' => 'Wirausaha',
-			'P.Negeri' => 'P.Negeri',
-			'P.Swasta' => 'P.Swasta',
-			'Profesional' => 'Profesional',
-			'Pensiunan' => 'Pensiunan',
-			'Ibu RT' => 'Ibu RT',
-			'Petani' => 'Petani',
-			'Pel/Mhs' => 'Pel/Mhs',
-			'Lain-Lain' => 'Lain-Lain'
-		);
-		return $arrPekerjaan;
-	}
-	
-	//get list etnis
-	public function getListEtnis()
-	{	
-		$arrEtnis = array(
-			'' => 'pilih!',
-			'T.Hoa' => 'T.Hoa',
-			'Sunda' => 'Sunda',
-			'Batak' => 'Batak',
-			'Jawa' => 'Jawa',
-			'Ambon' => 'Ambon',
-			'Minahasa' => 'Minahasa',
-			'Nias' => 'Nias',
-			'Timor' => 'Timor',
-			'Toraja' => 'Toraja',
-			'Dayak' => 'Dayak',
-			'Papua' => 'Papua',
-			'Lain-Lain' => 'Lain-Lain'
-		);
-		return $arrEtnis;
-	}
-	
-	//get list role anggota
-	public function getListRoleAnggota()
-	{
-		$arrRoleAnggota = array(
-			'1' => 'jemaat',
-			'2' => 'pendeta',
-			'3' => 'penatua',
-			'4' => 'majelis'
-		);
-		return $arrRoleAnggota;
-	}
-	
-	//get list jenis kegiatan
-	public function getListJenisKegiatan()
-	{
-		$count = DB::table('jenis_kegiatan')->orderBy('id','asc')->lists('nama_kegiatan','id');
-		if(count($count) != 0)
-		{
-			return $count;
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	//get list jenis baptis
-	public function getListJenisBaptis()
-	{
-		$count = DB::table('jenis_baptis')->orderBy('id','asc')->lists('nama_jenis_baptis','id');
-		if(count($count) != 0)
-		{
-			return $count;
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	//get list jenis atestasi
-	public function getListJenisAtestasi()
-	{
-		$count = DB::table('jenis_atestasi')->orderBy('id','asc')->lists('nama_atestasi','id');
-		if(count($count) != 0)
-		{
-			return $count;
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	//get list pendeta
-	public function getListPendeta()
-	{		
-		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
-					->where('role', '=', 2)
-					->orderBy('nama_depan')								
-					->lists('nama_lengkap', 'id');					
-		if(count($count) != 0)
-		{			
-			return $count;
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	//get list jemaat
-	public function getListJemaat()
-	{				
-		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
-					->where('role', '=', 1)
-					->orderBy('nama_depan')
-					->lists('nama_lengkap', 'id');
-		if(count($count) != 0)
-		{
-			return $count;
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	//get list jemaat pria
-	public function getListJemaatPria()
-	{		
-		// $count = DB::table('anggota')->where('role', '=', 2)->orderBy('nama_depan','asc')
-				// ->lists('nama_depan'.' '.'nama_tengah'. ' '.'nama_belakang','id');
-		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
-					->where('role', '=', 1)
-					->where('gender', '=', 1)
-					->orderBy('nama_depan')
-					->lists('nama_lengkap', 'id');
-		if(count($count) != 0)
-		{
-			return $count;
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	//get list jemaat wanita
-	public function getListJemaatWanita()
-	{		
-		// $count = DB::table('anggota')->where('role', '=', 2)->orderBy('nama_depan','asc')
-				// ->lists('nama_depan'.' '.'nama_tengah'. ' '.'nama_belakang','id');
-		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
-					->where('role', '=', 1)
-					->where('gender', '=', 0)
-					->orderBy('nama_depan')
-					->lists('nama_lengkap', 'id');
-		if(count($count) != 0)
-		{
-			return $count;
-		}
-		else
-		{
-			return null;
-		}
-	}
 }
 
 ?>

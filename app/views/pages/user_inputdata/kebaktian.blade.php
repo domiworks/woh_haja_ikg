@@ -20,14 +20,20 @@
 <!-- end css -->
 
 <div class="s_sidebar">
+	<!-- input data-->
 	<ul>		
-		<li>{{HTML::linkRoute('view_kebaktian', 'Kebaktian')}}</li>
-		<li>{{HTML::linkRoute('view_anggota', 'Anggota')}}</li>
-		<li>{{HTML::linkRoute('view_baptis', 'Baptis')}}</li>
-		<li>{{HTML::linkRoute('view_atestasi', 'Atestasi')}}</li>
-		<li>{{HTML::linkRoute('view_pernikahan', 'Pernikahan')}}</li>
-		<li>{{HTML::linkRoute('view_kedukaan', 'Kedukaan')}}</li>
-		<li>{{HTML::linkRoute('view_dkh', 'Dkh')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_kebaktian', 'Input Data Kebaktian')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_anggota', 'Input Data Anggota')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_baptis', 'Input Data Baptis')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_atestasi', 'Input Data Atestasi')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_pernikahan', 'Input Data Pernikahan')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_kedukaan', 'Input Data Kedukaan')}}</li>
+		<li>{{HTML::linkRoute('view_inputdata_dkh', 'Input Data Dkh')}}</li>
+	</ul>
+	
+	<!-- olahdata -->
+	<ul>
+		<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
 	</ul>
 </div>
 
@@ -181,6 +187,11 @@
 			<td>:</td>
 			<td>{{Form::text('banyak_komisi', Input::old('banyak_komisi'), array('id'=>'f_banyak_komisi','onkeypress'=>'return isNumberKey(event)'))}}</td>
 		</tr>
+		<tr>
+			<td class="">Gereja</td>
+			<td>:</td>
+			<td>{{ Form::select('id_gereja', $list_gereja, Input::old('id_gereja'), array('id' => 'f_id_gereja')) }}<span class="red">*</span></td>
+		</tr>		
 		<tr>
 			<td class="">Keterangan</td>
 			<td>:</td>
@@ -377,6 +388,7 @@
 		$banyak_komisi_pria = $('#f_banyak_komisi_pria').val();
 		$banyak_komisi_wanita = $('#f_banyak_komisi_wanita').val();
 		$banyak_komisi = $('#f_banyak_komisi').val();
+		$id_gereja = $('#f_id_gereja').val();
 		$keterangan = $('#f_keterangan').val();
 		
 		$data = {
@@ -402,6 +414,7 @@
 			'banyak_komisi_pria' : $banyak_komisi_pria,
 			'banyak_komisi_wanita' : $banyak_komisi_wanita,
 			'banyak_komisi' : $banyak_komisi,
+			'id_gereja' : $id_gereja,
 			'keterangan' : $keterangan
 		};
 		
@@ -411,7 +424,7 @@
 			data : {
 				'data' : $data
 			},
-			success: function(response){
+			success: function(response){				
 				if(response == true)
 				{	
 					alert("Berhasil simpan data kebaktian");

@@ -26,28 +26,14 @@ Route::delete('/$RESOURCE$/{id}', ['as' => 'delete.$RESOURCE$' , 'uses' => '$NAM
 
 //
 
-// Index
-Route::get('/test/index', function()
+/* routing sementara buat coba html + css + jquery */
+Route::group(array('prefix' => 'test'), function()
 {
-	return View::make('pages.mobile.index');
-});
-// Splash
-Route::get('/test/splash', function()
-{
-	return View::make('pages.mobile.splash');
-});
-// Menu Test
-Route::get('/test/menu_test', function()
-{
-	return View::make('pages.mobile.menu_test');
-});
 
-Route::get('/test/index_01', function()
-{
-	return View::make('pages.mobile.index_01');
-});
-//tes admin domi
-Route::get('/test/admin', function()
-{
-	return View::make('pages.admin.manage_test');
+	//MOBILE FRUNK test/index_01
+	Route::get('/index_01', function()
+	{
+		return View::make('pages.mobile.index_01');
+	});
+
 });

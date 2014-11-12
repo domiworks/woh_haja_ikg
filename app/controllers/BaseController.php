@@ -14,25 +14,28 @@ class BaseController extends Controller {
 			$this->layout = View::make($this->layout);
 		}
 	}
-	
+
 	protected function setHeader()
 	{
-		$alamat_hfi = $this->get_cabang('alamat');
+		$nama_gereja = $this->get_gereja('nama');
 		
-		$telepon_hfi = $this->get_cabang('telp');
+		$alamat_gereja = $this->get_gereja('alamat');
 		
-		$fax_hfi = $this->get_cabang('fax');
+		$telepon_gereja = $this->get_gereja('telp');				
 		
-		$email_hfi = $this->get_cabang('email');
-		
-		$arr = array('alamat_hfi' => $alamat_hfi, 'telp' => $telepon_hfi, 'fax_hfi' => $fax_hfi, 'email_hfi' => $email_hfi);
+		$arr = array(
+			'nama' => $nama_gereja,
+			'alamat' => $alamat_gereja, 
+			'telp' => $telepon_gereja
+		);
 		
 		return $arr;
 	}
 	
-	private function get_cabang($kembalian)
+	private function get_gereja($kembalian)
 	{
-		$count = Cabang::where('tipe','=', '1')->first();
+		//get gereja status:jemaat yang pertama di get di database
+		$count = Gereja::where('status','=', '2')->first();		
 		if(count($count) != 0)
 		{
 			return $count->$kembalian;
@@ -41,5 +44,4 @@ class BaseController extends Controller {
 			return "";
 		}
 	}
-
 }

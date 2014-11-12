@@ -8,7 +8,7 @@ class InputEditController extends BaseController {
 	{		
 		$list_jenis_kegiatan = $this->getListJenisKegiatan();		
 		$list_pembicara = $this->getListPendeta();
-		return View::make('pages.kebaktian', 
+		return View::make('pages.user_inputdata.kebaktian', 
 			compact('list_jenis_kegiatan', 'list_pembicara')
 		);					
 	}
@@ -22,7 +22,7 @@ class InputEditController extends BaseController {
 		$list_pekerjaan = $this->getListPekerjaan();
 		$list_etnis = $this->getListEtnis();
 		$list_role = $this->getListRoleAnggota();
-		return View::make('pages.anggota', compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
+		return View::make('pages.user_inputdata.anggota', compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
 		// return null;
 	}
 	
@@ -32,7 +32,7 @@ class InputEditController extends BaseController {
 		$list_pembaptis = $this->getListPendeta();
 		$list_jenis_baptis = $this->getListJenisBaptis();
 		$list_jemaat = $this->getListJemaat();
-		return View::make('pages.baptis', compact('list_gereja','list_pembaptis','list_jenis_baptis','list_jemaat'));
+		return View::make('pages.user_inputdata.baptis', compact('list_gereja','list_pembaptis','list_jenis_baptis','list_jemaat'));
 		// return null;
 	}	
 	
@@ -41,7 +41,7 @@ class InputEditController extends BaseController {
 		$list_jenis_atestasi = $this->getListJenisAtestasi();
 		$list_jemaat = $this->getListJemaat();
 		$list_gereja = $this->getListGereja();
-		return View::make('pages.atestasi', compact('list_jenis_atestasi','list_jemaat','list_gereja'));
+		return View::make('pages.user_inputdata.atestasi', compact('list_jenis_atestasi','list_jemaat','list_gereja'));
 		// return null;
 	}
 	
@@ -51,7 +51,7 @@ class InputEditController extends BaseController {
 		$list_jemaat_wanita = $this->getListJemaatWanita();
 		$list_gereja = $this->getListGereja();
 		$list_pendeta = $this->getListPendeta();
-		return View::make('pages.pernikahan', compact('list_jemaat_pria','list_jemaat_wanita','list_gereja','list_pendeta'));
+		return View::make('pages.user_inputdata.pernikahan', compact('list_jemaat_pria','list_jemaat_wanita','list_gereja','list_pendeta'));
 		// return null;
 	}
 	
@@ -59,14 +59,14 @@ class InputEditController extends BaseController {
 	{
 		$list_gereja = $this->getListGereja();
 		$list_jemaat = $this->getListJemaat();
-		return View::make('pages.kedukaan', compact('list_gereja','list_jemaat'));
+		return View::make('pages.user_inputdata.kedukaan', compact('list_gereja','list_jemaat'));
 		// return null;
 	}
 	
 	public function view_dkh()
 	{
 		$list_jemaat = $this->getListJemaat();
-		return View::make('pages.dkh', compact('list_jemaat'));
+		return View::make('pages.user_inputdata.dkh', compact('list_jemaat'));
 		// return null;
 	}
 

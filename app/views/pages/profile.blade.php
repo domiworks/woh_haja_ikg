@@ -7,11 +7,7 @@
 </style>
 <!-- end css -->
 
-<div class="s_menubar">
-	{{HTML::linkRoute('profile_user', 'Profile')}}
-</div>
-
-<div class="s_sidebar">
+<div class="s_sidebar">	
 	<ul>		
 		<li>{{HTML::linkRoute('view_kebaktian', 'Kebaktian')}}</li>
 		<li>{{HTML::linkRoute('view_anggota', 'Anggota')}}</li>

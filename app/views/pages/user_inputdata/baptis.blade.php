@@ -21,7 +21,13 @@
 	
 	<!-- olahdata -->
 	<ul>
+		<li>{{HTML::linkRoute('view_olahdata_kebaktian', 'Olah Data Kebaktian')}}</li>
 		<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_baptis', 'Olah Data Baptis')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_atestasi', 'Olah Data Atestasi')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_pernikahan', 'Olah Data Pernikahan')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh')}}</li>
 	</ul>
 </div>
 
@@ -31,8 +37,7 @@
 			<td class="">Nomor Baptis</td>
 			<td>:</td>
 			<td>{{Form::text('nomor_baptis', Input::old('nomor_baptis'), array('id'=>'f_nomor_baptis'))}} </td>			
-		</tr>
-		
+		</tr>		
 		<tr>
 			<td class="">Pembaptis</td>
 			<td>:</td>
@@ -48,11 +53,13 @@
 			<td>:</td>
 			<td>{{Form::select('jenis_baptis', $list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_jenis_baptis'))}}</td>
 		</tr>
+		<!--
 		<tr>
-			<td>Dibaptis di Gereja</td>
+			<td class="">Dibaptis di Gereja</td>
 			<td>:</td>
-			<td>{{ Form::select('id_gereja', $list_gereja, Input::old('id_gereja'), array('id' => 'f_id_gereja')) }}<span class="red">*</span></td>
+			<td> Form::select('id_gereja', dollarlist_gereja, Input::old('id_gereja'), array('id' => 'f_id_gereja')) <span class="red">*</span></td>
 		</tr>
+		-->
 		<tr>
 			<td class="">Tanggal Baptis</td>
 			<td>:</td>
@@ -95,7 +102,7 @@
 		$pembaptis = $('#f_pembaptis').val();
 		$jemaat = $('#f_jemaat').val();
 		$jenis_baptis = $('#f_jenis_baptis').val();
-		$gereja = $('#f_id_gereja').val();
+		// $gereja = $('#f_id_gereja').val();
 		$tanggal_baptis = $('#f_tanggal_baptis').val();
 		
 		$data = {
@@ -104,7 +111,7 @@
 			'id_pendeta' : $pembaptis,
 			'tanggal_baptis' : $tanggal_baptis,
 			'id_jenis_baptis' : $jenis_baptis,
-			'id_gereja' : $gereja
+			// 'id_gereja' : $gereja
 		};
 		
 		$.ajax({
@@ -114,9 +121,10 @@
 				'data' : $data
 			},
 			success: function(response){
-				if(response == true)
+				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data baptis");
+					location.reload();
 				}
 				else
 				{

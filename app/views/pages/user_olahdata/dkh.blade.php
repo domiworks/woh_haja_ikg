@@ -41,49 +41,63 @@
 		<tr>
 			<td class="">Nama Jemaat</td>
 			<td>:</td>
-			<td>{{Form::select('nama_jemaat', $list_jemaat, Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat'))}}</td>
-		</tr>		
-		<tr>
-			<td class="">Keterangan</td>
-			<td>:</td>
-			<td>{{ Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_keterangan'))}}</td>
-		</tr>
+			<td>{{Form::text('nama_jemaat', Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat'))}}</td>
+		</tr>				
 		<tr>
 			<td></td>
 			<td></td>
-			<td><button id="f_post_dkh">Simpan Data Dkh</button></td>
+			<td><button id="f_search_dkh">Cari Data Dkh</button></td>
 		</tr>
 	</table>	
+	
+	<div id="f_result_dkh"></div>
 </div>	
 	
 <script>
-	$('body').on('click', '#f_post_dkh', function(){
+	$('body').on('click', '#f_search_dkh', function(){
 		$no_dkh = $('#f_nomor_dkh').val();
-		$id_jemaat = $('#f_nama_jemaat').val();
-		$keterangan = $('#f_keterangan').val();
+		$nama_jemaat = $('#f_nama_jemaat').val();		
 		
 		$data = {
 			'no_dkh' : $no_dkh,
-			'id_jemaat' : $id_jemaat,
-			'keterangan' : $keterangan
+			'nama_jemaat' : $nama_jemaat			
 		};
 		
 		$.ajax({
 			type: "POST",
-			url: "{{URL('user/post_dkh')}}",
+			url: "{{URL('user/search_dkh')}}",
 			data: {
 				'data' : $data
 			},
-			success: function(response){				
+			success: function(response){	
+				alert("Berhasil cari data dkh");				
+				
+				if(response != "no result")
+				{
+					var result = "";					
+					for($i = 0; $i < response.length; $i++)
+					{
+						result += response[$i]['no_dkh']+ " ";
+						// alert(response[$i]['tanggal_mulai']);
+					}
+					
+					$('#f_result_dkh').html("<p>"+result+"</p>");
+				}					
+				else				
+				{
+					$('#f_result_dkh').html("<p>No result</p>");					
+				}	
+				/*				
 				if(response == "berhasil")
 				{	
-					alert("Berhasil simpan data kedukaan");
-					location.reload();
+					// alert("Berhasil simpan data kedukaan");
+					// location.reload();
 				}
 				else
 				{
 					alert(response);
 				}
+				*/
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);

@@ -21,7 +21,13 @@
 	
 	<!-- olahdata -->
 	<ul>
+		<li>{{HTML::linkRoute('view_olahdata_kebaktian', 'Olah Data Kebaktian')}}</li>
 		<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_baptis', 'Olah Data Baptis')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_atestasi', 'Olah Data Atestasi')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_pernikahan', 'Olah Data Pernikahan')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh')}}</li>
 	</ul>
 </div>
 
@@ -198,14 +204,14 @@
 			<td><span class="f_front">{{$nama_gereja}}</span>
 				<span class="f_back">
 					<select id="f_up_gereja">
-						<?php 
-							foreach($list_gereja as $value => $text){ ?> 
+						<?php foreach($list_gereja as $value => $text){ ?> 
 								<option value='<?php echo $value; ?>' 
 									<?php 
 										if ($data['data']['id_gereja'] == $value) {
 											echo 'selected';
 										}?> > <?php echo $text; ?>
-								</option><?php } ?>
+								</option>
+						<?php } ?>
 					</select>		
 				</span>
 			</td>

@@ -21,7 +21,13 @@
 	
 	<!-- olahdata -->
 	<ul>
+		<li>{{HTML::linkRoute('view_olahdata_kebaktian', 'Olah Data Kebaktian')}}</li>
 		<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_baptis', 'Olah Data Baptis')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_atestasi', 'Olah Data Atestasi')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_pernikahan', 'Olah Data Pernikahan')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh')}}</li>
 	</ul>
 </div>
 
@@ -166,11 +172,13 @@
 				});
 			</script>
 		</tr>		
+		<!--
 		<tr>
 			<td>Anggota gereja</td>
 			<td>:</td>
-			<td>{{ Form::select('id_gereja', $list_gereja, Input::old('id_gereja'), array('id' => 'f_id_gereja')) }}<span class="red">*</span></td>
+			<td> Form::select('id_gereja', dollarlist_gereja, Input::old('id_gereja'), array('id' => 'f_id_gereja')) <span class="red">*</span></td>
 		</tr>
+		-->
 		<tr>
 			<td>Foto</td>
 			<td>:</td>
@@ -260,8 +268,8 @@
 			data.append('kota_lahir', $kota_lahir);
 		$tanggal_lahir = $('#f_tanggal_lahir').val();	
 			data.append('tanggal_lahir', $tanggal_lahir);
-		$anggota_gereja = $('#f_id_gereja').val();
-			data.append('id_gereja', $anggota_gereja);
+		// $anggota_gereja = $('#f_id_gereja').val();
+			// data.append('id_gereja', $anggota_gereja);
 		if($('#f_foto').val() != "")
 		{			
 			$foto = $('#f_foto')[0].files[0];
@@ -281,15 +289,16 @@
 			processData: false,
 			contentType: false,	
 			success: function(response){				
-				alert(response);
-				// if(response == true)
-				// {	
-					// alert("Berhasil simpan data anggota");
-				// }
-				// else
-				// {
-					// alert(response);
-				// }
+				// alert(response);
+				if(response == "berhasil")
+				{	
+					alert("Berhasil simpan data anggota");
+					location.reload();
+				}
+				else
+				{
+					alert(response);
+				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);

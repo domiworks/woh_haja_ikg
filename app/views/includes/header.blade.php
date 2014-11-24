@@ -5,6 +5,5 @@
 	
 	
 	<!-- link ke halaman register -->
-		
 	
 </section>

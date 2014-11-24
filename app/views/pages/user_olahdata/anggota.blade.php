@@ -21,7 +21,13 @@
 	
 	<!-- olahdata -->
 	<ul>
+		<li>{{HTML::linkRoute('view_olahdata_kebaktian', 'Olah Data Kebaktian')}}</li>
 		<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_baptis', 'Olah Data Baptis')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_atestasi', 'Olah Data Atestasi')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_pernikahan', 'Olah Data Pernikahan')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh')}}</li>
 	</ul>
 </div>
 
@@ -74,13 +80,16 @@
 				<td>Etnis</td>
 				<td>:</td>
 				<td>{{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_etnis')) }}<span class="red">*</span></td>
-			</tr>			
+			</tr>
 			<tr>
-				<td>Tanggal lahir</td>
+				<td class="">Tanggal lahir antara </td>
 				<td>:</td>
-				<td>{{ Form::text('tanggal_lahir', Input::old('tanggal_lahir'), array('id' => 'f_tanggal_lahir')) }} <span class="red">*</span></td>			
+				<td>
+					{{ Form::text('tanggal_awal', Input::old('tanggal_awal'), array('id' => 'f_tanggal_awal')) }} - 
+					{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir')) }}
+				</td>
 				<script>
-					jQuery('#f_tanggal_lahir').datetimepicker({
+					jQuery('#f_tanggal_awal').datetimepicker({
 						lang:'en',
 						i18n:{
 							en:{
@@ -97,16 +106,38 @@
 							}
 							},
 						timepicker:false,
-						format: 'Y-m-d',
+						format: 'Y-m-d',					
 						yearStart: '1900'
-					});
+					});			
+					jQuery('#f_tanggal_akhir').datetimepicker({
+						lang:'en',
+						i18n:{
+							en:{
+								months:[
+								'Januari','Februari','Maret','April',
+								'Mei','Juni','Juli','Agustus',
+								'September','Oktober','November','Desember',
+								],
+								dayOfWeek:[
+								"Ming.", "Sen.", "Sel.", "Rab.", 
+								"Kam.", "Jum.", "Sab.",
+								]
+								
+							}
+							},
+						timepicker:false,
+						format: 'Y-m-d',					
+						yearStart: '1900'
+					});	
 				</script>
-			</tr>		
+			</tr>							
+			<!--
 			<tr>
 				<td>Anggota gereja</td>
 				<td>:</td>
-				<td>{{ Form::select('id_gereja', $list_gereja, Input::old('id_gereja'), array('id' => 'f_id_gereja')) }}<span class="red">*</span></td>
+				<td> Form::select('id_gereja', dollarlist_gereja, Input::old('id_gereja'), array('id' => 'f_id_gereja')) <span class="red">*</span></td>
 			</tr>		
+			-->
 			<tr>
 				<td>Status</td>
 				<td>:</td>
@@ -120,9 +151,7 @@
 		</table>		
 	</div>	
 	
-	<div class="s_table_result_search">
-	
-	</div>
+	<div id="f_result_anggota"></div>
 		
 </div>	
 
@@ -139,56 +168,90 @@
 		data = new FormData();
 			
 		$nomor_anggota = $('#f_nomor_anggota').val();			
-			data.append('no_anggota', $nomor_anggota);		
+			data.append('no_anggota', $nomor_anggota);	
+			// alert($nomor_anggota);
 		$nama = $('#f_nama').val();	
 			data.append('nama', $nama);				
+			// alert($nama);
 		$kota = $('#f_kota').val();
 			data.append('kota', $kota);		
+			// alert($kota);
 		$gender = $('input[name="gender"]:checked').val()	
 			data.append('gender', $gender);			
+			// alert($gender);
 		$wilayah = $('#f_wilayah').val();	
 			data.append('wilayah', $wilayah);			
-		$gol_darah = $('#f_gol_darah').val();
+			// alert($wilayah);
+		$gol_darah = $('#f_gol_darah').val();		
 			data.append('gol_darah', $gol_darah);
+			// alert($gol_darah);
 		$pendidikan = $('#f_pendidikan').val();	
 			data.append('pendidikan', $pendidikan);
+			// alert($pendidikan);
 		$pekerjaan = $('#f_pekerjaan').val();	
 			data.append('pekerjaan', $pekerjaan);
+			// alert($pekerjaan);
 		$etnis = $('#f_etnis').val();	
 			data.append('etnis', $etnis);		
-		$tanggal_lahir = $('#f_tanggal_lahir').val();	
-			data.append('tanggal_lahir', $tanggal_lahir);
-		$anggota_gereja = $('#f_id_gereja').val();
-			data.append('id_gereja', $anggota_gereja);		
+			// alert($etnis);
+		// $tanggal_lahir = $('#f_tanggal_lahir').val();	
+			// data.append('tanggal_lahir', $tanggal_lahir);
+		$tanggal_awal = $('#f_tanggal_awal').val();
+			data.append('tanggal_awal', $tanggal_awal);
+		$tanggal_akhir = $('#f_tanggal_akhir').val();
+			data.append('tanggal_akhir', $tanggal_akhir);
+			// alert($tanggal_lahir);
+		// $anggota_gereja = $('#f_id_gereja').val();			
+			// data.append('id_gereja', $anggota_gereja);		
+			// alert($anggota_gereja);
 		$role = $('#f_status').val();
 			data.append('role', $role);	
+			// alert($role);
 			
-				
+			
 		$.ajax({
-			type: 'GET',
+			type: 'POST',
 			url: "{{URL('user/search_anggota')}}",
 			data : data,
 			processData: false,
 			contentType: false,	
 			success: function(response){		
-				alert(response);
-				// alert(JSON.stringify(response));
+				alert("Berhasil cari data anggota");
+				
+				if(response != "no result")
+				{
+					var result = "";					
+					for($i = 0; $i < response.length; $i++)
+					{
+						result += response[$i]['nama_depan']+ " ";
+						// alert(response[$i]['tanggal_mulai']);
+					}
+					
+					$('#f_result_anggota').html("<p>"+result+"</p>");
+				}					
+				else				
+				{
+					$('#f_result_anggota').html("<p>No result</p>");
+				}
+				
 				// alert(response.length);
-				
-				// var temp;
-				// if(response.length > 0)
-				// {
-					// for($i = 0 ; $i < response.length ; $i++)
-					// {
+				/*
+				var temp;				
+				if(response.length > 0)
+				{
+					alert(response.length);
+					for($i = 0 ; $i < response.length ; $i++)
+					{
 						// temp += response[$i]['nama_depan']+",";
-					// }
+						alert(response[$i]['nama_depan']);
+					}
 					// alert(temp);
-				// }
-				// else
-				// {
-					// alert(response);
-				// }
-				
+				}
+				else
+				{
+					alert(response);
+				}
+				*/
 				// if(response == true)
 				// {	
 					// alert("Berhasil simpan data anggota");

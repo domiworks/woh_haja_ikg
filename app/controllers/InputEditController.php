@@ -16,14 +16,15 @@ class InputEditController extends BaseController {
 	
 	public function view_anggota()
 	{
-		$list_gereja = $this->getListGereja();
+		// $list_gereja = $this->getListGereja();
 		$list_wilayah = $this->getListWilayah();
 		$list_gol_darah = $this->getListGolonganDarah();
 		$list_pendidikan = $this->getListPendidikan();
 		$list_pekerjaan = $this->getListPekerjaan();
 		$list_etnis = $this->getListEtnis();
 		$list_role = $this->getListRoleAnggota();
-		return View::make('pages.user_inputdata.anggota', compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
+		return View::make('pages.user_inputdata.anggota', compact('list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
+		// return View::make('pages.user_inputdata.anggota', compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
 		// return null;
 	}
 	
@@ -110,12 +111,27 @@ class InputEditController extends BaseController {
 		$kebaktian->banyak_pemusik_pria = $input['banyak_pemusik_pria'];
 		$kebaktian->banyak_pemusik_wanita = $input['banyak_pemusik_wanita'];
 		$kebaktian->banyak_pemusik = $input['banyak_pemusik'];		
-		$kebaktian->id_gereja = $input['id_gereja'];
+		// $kebaktian->id_gereja = $input['id_gereja'];
+		$kebaktian->id_gereja = Auth::user()->anggota->id_gereja;		
 		$kebaktian->keterangan = $input['keterangan'];					
 		
 		try{
 			$kebaktian->save();
-			return true;			
+			
+			try{
+				$persembahan = new Persembahan();
+				$persembahan->tanggal_persembahan = $kebaktian->tanggal_mulai;
+				$persembahan->jumlah_persembahan = $input['jumlah_persembahan'];
+				$persembahan->id_kegiatan = $kebaktian->id;
+				$persembahan->jenis = 1;
+				
+				$persembahan->save();
+				
+				return "berhasil";
+			}catch(Exception $e){
+				return $e;
+			}
+						
 		}catch(Exception $e){
 			return $e;
 		}
@@ -138,7 +154,8 @@ class InputEditController extends BaseController {
 		$anggota->etnis = Input::get('etnis');
 		$anggota->kota_lahir = Input::get('kota_lahir');
 		$anggota->tanggal_lahir = Input::get('tanggal_lahir');		
-		$anggota->id_gereja = Input::get('id_gereja');
+		// $anggota->id_gereja = Input::get('id_gereja');
+		$anggota->id_gereja = Auth::user()->anggota->id_gereja;
 		$anggota->role = Input::get('role');
 		
 		$anggota->id_atestasi = null;
@@ -166,7 +183,7 @@ class InputEditController extends BaseController {
 			
 			//save alamat
 			$alamat = new Alamat();
-			$alamat->jalan = Input::get('alamat');
+			$alamat->jalan = Input::get('jalan');
 			$alamat->kota = Input::get('kota');
 			$alamat->kodepos = Input::get('kodepos');
 			$alamat->id_anggota = $anggota->id;
@@ -200,7 +217,7 @@ class InputEditController extends BaseController {
 					$anggota->save();
 				}
 			}
-			return true;
+			return "berhasil";
 		}catch(Exception $e){
 			return $e;
 		}		
@@ -217,10 +234,13 @@ class InputEditController extends BaseController {
 		$baptis->id_pendeta = $input['id_pendeta'];
 		$baptis->tanggal_baptis = $input['tanggal_baptis'];
 		$baptis->id_jenis_baptis = $input['id_jenis_baptis'];
-		$baptis->id_gereja = $input['id_gereja'];
+		// $baptis->id_gereja = $input['id_gereja'];
+		$baptis->id_gereja = Auth::user()->anggota->id_gereja;
 		
 		try{
 			$baptis->save();
+			
+			return "berhasil";
 		}catch(Exception $e){
 			return $e;
 		}
@@ -256,44 +276,44 @@ class InputEditController extends BaseController {
 			$atestasi->id_gereja_baru = $input['id_gereja_baru'];
 		}
 		try{
-			$atestasi->save();
+			$atestasi->save();	
+				
+			$anggota = Anggota::find($input['id_jemaat']);
+		
+			if($anggota->id_atestasi == null) //anggota masih blom punya id_atestasi
+			{													
+				//update id_atestasi anggota
+				$anggota->id_atestasi = $atestasi->id;
+				try{
+					$anggota->save();
+					
+					return "berhasil";
+				}catch(Exception $e){
+					return $e;
+				}			
+			}
+			else //anggota udh punya id_atestasi
+			{
+				//looping sampe data atestasi terakhir milik anggota
+				$temp_id_atestasi = $anggota->id_atestasi;
+				while($temp_id_atestasi != null)
+				{
+					$temp_atestasi = Atestasi::find($temp_id_atestasi);
+					$temp_id_atestasi = $temp_atestasi->id_atestasi_baru;
+				}
+				
+				//update id_atestasi_baru
+				$temp_atestasi->id_atestasi_baru = $atestasi->id;
+				try{
+					$temp_atestasi->save();
+					
+					return "berhasil";
+				}catch(Exception $e){
+					return $e;
+				}
+			}
 		}catch(Exception $e){
 			return $e;
-		}
-		
-		$anggota = Anggota::find($input['id_jemaat']);
-		
-		if($anggota->id_atestasi == null) //anggota masih blom punya id_atestasi
-		{													
-			//update id_atestasi anggota
-			$anggota->id_atestasi = $atestasi->id;
-			try{
-				$anggota->save();
-				
-				return true;
-			}catch(Exception $e){
-				return $e;
-			}			
-		}
-		else //anggota udh punya id_atestasi
-		{
-			//looping sampe data atestasi terakhir milik anggota
-			$temp_id_atestasi = $anggota->id_atestasi;
-			while($temp_id_atestasi != null)
-			{
-				$temp_atestasi = Atestasi::find($temp_id_atestasi);
-				$temp_id_atestasi = $temp_atestasi->id_atestasi_baru;
-			}
-			
-			//update id_atestasi_baru
-			$temp_atestasi->id_atestasi_baru = $atestasi->id;
-			try{
-				$temp_atestasi->save();
-				
-				return true;
-			}catch(Exception $e){
-				return $e;
-			}
 		}
 		
 	}
@@ -328,7 +348,7 @@ class InputEditController extends BaseController {
 		try{
 			$pernikahan->save();
 			
-			return true;
+			return "berhasil";
 		}catch(Exception $e){
 			return $e;
 		}
@@ -342,7 +362,8 @@ class InputEditController extends BaseController {
 		
 		$duka = new Kedukaan();
 		$duka->no_kedukaan = $input['no_kedukaan'];
-		$duka->id_gereja = $input['id_gereja'];
+		// $duka->id_gereja = $input['id_gereja'];
+		$duka->id_gereja = Auth::user()->anggota->id_gereja;
 		$duka->id_jemaat = $input['id_jemaat'];		
 		$duka->keterangan = $input['keterangan'];
 		

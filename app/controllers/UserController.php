@@ -19,6 +19,8 @@ class UserController extends BaseController {
 		$list_pekerjaan = $this->getListPekerjaan();
 		$list_etnis = $this->getListEtnis();
 		
+		 // return Auth::user()->anggota->id_gereja;
+		
 		// no_jemaat		
 		// nama_depan		
 		// nama_tengah				

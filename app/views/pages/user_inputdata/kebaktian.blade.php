@@ -33,7 +33,13 @@
 	
 	<!-- olahdata -->
 	<ul>
+		<li>{{HTML::linkRoute('view_olahdata_kebaktian', 'Olah Data Kebaktian')}}</li>
 		<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_baptis', 'Olah Data Baptis')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_atestasi', 'Olah Data Atestasi')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_pernikahan', 'Olah Data Pernikahan')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan')}}</li>
+		<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh')}}</li>
 	</ul>
 </div>
 
@@ -186,23 +192,24 @@
 			<td class="">Banyak Seluruh Komisi</td>
 			<td>:</td>
 			<td>{{Form::text('banyak_komisi', Input::old('banyak_komisi'), array('id'=>'f_banyak_komisi','onkeypress'=>'return isNumberKey(event)'))}}</td>
-		</tr>
+		</tr>		
+		<!--
 		<tr>
 			<td class="">Gereja</td>
 			<td>:</td>
-			<td>{{ Form::select('id_gereja', $list_gereja, Input::old('id_gereja'), array('id' => 'f_id_gereja')) }}<span class="red">*</span></td>
-		</tr>		
+			<td>Form::select('id_gereja', dollarlist_gereja, Input::old('id_gereja'), array('id' => 'f_id_gereja'))<span class="red">*</span></td>
+		</tr>				
+		-->
+		<tr>
+			<td>Jumlah Persembahan</td>
+			<td>:</td>
+			<td>{{Form::text('jumlah_persembahan', Input::old('jumlah_persembahan'), array('id'=>'f_jumlah_persembahan','onkeypress'=>'return isNumberKey(event)'))}}</td>
+		</tr>
 		<tr>
 			<td class="">Keterangan</td>
 			<td>:</td>
 			<td>{{Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_keterangan'))}}</td>
-		</tr>		
-		<!-- caritau dulu jenis persembahan untuk kegiatan ada apa aj -->
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
+		</tr>						
 		<tr>
 			<td></td>
 			<td></td>
@@ -388,8 +395,9 @@
 		$banyak_komisi_pria = $('#f_banyak_komisi_pria').val();
 		$banyak_komisi_wanita = $('#f_banyak_komisi_wanita').val();
 		$banyak_komisi = $('#f_banyak_komisi').val();
-		$id_gereja = $('#f_id_gereja').val();
-		$keterangan = $('#f_keterangan').val();
+		// $id_gereja = $('#f_id_gereja').val();
+		$jumlah_persembahan = $('#f_jumlah_persembahan').val();
+		$keterangan = $('#f_keterangan').val();		
 		
 		$data = {
 			'kebaktian_ke' : $kebaktian_ke,
@@ -414,7 +422,8 @@
 			'banyak_komisi_pria' : $banyak_komisi_pria,
 			'banyak_komisi_wanita' : $banyak_komisi_wanita,
 			'banyak_komisi' : $banyak_komisi,
-			'id_gereja' : $id_gereja,
+			// 'id_gereja' : $id_gereja,
+			'jumlah_persembahan' : $jumlah_persembahan,
 			'keterangan' : $keterangan
 		};
 		
@@ -425,9 +434,10 @@
 				'data' : $data
 			},
 			success: function(response){				
-				if(response == true)
+				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data kebaktian");
+					location.reload();
 				}
 				else
 				{

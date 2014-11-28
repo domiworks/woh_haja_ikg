@@ -142,3 +142,12 @@ Route::get('/olahdata_atestasi', function()
 {
 	return View::make('pages.user_olahdata.atestasi_domi');
 });
+
+Route::get('/olahdata_baptis', function()
+{
+	return View::make('pages.user_olahdata.baptis_domi');
+});
+Route::get('/olahdata_dkh', function()
+{
+	return View::make('pages.user_olahdata.dkh_domi');
+});

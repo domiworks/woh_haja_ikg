@@ -193,12 +193,82 @@
 					</div>
 				</form>		
 			</div>
+
+			<div id="f_result_anggota">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>
+								No. Anggota
+							</th>
+							<th>
+								Nama Depan Anggota
+							</th>
+							<th>
+								Perintah
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								0
+							</td>
+							<td>
+								Catie
+							</td>
+							<td>
+								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">
+									Edit
+								</button>
+								<button type="button" class="btn btn-danger">
+									delete
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								1
+							</td>
+							<td>
+								Wayne
+							</td>
+							<td>
+								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">
+									Edit
+								</button>
+								<button type="button" class="btn btn-danger">
+									delete
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								2
+							</td>
+							<td>
+								Boxxy
+							</td>
+							<td>
+								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">
+									Edit
+								</button>
+								<button type="button" class="btn btn-danger">
+									delete
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+
 		</div>
 	</div>
 
 </div>	
 
-<div id="f_result_anggota"></div>
+
 
 
 <script>		
@@ -314,5 +384,7 @@ $('body').on('click', '#f_search_anggota', function(){
 
 });
 </script>
+
+	@include('pages.user_olahdata.popup_edit_anggota')
 
 @stop

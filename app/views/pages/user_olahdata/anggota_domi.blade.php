@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.admin_layout')
 @section('content')
 
 <!-- css -->
@@ -28,60 +28,109 @@
 		</div>
 		<div class="panel panel-default col-md-9">
 			<div class="panel-body">
-				<table border="0" style="width:100%;">
+				
+				<form class="form-horizontal">	
 
-					<tr>
-						<td>Nomor anggota</td>
-						<td>:</td>
-						<td>{{ Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_nomor_anggota')) }}</td>
-					</tr>	
-					<tr>
-						<td>Nama</td>
-						<td>:</td>
-						<td>{{ Form::text('nama', Input::old('nama'), array('id' => 'f_nama')) }} <span class="red">*</span></td>
-					</tr>							
-					<tr>
-						<td>Kota</td>
-						<td>:</td>
-						<td>{{ Form::text('kota', Input::old('kota'), array('id' => 'f_kota')) }} <span class="red">*</span></td>
-					</tr>		
-					<tr>		
-						<td>Jenis kelamin</td>
-						<td>:</td>				
-						<td>{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita <span class="red">*</span></td>											
-					</tr>		
-					<tr>
-						<td>Wilayah</td>
-						<td>:</td>
-						<td>{{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_wilayah')) }}<span class="red">*</span></td>
-					</tr>
-					<tr>
-						<td>Golongan darah</td>
-						<td>:</td>
-						<td>{{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_gol_darah')) }}<span class="red">*</span></td>
-					</tr>
-					<tr>
-						<td>Pendidikan </td>
-						<td>:</td>
-						<td>{{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_pendidikan')) }}<span class="red">*</span></td>
-					</tr>
-					<tr>
-						<td>Pekerjaan</td>
-						<td>:</td>
-						<td>{{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_pekerjaan')) }}<span class="red">*</span></td>
-					</tr>
-					<tr>
-						<td>Etnis</td>
-						<td>:</td>
-						<td>{{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_etnis')) }}<span class="red">*</span></td>
-					</tr>
-					<tr>
-						<td class="">Tanggal lahir antara </td>
-						<td>:</td>
-						<td>
-							{{ Form::text('tanggal_awal', Input::old('tanggal_awal'), array('id' => 'f_tanggal_awal')) }} - 
-							{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir')) }}
-						</td>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Nomor anggota</label> 
+						<div class="col-xs-5">
+							{{ Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_nomor_anggota', 'class'=>'form-control')) }}
+						</div>
+					</div>	
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Nama</label> 
+						<div class="col-xs-5">
+							{{ Form::text('nama', Input::old('nama'), array('id' => 'f_nama', 'class'=>'form-control')) }} 
+						</div>
+						<div class="col-xs-1">
+							<span class="red">*</span>
+						</div>
+					</div>							
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Kota</label> 
+						<div class="col-xs-5">
+							{{ Form::text('kota', Input::old('kota'), array('id' => 'f_kota', 'class'=>'form-control')) }}  
+						</div>
+						<div class="col-xs-1">
+							<span class="red">*</span>
+						</div>
+					</div>		
+					<div class="form-group">		
+						<label class="col-xs-4 control-label">Jenis kelamin</label> 				
+						<div class="col-xs-5">
+							{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita
+						</div>
+						<div class="col-xs-1">
+							<span class="red">*</span>
+						</div>											
+					</div>		
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Wilayah</label> 
+						<div class="col-xs-5">
+							<select name="wilayah" id="f_wilayah" class="form-control">
+								<option>bla</option>
+							</select>  
+						</div>
+						<div class="col-xs-1">
+							<span class="red">*</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Golongan darah</label> 
+						<div class="col-xs-5">
+							<select name="gol_darah" id="f_gol_darah" class="form-control">
+								<option>bla</option>
+							</select>  
+						</div>
+						<div class="col-xs-1">
+							<span class="red">*</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Pendidikan </label> 
+						<div class="col-xs-5">
+							<select name="pendidikan" id="f_pendidikan" class="form-control">
+								<option>bla</option>
+							</select>  
+						</div>
+						<div class="col-xs-1">
+							<span class="red">*</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Pekerjaan</label> 
+						<div class="col-xs-5">
+							<select name="pekerjaan" id="f_pekerjaan" class="form-control">
+								<option>bla</option>
+							</select>  
+						</div>
+						<div class="col-xs-1">
+							<span class="red">*</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Etnis</label> 
+						<div class="col-xs-5">
+							<select name="etnis" id="f_etnis" class="form-control">
+								<option>bla</option>
+							</select>  
+						</div>
+						<div class="col-xs-1">
+							<span class="red">*</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Tanggal lahir antara </label> 
+						<div class="col-xs-2">
+
+							{{ Form::text('tanggal_awal', Input::old('tanggal_awal'), array('id' => 'f_tanggal_awal', 'class'=>'form-control')) }} 
+						</div>
+						<div class="col-xs-2">
+							{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
+						</div>
+						<div class="col-xs-1">
+							<span class="red">*</span>
+						</div>
 						<script>
 						jQuery('#f_tanggal_awal').datetimepicker({
 							lang:'en',
@@ -124,18 +173,25 @@
 							yearStart: '1900'
 						});	
 						</script>
-					</tr>			
-					<tr>
-						<td>Status</td>
-						<td>:</td>
-						<td>{{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_status')) }}<span class="red">*</span></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td><button id="f_search_anggota">Cari Anggota</button></td>
-					</tr>
-				</table>		
+					</div>			
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Status</label> 
+						<div class="col-xs-5">
+							<select name="status" id="f_status" class="form-control">
+								<option>bla</option>
+							</select>  
+						</div>
+						<div class="col-xs-1">
+							<span class="red">*</span>
+						</div>
+					</div>
+					<div class="form-group">
+
+						<div class="col-xs-5 col-xs-push-4">
+							<button id="f_search_anggota" class="btn btn-success">Cari Anggota</button>
+						</div>
+					</div>
+				</form>		
 			</div>
 		</div>
 	</div>

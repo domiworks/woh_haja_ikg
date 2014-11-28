@@ -51,7 +51,7 @@
 								Nomor anggota
 							</label>
 
-							<div class="col-xs-6">
+							<div class="col-xs-5">
 								{{ Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_nomor_anggota', 'class'=>'form-control')) }}
 							</div>
 						</div>	
@@ -60,8 +60,11 @@
 								Nama depan
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::text('nama_depan', Input::old('nama_depan'), array('id' => 'f_nama_depan', 'class'=>'form-control')) }} <span class="red">*</span>
+							<div class="col-xs-5">
+								{{ Form::text('nama_depan', Input::old('nama_depan'), array('id' => 'f_nama_depan', 'class'=>'form-control')) }} 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>				
 						<div class="form-group">
@@ -69,16 +72,22 @@
 								Nama tengah
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::text('nama_tengah', Input::old('nama_tengah'), array('id' => 'f_nama_tengah', 'class'=>'form-control')) }} <span class="red">*</span>
+							<div class="col-xs-5">
+								{{ Form::text('nama_tengah', Input::old('nama_tengah'), array('id' => 'f_nama_tengah', 'class'=>'form-control')) }} 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-4 control-label">
 								Nama belakang
 							</label>
-							<div class="col-xs-6">
-								{{ Form::text('nama_belakang', Input::old('nama_belakang'), array('id' => 'f_nama_belakang', 'class'=>'form-control')) }} <span class="red">*</span>
+							<div class="col-xs-5">
+								{{ Form::text('nama_belakang', Input::old('nama_belakang'), array('id' => 'f_nama_belakang', 'class'=>'form-control')) }} 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>			
 						<div class="form-group">
@@ -86,8 +95,11 @@
 								Alamat
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::textarea('alamat', Input::old('alamat'), array('id' => 'f_alamat', 'class'=>'form-control')) }} <span class="red">*</span>
+							<div class="col-xs-5">
+								{{ Form::textarea('alamat', Input::old('alamat'), array('id' => 'f_alamat', 'class'=>'form-control')) }} 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -95,8 +107,11 @@
 								Kota
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::text('kota', Input::old('kota'), array('id' => 'f_kota', 'class'=>'form-control')) }} <span class="red">*</span>
+							<div class="col-xs-5">
+								{{ Form::text('kota', Input::old('kota'), array('id' => 'f_kota', 'class'=>'form-control')) }} 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -104,8 +119,11 @@
 								Kodepos
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::text('kodepos', Input::old('kodepos'), array('id' => 'f_kodepos', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }} <span class="red">*</span>
+							<div class="col-xs-5">
+								{{ Form::text('kodepos', Input::old('kodepos'), array('id' => 'f_kodepos', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }} 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -113,15 +131,18 @@
 								Telepon
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::text('telp', Input::old('telp'), array('id' => 'f_telp', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }} <span class="red">*</span>
+							<div class="col-xs-5">
+								{{ Form::text('telp', Input::old('telp'), array('id' => 'f_telp', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }}
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-4 control-label">
 								Hp
 							</label>
-							<div class="col-xs-6">			
+							<div class="col-xs-5">			
 								<input type="text" id="f_hp1" class="form-control" name="hp1" onkeypress='return isNumberKey(event)'/>			
 								<div id="addHp"></div>					
 								<a href="javascript:void(0)" onClick="addHp();" id="refHp">tambah nomor hp</a>
@@ -159,8 +180,11 @@
 								Jenis kelamin
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita <span class="red">*</span>
+							<div class="col-xs-5">
+								{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>		
 						<div class="form-group">
@@ -168,8 +192,13 @@
 								Wilayah
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::select('wilayah', Input::old('wilayah'), array('id' => 'f_wilayah', 'class'=>'form-control')) }}<span class="red">*</span>
+							<div class="col-xs-5">
+								<select name="" id="" class="form-control">
+									<option>bla</option>
+								</select>
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -177,8 +206,13 @@
 								Golongan darah
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::select('gol_darah', Input::old('gol_darah'), array('id' => 'f_gol_darah', 'class'=>'form-control')) }}<span class="red">*</span>
+							<div class="col-xs-5">
+								<select name="gol_darah" id="f_gol_darah" class="form-control">
+									<option>bla</option>
+								</select> 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -186,8 +220,13 @@
 								Pendidikan 
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::select('pendidikan',  Input::old('pendidikan'), array('id' => 'f_pendidikan', 'class'=>'form-control')) }}<span class="red">*</span>
+							<div class="col-xs-5">
+								<select name="pendidikan" id="f_pendidikan" class="form-control">
+									<option>bla</option>
+								</select> 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -195,8 +234,13 @@
 								Pekerjaan
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::select('pekerjaan', Input::old('pekerjaan'), array('id' => 'f_pekerjaan', 'class'=>'form-control')) }}<span class="red">*</span>
+							<div class="col-xs-5">
+								<select name="pekerjaan" id="f_pekerjaan" class="form-control">
+									<option>bla</option>
+								</select> 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -204,8 +248,13 @@
 								Etnis
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::select('etnis', Input::old('etnis'), array('id' => 'f_etnis', 'class'=>'form-control')) }}<span class="red">*</span>
+							<div class="col-xs-5">
+								<select name="etnis" id="f_etnis" class="form-control">
+									<option>bla</option>
+								</select> 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -213,8 +262,11 @@
 								Kota lahir
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::text('kota_lahir', Input::old('kota_lahir'), array('id' => 'f_kota_lahir', 'class'=>'form-control')) }} <span class="red">*</span>
+							<div class="col-xs-5">
+								{{ Form::text('kota_lahir', Input::old('kota_lahir'), array('id' => 'f_kota_lahir', 'class'=>'form-control')) }}  
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -222,9 +274,12 @@
 								Tanggal lahir
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::text('tanggal_lahir', Input::old('tanggal_lahir'), array('id' => 'f_tanggal_lahir', 'class'=>'form-control')) }} <span class="red">*</span>
-							</div>			
+							<div class="col-xs-5">
+								{{ Form::text('tanggal_lahir', Input::old('tanggal_lahir'), array('id' => 'f_tanggal_lahir', 'class'=>'form-control')) }} 
+							</div>		
+							<div class="col-xs-1">
+								<span class="red">*</span>
+							</div>	
 							<script>
 							jQuery('#f_tanggal_lahir').datetimepicker({
 								lang:'en',
@@ -253,7 +308,7 @@
 								Foto
 							</label>
 
-							<div class="col-xs-6">
+							<div class="col-xs-5">
 								<img src="" id="show_foto" width="200" height="200">				
 								{{ Form::file('foto', array('name' => 'foto', 'id' => 'f_foto', 'accept' => 'image/*')) }}
 							</div>
@@ -263,13 +318,18 @@
 								Status
 							</label>
 
-							<div class="col-xs-6">
-								{{ Form::select('status', Input::old('status'), array('id' => 'f_status', 'class'=>'form-control')) }}<span class="red">*</span>
+							<div class="col-xs-5">
+								<select name="status" id="f_status" class="form-control">
+									<option>bla</option>
+								</select> 
+							</div>
+							<div class="col-xs-1">
+								<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-xs-6 col-xs-push-3">
-								<button id="f_post_anggota">Simpan Data Anggota</button>
+							<div class="col-xs-5 col-xs-push-4">
+								<button id="f_post_anggota" class="btn btn-success">Simpan Data Anggota</button>
 							</div>
 						</div>
 					</div>	

@@ -10,6 +10,10 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+
+Route::get('/import', ['as' => 'get.import' , 'uses' => 'ExcelController@import']);
+Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export']);
+
 Route::get('/tes', 'InputEditController@getListPembicara');
 
 

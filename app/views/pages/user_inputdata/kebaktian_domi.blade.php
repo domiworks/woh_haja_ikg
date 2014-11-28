@@ -59,18 +59,14 @@ $(document).ready(function(){
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Kebaktian ke</label>
 						<div class="col-xs-6">
-							<select name="kebaktian_ke" class="form-control" id="f_kebaktian_ke">
-								<option>sleis</option>
-							</select>
+							{{Form::select('kebaktian_ke', $list_jenis_kegiatan, Input::old('kebaktian_ke'), array('id'=>'f_kebaktian_ke', 'class'=>'form-control'))}}
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Pengkotbah</label>
 						<div class="col-xs-6">
-							<select name="pengkotbah" class="form-control" id="f_pengkotbah">
-								<option>sleis</option>
-							</select>		
+							{{Form::select('pengkotbah', $list_pembicara, Input::old('pengkotbah'), array('id'=>'f_pengkotbah','class'=>'form-control', 'disabled' => false))}}				
 							<div class="checkbox">
 								<label>
 									<input id="f_check_pembicara_luar" type="checkbox" name="pembicara_luar" value="0" /> Pembicara Luar
@@ -300,8 +296,8 @@ $(document).ready(function(){
 </div>	
 
 <script>			
-$('body').on('click', '#f_check_pembicara_luar', function(){		
-	if($('#f_check_pembicara_luar').val() == 0){	
+	$('body').on('click', '#f_check_pembicara_luar', function(){		
+		if($('#f_check_pembicara_luar').val() == 0){	
 			$('#f_check_pembicara_luar').val(1); //pakai pembicara luar jika value f_check_pembicara_luar == 1
 			$('#f_nama_pengkotbah').attr('disabled', false);			
 			$('#f_nama_pengkotbah').val("");

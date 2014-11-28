@@ -134,3 +134,11 @@ Route::get('/olahdata_anggota', function()
 {
 	return View::make('pages.user_olahdata.anggota_domi');
 });
+Route::get('/olahdata_anggota', function()
+{
+	return View::make('pages.user_olahdata.anggota_domi');
+});
+Route::get('/olahdata_atestasi', function()
+{
+	return View::make('pages.user_olahdata.atestasi_domi');
+});

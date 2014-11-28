@@ -10,6 +10,10 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+
+Route::get('/import', ['as' => 'get.import' , 'uses' => 'ExcelController@import']);
+Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export']);
+
 Route::get('/tes', 'InputEditController@getListPembicara');
 
 
@@ -130,8 +134,44 @@ Route::get('/inputdata_kedukaan', function()
 	return View::make('pages.user_inputdata.kedukaan_domi');
 });
 
-
 Route::get('/inputdata_dkh', function()
 {
 	return View::make('pages.user_inputdata.dkh_domi');
+});
+
+
+Route::get('/olahdata_anggota', function()
+{
+	return View::make('pages.user_olahdata.anggota_domi');
+});
+Route::get('/olahdata_anggota', function()
+{
+	return View::make('pages.user_olahdata.anggota_domi');
+});
+Route::get('/olahdata_atestasi', function()
+{
+	return View::make('pages.user_olahdata.atestasi_domi');
+});
+
+Route::get('/olahdata_baptis', function()
+{
+	return View::make('pages.user_olahdata.baptis_domi');
+});
+Route::get('/olahdata_dkh', function()
+{
+	return View::make('pages.user_olahdata.dkh_domi');
+});
+
+Route::get('/olahdata_kebaktian', function()
+{
+	return View::make('pages.user_olahdata.kebaktian_domi');
+});
+
+Route::get('/olahdata_kedukaan', function()
+{
+	return View::make('pages.user_olahdata.kedukaan_domi');
+});
+Route::get('/olahdata_pernikahan', function()
+{
+	return View::make('pages.user_olahdata.pernikahan_domi');
 });

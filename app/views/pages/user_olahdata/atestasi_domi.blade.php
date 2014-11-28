@@ -138,7 +138,7 @@
 									<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_atestasi">
 										Edit
 									</button>
-									<button type="button" class="btn btn-danger">
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
 										delete
 									</button>
 								</td>
@@ -154,7 +154,7 @@
 									<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_atestasi">
 										Edit
 									</button>
-									<button type="button" class="btn btn-danger">
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
 										delete
 									</button>
 								</td>
@@ -170,7 +170,7 @@
 									<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_atestasi">
 										Edit
 									</button>
-									<button type="button" class="btn btn-danger">
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
 										delete
 									</button>
 								</td>
@@ -248,5 +248,5 @@ $('body').on('click', '#f_search_atestasi', function(){
 });
 </script>
 
-	@include('pages.user_olahdata.popup_edit_atestasi')
+@include('pages.user_olahdata.popup_edit_atestasi')
 @stop

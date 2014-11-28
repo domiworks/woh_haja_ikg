@@ -221,7 +221,7 @@
 								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">
 									Edit
 								</button>
-								<button type="button" class="btn btn-danger">
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
 									delete
 								</button>
 							</td>
@@ -237,7 +237,7 @@
 								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">
 									Edit
 								</button>
-								<button type="button" class="btn btn-danger">
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
 									delete
 								</button>
 							</td>
@@ -253,7 +253,7 @@
 								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">
 									Edit
 								</button>
-								<button type="button" class="btn btn-danger">
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
 									delete
 								</button>
 							</td>

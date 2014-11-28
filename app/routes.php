@@ -151,3 +151,17 @@ Route::get('/olahdata_dkh', function()
 {
 	return View::make('pages.user_olahdata.dkh_domi');
 });
+
+Route::get('/olahdata_kebaktian', function()
+{
+	return View::make('pages.user_olahdata.kebaktian_domi');
+});
+
+Route::get('/olahdata_kedukaan', function()
+{
+	return View::make('pages.user_olahdata.kedukaan_domi');
+});
+Route::get('/olahdata_pernikahan', function()
+{
+	return View::make('pages.user_olahdata.pernikahan_domi');
+});

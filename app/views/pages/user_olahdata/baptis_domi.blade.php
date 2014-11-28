@@ -102,79 +102,79 @@
 						</div>
 						<div class="form-group">
 							<div class="col-xs-5 col-xs-push-4">
-							<button id="f_search_baptis" class="btn btn-success">Cari Data Baptis</button>
-						</div>
+								<button id="f_search_baptis" class="btn btn-success">Cari Data Baptis</button>
+							</div>
 						</div>
 					</form>	
 				</div>
 			</div>
 
 			<div id="f_result_baptis">
-					<table class="table table-bordered">
-						<thead>
-							<tr>
-								<th>
-									No. Anggota
-								</th>
-								<th>
-									Nama Depan Anggota
-								</th>
-								<th>
-									Perintah
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									0
-								</td>
-								<td>
-									Catie
-								</td>
-								<td>
-									<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_baptis">
-										Edit
-									</button>
-									<button type="button" class="btn btn-danger">
-										delete
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									1
-								</td>
-								<td>
-									Wayne
-								</td>
-								<td>
-									<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_baptis">
-										Edit
-									</button>
-									<button type="button" class="btn btn-danger">
-										delete
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									2
-								</td>
-								<td>
-									Boxxy
-								</td>
-								<td>
-									<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_baptis">
-										Edit
-									</button>
-									<button type="button" class="btn btn-danger">
-										delete
-									</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>
+								No. Anggota
+							</th>
+							<th>
+								Nama Depan Anggota
+							</th>
+							<th>
+								Perintah
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								0
+							</td>
+							<td>
+								Catie
+							</td>
+							<td>
+								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_baptis">
+									Edit
+								</button>
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
+									delete
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								1
+							</td>
+							<td>
+								Wayne
+							</td>
+							<td>
+								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_baptis">
+									Edit
+								</button>
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
+									delete
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								2
+							</td>
+							<td>
+								Boxxy
+							</td>
+							<td>
+								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_baptis">
+									Edit
+								</button>
+								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
+									delete
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 
 		</div>	
@@ -263,5 +263,5 @@ $('body').on('click', '#f_search_baptis', function(){
 });
 </script>	
 
-	@include('pages.user_olahdata.popup_edit_baptis')
+@include('pages.user_olahdata.popup_edit_baptis')
 @stop

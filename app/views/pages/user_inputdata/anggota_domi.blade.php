@@ -169,7 +169,7 @@
 							</label>
 
 							<div class="col-xs-6">
-								{{ Form::select('wilayah', Input::old('wilayah'), array('id' => 'f_wilayah', 'class'=>'form-control')) }}<span class="red">*</span>
+								{{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_wilayah', 'class'=>'form-control')) }}<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -178,7 +178,7 @@
 							</label>
 
 							<div class="col-xs-6">
-								{{ Form::select('gol_darah', Input::old('gol_darah'), array('id' => 'f_gol_darah', 'class'=>'form-control')) }}<span class="red">*</span>
+								{{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_gol_darah', 'class'=>'form-control')) }}<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -187,7 +187,7 @@
 							</label>
 
 							<div class="col-xs-6">
-								{{ Form::select('pendidikan',  Input::old('pendidikan'), array('id' => 'f_pendidikan', 'class'=>'form-control')) }}<span class="red">*</span>
+								{{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_pendidikan', 'class'=>'form-control')) }}<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -196,7 +196,7 @@
 							</label>
 
 							<div class="col-xs-6">
-								{{ Form::select('pekerjaan', Input::old('pekerjaan'), array('id' => 'f_pekerjaan', 'class'=>'form-control')) }}<span class="red">*</span>
+								{{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_pekerjaan', 'class'=>'form-control')) }}<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -205,7 +205,7 @@
 							</label>
 
 							<div class="col-xs-6">
-								{{ Form::select('etnis', Input::old('etnis'), array('id' => 'f_etnis', 'class'=>'form-control')) }}<span class="red">*</span>
+								{{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_etnis', 'class'=>'form-control')) }}<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -264,7 +264,7 @@
 							</label>
 
 							<div class="col-xs-6">
-								{{ Form::select('status', Input::old('status'), array('id' => 'f_status', 'class'=>'form-control')) }}<span class="red">*</span>
+								{{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_status', 'class'=>'form-control')) }}<span class="red">*</span>
 							</div>
 						</div>
 						<div class="form-group">

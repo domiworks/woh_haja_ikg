@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.admin_layout')
 @section('content')
 
 <!-- css -->
@@ -69,9 +69,11 @@
 							<div class="col-xs-6">
 								{{ Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_keterangan', 'class'=>'form-control'))}}
 							</div>
-						</div>
+						</div>						
 						<div class="form-group">
-							<button id="f_post_dkh">Simpan Data Dkh</button>
+							<div class="col-xs-6 col-xs-push-3">
+								<button id="f_post_dkh" class="btn btn-success">Simpan Data Dkh</button>
+							</div>	
 						</div>
 					</form>	
 				</div>	

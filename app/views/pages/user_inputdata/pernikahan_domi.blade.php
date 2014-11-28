@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.admin_layout')
 @section('content')
 
 <script>	
@@ -199,8 +199,8 @@ $('body').on('click', '#f_check_jemaat_pria', function(){
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-xs-6 col-xs-push-6">
-						<button id="f_post_pernikahan">Simpan Data Pernikahan</button>
+					<div class="col-xs-6 col-xs-push-3">
+						<button id="f_post_pernikahan" class="btn btn-success">Simpan Data Pernikahan</button>
 					</div>
 				</div>
 			</form>	

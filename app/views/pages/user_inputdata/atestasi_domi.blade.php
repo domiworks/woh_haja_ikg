@@ -105,7 +105,7 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 						</div>
 					</div>				
 					<div class="form-group">
-						<label class="col-xs-4 control-label">class="">
+						<label class="col-xs-4 control-label">
 							Jemaat
 						</label>
 						

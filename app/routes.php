@@ -32,7 +32,10 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 //user ---> asumsi orang TU yang jadi user bisa ngapain aja di sini
 Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 // Route::group(['prefix' => 'user'], function() {	
-	Route::get('/', ['as' => 'profile_user', 'uses' => 'UserController@view_profile']);		
+
+	// Route::get('/', ['as' => 'profile_user', 'uses' => 'UserController@view_profile']);		
+	Route::get('/', ['as' => 'profile_user', 'uses' => 'InputEditController@view_kebaktian']);		
+	
 	//logout
 	Route::get('/logout', ['as' => 'logout_user' , 'uses' => 'UserController@postLogout']);					
 	
@@ -71,7 +74,9 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::post('/search_kedukaan', ['as' => 'search_kedukaan', 'uses' => 'OlahDataController@search_kedukaan']);
 	Route::post('/search_dkh', ['as' => 'search_dkh', 'uses' => 'OlahDataController@search_dkh']);
 	
-	// edit kebaktian
+	//edit data
+	// Route::post('/edit_kebaktian');
+		
 	// Route::put('/kebaktian', ['as' => 'edit_kebaktian', 'uses' => 'InputEditController@editKebaktian']);
 	// edit anggota
 	// Route::post('/anggota', ['as' => 'edit_anggota', 'uses' => 'InputEditController@editAnggota']);
@@ -105,6 +110,11 @@ Route::get('/inputdata_anggota', function()
 {
 	return View::make('pages.user_inputdata.anggota_domi');
 });
+Route::get('/inputdata_anggota2', function()
+{
+	return View::make('pages.user_inputdata.anggota');
+});
+
 Route::get('/inputdata_baptis', function()
 {
 	return View::make('pages.user_inputdata.baptis_domi');

@@ -120,8 +120,13 @@ Route::get('/inputdata_kedukaan', function()
 	return View::make('pages.user_inputdata.kedukaan_domi');
 });
 
-
 Route::get('/inputdata_dkh', function()
 {
 	return View::make('pages.user_inputdata.dkh_domi');
+});
+
+
+Route::get('/olahdata_anggota', function()
+{
+	return View::make('pages.user_olahdata.anggota_domi');
 });

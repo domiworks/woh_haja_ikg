@@ -98,3 +98,34 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	// delete kedukaan
 	// delete dkh
 });
+
+
+Route::get('/inputdata_kebaktian', function()
+{
+	return View::make('pages.user_inputdata.kebaktian_domi');
+});
+
+Route::get('/inputdata_anggota', function()
+{
+	return View::make('pages.user_inputdata.anggota_domi');
+});
+Route::get('/inputdata_baptis', function()
+{
+	return View::make('pages.user_inputdata.baptis_domi');
+});
+
+Route::get('/inputdata_atestasi', function()
+{
+	return View::make('pages.user_inputdata.atestasi_domi');
+});
+
+Route::get('/inputdata_kedukaan', function()
+{
+	return View::make('pages.user_inputdata.kedukaan_domi');
+});
+
+
+Route::get('/inputdata_dkh', function()
+{
+	return View::make('pages.user_inputdata.dkh_domi');
+});

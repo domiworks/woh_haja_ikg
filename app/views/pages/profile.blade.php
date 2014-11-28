@@ -5,7 +5,7 @@
 <style>
 	
 </style>
-<!-- end css -->
+<!-- end css -->	
 
 <div class="s_sidebar">
 	<!-- input data-->
@@ -32,7 +32,7 @@
 </div>
 
 <div class="s_content">
-	<table border="0" style="width:450px;">					
+	<table border="0" style="width:100%;">					
 		<tr>						
 			<td class="">Nomor Jemaat</td>
 			<td>:</td>
@@ -195,8 +195,32 @@
 		<tr>
 			<td>Tanggal Lahir</td>
 			<td>:</td>
-			<td><span class="f_front">{{array_get($data, 'data')->tanggal_lahir}}</span>
-			<span class="f_back"><input type="text" id="f_up_tanggal_lahir" value="{{array_get($data, 'data')->tanggal_lahir}}"/></span></td>
+			<td>
+				<span class="f_front">{{array_get($data, 'data')->tanggal_lahir}}</span>
+				<span class="f_back"><input type="text" id="f_up_tanggal_lahir" value="{{array_get($data, 'data')->tanggal_lahir}}"/></span>
+				<script>
+				jQuery('#f_up_tanggal_lahir').datetimepicker({
+					lang:'en',
+					i18n:{
+						en:{
+							months:[
+							'Januari','Februari','Maret','April',
+							'Mei','Juni','Juli','Agustus',
+							'September','Oktober','November','Desember',
+							],
+							dayOfWeek:[
+							"Ming.", "Sen.", "Sel.", "Rab.", 
+							"Kam.", "Jum.", "Sab.",
+							]
+							
+						}
+						},
+					timepicker:false,
+					format: 'Y-m-d',
+					yearStart: '1900'
+				});
+			</script>
+			</td>
 		</tr>
 		<tr>
 			<td>Gereja</td>
@@ -215,8 +239,54 @@
 					</select>		
 				</span>
 			</td>
-		</tr>	
+		</tr>
+		<tr>
+			<td>Foto</td>
+			<td>:</td>
+			<td>
+				<span class="f_front">
+					<img src="{{array_get($data, 'data')->foto}}" id="show_foto" width="200" height="200">								
+				</span>	
+				<span class="f_back">
+					<img src="" id="f_up_show_foto" width="200" height="200">
+					{{ Form::file('foto', array('name' => 'foto', 'id' => 'f_up_foto', 'accept' => 'image/*')) }}
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td>
+				<button id="f_up_profile">Update Data Profile</button>
+			</td>
+		</tr>
 	</table>	
-</div>	
+</div>
+
+<script>
+	$('body').on('change','#f_up_foto',function(){
+		var i = 0, len = this.files.length, img, reader, file;			
+		for ( ; i < len; i++ ) {
+			file = this.files[i];
+			if (!!file.type.match(/image.*/)) {
+				if ( window.FileReader ) {
+					reader = new FileReader();
+					reader.onloadend = function (e) { 										
+						$('#f_up_show_foto').attr('src', e.target.result);																	
+					};
+					reader.readAsDataURL(file);
+				}
+				imageUpload = file;
+			}	
+		}
+	});
+	
+	function isNumberKey(evt){
+		var charCode = (evt.which) ? evt.which : event.keyCode
+		if (charCode > 31 && (charCode < 48 || charCode > 57))
+			return false;
+		return true;
+	}
+</script>
 	
 @stop

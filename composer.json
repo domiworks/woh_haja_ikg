@@ -3,7 +3,8 @@
 		"laravel/framework": "4.0.*",
 		"PasswordLib/PasswordLib": "*",
 		"fzaninotto/faker": "1.5.*@dev",
-		"jenssegers/agent": "1"
+		"jenssegers/agent": "1",
+		"maatwebsite/excel": "dev-master"
 	},
 	"require-dev": {
 		"way/generators": "2.*"

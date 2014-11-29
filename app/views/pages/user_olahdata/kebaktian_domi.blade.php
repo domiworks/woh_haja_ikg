@@ -13,6 +13,7 @@
 
 <!-- script buat pop up -->
 <script>
+
 $(document).ready(function(){				
 	$('#f_edit_nama_pengkotbah').attr('disabled', true);		
 	$('#f_edit_pengkotbah').attr('disabled', false);				
@@ -181,12 +182,12 @@ $(document).ready(function(){
 
 						<div class="form-group">
 							<div class="col-xs-5 col-xs-push-4">
-							<button id="f_search_kebaktian" class="btn btn-success">Cari Data Kebaktian</button>
+							<input type="button" id="f_search_kebaktian" class="btn btn-success" value="Cari Data Kebaktian"></input>
 						</div>
 						</div>
 					</form>
 				</div>
-				
+								
 				<div id="f_result_kebaktian">
 					
 					<table class="table table-bordered">
@@ -203,8 +204,7 @@ $(document).ready(function(){
 								</th>
 							</tr>
 						</thead>
-						<tbody id="f_result_body_kebaktian">
-							hemm
+						<tbody id="f_result_body_kebaktian">							
 							<!--
 							<tr>
 								<td>
@@ -290,7 +290,7 @@ $(document).ready(function(){
 		};
 		
 		$.ajax({
-			type: 'GET',
+			type: 'POST',
 			url: "{{URL('user/search_kebaktian')}}",
 			data : {
 				'data' : $data
@@ -302,48 +302,45 @@ $(document).ready(function(){
 				{
 					alert('data kebaktian didapatkan');
 					// var result = '<table class="table table-bordered"><thead><tr><th>No. Anggota</th><th>Nama Depan Anggota</th><th></th></tr></thead><tbody>';	
-					var result = "";
+					var result = '';
 					for($i = 0; $i < response.length; $i++)
 					{
 						// result += response[$i]['id']+ " ";
 						// alert(response[$i]['id']);
 						// alert(response[$i]['tanggal_mulai']);
-						alert(response[$i]['nama_pendeta']);
+						// alert(response[$i]['nama_pendeta']);
+						
 						//set value di tabel result
-						result+= "<tr>";
-								result+='<td>';
-									// result+=response[$i]['id'];
-									result+='hemmm';
-								result+='</td>';
-								result+='<td>';
-									// result+=response[$i]['nama_pendeta'];
-									result+='hemmmm';
-								result+='</td>';
-								result+='<td>';
-									result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_kebaktian">';
-										result+='Edit';
-									result+='</button>';
-									result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
-										result+='delete';
-									result+='</button>';
-								result+='</td>';
-							result+='</tr>';						
+						result+= '<tr>';
+							result+='<td>';
+								result+=response[$i]['id'];								
+							result+='</td>';
+							result+='<td>';
+								result+=response[$i]['nama_pendeta'];								
+							result+='</td>';
+							result+='<td>';
+								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
+								result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_kebaktian">';
+									result+='Edit';
+								result+='</button>';
+								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
+								result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+									result+='delete';
+								result+='</button>';
+							result+='</td>';
+						result+='</tr>';						
 					}
-					// result+='</tbody></table>';
-					alert(result);
 					
-					$('#f_result_body_kebaktian').html(result);
-					
-					alert($('#f_result_body_kebaktian').text());
+					$('#f_result_body_kebaktian').html(result);					
 										
-				}					
+				}								
 				else				
 				{
-					$('#f_result_kebaktian').html("<p>Hasil pencarian tidak didapatkan</p>");
-					// alert("Hasil pencarian tidak didapatkan.");
-				}
+					$('#f_result_body_kebaktian').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
+				}				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
+				alert("error");
 				alert(errorThrown);
 			}
 		});
@@ -351,4 +348,5 @@ $(document).ready(function(){
 </script>
 
 @include('pages.user_olahdata.popup_edit_kebaktian')
+
 @stop

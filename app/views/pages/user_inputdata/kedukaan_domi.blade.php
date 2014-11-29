@@ -103,9 +103,9 @@
 					<div class="form-group">	
 						<div class="col-xs-6 col-xs-push-3">
 							<button id="f_post_kedukaan" class="btn btn-success">Simpan Data Kedukaan</button>
-						</div>
-					</form>	
-				</div>	
+						</div>					
+					</div>	
+				</form>	
 			</div>	
 		</div>	
 	</div>	

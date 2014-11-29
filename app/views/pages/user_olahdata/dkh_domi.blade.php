@@ -39,7 +39,7 @@
 					</div>				
 					<div class="form-group">
 						<div class="col-xs-5 col-xs-push-4">
-							<button id="f_search_dkh" class="btn btn-success">Cari Data Dkh</button>
+							<input type="button" id="f_search_dkh" class="btn btn-success" value="Cari Data Dkh"></input>
 						</div>
 					</div>
 				</form>
@@ -50,17 +50,18 @@
 					<thead>
 						<tr>
 							<th>
-								No. Anggota
+								No. Dkh
 							</th>
 							<th>
 								Nama Depan Anggota
 							</th>
 							<th>
-								Perintah
+								
 							</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="f_result_body_dkh">
+						<!--
 						<tr>
 							<td>
 								0
@@ -109,6 +110,7 @@
 								</button>
 							</td>
 						</tr>
+						-->
 					</tbody>
 				</table>
 			</div>
@@ -138,18 +140,38 @@ $('body').on('click', '#f_search_dkh', function(){
 
 			if(response != "no result")
 			{
-				var result = "";					
+				var result = "";
+
+				//set value di tabel
 				for($i = 0; $i < response.length; $i++)
 				{
-					result += response[$i]['no_dkh']+ " ";
+					result+= '<tr>';
+						result+='<td>';
+							result+='no_dkh: '+response[$i]['no_dkh'];								
+						result+='</td>';
+						result+='<td>';
+							result+='id_jemaat: '+response[$i]['id_jemaat'];								
+						result+='</td>';
+						result+='<td>';
+							result+='<input type="hidden" value="'+response[$i]['id']+'" />';
+							result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_dkh">';
+								result+='Edit';
+							result+='</button>';
+							result+='<input type="hidden" value="'+response[$i]['id']+'" />';
+							result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+								result+='delete';
+							result+='</button>';
+						result+='</td>';
+					result+='</tr>';
+					// result += response[$i]['no_dkh']+ " ";
 						// alert(response[$i]['tanggal_mulai']);
 					}
 					
-					$('#f_result_dkh').html("<p>"+result+"</p>");
+					$('#f_result_body_dkh').html(result);
 				}					
 				else				
 				{
-					$('#f_result_dkh').html("<p>No result</p>");					
+					$('#f_result_body_dkh').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
 				}	
 				/*				
 				if(response == "berhasil")

@@ -90,9 +90,12 @@
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Jenis Atestasi</label>
 						<div class="col-xs-5">
+							<!--
 							<select name="jenis_atestasi" id="f_jenis_atestasi" class="form-control">
 								<option>bla</option>
 							</select>  
+							-->
+							{{Form::select('jenis_atestasi', $list_jenis_atestasi, Input::old('pembaptis'), array('id'=>'f_jenis_atestasi', 'class'=>'form-control'))}}
 						</div>					
 					</div>					
 					<div class="form-group">
@@ -105,13 +108,13 @@
 					</div>			
 					<div class="form-group">
 						<div class="col-xs-5 col-xs-push-4">
-							<button id="f_search_atestasi" class="btn btn-success">Cari Data Atestasi</button>
+							<input type="button" id="f_search_atestasi" class="btn btn-success" value="Cari Data Atestasi"></input>
 						</div>			
 					</div>			
 				</div>	
 
 
-				<div id="f_result_anggota">
+				<div id="f_result_atestasi">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -122,11 +125,12 @@
 									Nama Depan Anggota
 								</th>
 								<th>
-									Perintah
+									
 								</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="f_result_body_atestasi">
+							<!--
 							<tr>
 								<td>
 									0
@@ -175,6 +179,7 @@
 									</button>
 								</td>
 							</tr>
+							-->
 						</tbody>
 					</table>
 				</div>
@@ -213,21 +218,40 @@ $('body').on('click', '#f_search_atestasi', function(){
 		success: function(response){	
 			alert("Berhasil cari data atestasi");
 				// alert(response);
-				
+								
 				if(response != "no result")
 				{
 					var result = "";					
+					
+					//set value di tabel result
 					for($i = 0; $i < response.length; $i++)
 					{
-						result += response[$i]['id']+ " ";
+						result+= '<tr>';
+							result+='<td>';
+								result+='No atestasi:'+response[$i]['no_atestasi'];								
+							result+='</td>';
+							result+='<td>';
+								result+='Tgl Atestasi:'+response[$i]['tanggal_atestasi'];								
+							result+='</td>';
+							result+='<td>';
+								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
+								result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">';
+									result+='Edit';
+								result+='</button>';
+								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
+								result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+									result+='delete';
+								result+='</button>';
+							result+='</td>';
+						result+='</tr>';
 						// alert(response[$i]['tanggal_mulai']);
 					}
 					
-					$('#f_result_atestasi').html("<p>"+result+"</p>");
+					$('#f_result_body_atestasi').html(result);
 				}					
 				else				
 				{
-					$('#f_result_atestasi').html("<p>No result</p>");					
+					$('#f_result_body_atestasi').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
 				}
 				
 				// if(response == "berhasil")

@@ -7,22 +7,40 @@
 			</div>
 			<div class="modal-body form-horizontal">
 
-					
-				<form>	
+				<form class="form-horizontal">
+
 					<div class="form-group">
-						<label class="col-xs-4 control-label">Nomor Dkh</label>
-						<div class="col-xs-5">{{Form::text('nomor_dkh', Input::old('nomor_dkh'), array('id'=>'f_nomor_dkh', 'class'=>'form-control'))}}</div>			
+						<label class="col-xs-4 control-label">
+							Nomor Dkh
+						</label>
+						<div class="col-xs-6">
+							{{Form::text('nomor_dkh', Input::old('nomor_dkh'), array('id'=>'f_edit_nomor_dkh', 'class'=>'form-control'))}}
+						</div>			
 					</div>
 					<div class="form-group">
-						<label class="col-xs-4 control-label">Nama Jemaat</label>
-						<div class="col-xs-5">{{Form::text('nama_jemaat', Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))}}</div>
-					</div>				
-					<div class="form-group">
-						<div class="col-xs-5 col-xs-push-4">
-							<button id="f_search_dkh" class="btn btn-success">Save Changes</button>
+						<label class="col-xs-4 control-label">
+							Nama Jemaat
+						</label>
+						<div class="col-xs-6">
+							{{Form::select('nama_jemaat', $list_jemaat, Input::old('nama_jemaat'), array('id'=>'f_edit_nama_jemaat', 'class'=>'form-control'))}}
 						</div>
+					</div>		
+					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Keterangan
+						</label>
+						<div class="col-xs-6">
+							{{ Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_edit_keterangan', 'class'=>'form-control'))}}
+						</div>
+					</div>						
+					<div class="form-group">
+						<div class="col-xs-6 col-xs-push-3">
+							<button id="f_edit_post_dkh" class="btn btn-success">Simpan Data Dkh</button>
+						</div>	
 					</div>
 				</form>
+					
+				
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>

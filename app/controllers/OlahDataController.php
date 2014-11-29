@@ -33,9 +33,11 @@ class OlahDataController extends BaseController {
 	{			
 		$list_pembaptis = $this->getListPendeta();	
 		$list_jenis_baptis = $this->getListJenisBaptis();
-		$list_gereja = $this->getListGereja();
+		$list_gereja = $this->getListGereja();				
+		$list_jemaat = $this->getListJemaat();
+		
 		// return View::make('pages.user_olahdata.baptis', compact('list_pembaptis','list_jenis_baptis','list_gereja'));
-		return View::make('pages.user_olahdata.baptis_domi', compact('list_pembaptis','list_jenis_baptis','list_gereja'));
+		return View::make('pages.user_olahdata.baptis_domi', compact('list_pembaptis','list_jenis_baptis','list_gereja','list_jemaat'));
 		// return null;
 	}
 	
@@ -49,24 +51,31 @@ class OlahDataController extends BaseController {
 	
 	public function view_pernikahan()
 	{	
-		// $list_pendeta = $this->getListPendeta();
+		$list_pendeta = $this->getListPendeta();
+		$list_jemaat_pria = $this->getListJemaatPria();
+		$list_jemaat_wanita = $this->getListJemaatWanita();
+		$list_gereja = $this->getListGereja();		
 		// $list_gereja = $this->getListGereja();
 		// return View::make('pages.user_olahdata.pernikahan');
-		return View::make('pages.user_olahdata.pernikahan_domi');		
+		return View::make('pages.user_olahdata.pernikahan_domi', 
+				compact('list_pendeta','list_jemaat_pria','list_jemaat_wanita','list_gereja'));		
 		// return null;
 	}
 	
 	public function view_kedukaan()
 	{	
+		$list_gereja = $this->getListGereja();
+		$list_jemaat = $this->getListJemaatHidup();
 		// return View::make('pages.user_olahdata.kedukaan');
-		return View::make('pages.user_olahdata.kedukaan_domi');
+		return View::make('pages.user_olahdata.kedukaan_domi', compact('list_gereja','list_jemaat'));
 		// return null;
 	}
 	
 	public function view_dkh()
 	{	
+		$list_jemaat = $this->getListJemaat();
 		// return View::make('pages.user_olahdata.dkh');
-		return View::make('pages.user_olahdata.dkh_domi');
+		return View::make('pages.user_olahdata.dkh_domi', compact('list_jemaat'));
 		// return null;
 	}
 	

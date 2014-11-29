@@ -285,6 +285,7 @@
 								<button id="f_post_anggota" class="btn btn-success"	>Simpan Data Anggota</button>
 							</div>
 						</div>
+					</form>	
 					</div>	
 				</div>	
 			</div>	

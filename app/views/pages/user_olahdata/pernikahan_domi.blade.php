@@ -98,7 +98,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-xs-5 col-xs-push-4">
-							<button id="f_search_pernikahan" class="btn btn-success">Cari Data Pernikahan</button>
+							<input type="button" id="f_search_pernikahan" class="btn btn-success" value="Cari Data Pernikahan"></input>
 						</div>
 					</div>
 				</form>
@@ -109,17 +109,21 @@
 					<thead>
 						<tr>
 							<th>
-								No. Anggota
+								No. Nikah
 							</th>
 							<th>
-								Nama Depan Anggota
+								Mempelai Pria
 							</th>
 							<th>
-								Perintah
+								Mempelai Wanita
+							</th>
+							<th>
+								
 							</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="f_result_body_pernikahan">
+						<!--
 						<tr>
 							<td>
 								0
@@ -168,6 +172,7 @@
 								</button>
 							</td>
 						</tr>
+						-->
 					</tbody>
 				</table>
 			</div>
@@ -207,17 +212,39 @@ $('body').on('click', '#f_search_pernikahan', function(){
 				if(response != "no result")
 				{
 					var result = "";					
+					
+					//set value di table result
 					for($i = 0; $i < response.length; $i++)
 					{
-						result += response[$i]['no_pernikahan']+ " ";
+						result+= '<tr>';
+							result+='<td>';
+								result+=response[$i]['no_pernikahan'];								
+							result+='</td>';
+							result+='<td>';
+								result+=response[$i]['nama_pria'];								
+							result+='</td>';
+							result+='<td>';
+								result+=response[$i]['nama_wanita'];								
+							result+='</td>';
+							result+='<td>';
+								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
+								result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_pernikahan">';
+									result+='Edit';
+								result+='</button>';
+								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
+								result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+									result+='delete';
+								result+='</button>';
+							result+='</td>';
+						result+='</tr>';
 						// alert(response[$i]['tanggal_mulai']);
 					}
 					
-					$('#f_result_pernikahan').html("<p>"+result+"</p>");
+					$('#f_result_body_pernikahan').html(result);
 				}					
 				else				
 				{
-					$('#f_result_pernikahan').html("<p>No result</p>");					
+					$('#f_result_body_pernikahan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
 				}
 				
 				// alert(JSON.stringify(response));

@@ -6,85 +6,87 @@
 				<h4 class="modal-title" id="myModalLabel">Edit Baptis</h4>
 			</div>
 			<div class="modal-body form-horizontal">
+					<form class="form-horizontal">
 
-					<form>	
-						<div class="form-group">
-							<label class="col-xs-4 control-label">Nomor Baptis</label> 
-							<div class="col-xs-5">{{Form::text('nomor_baptis', Input::old('nomor_baptis'), array('id'=>'f_nomor_baptis', 'class'=>'form-control'))}} </div>			
-						</div>		
-						<div class="form-group">
-							<label class="col-xs-4 control-label">Nama Pembaptis</label> 
-							<div class="col-xs-5">{{Form::text('pembaptis', Input::old('pembaptis'), array('id'=>'f_pembaptis', 'class'=>'form-control'))}}</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">Nama Jemaat</label> 
-							<div class="col-xs-5">{{Form::text('jemaat', Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control'))}}</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">Jenis Baptis</label> 
-							<div class="col-xs-5">
-								<select name="jenis_baptis" id="f_jenis_baptis" class="form-control">
-									<option>bla</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">Antara tanggal </label> 
-							<div class="col-xs-2">
-								{{ Form::text('tanggal_awal', Input::old('tanggal_awal'), array('id' => 'f_tanggal_awal', 'class'=>'form-control')) }}
-							</div>
-							<div class="col-xs-2">
-								{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
-							</div>
-							<script>
-							jQuery('#f_tanggal_awal').datetimepicker({
-								lang:'en',
-								i18n:{
-									en:{
-										months:[
-										'Januari','Februari','Maret','April',
-										'Mei','Juni','Juli','Agustus',
-										'September','Oktober','November','Desember',
-										],
-										dayOfWeek:[
-										"Ming.", "Sen.", "Sel.", "Rab.", 
-										"Kam.", "Jum.", "Sab.",
-										]
+					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Nomor Baptis
+						</label>
 
-									}
-								},
-								timepicker:false,
-								format: 'Y-m-d',					
-								yearStart: '1900'
-							});			
-							jQuery('#f_tanggal_akhir').datetimepicker({
-								lang:'en',
-								i18n:{
-									en:{
-										months:[
-										'Januari','Februari','Maret','April',
-										'Mei','Juni','Juli','Agustus',
-										'September','Oktober','November','Desember',
-										],
-										dayOfWeek:[
-										"Ming.", "Sen.", "Sel.", "Rab.", 
-										"Kam.", "Jum.", "Sab.",
-										]
+						<div class="col-xs-6">
+							<input type="text" name="nomor_baptis" id="f_edit_nomor_baptis" class="form-control">
+						</div>			
+					</div>		
+					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Pembaptis
+						</label>
 
-									}
-								},
-								timepicker:false,
-								format: 'Y-m-d',					
-								yearStart: '1900'
-							});	
-							</script>
+						<div class="col-xs-6">
+							<!--<input type="text" name="pembaptis" id="f_edit_pembaptis" class="form-control">-->
+							{{ Form::select('pembaptis', $list_pembaptis, Input::old('pembaptis'), array('id'=>'f_edit_pembaptis', 'class'=>'form-control')) }}
 						</div>
-						<div class="form-group">
-							<div class="col-xs-5 col-xs-push-4">
-							<button id="f_search_baptis" class="btn btn-success">Save Changes</button>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Jemaat
+						</label>
+
+						<div class="col-xs-6">
+							<!--<input type="text" name="jemaat" id="f_edit_jemaat" class="form-control">-->
+							{{ Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_edit_jemaat', 'class'=>'form-control')) }}
 						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Jenis Baptis
+						</label>
+
+						<div class="col-xs-6">
+							<!--<input type="text" name="jenis_baptis" id="f_edit_jenis_baptis" class="form-control">-->
+							{{ Form::select('jenis_baptis', $list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_edit_jenis_baptis', 'class'=>'form-control')) }}
 						</div>
-					</form>	
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Tanggal Baptis
+						</label>
+
+						<div class="col-xs-6">
+							<input type="text" name="tanggal_baptis" id="f_edit_tanggal_baptis" class="form-control">
+						</div>
+						<script>
+						jQuery('#f_edit_tanggal_baptis').datetimepicker({
+							lang:'en',
+							i18n:{
+								en:{
+									months:[
+									'Januari','Februari','Maret','April',
+									'Mei','Juni','Juli','Agustus',
+									'September','Oktober','November','Desember',
+									],
+									dayOfWeek:[
+									"Ming.", "Sen.", "Sel.", "Rab.", 
+									"Kam.", "Jum.", "Sab.",
+									]
+
+								}
+							},
+							timepicker:false,
+							format: 'Y-m-d',					
+							yearStart: '1900'
+						});			
+
+						</script>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-6 col-xs-push-3">
+							<button id="f_edit_post_baptis" class="btn btn-success">Simpan Data Baptis</button>
+						</div>
+					</div>
+				</form>	
+				
+					
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>

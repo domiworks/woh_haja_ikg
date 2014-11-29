@@ -67,7 +67,7 @@ class InputEditController extends BaseController {
 	public function view_kedukaan()
 	{
 		$list_gereja = $this->getListGereja();
-		$list_jemaat = $this->getListJemaat();
+		$list_jemaat = $this->getListJemaatHidup();
 		// return View::make('pages.user_inputdata.kedukaan', compact('list_gereja','list_jemaat'));
 		return View::make('pages.user_inputdata.kedukaan_domi', compact('list_gereja','list_jemaat'));
 		// return null;
@@ -281,12 +281,12 @@ class InputEditController extends BaseController {
 						$alamat->delete();
 					}					
 				}
-			}
-			return "berhasil";
+			}			
 		}catch(Exception $e){
 			return $e->getMessage();
 		}		
-			
+		
+		return "berhasil";		
 	}
 	
 	public function postBaptis()
@@ -397,7 +397,8 @@ class InputEditController extends BaseController {
 		$pernikahan->no_pernikahan = $input['no_pernikahan'];
 		$pernikahan->tanggal_pernikahan = $input['tanggal_pernikahan'];
 		$pernikahan->id_pendeta = $input['id_pendeta'];
-		$pernikahan->id_gereja = $input['id_gereja'];		
+		// $pernikahan->id_gereja = $input['id_gereja'];		
+		$pernikahan->id_gereja = Auth::user()->id;
 		$pernikahan->nama_pria = $input['nama_pria'];
 		$pernikahan->nama_wanita = $input['nama_wanita'];
 		if($input['id_jemaat_wanita'] == '')

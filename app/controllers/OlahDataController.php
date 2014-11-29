@@ -7,10 +7,12 @@ class OlahDataController extends BaseController {
 	public function view_kebaktian()
 	{	
 		$list_jenis_kegiatan = $this->getListJenisKegiatan();		
-		// $list_pembicara = $this->getListPendeta();
+		$list_pembicara = $this->getListPendeta();
 		// $list_gereja = $this->getListGereja();
-		return View::make('pages.user_olahdata.kebaktian',
-			compact('list_jenis_kegiatan'));
+		// return View::make('pages.user_olahdata.kebaktian',
+			// compact('list_jenis_kegiatan'));
+		return View::make('pages.user_olahdata.kebaktian_domi',
+			compact('list_jenis_kegiatan', 'list_pembicara'));
 		// return null;
 	}		
 
@@ -23,7 +25,8 @@ class OlahDataController extends BaseController {
 		$list_pekerjaan = $this->getListPekerjaan();
 		$list_etnis = $this->getListEtnis();
 		$list_role = $this->getListRoleAnggota();
-		return View::make('pages.user_olahdata.anggota', compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
+		// return View::make('pages.user_olahdata.anggota', compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
+		return View::make('pages.user_olahdata.anggota_domi', compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
 	}	
 	
 	public function view_baptis()
@@ -31,14 +34,16 @@ class OlahDataController extends BaseController {
 		$list_pembaptis = $this->getListPendeta();	
 		$list_jenis_baptis = $this->getListJenisBaptis();
 		$list_gereja = $this->getListGereja();
-		return View::make('pages.user_olahdata.baptis', compact('list_pembaptis','list_jenis_baptis','list_gereja'));
+		// return View::make('pages.user_olahdata.baptis', compact('list_pembaptis','list_jenis_baptis','list_gereja'));
+		return View::make('pages.user_olahdata.baptis_domi', compact('list_pembaptis','list_jenis_baptis','list_gereja'));
 		// return null;
 	}
 	
 	public function view_atestasi()
 	{		
 		$list_jenis_atestasi = $this->getListJenisAtestasi();
-		return View::make('pages.user_olahdata.atestasi', compact('list_jenis_atestasi'));
+		// return View::make('pages.user_olahdata.atestasi', compact('list_jenis_atestasi'));
+		return View::make('pages.user_olahdata.atestasi_domi', compact('list_jenis_atestasi'));
 		// return null;
 	}
 	
@@ -46,19 +51,22 @@ class OlahDataController extends BaseController {
 	{	
 		// $list_pendeta = $this->getListPendeta();
 		// $list_gereja = $this->getListGereja();
-		return View::make('pages.user_olahdata.pernikahan');
+		// return View::make('pages.user_olahdata.pernikahan');
+		return View::make('pages.user_olahdata.pernikahan_domi');		
 		// return null;
 	}
 	
 	public function view_kedukaan()
 	{	
-		return View::make('pages.user_olahdata.kedukaan');
+		// return View::make('pages.user_olahdata.kedukaan');
+		return View::make('pages.user_olahdata.kedukaan_domi');
 		// return null;
 	}
 	
 	public function view_dkh()
 	{	
-		return View::make('pages.user_olahdata.dkh');
+		// return View::make('pages.user_olahdata.dkh');
+		return View::make('pages.user_olahdata.dkh_domi');
 		// return null;
 	}
 	

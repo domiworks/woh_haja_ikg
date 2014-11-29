@@ -161,9 +161,13 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 						<div class="col-xs-6">
 
 							{{Form::select('list_gereja_lama', $list_gereja, Input::old('list_gereja_lama'), array('id'=>'f_list_gereja_lama', 'class'=>'form-control', 'disabled' => false))}}
-							<input id="f_check_gereja_lama" type="checkbox" name="gereja_lama" value="0" /> Gereja Lain
-
+							
 						</div>
+						
+						<div class="col-xs-0">
+							<input id="f_check_gereja_lama" type="checkbox" name="gereja_lama" value="0" /> Gereja Lain
+						</div>							
+						
 						<script>
 						$('body').on('change','#f_list_gereja_lama', function(){
 							var selected = $('#f_list_gereja_lama').find(":selected").text();
@@ -187,8 +191,11 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 						<div class="col-xs-6">
 
 							{{Form::select('list_gereja_baru', $list_gereja, Input::old('list_gereja_baru'), array('id'=>'f_list_gereja_baru', 'class'=>'form-control', 'disabled' => false))}}
+							
+						</div>
+						
+						<div class="col-xs-0">
 							<input id="f_check_gereja_baru" type="checkbox" name="gereja_baru" value="0" /> Gereja Lain
-
 						</div>
 						<script>
 						$('body').on('change','#f_list_gereja_baru', function(){

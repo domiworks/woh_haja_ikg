@@ -11,6 +11,19 @@
 	<li class="active">Kebaktian</li>
 </ol>
 
+<!-- script buat pop up -->
+<script>
+$(document).ready(function(){				
+	$('#f_edit_nama_pengkotbah').attr('disabled', true);		
+	$('#f_edit_pengkotbah').attr('disabled', false);				
+
+		//set nama pembicara di awal
+		var selected = $('#f_edit_pengkotbah').find(":selected").text();
+		$('#f_edit_nama_pengkotbah').val(selected);	
+	});
+
+</script>
+				
 <div class="s_content">
 	<div class="container-fluid">
 
@@ -28,13 +41,16 @@
 		<div class="panel panel-default col-md-9">
 			<div class="panel-body">
 				<form class="form-horizontal">
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Kebaktian ke</label> 
-						<div class="col-xs-5">
-							<select name="kebaktian_ke" id="f_kebaktian_ke" class="form-control">
-								<option>ytgrsf/option>
-								</select>
+						<div class="form-group">
+							<label class="col-xs-4 control-label">Kebaktian ke</label> 
+							<div class="col-xs-5">
+								<!--<select name="kebaktian_ke" id="f_kebaktian_ke" class="form-control">
+									<option>ytgrsf/option>
+									</select>
+								-->	
+								{{Form::select('kebaktian_ke', $list_jenis_kegiatan, Input::old('kebaktian_ke'), array('id'=>'f_kebaktian_ke', 'class'=>'form-control'))}}
 							</div>
+								
 						</div>				
 						<div class="form-group">
 							<label class="col-xs-4 control-label">Nama Pengkotbah</label> 
@@ -44,7 +60,7 @@
 							<label class="col-xs-4 control-label">Antara tanggal </label> 
 							<div class="col-xs-2">
 								{{ Form::text('tanggal_awal', Input::old('tanggal_awal'), array('id' => 'f_tanggal_awal', 'class'=>'form-control')) }}
-							</div>
+							</div>								
 							<div class="col-xs-2">
 								{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
 							</div>
@@ -170,77 +186,51 @@
 						</div>
 					</form>
 				</div>
+				
 				<div id="f_result_kebaktian">
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>
-								No. Anggota
-							</th>
-							<th>
-								Nama Depan Anggota
-							</th>
-							<th>
-								Perintah
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>
-								0
-							</td>
-							<td>
-								Catie
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_kebaktian">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								1
-							</td>
-							<td>
-								Wayne
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_kebaktian">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								2
-							</td>
-							<td>
-								Boxxy
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_kebaktian">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+					
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>
+									ID kebaktian
+								</th>
+								<th>
+									Nama Pengkotbah
+								</th>
+								<th>
+									
+								</th>
+							</tr>
+						</thead>
+						<tbody id="f_result_body_kebaktian">
+							hemm
+							<!--
+							<tr>
+								<td>
+									0
+								</td>
+								<td>
+									Catie
+								</td>
+								<td>
+									<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_kebaktian">
+										Edit
+									</button>
+									<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
+										delete
+									</button>
+								</td>
+							</tr>													
+							-->
+						</tbody>
+					</table>
+					
+				</div>
 
-			</div>	
 		</div>	
 	</div>	
+</div>	
 
 	<script>					
 	function isNumberKey(evt){
@@ -300,28 +290,57 @@
 		};
 		
 		$.ajax({
-			type: 'POST',
+			type: 'GET',
 			url: "{{URL('user/search_kebaktian')}}",
 			data : {
 				'data' : $data
 			},
 			success: function(response){				
 				alert("Berhasil cari data kebaktian");
-				// location.reload();					
+								
 				if(response != "no result")
 				{
-					var result = "";					
+					alert('data kebaktian didapatkan');
+					// var result = '<table class="table table-bordered"><thead><tr><th>No. Anggota</th><th>Nama Depan Anggota</th><th></th></tr></thead><tbody>';	
+					var result = "";
 					for($i = 0; $i < response.length; $i++)
 					{
-						result += response[$i]['id']+ " ";
+						// result += response[$i]['id']+ " ";
+						// alert(response[$i]['id']);
 						// alert(response[$i]['tanggal_mulai']);
+						alert(response[$i]['nama_pendeta']);
+						//set value di tabel result
+						result+= "<tr>";
+								result+='<td>';
+									// result+=response[$i]['id'];
+									result+='hemmm';
+								result+='</td>';
+								result+='<td>';
+									// result+=response[$i]['nama_pendeta'];
+									result+='hemmmm';
+								result+='</td>';
+								result+='<td>';
+									result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_kebaktian">';
+										result+='Edit';
+									result+='</button>';
+									result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+										result+='delete';
+									result+='</button>';
+								result+='</td>';
+							result+='</tr>';						
 					}
+					// result+='</tbody></table>';
+					alert(result);
 					
-					$('#f_result_kebaktian').html("<p>"+result+"</p>");
+					$('#f_result_body_kebaktian').html(result);
+					
+					alert($('#f_result_body_kebaktian').text());
+										
 				}					
 				else				
 				{
-					$('#f_result_kebaktian').html("<p>No result</p>");
+					$('#f_result_kebaktian').html("<p>Hasil pencarian tidak didapatkan</p>");
+					// alert("Hasil pencarian tidak didapatkan.");
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){

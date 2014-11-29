@@ -61,7 +61,8 @@
 						</label>
 
 						<div class="col-xs-6">
-							<input type="text" name="pembaptis" id="f_pembaptis" class="form-control">
+							<!--<input type="text" name="pembaptis" id="f_pembaptis" class="form-control">-->
+							{{ Form::select('pembaptis', $list_pembaptis, Input::old('pembaptis'), array('id'=>'f_pembaptis', 'class'=>'form-control')) }}
 						</div>
 					</div>
 					<div class="form-group">
@@ -70,7 +71,8 @@
 						</label>
 
 						<div class="col-xs-6">
-							<input type="text" name="jemaat" id="f_jemaat" class="form-control">
+							<!--<input type="text" name="jemaat" id="f_jemaat" class="form-control">-->
+							{{ Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control')) }}
 						</div>
 					</div>
 					<div class="form-group">
@@ -79,7 +81,8 @@
 						</label>
 
 						<div class="col-xs-6">
-							<input type="text" name="jenis_baptis" id="f_jenis_baptis" class="form-control">
+							<!--<input type="text" name="jenis_baptis" id="f_jenis_baptis" class="form-control">-->
+							{{ Form::select('jenis_baptis', $list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_jenis_baptis', 'class'=>'form-control')) }}
 						</div>
 					</div>
 					<div class="form-group">

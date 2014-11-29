@@ -290,6 +290,24 @@ class BaseController extends Controller {
 		}
 	}
 	
+	//get list jemaat yang masih hidup
+	public function getListJemaatHidup()
+	{
+		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
+					->where('role', '=', 1)
+					->whereNull('tanggal_meninggal')
+					->orderBy('nama_depan')
+					->lists('nama_lengkap', 'id');
+		if(count($count) != 0)
+		{
+			return $count;
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
 	//-------------------------------------GET LIST (FOR SEARCHING)--------------------------------------------------
 	
 	

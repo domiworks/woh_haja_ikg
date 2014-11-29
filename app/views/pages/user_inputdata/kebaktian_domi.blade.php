@@ -319,7 +319,11 @@ $(document).ready(function(){
 	//banyak_jemaat
 	$('body').on('change','#f_banyak_jemaat_pria',function(){
 		var jemaat_pria = parseInt($('#f_banyak_jemaat_pria').val());		
-		var jemaat_wanita = parseInt($('#f_banyak_jemaat_wanita').val());
+		var jemaat_wanita = parseInt($('#f_banyak_jemaat_wanita').val());		
+		if(isNaN(jemaat_pria))
+		{
+			jemaat_pria = 0;
+		}
 		if(isNaN(jemaat_wanita))
 		{
 			jemaat_wanita = 0;
@@ -327,9 +331,13 @@ $(document).ready(function(){
 		$('#f_banyak_jemaat').val(jemaat_pria+jemaat_wanita);
 	});
 	$('body').on('change','#f_banyak_jemaat_wanita',function(){
-		var jemaat_pria = parseInt($('#f_banyak_jemaat_pria').val());
+		var jemaat_pria = parseInt($('#f_banyak_jemaat_pria').val());		
 		var jemaat_wanita = parseInt($('#f_banyak_jemaat_wanita').val());
 		if(isNaN(jemaat_pria))
+		{			
+			jemaat_pria = 0;
+		}
+		if(isNaN(jemaat_wanita))
 		{
 			jemaat_wanita = 0;
 		}
@@ -344,6 +352,10 @@ $(document).ready(function(){
 	$('body').on('change','#f_banyak_simpatisan_pria',function(){
 		var simpatisan_pria = parseInt($('#f_banyak_simpatisan_pria').val());		
 		var simpatisan_wanita = parseInt($('#f_banyak_simpatisan_wanita').val());
+		if(isNaN(simpatisan_pria))
+		{
+			simpatisan_pria = 0;
+		}
 		if(isNaN(simpatisan_wanita))
 		{
 			simpatisan_wanita = 0;
@@ -354,6 +366,10 @@ $(document).ready(function(){
 		var simpatisan_pria = parseInt($('#f_banyak_simpatisan_pria').val());
 		var simpatisan_wanita = parseInt($('#f_banyak_simpatisan_wanita').val());
 		if(isNaN(simpatisan_pria))
+		{
+			simpatisan_pria = 0;
+		}
+		if(isNaN(simpatisan_wanita))
 		{
 			simpatisan_wanita = 0;
 		}
@@ -368,6 +384,10 @@ $(document).ready(function(){
 	$('body').on('change','#f_banyak_penatua_pria',function(){
 		var penatua_pria = parseInt($('#f_banyak_penatua_pria').val());		
 		var penatua_wanita = parseInt($('#f_banyak_penatua_wanita').val());
+		if(isNaN(penatua_pria))
+		{
+			penatua_pria = 0;
+		}
 		if(isNaN(penatua_wanita))
 		{
 			penatua_wanita = 0;
@@ -378,6 +398,10 @@ $(document).ready(function(){
 		var penatua_pria = parseInt($('#f_banyak_penatua_pria').val());
 		var penatua_wanita = parseInt($('#f_banyak_penatua_wanita').val());
 		if(isNaN(penatua_pria))
+		{
+			penatua_pria = 0;
+		}
+		if(isNaN(penatua_wanita))
 		{
 			penatua_wanita = 0;
 		}
@@ -392,6 +416,10 @@ $(document).ready(function(){
 	$('body').on('change','#f_banyak_pemusik_pria',function(){
 		var pemusik_pria = parseInt($('#f_banyak_pemusik_pria').val());		
 		var pemusik_wanita = parseInt($('#f_banyak_pemusik_wanita').val());
+		if(isNaN(pemusik_pria))
+		{
+			pemusik_pria = 0;
+		}
 		if(isNaN(pemusik_wanita))
 		{
 			pemusik_wanita = 0;
@@ -402,6 +430,10 @@ $(document).ready(function(){
 		var pemusik_pria = parseInt($('#f_banyak_pemusik_pria').val());
 		var pemusik_wanita = parseInt($('#f_banyak_pemusik_wanita').val());
 		if(isNaN(pemusik_pria))
+		{
+			pemusik_pria = 0;
+		}
+		if(isNaN(pemusik_wanita))
 		{
 			pemusik_wanita = 0;
 		}
@@ -416,6 +448,10 @@ $(document).ready(function(){
 	$('body').on('change','#f_banyak_komisi_pria',function(){
 		var komisi_pria = parseInt($('#f_banyak_komisi_pria').val());		
 		var komisi_wanita = parseInt($('#f_banyak_komisi_wanita').val());
+		if(isNaN(komisi_pria))
+		{
+			komisi_pria = 0;
+		}
 		if(isNaN(komisi_wanita))
 		{
 			komisi_wanita = 0;
@@ -426,6 +462,10 @@ $(document).ready(function(){
 		var komisi_pria = parseInt($('#f_banyak_komisi_pria').val());
 		var komisi_wanita = parseInt($('#f_banyak_komisi_wanita').val());
 		if(isNaN(komisi_pria))
+		{
+			komisi_pria = 0;
+		}
+		if(isNaN(komisi_wanita))
 		{
 			komisi_wanita = 0;
 		}

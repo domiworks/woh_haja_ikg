@@ -50,7 +50,8 @@ class BaseController extends Controller {
 	//get list gereja
 	public function getListGereja()
 	{		
-		$count = DB::table('gereja')->orderBy('id','asc')->lists('nama','id');
+		// $count = DB::table('gereja')->orderBy('id','asc')->lists('nama','id');
+		$count = DB::table('gereja')->orderBy('nama','asc')->lists('nama','id');
 		if(count($count) != 0)
 		{
 			return $count;

@@ -3,13 +3,22 @@
 
 <script>
 $(document).ready(function(){				
+	
+	$('#f_nama_kebaktian').attr('disabled', true);		
+	$('#f_kebaktian_ke').attr('disabled', false);				
+
+		//set nama kebaktian di awal
+		var selected = $('#f_kebaktian_ke').find(":selected").text();
+		$('#f_nama_kebaktian').val(selected);		
+	
+	
 	$('#f_nama_pengkotbah').attr('disabled', true);		
 	$('#f_pengkotbah').attr('disabled', false);				
 
 		//set nama pembicara di awal
 		var selected = $('#f_pengkotbah').find(":selected").text();
 		$('#f_nama_pengkotbah').val(selected);	
-	});
+});
 
 </script>
 
@@ -59,16 +68,45 @@ $(document).ready(function(){
 				<form class="form-horizontal">
 
 					<div class="form-group">
-						<label class="col-xs-4 control-label">Kebaktian ke</label>
+						<label class="col-xs-4 control-label">Kebaktian</label>
+						<div class="col-xs-5">
+							@if($list_jenis_kegiatan == null)
+								<p class="control-label pull-left">(tidak ada daftar kegiatan)</p>
+							@else
+								{{Form::select('kebaktian_ke', $list_jenis_kegiatan, Input::old('kebaktian_ke'), array('id'=>'f_kebaktian_ke', 'class'=>'form-control', 'disabled' => false))}} 
+							@endif	
+							<div class="checkbox">
+								<label>
+									<input id="f_check_kebaktian_lain" type="checkbox" name="kebaktian_lain" value="0" /> Kebaktian Lain
+								</label>
+							</div>							
+						</div>
+						<script>				
+						$('body').on('change','#f_kebaktian_ke', function(){
+							var selected = $('#f_kebaktian_ke').find(":selected").text();
+							$('#f_nama_kebaktian').val(selected);					
+						});
+						</script>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Nama Kebaktian</label>
 						<div class="col-xs-6">
-							{{Form::select('kebaktian_ke', $list_jenis_kegiatan, Input::old('kebaktian_ke'), array('id'=>'f_kebaktian_ke', 'class'=>'form-control'))}}
+							{{Form::text('nama_kebaktian', Input::old('nama_kebaktian') , array('id' => 'f_nama_kebaktian', 'disabled' => true , 'class'=>'form-control'))}}
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Pengkotbah</label>
 						<div class="col-xs-6">
-							{{Form::select('pengkotbah', $list_pembicara, Input::old('pengkotbah'), array('id'=>'f_pengkotbah','class'=>'form-control', 'disabled' => false))}}				
+							@if($list_pembicara == null)
+								<p class="control-label pull-left">(tidak ada daftar pengkotbah)</p>
+							@else
+								{{Form::select('pengkotbah', $list_pembicara, Input::old('pengkotbah'), array('id'=>'f_pengkotbah','class'=>'form-control', 'disabled' => false))}}	 	
+							@endif							
 							<div class="checkbox">
 								<label>
 									<input id="f_check_pembicara_luar" type="checkbox" name="pembicara_luar" value="0" /> Pembicara Luar
@@ -86,18 +124,24 @@ $(document).ready(function(){
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Nama Pengkotbah</label>
 						<div class="col-xs-6">
-							{{Form::text('nama_pengkotbah', Input::old('nama_pengkotbah') , array('id' => 'f_nama_pengkotbah', 'disabled' => true , 'class'=>'form-control'))}}
+							{{Form::text('nama_pengkotbah', Input::old('nama_pengkotbah') , array('id' => 'f_nama_pengkotbah', 'disabled' => true , 'class'=>'form-control'))}} 
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Tanggal Mulai - Tanggal Selesai</label>
 						
-						<div class="col-xs-3">
-							{{ Form::text('tanggal_mulai', Input::old('tanggal_mulai'), array('id' => 'f_tanggal_mulai', 'class'=>'form-control')) }} 
+						<div class="col-xs-2">
+							{{ Form::text('tanggal_mulai', Input::old('tanggal_mulai'), array('id' => 'f_tanggal_mulai', 'class'=>'form-control')) }}
+						</div>						
+						<div class="col-xs-2">
+							{{ Form::text('tanggal_selesai', Input::old('tanggal_selesai'), array('id' => 'f_tanggal_selesai', 'class'=>'form-control')) }} 
 						</div>
-						<div class="col-xs-3">
-							{{ Form::text('tanggal_selesai', Input::old('tanggal_selesai'), array('id' => 'f_tanggal_selesai', 'class'=>'form-control')) }}
+						<div class="col-xs-0">
+							*
 						</div>
 						<script>				
 						jQuery('#f_tanggal_mulai').datetimepicker({
@@ -150,7 +194,10 @@ $(document).ready(function(){
 							{{ Form::text('jam_mulai', Input::old('jam_mulai'), array('id' => 'f_jam_mulai', 'class'=>'form-control')) }} 
 						</div>
 						<div class="col-xs-3">
-							{{ Form::text('jam_selesai', Input::old('jam_selesai'), array('id' => 'f_jam_selesai', 'class'=>'form-control')) }}
+							{{ Form::text('jam_selesai', Input::old('jam_selesai'), array('id' => 'f_jam_selesai', 'class'=>'form-control')) }} 
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 						<script>
 
@@ -181,7 +228,10 @@ $(document).ready(function(){
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Banyak Seluruh Jemaat</label>
 						<div class="col-xs-6">
-							{{Form::text('banyak_jemaat', Input::old('banyak_jemaat'), array('id'=>'f_banyak_jemaat', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
+							{{Form::text('banyak_jemaat', Input::old('banyak_jemaat'), array('id'=>'f_banyak_jemaat', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 
@@ -203,7 +253,10 @@ $(document).ready(function(){
 						</label>
 
 						<div class="col-xs-6">
-							{{Form::text('banyak_simpatisan', Input::old('banyak_simpatisan'), array('id'=>'f_banyak_simpatisan', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
+							{{Form::text('banyak_simpatisan', Input::old('banyak_simpatisan'), array('id'=>'f_banyak_simpatisan', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -224,7 +277,10 @@ $(document).ready(function(){
 						</label>
 
 						<div class="col-xs-6">
-							{{Form::text('banyak_penatua', Input::old('banyak_penatua'), array('id'=>'f_banyak_penatua', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
+							{{Form::text('banyak_penatua', Input::old('banyak_penatua'), array('id'=>'f_banyak_penatua', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -244,7 +300,10 @@ $(document).ready(function(){
 						</label>
 
 						<div class="col-xs-6">
-							{{Form::text('banyak_pemusik', Input::old('banyak_pemusik'), array('id'=>'f_banyak_pemusik', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
+							{{Form::text('banyak_pemusik', Input::old('banyak_pemusik'), array('id'=>'f_banyak_pemusik', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -265,7 +324,10 @@ $(document).ready(function(){
 						</label>
 
 						<div class="col-xs-6">
-							{{Form::text('banyak_komisi', Input::old('banyak_komisi'), array('id'=>'f_banyak_komisi', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
+							{{Form::text('banyak_komisi', Input::old('banyak_komisi'), array('id'=>'f_banyak_komisi', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>	
 
@@ -274,7 +336,10 @@ $(document).ready(function(){
 							Jumlah Persembahan
 						</label>
 						<div class="col-xs-6">
-							{{Form::text('jumlah_persembahan', Input::old('jumlah_persembahan'), array('id'=>'f_jumlah_persembahan', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
+							{{Form::text('jumlah_persembahan', Input::old('jumlah_persembahan'), array('id'=>'f_jumlah_persembahan', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -287,7 +352,11 @@ $(document).ready(function(){
 					</div>
 					<div class="form-group">
 						<div class="col-xs-6 col-xs-push-3">
-							<button id="f_post_kebaktian" class="btn btn-success">Simpan Data Kebaktian</button>
+							@if($list_jenis_kegiatan == null || $list_pembicara == null)
+								<input type="button" value="Simpan Data Kebaktian" id="f_post_kebaktian" class="btn btn-success" disabled=true />
+							@else
+								<input type="button" value="Simpan Data Kebaktian" id="f_post_kebaktian" class="btn btn-success" />
+							@endif 							
 						</div>
 					</div>
 				</form>	
@@ -297,7 +366,24 @@ $(document).ready(function(){
 	</div>	
 </div>	
 
-<script>			
+<script>	
+	$('body').on('click', '#f_check_kebaktian_lain', function(){		
+		if($('#f_check_kebaktian_lain').val() == 0){	
+			$('#f_check_kebaktian_lain').val(1); //pakai pembicara luar jika value f_check_pembicara_luar == 1
+			$('#f_nama_kebaktian').attr('disabled', false);			
+			$('#f_nama_kebaktian').val("");
+			$('#f_kebaktian_ke').attr('disabled', true);								
+		}
+		else
+		{
+			$('#f_check_kebaktian_lain').val(0); //tidak pakai pembicara luar jika value f_check_pembicara_luar == 0
+			$('#f_nama_kebaktian').attr('disabled', true);				
+			selected = $('#f_kebaktian_ke').find(":selected").text();
+			$('#f_nama_kebaktian').val(selected);	
+			$('#f_kebaktian_ke').attr('disabled', false);				
+		}
+	});
+	
 	$('body').on('click', '#f_check_pembicara_luar', function(){		
 		if($('#f_check_pembicara_luar').val() == 0){	
 			$('#f_check_pembicara_luar').val(1); //pakai pembicara luar jika value f_check_pembicara_luar == 1
@@ -308,13 +394,13 @@ $(document).ready(function(){
 		else
 		{
 			$('#f_check_pembicara_luar').val(0); //tidak pakai pembicara luar jika value f_check_pembicara_luar == 0
-			$('#f_nama_pengkotbah').attr('disabled', true);	
-			// $('#f_nama_pengkotbah').val("");
+			$('#f_nama_pengkotbah').attr('disabled', true);				
 			selected = $('#f_pengkotbah').find(":selected").text();
 			$('#f_nama_pengkotbah').val(selected);	
 			$('#f_pengkotbah').attr('disabled', false);				
 		}
 	});
+		
 
 	//banyak_jemaat
 	$('body').on('change','#f_banyak_jemaat_pria',function(){
@@ -483,8 +569,17 @@ $(document).ready(function(){
 		return true;
 	}
 	
-	$('body').on('click', '#f_post_kebaktian', function(){
-		$kebaktian_ke = $('#f_kebaktian_ke').val();
+	$('body').on('click', '#f_post_kebaktian', function(){					
+		if($('#f_check_kebaktian_lain').val() == 1) //pakai nama kebaktian lain
+		{
+			$kebaktian_ke = '';
+			$nama_kebaktian = $('#f_nama_kebaktian').val();
+		}
+		else
+		{
+			$kebaktian_ke = $('#f_kebaktian_ke').val();
+			$nama_kebaktian = $('#f_nama_kebaktian').val();
+		}
 		if($('#f_check_pembicara_luar').val() == 1) //pakai pembicara luar
 		{
 			$id_pendeta = '';
@@ -519,7 +614,8 @@ $(document).ready(function(){
 		$keterangan = $('#f_keterangan').val();		
 		
 		$data = {
-			'kebaktian_ke' : $kebaktian_ke,
+			'id_jenis_kegiatan' : $kebaktian_ke,
+			'nama_jenis_kegiatan' : $nama_kebaktian,
 			'id_pendeta' : $id_pendeta,
 			'nama_pendeta' : $nama_pendeta,
 			'tanggal_mulai' : $tanggal_mulai,
@@ -544,7 +640,7 @@ $(document).ready(function(){
 			// 'id_gereja' : $id_gereja,
 			'jumlah_persembahan' : $jumlah_persembahan,
 			'keterangan' : $keterangan
-		};
+		};				
 		
 		$.ajax({
 			type: 'POST',
@@ -556,10 +652,11 @@ $(document).ready(function(){
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data kebaktian");
-					location.reload();
+					// location.reload();
+					window.location = '{{URL::route('view_inputdata_kebaktian')}}';
 				}
 				else
-				{
+				{					
 					alert(response);
 				}
 			},

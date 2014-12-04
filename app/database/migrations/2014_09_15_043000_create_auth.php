@@ -186,7 +186,7 @@ class CreateAuth extends Migration {
 			$table->foreign('id_jemaat_wanita')->references('id')->on('anggota');
 			$table->foreign('id_jemaat_pria')->references('id')->on('anggota');			
 			$table->timestamps();
-		});
+		});				
 		
 		Schema::table('jenis_kegiatan', function (Blueprint $table){
 			$table->create();
@@ -199,9 +199,11 @@ class CreateAuth extends Migration {
 				// - kebaktian umum 2
 				// - kebaktian umum 3
 				// - kebaktian umum 4
+				// - kebaktian umum 5
 				// - kebaktian anak 
 				// - kebaktian remaja
 				// - kebaktian pemuda
+				// yang tertulis di textfield sendiri : penyegaran iman, jumat agung, rabu abu, kamis putih
 		});				
 		
 		// kalau tidak mengetahui jumlah pasti pria dan wanita yang hadir maka dapat diisi total seluruhnya saja
@@ -211,7 +213,8 @@ class CreateAuth extends Migration {
 			$table->increments('id');				
 			$table->integer('id_pendeta')->unsigned()->nullable();
 			$table->string('nama_pendeta');	//menangani pendeta luar
-			$table->integer('id_jenis_kegiatan')->unsigned();
+			$table->integer('id_jenis_kegiatan')->unsigned()->nullable();
+			$table->string('nama_jenis_kegiatan');
 			$table->integer('id_gereja')->unsigned();
 			$table->date('tanggal_mulai');
 			$table->date('tanggal_selesai');

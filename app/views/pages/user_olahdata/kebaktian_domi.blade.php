@@ -44,18 +44,16 @@ $(document).ready(function(){
 				<form class="form-horizontal">
 						<div class="form-group">
 							<label class="col-xs-4 control-label">Kebaktian ke</label> 
-							<div class="col-xs-5">
-								<!--<select name="kebaktian_ke" id="f_kebaktian_ke" class="form-control">
-									<option>ytgrsf/option>
-									</select>
-								-->	
-								{{Form::select('kebaktian_ke', $list_jenis_kegiatan, Input::old('kebaktian_ke'), array('id'=>'f_kebaktian_ke', 'class'=>'form-control'))}}
+							<div class="col-xs-5">								
+								{{Form::text('nama_kebaktian', Input::old('nama_kebaktian'), array('id'=>'f_nama_kebaktian', 'class'=>'form-control'))}}
 							</div>
 								
 						</div>				
 						<div class="form-group">
 							<label class="col-xs-4 control-label">Nama Pengkotbah</label> 
-							<div class="col-xs-5">{{Form::text('nama_pengkotbah', Input::old('nama_pengkotbah') , array('id' => 'f_nama_pengkotbah', 'class'=>'form-control'))}}</div>
+							<div class="col-xs-5">
+								{{Form::text('nama_pengkotbah', Input::old('nama_pengkotbah') , array('id' => 'f_nama_pengkotbah', 'class'=>'form-control'))}}
+							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-4 control-label">Antara tanggal </label> 
@@ -194,10 +192,10 @@ $(document).ready(function(){
 						<thead>
 							<tr>
 								<th>
-									ID kebaktian
+									Tanggal Kebaktian
 								</th>
 								<th>
-									Nama Pengkotbah
+									Nama Kebaktian
 								</th>
 								<th>
 									
@@ -232,7 +230,7 @@ $(document).ready(function(){
 	</div>	
 </div>	
 
-	<script>					
+<script>					
 	function isNumberKey(evt){
 		var charCode = (evt.which) ? evt.which : event.keyCode
 		if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -241,7 +239,7 @@ $(document).ready(function(){
 	}
 
 	$('body').on('click', '#f_search_kebaktian', function(){		
-		$kebaktian_ke = $('#f_kebaktian_ke').val();
+		$nama_kebaktian = $('#f_nama_kebaktian').val();
 		$nama_pendeta = $('#f_nama_pengkotbah').val();			
 		$tanggal_awal = $('#f_tanggal_awal').val();
 		$tanggal_akhir = $('#f_tanggal_akhir').val();
@@ -271,7 +269,7 @@ $(document).ready(function(){
 		
 		
 		$data = {
-			'kebaktian_ke' : $kebaktian_ke,			
+			'nama_kebaktian' : $nama_kebaktian,			
 			'nama_pendeta' : $nama_pendeta,
 			'tanggal_awal' : $tanggal_awal,
 			'tanggal_akhir' : $tanggal_akhir,
@@ -300,7 +298,7 @@ $(document).ready(function(){
 								
 				if(response != "no result")
 				{
-					alert('data kebaktian didapatkan');
+					// alert('data kebaktian didapatkan');
 					// var result = '<table class="table table-bordered"><thead><tr><th>No. Anggota</th><th>Nama Depan Anggota</th><th></th></tr></thead><tbody>';	
 					var result = '';
 					for($i = 0; $i < response.length; $i++)
@@ -313,18 +311,19 @@ $(document).ready(function(){
 						//set value di tabel result
 						result+= '<tr>';
 							result+='<td>';
-								result+=response[$i]['id'];								
+								result+=response[$i]['tanggal_mulai'];								
 							result+='</td>';
 							result+='<td>';
-								result+=response[$i]['nama_pendeta'];								
+								result+=response[$i]['nama_jenis_kegiatan'];						
+								// result+=response[$i]['id'];
 							result+='</td>';
 							result+='<td>';
-								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-								result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_kebaktian">';
+								result+='<input type="hidden" value='+response[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kebaktian">';
 									result+='Edit';
 								result+='</button>';
-								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-								result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+								result+='<input type="hidden" value='+response[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning">';
 									result+='delete';
 								result+='</button>';
 							result+='</td>';
@@ -344,7 +343,90 @@ $(document).ready(function(){
 				alert(errorThrown);
 			}
 		});
+				
 	});
+	
+	//click edit button
+	$('body').on('click', '.detailButton', function(){
+		$id = $(this).prev().val();		
+		
+		$data = {
+			'id' : $id
+		};
+		
+		$.ajax({
+			type: 'GET',
+			url: "{{URL('user/detail_kebaktian')}}",
+			data : {
+				'data' : $data
+			},
+			success: function(response){				
+				// alert(JSON.stringify(response));
+				
+				//set value di detail view								
+				if(response['id_jenis_kegiatan'] == null)
+				{
+					$('#f_edit_check_kebaktian_lain').val(1);
+					$('#f_edit_check_kebaktian_lain').prop('checked', true);				
+					$('#f_edit_nama_kebaktian').attr('disabled', false);	
+					$('#f_edit_kebaktian_ke').attr('disabled', true);
+				}				
+				else
+				{
+					$('#f_edit_kebaktian_ke').val(response['id_jenis_kegiatan']);
+				}
+				$('#f_edit_nama_kebaktian').val(response['nama_jenis_kegiatan']);	
+				if(response['id_pendeta'] == null)
+				{
+					$('#f_edit_check_pembicara_luar').val(1);
+					$('#f_edit_check_pembicara_luar').prop('checked', true);				
+					$('#f_edit_nama_pengkotbah').attr('disabled', false);	
+					$('#f_edit_pengkotbah').attr('disabled', true);
+				}
+				else
+				{
+					$('#f_edit_pengkotbah').val(response['id_pendeta']);
+				}
+				$('#f_edit_nama_pengkotbah').val(response['nama_pendeta']);	
+				$('#f_edit_tanggal_mulai').val(response['tanggal_mulai']);	
+				$('#f_edit_tanggal_selesai').val(response['tanggal_selesai']);	
+				$('#f_edit_jam_mulai').val(response['jam_mulai']);	
+				$('#f_edit_jam_selesai').val(response['jam_selesai']);	
+				$('#f_edit_tanggal_mulai').val(response['tanggal_mulai']);					
+				$('#f_edit_banyak_jemaat_pria').val(response['banyak_jemaat_pria']);	
+				$('#f_edit_banyak_jemaat_wanita').val(response['banyak_jemaat_wanita']);	
+				$('#f_edit_banyak_jemaat').val(response['banyak_jemaat']);	
+				$('#f_edit_banyak_simpatisan_pria').val(response['banyak_simpatisan_pria']);	
+				$('#f_edit_banyak_simpatisan_wanita').val(response['banyak_simpatisan_wanita']);	
+				$('#f_edit_banyak_simpatisan').val(response['banyak_simpatisan']);	
+				$('#f_edit_banyak_penatua_pria').val(response['banyak_penatua_pria']);	
+				$('#f_edit_banyak_penatua_wanita').val(response['banyak_penatua_wanita']);	
+				$('#f_edit_banyak_penatua').val(response['banyak_penatua']);	
+				$('#f_edit_banyak_pemusik_pria').val(response['banyak_pemusik_pria']);	
+				$('#f_edit_banyak_pemusik_wanita').val(response['banyak_pemusik_wanita']);	
+				$('#f_edit_banyak_pemusik').val(response['banyak_pemusik']);	
+				$('#f_edit_banyak_komisi_pria').val(response['banyak_komisi_pria']);	
+				$('#f_edit_banyak_komisi_wanita').val(response['banyak_komisi_wanita']);	
+				$('#f_edit_banyak_komisi').val(response['banyak_komisi']);	
+				$('#f_edit_jumlah_persembahan').val(response['jumlah_persembahan']);
+				$('#f_edit_keterangan').val(response['keterangan']);
+				
+				$('#f_edit_id_persembahan').val(response['id_persembahan']);
+				
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert("error");
+				alert(errorThrown);
+			}
+		});
+		
+	});
+	
+	//click delete button
+	$('body').on('click', '.deleteButton', function(){
+		$id = $(this).prev().val();
+	});
+	
 </script>
 
 @include('pages.user_olahdata.popup_edit_kebaktian')

@@ -17,10 +17,11 @@
 		<ul class="nav navbar-nav">
 			<li><a href="{{URL::to('/user/inputdata_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Input Data</a></li>
 			<li><a href="{{URL::to('/user/olahdata_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Olah Data</a></li>
+			<!--
 			<li><a href="{{URL::to('/user/reporting')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Reporting</a></li>
 			<li><a href="{{URL::to('/user/importeksport')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Import/Eksport</a></li>
 			<li><a href="{{URL::to('/user/tutorial')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Tutorial</a></li>
-			
+			-->
 			<!--<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-book" style="color:#fff; margin-right:10px;"></span>Link<span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">

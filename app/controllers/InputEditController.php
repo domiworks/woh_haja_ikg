@@ -8,12 +8,9 @@ class InputEditController extends BaseController {
 	{		
 		$list_jenis_kegiatan = $this->getListJenisKegiatan();		
 		$list_pembicara = $this->getListPendeta();
-		$list_gereja = $this->getListGereja();
-		// return View::make('pages.user_inputdata.kebaktian', 
-			// compact('list_jenis_kegiatan', 'list_pembicara', 'list_gereja')
-		// );							
+		// $list_gereja = $this->getListGereja();		
 		return View::make('pages.user_inputdata.kebaktian_domi', 
-			compact('list_jenis_kegiatan', 'list_pembicara', 'list_gereja')
+			compact('list_jenis_kegiatan','list_pembicara' )
 		);					
 	}
 	
@@ -88,9 +85,48 @@ class InputEditController extends BaseController {
 		//NOTE :			
 		//masukin data ke persembahan ... 
 		
-		$input = Input::get('data');			
+		$input = Input::get('data');							
 		
-		$kebaktian = new Kegiatan();										
+		$data_valid = array(			
+			'nama_pendeta' => $input['nama_pendeta'],			
+			'nama_jenis_kegiatan' => $input['nama_jenis_kegiatan'],
+			'tanggal_mulai' => $input['tanggal_mulai'],
+			'tanggal_selesai' => $input['tanggal_selesai'],
+			'jam_mulai' => $input['jam_mulai'],
+			'jam_selesai' => $input['jam_selesai'],
+			'banyak_jemaat' => $input['banyak_jemaat'],
+			'banyak_simpatisan' => $input['banyak_simpatisan'],
+			'banyak_penatua' => $input['banyak_penatua'],
+			'banyak_pemusik' => $input['banyak_pemusik'],
+			'banyak_komisi' => $input['banyak_komisi']
+		);
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, Kegiatan::$rules); 								
+
+		if ($validator->fails())
+		{
+			// $respond = array('code'=>'400','status' => 'Bad Request','messages' => $validator->messages());
+			// return Response::json($respond);
+			// return "validator";
+			// return $validator->messages();
+			return "Bagian yang bertanda (*) harus diisi.";
+		}
+		if($input['jumlah_persembahan'] == '')
+		{
+			return "Jumlah persembahan harus diisi.";
+		}
+				
+		$kebaktian = new Kegiatan();												
+		if($input['id_jenis_kegiatan'] == '')
+		{
+			$kebaktian->id_jenis_kegiatan = null;
+		}
+		else
+		{
+			$kebaktian->id_jenis_kegiatan = $input['id_jenis_kegiatan'];
+		}
+		$kebaktian->nama_jenis_kegiatan = $input['nama_jenis_kegiatan'];
 		if($input['id_pendeta'] == '')
 		{
 			$kebaktian->id_pendeta = null;
@@ -99,8 +135,7 @@ class InputEditController extends BaseController {
 		{
 			$kebaktian->id_pendeta = $input['id_pendeta'];
 		}		
-		$kebaktian->nama_pendeta = $input['nama_pendeta'];
-		$kebaktian->id_jenis_kegiatan = $input['kebaktian_ke'];				
+		$kebaktian->nama_pendeta = $input['nama_pendeta'];				
 		$kebaktian->tanggal_mulai = $input['tanggal_mulai'];
 		$kebaktian->tanggal_selesai = $input['tanggal_selesai'];
 		$kebaktian->jam_mulai = $input['jam_mulai'];
@@ -141,11 +176,13 @@ class InputEditController extends BaseController {
 				//delete kebaktian
 				$kebaktian->delete();
 			
-				return $e->getMessage();
+				// return $e->getMessage();
+				return "Gagal menyimpan data kebaktian.";
 			}
 						
 		}catch(Exception $e){
-			return $e->getMessage();
+			// return $e->getMessage();
+			return "Gagal menyimpan data kebaktian.";
 		}
 							
 	}

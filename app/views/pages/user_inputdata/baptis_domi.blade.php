@@ -60,9 +60,12 @@
 							Pembaptis
 						</label>
 
-						<div class="col-xs-6">
-							<!--<input type="text" name="pembaptis" id="f_pembaptis" class="form-control">-->
-							{{ Form::select('pembaptis', $list_pembaptis, Input::old('pembaptis'), array('id'=>'f_pembaptis', 'class'=>'form-control')) }}
+						<div class="col-xs-6">							
+							@if($list_pembaptis == null)
+								<p class="control-label pull-left">(tidak ada daftar pembaptis)</p>
+							@else
+								{{ Form::select('pembaptis', $list_pembaptis, Input::old('pembaptis'), array('id'=>'f_pembaptis', 'class'=>'form-control')) }}
+							@endif							
 						</div>
 					</div>
 					<div class="form-group">
@@ -72,7 +75,11 @@
 
 						<div class="col-xs-6">
 							<!--<input type="text" name="jemaat" id="f_jemaat" class="form-control">-->
-							{{ Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control')) }}
+							@if($list_jemaat == null)
+								<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
+							@else
+								{{ Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control')) }}							
+							@endif							
 						</div>
 					</div>
 					<div class="form-group">
@@ -82,7 +89,11 @@
 
 						<div class="col-xs-6">
 							<!--<input type="text" name="jenis_baptis" id="f_jenis_baptis" class="form-control">-->
-							{{ Form::select('jenis_baptis', $list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_jenis_baptis', 'class'=>'form-control')) }}
+							@if($list_jenis_baptis == null)
+								<p class="control-label pull-left">(tidak ada daftar jenis baptis)</p>
+							@else
+								{{ Form::select('jenis_baptis', $list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_jenis_baptis', 'class'=>'form-control')) }}
+							@endif							
 						</div>
 					</div>
 					<div class="form-group">
@@ -119,7 +130,11 @@
 					</div>
 					<div class="form-group">
 						<div class="col-xs-6 col-xs-push-3">
-							<button id="f_post_baptis" class="btn btn-success">Simpan Data Baptis</button>
+							@if($list_jemaat == null || $list_pembaptis == null || $list_jenis_baptis == null)
+								<button id="f_post_baptis" class="btn btn-success" disabled=true>Simpan Data Baptis</button>
+							@else
+								<button id="f_post_baptis" class="btn btn-success">Simpan Data Baptis</button>
+							@endif							
 						</div>
 					</div>
 				</form>	
@@ -130,6 +145,53 @@
 </div>	
 
 <script>
+/*
+var trigger = false;
+$('body').on('keyup','#f_jemaat',function()
+{
+	trigger = false;
+	$('#searchContent').html("");
+	$keyword = $('#f_jemaat').val();
+	$data = "";
+	$.ajax({
+		type: 'GET',
+		url: '{{--URL::route('allAirport')--}}',
+		data: {
+			'keyword' : $keyword
+		},
+		success: function(response){
+			$data = "";
+			$.each(response , function(i,resp)
+			{
+				
+				$data = $data + "<tr id='row_"+resp.id + "' class='search_row' style='border-bottom: 1px solid #000 !important;' data-dismiss='modal'><td><span style='display: block;'>";
+				$data = $data + "<td>"+resp.nama_bandara+" ( "+resp.kode_bandara + " ) - "+ resp.city.nama_kota;
+				$data = $data + "</td><input type='hidden' value='"+resp.id+"' />";
+				$data = $data + "</tr>";
+			});
+			if(trigger == false){
+				$('#searchContent').html($data);
+				//$('#f_table_suggestion_pelanggan').removeClass('hidden');
+				$('#searchContent').removeClass('hidden');
+			}
+		},error: function(xhr, textStatus, errorThrown){
+			alert("readyState: "+xhr.readyState+"\nstatus: "+xhr.status);
+			alert("responseText: "+xhr.responseText);
+		}
+	},'json');
+});
+
+$('body').on('click','#searchContent > tr > td',function(){
+	//alert($(this).text());
+	//alert($(this).next().val());
+	$('#depart_flight_hotel').val($(this).next().val());
+	$('#departFrom').val($(this).text());
+	trigger = true;
+	//$('#f_table_suggestion_pelanggan ').addClass('hidden');
+	$('#searchContent').addClass('hidden');
+});
+*/
+
 $('body').on('click', '#f_post_baptis', function(){
 	$nomor_baptis = $('#f_nomor_baptis').val();
 	$pembaptis = $('#f_pembaptis').val();

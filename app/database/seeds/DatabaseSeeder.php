@@ -11,8 +11,9 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		// $this->call('UserTableSeeder');		
+		// $this->call('UserTableSeeder');	
 		
+		/*				
 		//---------------------------------- USER ----------------------------------					
 		$gereja = new Gereja();		
 		$gereja -> status = 3;
@@ -106,14 +107,15 @@ class DatabaseSeeder extends Seeder {
 		
 		$hp3 = new Hp();
 		$hp3 -> id_anggota = $anggota2->id; 
-		$hp3 -> no_hp = "hp1 admin";
+		$hp3 -> no_hp = "1111111";
 		$hp3 -> save();
 		
 		$hp4 = new Hp();
 		$hp4 -> id_anggota = $anggota2->id;
-		$hp4 -> no_hp = "hp2 admin";
+		$hp4 -> no_hp = "2222222";
 		$hp4 -> save();		
-				
+		*/
+		/*		
 		//---------------------------------- USER CEWE ----------------------------------	
 		$anggotacewe = new Anggota();		
 		$anggotacewe -> no_anggota = "4321";
@@ -133,24 +135,26 @@ class DatabaseSeeder extends Seeder {
 		$anggotacewe -> role = 1;	//sebagai jemaat
 		$anggotacewe -> id_gereja = $gereja->id;
 		$anggotacewe -> id_atestasi = null;
-		$anggotacewe -> save();
+		$anggotacewe -> save();	
+		*/
+		
 		
 		//---------------------------------- PENDETA ----------------------------------
 		
 		$anggota3 = new Anggota();		
 		$anggota3 -> no_anggota = "no_ang pendeta1";
-		$anggota3 -> nama_depan = "namadepan pendeta1";
-		$anggota3 -> nama_tengah = "namatengah pendeta1";
-		$anggota3 -> nama_belakang = "namabelakang pendeta1";
+		$anggota3 -> nama_depan = "Eddo";
+		$anggota3 -> nama_tengah = "Ega";
+		$anggota3 -> nama_belakang = "Wirakusuma";
 		$anggota3 -> telp = "telp pendeta1";
 		$anggota3 -> gender = 1;
 		$anggota3 -> wilayah = "I";
 		$anggota3 -> gol_darah = "A +";
 		$anggota3 -> pendidikan = "S-1";
-		$anggota3 -> pekerjaan = "Wirausaha";
+		$anggota3 -> pekerjaan = "Lain-Lain";
 		$anggota3 -> etnis = "T.Hoa";
-		$anggota3 -> kota_lahir = "kotalahir admin";
-		$anggota3 -> tanggal_lahir = "1992-09-13";
+		$anggota3 -> kota_lahir = "Jakarta";
+		$anggota3 -> tanggal_lahir = "1980-10-4";
 		// $anggota3 -> tanggal_meninggal = "";
 		$anggota3 -> role = 2;	//sebagai pendeta
 		$anggota3 -> id_gereja = $gereja->id;
@@ -159,41 +163,73 @@ class DatabaseSeeder extends Seeder {
 		
 		$anggota4 = new Anggota();		
 		$anggota4 -> no_anggota = "no_ang pendeta2";
-		$anggota4 -> nama_depan = "namadepan pendeta2";
-		$anggota4 -> nama_tengah = "namatengah pendeta2";
-		$anggota4 -> nama_belakang = "namabelakang pendeta2";
+		$anggota4 -> nama_depan = "Iwan";
+		$anggota4 -> nama_tengah = "";
+		$anggota4 -> nama_belakang = "Santoso";
 		$anggota4 -> telp = "telp pendeta2";
 		$anggota4 -> gender = 0;
 		$anggota4 -> wilayah = "I";
 		$anggota4 -> gol_darah = "A +";
 		$anggota4 -> pendidikan = "S-1";
-		$anggota4 -> pekerjaan = "Wirausaha";
+		$anggota4 -> pekerjaan = "Lain-Lain";
 		$anggota4 -> etnis = "T.Hoa";
-		$anggota4 -> kota_lahir = "kotalahir admin";
-		$anggota4 -> tanggal_lahir = "1992-09-13";
+		$anggota4 -> kota_lahir = "Bandung";
+		$anggota4 -> tanggal_lahir = "1970-09-16";
 		// $anggota4 -> tanggal_meninggal = "";
 		$anggota4 -> role = 2;	//sebagai pendeta
 		$anggota4 -> id_gereja = $gereja->id;
 		// $anggota4 -> id_atestasi = -99;
 		$anggota4 -> save();
 		
+		
+		/*
 		//---------------------------------- JENIS KEGIATAN ----------------------------------
+		
+		// note 'nama_kegiatan' :
+				// - kebaktian umum 1
+				// - kebaktian umum 2
+				// - kebaktian umum 3
+				// - kebaktian umum 4
+				// - kebaktian umum 5
+				// - kebaktian anak 
+				// - kebaktian remaja
+				// - kebaktian pemuda
+				// yang tertulis di textfield sendiri : penyegaran iman, jumat agung, rabu abu, kamis putih
+				
 		$jeniskegiatan1 = new JenisKegiatan();
-		$jeniskegiatan1 -> nama_kegiatan = "kebaktian 1";
+		$jeniskegiatan1 -> nama_kegiatan = "kebaktian umum 1";
 		$jeniskegiatan1 -> save();
 		
 		$jeniskegiatan2 = new JenisKegiatan();
-		$jeniskegiatan2 -> nama_kegiatan = "kebaktian 2";
+		$jeniskegiatan2 -> nama_kegiatan = "kebaktian umum 2";
 		$jeniskegiatan2 -> save();
 		
 		$jeniskegiatan3 = new JenisKegiatan();
-		$jeniskegiatan3 -> nama_kegiatan = "kebaktian 3";
+		$jeniskegiatan3 -> nama_kegiatan = "kebaktian umum 3";
 		$jeniskegiatan3 -> save();
 		
 		$jeniskegiatan4 = new JenisKegiatan();
-		$jeniskegiatan4 -> nama_kegiatan = "kebaktian 4";
+		$jeniskegiatan4 -> nama_kegiatan = "kebaktian umum 4";
 		$jeniskegiatan4 -> save();
 		
+		$jeniskegiatan5 = new JenisKegiatan();
+		$jeniskegiatan5 -> nama_kegiatan = "kebaktian umum 5";
+		$jeniskegiatan5 -> save();
+		
+		$jeniskegiatan6 = new JenisKegiatan();
+		$jeniskegiatan6 -> nama_kegiatan = "kebaktian anak";
+		$jeniskegiatan6 -> save();
+		
+		$jeniskegiatan7 = new JenisKegiatan();
+		$jeniskegiatan7 -> nama_kegiatan = "kebaktian remaja";
+		$jeniskegiatan7 -> save();
+		
+		$jeniskegiatan8 = new JenisKegiatan();
+		$jeniskegiatan8 -> nama_kegiatan = "kebaktian pemuda";
+		$jeniskegiatan8 -> save();
+		*/
+		
+		/*
 		//---------------------------------- JENIS ATESTASI ----------------------------------
 		$jenisatestasi1 = new JenisAtestasi();
 		$jenisatestasi1 -> nama_atestasi = "jenis atestasi 1";
@@ -304,6 +340,7 @@ class DatabaseSeeder extends Seeder {
 		//$gereja11 -> id_parent_gereja = -99;		
 		$gereja11 -> save();	
 			
+		*/
 	}
 
 }

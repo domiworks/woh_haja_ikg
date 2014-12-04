@@ -89,7 +89,11 @@
 							Jemaat yang meninggal
 						</label>
 						<div class="col-xs-6">
-							{{Form::select('list_jemaat', $list_jemaat, Input::old('list_jemaat'), array('id'=>'f_list_jemaat', 'class'=>'form-control'))}}
+							@if($list_jemaat == null)
+								<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
+							@else
+								{{Form::select('list_jemaat', $list_jemaat, Input::old('list_jemaat'), array('id'=>'f_list_jemaat', 'class'=>'form-control'))}}
+							@endif	
 						</div>
 					</div>
 					<div class="form-group">
@@ -102,7 +106,11 @@
 					</div>					
 					<div class="form-group">	
 						<div class="col-xs-6 col-xs-push-3">
-							<button id="f_post_kedukaan" class="btn btn-success">Simpan Data Kedukaan</button>
+							@if($list_jemaat == null)
+								<button id="f_post_kedukaan" class="btn btn-success" disabled=true>Simpan Data Kedukaan</button>
+							@else							
+								<button id="f_post_kedukaan" class="btn btn-success">Simpan Data Kedukaan</button>
+							@endif
 						</div>					
 					</div>	
 				</form>	

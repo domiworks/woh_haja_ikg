@@ -86,7 +86,7 @@ class OlahDataController extends BaseController {
 		
 		$input = Input::get('data');
 		
-		$kebaktian_ke = $input['kebaktian_ke'];		
+		$nama_kebaktian = $input['nama_kebaktian'];		
 		$nama_pendeta = $input['nama_pendeta'];
 		$tanggal_awal = $input['tanggal_awal'];
 		$tanggal_akhir = $input['tanggal_akhir'];
@@ -105,9 +105,9 @@ class OlahDataController extends BaseController {
 		
 		$kebaktian = DB::table('kegiatan AS keg');		
 		
-		if($kebaktian_ke != "")
+		if($nama_kebaktian != "")
 		{	
-			$kebaktian = $kebaktian->where('keg.id_jenis_kegiatan', '=', $kebaktian_ke);
+			$kebaktian = $kebaktian->where('keg.nama_jenis_kegiatan', 'LIKE', '%'.$nama_kebaktian.'%');
 		}		
 		if($nama_pendeta != "")
 		{			
@@ -282,7 +282,7 @@ class OlahDataController extends BaseController {
 			}
 		}
 		
-		$kebaktian = $kebaktian->get();
+		$kebaktian = $kebaktian->orderBy('keg.tanggal_mulai')->get();
 				
 		if(count($kebaktian) == 0)
 		{
@@ -735,9 +735,150 @@ class OlahDataController extends BaseController {
 		// return null;
 	}
 	
+	/*--------------------------------DETAIL----------------------------------------*/	
+	
+	public function detail_kebaktian()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+		// return "wohohohoho";
+		// return $id;
+		
+		
+		$kebaktian = Kegiatan::find($id);
+		
+		if($kebaktian == null)
+		{
+			return "";
+		}
+		else
+		{
+			$persembahan = Persembahan::where('id_kegiatan', '=', $id)->first();
+			
+			$kebaktian->id_persembahan = $persembahan->id; 			
+			$kebaktian->jumlah_persembahan = $persembahan->jumlah_persembahan;			
+			
+			return $kebaktian;
+		}
+	}
+	
 	/*--------------------------------POST UPDATE----------------------------------------*/	
 	
-	
+	public function edit_kebaktian()
+	{
+		$input = Input::get('data');							
+		
+		$id = $input['id'];
+		$id_persembahan = $input['id_persembahan'];		
+		
+		$data_valid = array(			
+			'nama_pendeta' => $input['nama_pendeta'],			
+			'nama_jenis_kegiatan' => $input['nama_jenis_kegiatan'],
+			'tanggal_mulai' => $input['tanggal_mulai'],
+			'tanggal_selesai' => $input['tanggal_selesai'],
+			'jam_mulai' => $input['jam_mulai'],
+			'jam_selesai' => $input['jam_selesai'],
+			'banyak_jemaat' => $input['banyak_jemaat'],
+			'banyak_simpatisan' => $input['banyak_simpatisan'],
+			'banyak_penatua' => $input['banyak_penatua'],
+			'banyak_pemusik' => $input['banyak_pemusik'],
+			'banyak_komisi' => $input['banyak_komisi']
+		);
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, Kegiatan::$rules); 								
+
+		if ($validator->fails())
+		{
+			// $respond = array('code'=>'400','status' => 'Bad Request','messages' => $validator->messages());
+			// return Response::json($respond);
+			// return "validator";
+			// return $validator->messages();
+			return "Bagian yang bertanda (*) harus diisi.";
+		}
+		if($input['jumlah_persembahan'] == '')
+		{
+			return "Jumlah persembahan harus diisi.";
+		}
+				
+		$kebaktian = Kegiatan::find($id);
+
+		if($kebaktian == null)
+		{
+			
+			return "Gagal menyimpan perubahan.";		
+		}
+		else
+		{		
+		
+			if($input['id_jenis_kegiatan'] == '')
+			{
+				$kebaktian->id_jenis_kegiatan = null;
+			}
+			else
+			{
+				$kebaktian->id_jenis_kegiatan = $input['id_jenis_kegiatan'];
+			}
+			$kebaktian->nama_jenis_kegiatan = $input['nama_jenis_kegiatan'];
+			if($input['id_pendeta'] == '')
+			{
+				$kebaktian->id_pendeta = null;
+			}
+			else
+			{
+				$kebaktian->id_pendeta = $input['id_pendeta'];
+			}		
+			$kebaktian->nama_pendeta = $input['nama_pendeta'];				
+			$kebaktian->tanggal_mulai = $input['tanggal_mulai'];
+			$kebaktian->tanggal_selesai = $input['tanggal_selesai'];
+			$kebaktian->jam_mulai = $input['jam_mulai'];
+			$kebaktian->jam_selesai = $input['jam_selesai'];
+			$kebaktian->banyak_jemaat_pria = $input['banyak_jemaat_pria'];
+			$kebaktian->banyak_jemaat_wanita = $input['banyak_jemaat_wanita'];
+			$kebaktian->banyak_jemaat = $input['banyak_jemaat'];
+			$kebaktian->banyak_simpatisan_pria = $input['banyak_simpatisan_pria'];
+			$kebaktian->banyak_simpatisan_wanita = $input['banyak_simpatisan_wanita'];
+			$kebaktian->banyak_simpatisan = $input['banyak_simpatisan'];
+			$kebaktian->banyak_penatua_pria = $input['banyak_penatua_pria'];
+			$kebaktian->banyak_penatua_wanita = $input['banyak_penatua_wanita'];
+			$kebaktian->banyak_penatua = $input['banyak_penatua'];
+			$kebaktian->banyak_komisi_pria = $input['banyak_komisi_pria'];
+			$kebaktian->banyak_komisi_wanita = $input['banyak_komisi_wanita'];
+			$kebaktian->banyak_komisi = $input['banyak_komisi'];
+			$kebaktian->banyak_pemusik_pria = $input['banyak_pemusik_pria'];
+			$kebaktian->banyak_pemusik_wanita = $input['banyak_pemusik_wanita'];
+			$kebaktian->banyak_pemusik = $input['banyak_pemusik'];		
+			// $kebaktian->id_gereja = $input['id_gereja'];
+			$kebaktian->id_gereja = Auth::user()->anggota->id_gereja;		
+			$kebaktian->keterangan = $input['keterangan'];					
+			
+			try{
+				$kebaktian->save();
+				
+				try{
+					// $persembahan = new Persembahan();
+					$persembahan = Persembahan::find($id_persembahan);
+					
+					// $persembahan->tanggal_persembahan = $kebaktian->tanggal_mulai;
+					$persembahan->jumlah_persembahan = $input['jumlah_persembahan'];
+					// $persembahan->id_kegiatan = $kebaktian->id;
+					// $persembahan->jenis = 1;
+					
+					$persembahan->save();
+					
+					return "berhasil";
+				}catch(Exception $e){				
+					// return $e->getMessage();
+					return "Gagal menyimpan perubahan.";
+				}
+							
+			}catch(Exception $e){
+				// return $e->getMessage();
+				return "Gagal menyimpan perubahan.";
+			}
+		}	
+	}
 }
 
 ?>

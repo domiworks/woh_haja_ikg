@@ -138,7 +138,11 @@ $('body').on('click', '#f_check_jemaat_pria', function(){
 							Pendeta yang memberkati
 						</label>
 						<div class="col-xs-6">
-							{{Form::select('id_pendeta', $list_pendeta, Input::old('id_pendeta'), array('id'=>'f_id_pendeta', 'class'=>'form-control'))}}
+							@if($list_pendeta == null)
+								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
+							@else
+								{{Form::select('id_pendeta', $list_pendeta, Input::old('id_pendeta'), array('id'=>'f_id_pendeta', 'class'=>'form-control'))}}
+							@endif							
 						</div>
 					</div>
 					
@@ -158,9 +162,11 @@ $('body').on('click', '#f_check_jemaat_pria', function(){
 							Jemaat Pria
 						</label>
 						<div class="col-xs-6">
-
-							{{Form::select('list_jemaat_pria', $list_jemaat_pria, Input::old('list_jemaat_pria'), array('id'=>'f_list_jemaat_pria', 'class'=>'form-control'))}}							
-
+							@if($list_jemaat_pria == null)
+								<p class="control-label pull-left">(tidak ada daftar jemaat pria)</p>
+							@else
+								{{Form::select('list_jemaat_pria', $list_jemaat_pria, Input::old('list_jemaat_pria'), array('id'=>'f_list_jemaat_pria', 'class'=>'form-control'))}}							
+							@endif
 						</div>
 						<div class="col-xs-0">
 							<input id="f_check_jemaat_pria" type="checkbox" name="jemaat_pria" value="0" /> Non-GKI				
@@ -187,9 +193,11 @@ $('body').on('click', '#f_check_jemaat_pria', function(){
 							Jemaat Wanita
 						</label>
 						<div class="col-xs-6">
-
-							{{Form::select('list_jemaat_wanita', $list_jemaat_wanita, Input::old('list_jemaat_wanita'), array('id'=>'f_list_jemaat_wanita', 'class'=>'form-control'))}}							
-
+							@if($list_jemaat_wanita == null)
+								<p class="control-label pull-left">(tidak ada daftar jemaat wanita)</p>
+							@else
+								{{Form::select('list_jemaat_wanita', $list_jemaat_wanita, Input::old('list_jemaat_wanita'), array('id'=>'f_list_jemaat_wanita', 'class'=>'form-control'))}}							
+							@endif
 						</div>
 						<div class="col-xs-0">
 							<input id="f_check_jemaat_wanita" type="checkbox" name="jemaat_wanita" value="0" /> Non-GKI				
@@ -212,7 +220,11 @@ $('body').on('click', '#f_check_jemaat_pria', function(){
 										
 					<div class="form-group">
 						<div class="col-xs-6 col-xs-push-3">
-							<button id="f_post_pernikahan" class="btn btn-success">Simpan Data Pernikahan</button>
+							@if($list_jemaat_pria == null || $list_jemaat_wanita == null || $list_pendeta == null)
+								<button id="f_post_pernikahan" class="btn btn-success" disabled=true>Simpan Data Pernikahan</button>	
+							@else
+								<button id="f_post_pernikahan" class="btn btn-success">Simpan Data Pernikahan</button>
+							@endif	
 						</div>
 					</div>				
 				</form>	

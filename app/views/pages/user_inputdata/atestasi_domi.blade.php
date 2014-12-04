@@ -110,7 +110,11 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 						</label>
 						
 						<div class="col-xs-6">
-							{{Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control'))}}
+							@if($list_jemaat == null)
+								<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
+							@else
+								{{Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control'))}}							
+							@endif
 						</div>
 					</div>
 					<div class="form-group">
@@ -150,7 +154,11 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 						</label>
 						
 						<div class="col-xs-6">
-							{{Form::select('jenis_atestasi', $list_jenis_atestasi, Input::old('pembaptis'), array('id'=>'f_jenis_atestasi', 'class'=>'form-control'))}}
+							@if($list_jenis_atestasi == null)
+								<p class="control-label pull-left">(tidak ada daftar jenis atestasi)</p>
+							@else
+								{{Form::select('jenis_atestasi', $list_jenis_atestasi, Input::old('pembaptis'), array('id'=>'f_jenis_atestasi', 'class'=>'form-control'))}}
+							@endif							
 						</div>
 					</div>		
 					<div class="form-group">
@@ -159,9 +167,11 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 						</label>
 						
 						<div class="col-xs-6">
-
-							{{Form::select('list_gereja_lama', $list_gereja, Input::old('list_gereja_lama'), array('id'=>'f_list_gereja_lama', 'class'=>'form-control', 'disabled' => false))}}
-							
+							@if($list_gereja == null)
+								<p class="control-label pull-left">(tidak ada daftar gereja)</p>
+							@else
+								{{Form::select('list_gereja_lama', $list_gereja, Input::old('list_gereja_lama'), array('id'=>'f_list_gereja_lama', 'class'=>'form-control', 'disabled' => false))}}
+							@endif														
 						</div>
 						
 						<div class="col-xs-0">
@@ -189,9 +199,11 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 						</label>
 						
 						<div class="col-xs-6">
-
-							{{Form::select('list_gereja_baru', $list_gereja, Input::old('list_gereja_baru'), array('id'=>'f_list_gereja_baru', 'class'=>'form-control', 'disabled' => false))}}
-							
+							@if($list_gereja == null)
+								<p class="control-label pull-left">(tidak ada daftar gereja)</p>
+							@else
+								{{Form::select('list_gereja_baru', $list_gereja, Input::old('list_gereja_baru'), array('id'=>'f_list_gereja_baru', 'class'=>'form-control', 'disabled' => false))}}
+							@endif
 						</div>
 						
 						<div class="col-xs-0">
@@ -224,7 +236,11 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 					</div>
 					<div class="form-group">
 						<div class="col-xs-6 col-xs-push-2">
-							<button id="f_post_atestasi" class="btn btn-success">Simpan Data Atestasi</button>
+							@if($list_gereja == null || $list_jenis_atestasi == null || $list_jemaat == null)
+								<button id="f_post_atestasi" class="btn btn-success" disabled=true>Simpan Data Atestasi</button>
+							@else
+								<button id="f_post_atestasi" class="btn btn-success">Simpan Data Atestasi</button>
+							@endif						
 						</div>		
 					</div>		
 				</form>	

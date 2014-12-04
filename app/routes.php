@@ -78,6 +78,14 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::post('/search_kedukaan', ['as' => 'search_kedukaan', 'uses' => 'OlahDataController@search_kedukaan']);
 	Route::post('/search_dkh', ['as' => 'search_dkh', 'uses' => 'OlahDataController@search_dkh']);
 	
+	//get detail data
+	Route::get('/detail_kebaktian', ['as' => 'detail_kebaktian', 'uses' => 'OlahDataController@detail_kebaktian']);
+	//...
+	
+	//edit or update
+	Route::post('/edit_kebaktian', ['as' => 'edit_kebaktian', 'uses' => 'OlahDataController@edit_kebaktian']);
+	
+	
 	//reporting
 	Route::get('/reporting', ['as' => 'view_reporting', 'uses' => 'ReportingController@view_reporting']);	
 	
@@ -111,6 +119,8 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	// delete kedukaan
 	// delete dkh
 });
+
+
 
 
 Route::get('/inputdata_kebaktian', function()

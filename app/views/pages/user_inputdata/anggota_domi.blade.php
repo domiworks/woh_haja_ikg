@@ -63,7 +63,9 @@
 							<div class="col-xs-6">
 								{{ Form::text('nama_depan', Input::old('nama_depan'), array('id' => 'f_nama_depan', 'class'=>'form-control')) }} 
 							</div>
-							
+							<div class="col-xs-0">
+								*
+							</div>
 							<!--<div class="col-xs-0">
 								<span class="red">*</span>
 							</div>	-->
@@ -96,7 +98,9 @@
 							<div class="col-xs-6">
 								{{ Form::textarea('alamat', Input::old('alamat'), array('id' => 'f_alamat', 'class'=>'form-control')) }} 
 							</div>
-							
+							<div class="col-xs-0">
+								*
+							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-4 control-label">
@@ -106,7 +110,9 @@
 							<div class="col-xs-6">
 								{{ Form::text('kota', Input::old('kota'), array('id' => 'f_kota', 'class'=>'form-control')) }} 
 							</div>
-														
+							<div class="col-xs-0">
+								*
+							</div>							
 						</div>
 						<div class="form-group">
 							<label class="col-xs-4 control-label">
@@ -126,7 +132,9 @@
 							<div class="col-xs-6">
 								{{ Form::text('telp', Input::old('telp'), array('id' => 'f_telp', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }} 
 							</div>
-														
+							<div class="col-xs-0">
+								*
+							</div>							
 						</div>
 						<div class="form-group">
 							<label class="col-xs-4 control-label">
@@ -173,7 +181,9 @@
 							<div class="col-xs-6">
 								{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita 
 							</div>
-														
+							<div class="col-xs-0">
+								*
+							</div>						
 						</div>		
 						<div class="form-group">
 							<label class="col-xs-4 control-label">
@@ -181,7 +191,11 @@
 							</label>
 
 							<div class="col-xs-6">
-								{{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_wilayah', 'class'=>'form-control')) }}
+								@if($list_wilayah == null)
+									<p class="control-label pull-left">(tidak ada daftar wilayah)</p>
+								@else
+									{{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_wilayah', 'class'=>'form-control')) }}
+								@endif	
 							</div>
 														
 						</div>
@@ -191,7 +205,14 @@
 							</label>
 
 							<div class="col-xs-6">
-								{{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_gol_darah', 'class'=>'form-control')) }}
+								@if($list_gol_darah == null)
+									<p class="control-label pull-left">(tidak ada daftar golongan darah)</p>
+								@else
+									{{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_gol_darah', 'class'=>'form-control')) }}
+								@endif
+							</div>
+							<div class="col-xs-0">
+								*
 							</div>
 						</div>
 						<div class="form-group">
@@ -200,7 +221,11 @@
 							</label>
 
 							<div class="col-xs-6">
-								{{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_pendidikan', 'class'=>'form-control')) }}
+								@if($list_pendidikan == null)
+									<p class="control-label pull-left">(tidak ada daftar pendidikan)</p>
+								@else
+									{{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_pendidikan', 'class'=>'form-control')) }}
+								@endif
 							</div>
 						</div>
 						<div class="form-group">
@@ -209,7 +234,14 @@
 							</label>
 
 							<div class="col-xs-6">
-								{{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_pekerjaan', 'class'=>'form-control')) }}
+								@if($list_pekerjaan == null)
+									<p class="control-label pull-left">(tidak ada daftar pekerjaan)</p>
+								@else
+									{{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_pekerjaan', 'class'=>'form-control')) }}
+								@endif
+							</div>
+							<div class="col-xs-0">
+								*
 							</div>
 						</div>
 						<div class="form-group">
@@ -218,7 +250,11 @@
 							</label>
 
 							<div class="col-xs-6">
-								{{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_etnis', 'class'=>'form-control')) }}
+								@if($list_etnis == null)
+									<p class="control-label pull-left">(tidak ada daftar etnis)</p>
+								@else
+									{{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_etnis', 'class'=>'form-control')) }}
+								@endif
 							</div>
 						</div>
 						<div class="form-group">
@@ -229,6 +265,9 @@
 							<div class="col-xs-6">
 								{{ Form::text('kota_lahir', Input::old('kota_lahir'), array('id' => 'f_kota_lahir', 'class'=>'form-control')) }} 
 							</div>
+							<div class="col-xs-0">
+								*
+							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-4 control-label">
@@ -237,7 +276,10 @@
 
 							<div class="col-xs-6">
 								{{ Form::text('tanggal_lahir', Input::old('tanggal_lahir'), array('id' => 'f_tanggal_lahir', 'class'=>'form-control')) }}
-							</div>			
+							</div>	
+							<div class="col-xs-0">
+								*
+							</div>							
 							<script>
 							jQuery('#f_tanggal_lahir').datetimepicker({
 								lang:'en',
@@ -275,22 +317,32 @@
 							<label class="col-xs-4 control-label">
 								Status
 							</label>
-
 							<div class="col-xs-6">
-								{{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_status', 'class'=>'form-control')) }}
+								@if($list_role == null)
+									<p class="control-label pull-left">(tidak ada daftar role)</p>
+								@else								
+									{{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_status', 'class'=>'form-control')) }}
+								@endif	
+							</div>
+							<div class="col-xs-0">
+								*
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-xs-6 col-xs-push-3">
-								<button id="f_post_anggota" class="btn btn-success"	>Simpan Data Anggota</button>
+								@if($list_wilayah == null || $list_gol_darah == null || $list_pendidikan == null || $list_pekerjaan == null || $list_etnis == null || $list_role == null)
+									<input type="button" id="f_post_anggota" class="btn btn-success" value="Simpan Data Anggota" disabled=true />
+								@else
+									<input type="button" id="f_post_anggota" class="btn btn-success" value="Simpan Data Anggota" />
+								@endif
 							</div>
 						</div>
 					</form>	
-					</div>	
 				</div>	
 			</div>	
 		</div>	
 	</div>	
+
 
 	<script>
 	$('body').on('change','#f_foto',function(){
@@ -385,7 +437,8 @@
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data anggota");
-					location.reload();
+					// location.reload();
+					window.location = '{{URL::route('view_inputdata_anggota')}}';
 				}
 				else
 				{
@@ -397,7 +450,7 @@
 			}
 		});
 
-		});
+	});
 </script>
 
 @stop

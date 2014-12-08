@@ -205,6 +205,9 @@
 				</form>		
 			</div>
 
+			<!--<div id="temp_result">
+			</div>-->
+			
 			<div id="f_result_anggota">
 				<table class="table table-bordered">
 					<thead>
@@ -213,7 +216,7 @@
 								No. Anggota
 							</th>
 							<th>
-								Nama Depan Anggota
+								Nama Anggota
 							</th>
 							<th>
 								
@@ -228,38 +231,6 @@
 							</td>
 							<td>
 								Catie
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								1
-							</td>
-							<td>
-								Wayne
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								2
-							</td>
-							<td>
-								Boxxy
 							</td>
 							<td>
 								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">
@@ -291,6 +262,9 @@ function isNumberKey(evt){
 		return false;
 	return true;
 }
+
+//simpen detail 
+var temp_detail = "";
 
 $('body').on('click', '#f_search_anggota', function(){										
 	var data, xhr;
@@ -336,8 +310,7 @@ $('body').on('click', '#f_search_anggota', function(){
 			$role = $('#f_status').val();
 			data.append('role', $role);	
 			// alert($role);
-			
-			
+						
 			$.ajax({
 				type: 'POST',
 				url: "{{URL('user/search_anggota')}}",
@@ -347,10 +320,14 @@ $('body').on('click', '#f_search_anggota', function(){
 				success: function(response){		
 					alert("Berhasil cari data anggota");
 					
+					temp_detail = response;
+					
 					var result = '';
 					if(response != "no result")
 					{
-
+						// alert(JSON.stringify(response));
+						// $('#temp_result').html(JSON.stringify(response));
+												
 						//set value di tabel result
 						for($i = 0; $i < response.length; $i++)
 						{
@@ -359,15 +336,16 @@ $('body').on('click', '#f_search_anggota', function(){
 									result+=response[$i]['no_anggota'];								
 								result+='</td>';
 								result+='<td>';
-									result+=response[$i]['nama_depan'];								
+									result+=response[$i]['nama_depan']+' '+response[$i]['nama_tengah']+' '+response[$i]['nama_belakang'];								
 								result+='</td>';
 								result+='<td>';
-									result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-									result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">';
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+response[$i]['id_anggota']+' />';
+									result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_anggota">';
 										result+='Edit';
 									result+='</button>';
-									result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-									result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+									result+='<input type="hidden" value='+response[$i]['id_anggota']+' />';
+									result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_anggota">';
 										result+='delete';
 									result+='</button>';
 								result+='</td>';
@@ -376,7 +354,7 @@ $('body').on('click', '#f_search_anggota', function(){
 						// alert(response[$i]['tanggal_mulai']);
 						}
 						
-						$('#f_result_body_anggota').html(result);
+						$('#f_result_body_anggota').html(result);						
 					}					
 					else				
 					{
@@ -384,6 +362,7 @@ $('body').on('click', '#f_search_anggota', function(){
 					}
 				
 				// alert(response.length);
+				
 				/*
 				var temp;				
 				if(response.length > 0)
@@ -401,6 +380,7 @@ $('body').on('click', '#f_search_anggota', function(){
 					alert(response);
 				}
 				*/
+				
 				// if(response == true)
 				// {	
 					// alert("Berhasil simpan data anggota");
@@ -413,11 +393,81 @@ $('body').on('click', '#f_search_anggota', function(){
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
-		});	
-
+		});		
 });
+
+//simpen last index
+var lastIdx = 2;
+
+//click detail button
+$('body').on('click', '.detailButton', function(){
+	$id = $(this).prev().val();
+	$index = $(this).prev().prev().val();
+	
+	//reset 	
+	lastIdx = 2;
+	
+	//set value di table pop up detail
+	$('#f_edit_no_anggota').val(temp_detail[$index]['no_anggota']);
+	$('#f_edit_nama_depan').val(temp_detail[$index]['nama_depan']);
+	$('#f_edit_nama_tengah').val(temp_detail[$index]['nama_tengah']);
+	$('#f_edit_nama_belakang').val(temp_detail[$index]['nama_belakang']);
+	$('#f_edit_telp').val(temp_detail[$index]['telp']);		
+	if(temp_detail[$index]['gender'] == 0)
+	{
+		$("#f_edit_jenis_kelamin_0").prop("checked", true);
+	}
+	else
+	{
+		$("#f_edit_jenis_kelamin_1").prop("checked", true);
+	}	
+	$('#f_edit_wilayah').val(temp_detail[$index]['wilayah']);
+	$('#f_edit_gol_darah').val(temp_detail[$index]['gol_darah']);
+	$('#f_edit_pendidikan').val(temp_detail[$index]['pendidikan']);
+	$('#f_edit_pekerjaan').val(temp_detail[$index]['pekerjaan']);
+	$('#f_edit_etnis').val(temp_detail[$index]['etnis']);
+	$('#f_edit_kota_lahir').val(temp_detail[$index]['kota_lahir']);
+	$('#f_edit_tanggal_lahir').val(temp_detail[$index]['tanggal_lahir']);
+	// $('#f_edit_').val(temp_detail[$index]['tanggal_meninggal']);
+	$('#f_edit_status').val(temp_detail[$index]['role']);
+	// $('#f_edit_').val(temp_detail[$index]['foto']);
+	//foto
+	if(temp_detail[$index]['foto'] != '' || temp_detail[$index]['foto'] != null)
+	{
+		$('#edit_show_foto').attr('src', 'http://localhost/gki_git/public/'+temp_detail[$index]['foto'] );
+	}
+	$('#f_edit_alamat').val(temp_detail[$index]['jalan']); //alamat
+	$('#f_edit_kota').val(temp_detail[$index]['kota']);
+	$('#f_edit_kodepos').val(temp_detail[$index]['kodepos']);
+	
+	$temp_arr_hp = temp_detail[$index]['arr_hp'];
+	if($temp_arr_hp.length > 0)
+	{
+		$('#f_edit_hp1').val($temp_arr_hp[0]);
+		$('#edit_addHp').html("");
+		for($i = 1; $i < $temp_arr_hp.length; $i++)
+		{
+			var newRow = "";							
+			newRow +="<input type='text' id='f_edit_hp"+lastIdx+"' class='form-control' name='hp"+lastIdx+"' value='"+$temp_arr_hp[$i]+"' onkeypress='return isNumberKey(event)'/>";
+			newRow +="<input type='button' value='X' id='delHp"+lastIdx+"' onClick='delHp()' /><br />";
+			$('#delHp'+(lastIdx-1)).hide();
+			$('#edit_addHp').append(newRow);
+			if(lastIdx==5){
+				$('#edit_refHp').hide();									
+			}
+			lastIdx++;							
+		}
+	}	
+});	
+
+//click delete button
+$('body').on('click', '.deleteButton', function(){
+	$id = $(this).prev().val();	
+});	
+
 </script>
 
-	@include('pages.user_olahdata.popup_edit_anggota')
+@include('pages.user_olahdata.popup_edit_anggota')
+@include('pages.user_olahdata.popup_delete_warning_anggota')
 
 @stop

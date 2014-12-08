@@ -52,14 +52,24 @@
 							</label>
 							<div class="col-xs-6">
 								{{Form::text('nomor_dkh', Input::old('nomor_dkh'), array('id'=>'f_nomor_dkh', 'class'=>'form-control'))}}
-							</div>			
+							</div>	
+							<div class="col-xs-0">
+								*
+							</div>							
 						</div>
 						<div class="form-group">
 							<label class="col-xs-4 control-label">
 								Nama Jemaat
 							</label>
 							<div class="col-xs-6">
-								{{Form::select('nama_jemaat', $list_jemaat, Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))}}
+								@if($list_jemaat == null)
+									<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
+								@else								
+									{{Form::select('nama_jemaat', $list_jemaat, Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))}}
+								@endif
+							</div>
+							<div class="col-xs-0">
+								*
 							</div>
 						</div>		
 						<div class="form-group">
@@ -69,10 +79,17 @@
 							<div class="col-xs-6">
 								{{ Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_keterangan', 'class'=>'form-control'))}}
 							</div>
+							<div class="col-xs-0">
+								*
+							</div>
 						</div>						
-						<div class="form-group">
+						<div class="form-group">							
 							<div class="col-xs-6 col-xs-push-3">
-								<button id="f_post_dkh" class="btn btn-success">Simpan Data Dkh</button>
+								@if($list_jemaat == null)
+									<input type="button" id="f_post_dkh" class="btn btn-success" value="Simpan Data Dkh" disabled=true />
+								@else
+									<input type="button" id="f_post_dkh" class="btn btn-success" value="Simpan Data Dkh" />
+								@endif									
 							</div>	
 						</div>
 					</form>	
@@ -81,40 +98,41 @@
 		</div>	
 	</div>	
 	
-	<script>
-	$('body').on('click', '#f_post_dkh', function(){
-		$no_dkh = $('#f_nomor_dkh').val();
-		$id_jemaat = $('#f_nama_jemaat').val();
-		$keterangan = $('#f_keterangan').val();
-		
-		$data = {
-			'no_dkh' : $no_dkh,
-			'id_jemaat' : $id_jemaat,
-			'keterangan' : $keterangan
-		};
-		
-		$.ajax({
-			type: "POST",
-			url: "{{URL('user/post_dkh')}}",
-			data: {
-				'data' : $data
-			},
-			success: function(response){				
-				if(response == "berhasil")
-				{	
-					alert("Berhasil simpan data kedukaan");
-					location.reload();
-				}
-				else
-				{
-					alert(response);
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				alert(errorThrown);
-			}
-		});
-	});
-	</script>
+<script>
+$('body').on('click', '#f_post_dkh', function(){
+	$no_dkh = $('#f_nomor_dkh').val();
+	$id_jemaat = $('#f_nama_jemaat').val();
+	$keterangan = $('#f_keterangan').val();
 	
-	@stop
+	$data = {
+		'no_dkh' : $no_dkh,
+		'id_jemaat' : $id_jemaat,
+		'keterangan' : $keterangan
+	};
+	
+	$.ajax({
+		type: "POST",
+		url: "{{URL('user/post_dkh')}}",
+		data: {
+			'data' : $data
+		},
+		success: function(response){				
+			if(response == "berhasil")
+			{	
+				alert("Berhasil simpan data dkh");
+				// location.reload();
+				window.location = '{{URL::route('view_inputdata_dkh')}}';
+			}
+			else
+			{
+				alert(response);
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			alert(errorThrown);
+		}
+	});
+});
+</script>
+	
+@stop

@@ -323,7 +323,7 @@ $(document).ready(function(){
 									result+='Edit';
 								result+='</button>';
 								result+='<input type="hidden" value='+response[$i]['id']+' />';
-								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning">';
+								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kebaktian">';
 									result+='delete';
 								result+='</button>';
 							result+='</td>';
@@ -430,5 +430,6 @@ $(document).ready(function(){
 </script>
 
 @include('pages.user_olahdata.popup_edit_kebaktian')
+@include('pages.user_olahdata.popup_delete_warning_kebaktian')
 
 @stop

@@ -1,3 +1,40 @@
+<script>
+$('body').on('click', '#f_edit_check_jemaat_wanita', function(){		
+	if($('#f_edit_check_jemaat_wanita').val() == 0){	
+			$('#f_edit_check_jemaat_wanita').val(1); //pakai pembicara luar jika value f_edit_check_jemaat_wanita == 1
+			$('#f_edit_nama_mempelai_wanita').attr('disabled', false);			
+			$('#f_edit_nama_mempelai_wanita').val("");
+			$('#f_edit_list_jemaat_wanita').attr('disabled', true);								
+		}
+		else
+		{
+			$('#f_edit_check_jemaat_wanita').val(0); //tidak pakai pembicara luar jika value f_edit_check_jemaat_wanita == 0
+			$('#f_edit_nama_mempelai_wanita').attr('disabled', true);	
+			// $('#f_edit_nama_pengkotbah').val("");
+			selected = $('#f_edit_list_jemaat_wanita').find(":selected").text();
+			$('#f_edit_nama_mempelai_wanita').val(selected);	
+			$('#f_edit_list_jemaat_wanita').attr('disabled', false);				
+		}
+	});
+
+$('body').on('click', '#f_edit_check_jemaat_pria', function(){		
+	if($('#f_edit_check_jemaat_pria').val() == 0){	
+			$('#f_edit_check_jemaat_pria').val(1); //pakai pembicara luar jika value f_edit_check_jemaat_pria == 1
+			$('#f_edit_nama_mempelai_pria').attr('disabled', false);			
+			$('#f_edit_nama_mempelai_pria').val("");
+			$('#f_edit_list_jemaat_pria').attr('disabled', true);								
+		}
+		else
+		{
+			$('#f_edit_check_jemaat_pria').val(0); //tidak pakai pembicara luar jika value f_edit_check_jemaat_pria == 0
+			$('#f_edit_nama_mempelai_pria').attr('disabled', true);	
+			selected = $('#f_edit_list_jemaat_pria').find(":selected").text();
+			$('#f_edit_nama_mempelai_pria').val(selected);
+			$('#f_edit_list_jemaat_pria').attr('disabled', false);				
+		}
+	});	
+</script>
+
 <div class="modal fade popup_edit_pernikahan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -13,7 +50,10 @@
 							Nomor Pernikahan
 						</label>
 						<div class="col-xs-6">
-							{{ Form::text('nomor_pernikahan', Input::old('nomor_pernikahan'), array('id' => 'f_nomor_pernikahan', 'class'=>'form-control')) }}
+							{{ Form::text('nomor_pernikahan', Input::old('nomor_pernikahan'), array('id' => 'f_edit_nomor_pernikahan', 'class'=>'form-control')) }}
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -21,10 +61,13 @@
 							Tanggal Pernikahan
 						</label>
 						<div class="col-xs-6">
-							{{ Form::text('tanggal_pernikahan', Input::old('tanggal_pernikahan'), array('id' => 'f_tanggal_pernikahan', 'class'=>'form-control')) }}
+							{{ Form::text('tanggal_pernikahan', Input::old('tanggal_pernikahan'), array('id' => 'f_edit_tanggal_pernikahan', 'class'=>'form-control')) }}
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 						<script>
-						jQuery('#f_tanggal_pernikahan').datetimepicker({
+						jQuery('#f_edit_tanggal_pernikahan').datetimepicker({
 							lang:'en',
 							i18n:{
 								en:{
@@ -51,7 +94,14 @@
 							Pendeta yang memberkati
 						</label>
 						<div class="col-xs-6">
-							{{Form::select('id_pendeta', $list_pendeta, Input::old('id_pendeta'), array('id'=>'f_id_pendeta', 'class'=>'form-control'))}}
+							@if($list_pendeta == null)
+								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
+							@else
+								{{Form::select('id_pendeta', $list_pendeta, Input::old('id_pendeta'), array('id'=>'f_edit_id_pendeta', 'class'=>'form-control'))}}
+							@endif
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					
@@ -71,17 +121,19 @@
 							Jemaat Pria
 						</label>
 						<div class="col-xs-6">
-
-							{{Form::select('list_jemaat_pria', $list_jemaat_pria, Input::old('list_jemaat_pria'), array('id'=>'f_list_jemaat_pria', 'class'=>'form-control'))}}							
-
+							@if($list_jemaat_pria == null)
+								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
+							@else
+								{{Form::select('list_jemaat_pria', $list_jemaat_pria, Input::old('list_jemaat_pria'), array('id'=>'f_edit_list_jemaat_pria', 'class'=>'form-control'))}}					
+							@endif
 						</div>
 						<div class="col-xs-0">
-							<input id="f_check_jemaat_pria" type="checkbox" name="jemaat_pria" value="0" /> Non-GKI				
+							<input id="f_edit_check_jemaat_pria" type="checkbox" name="jemaat_pria" value="0" /> Non-GKI				
 						</div>
 						<script>
-						$('body').on('change','#f_list_jemaat_pria', function(){
-							var selected = $('#f_list_jemaat_pria').find(":selected").text();
-							$('#f_nama_mempelai_pria').val(selected);					
+						$('body').on('change','#f_edit_list_jemaat_pria', function(){
+							var selected = $('#f_edit_list_jemaat_pria').find(":selected").text();
+							$('#f_edit_nama_mempelai_pria').val(selected);					
 						});
 						</script>
 					</div>
@@ -91,7 +143,10 @@
 							Nama Mempelai Pria
 						</label>
 						<div class="col-xs-6">
-							{{ Form::text('nama_mempelai_pria', Input::old('nama_mempelai_pria'), array('id' => 'f_nama_mempelai_pria', 'class'=>'form-control')) }}
+							{{ Form::text('nama_mempelai_pria', Input::old('nama_mempelai_pria'), array('id' => 'f_edit_nama_mempelai_pria', 'class'=>'form-control')) }}
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					
@@ -100,17 +155,19 @@
 							Jemaat Wanita
 						</label>
 						<div class="col-xs-6">
-
-							{{Form::select('list_jemaat_wanita', $list_jemaat_wanita, Input::old('list_jemaat_wanita'), array('id'=>'f_list_jemaat_wanita', 'class'=>'form-control'))}}							
-
+							@if($list_jemaat_wanita == null)
+								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
+							@else
+								{{Form::select('list_jemaat_wanita', $list_jemaat_wanita, Input::old('list_jemaat_wanita'), array('id'=>'f_edit_list_jemaat_wanita', 'class'=>'form-control'))}}							
+							@endif
 						</div>
 						<div class="col-xs-0">
-							<input id="f_check_jemaat_wanita" type="checkbox" name="jemaat_wanita" value="0" /> Non-GKI				
+							<input id="f_edit_check_jemaat_wanita" type="checkbox" name="jemaat_wanita" value="0" /> Non-GKI				
 						</div>
 						<script>
-						$('body').on('change','#f_list_jemaat_wanita', function(){
-							var selected = $('#f_list_jemaat_wanita').find(":selected").text();
-							$('#f_nama_mempelai_wanita').val(selected);					
+						$('body').on('change','#f_edit_list_jemaat_wanita', function(){
+							var selected = $('#f_edit_list_jemaat_wanita').find(":selected").text();
+							$('#f_edit_nama_mempelai_wanita').val(selected);					
 						});
 						</script>
 					</div>
@@ -119,22 +176,88 @@
 							Nama Mempelai Wanita
 						</label>
 						<div class="col-xs-6">
-							{{ Form::text('nama_mempelai_wanita', Input::old('nama_mempelai_wanita'), array('id' => 'f_nama_mempelai_wanita', 'class'=>'form-control')) }}
+							{{ Form::text('nama_mempelai_wanita', Input::old('nama_mempelai_wanita'), array('id' => 'f_edit_nama_mempelai_wanita', 'class'=>'form-control')) }}
 						</div>
-					</div>
-										
-					<div class="form-group">
-						<div class="col-xs-6 col-xs-push-3">
-							<button id="f_post_pernikahan" class="btn btn-success">Simpan Data Pernikahan</button>
+						<div class="col-xs-0">
+							*
 						</div>
-					</div>				
+					</div>															
 				</form>
 				
 				
 			</div>
 			<div class="modal-footer">
+				@if($list_pendeta == null || $list_jemaat_pria == null || $list_jemaat_wanita == null)
+					<input type="button" id="f_edit_post_pernikahan" class="btn btn-success" value="Simpan Data Pernikahan" disabled=true />
+				@else					
+					<input type="button" id="f_edit_post_pernikahan" class="btn btn-success" value="Simpan Data Pernikahan" data-dismiss="modal" />
+				@endif	
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script>
+	$('body').on('click', '#f_edit_post_pernikahan', function(){					
+		$no_pernikahan = $('#f_edit_nomor_pernikahan').val();		
+		$tanggal_pernikahan = $('#f_edit_tanggal_pernikahan').val();
+		$id_pendeta = $('#f_edit_id_pendeta').val();
+		// $id_gereja = $('#f_edit_id_gereja').val();
+		if($('#f_edit_check_jemaat_wanita').val() == 1) //pakai nama gereja lain
+		{
+			$id_mempelai_wanita = '';
+			$nama_mempelai_wanita = $('#f_edit_nama_mempelai_wanita').val();
+		}
+		else
+		{
+			$id_mempelai_wanita = $('#f_edit_list_jemaat_wanita').val();
+			$nama_mempelai_wanita = $('#f_edit_nama_mempelai_wanita').val();
+		}
+		if($('#f_edit_check_jemaat_pria').val() == 1) //pakai nama gereja lain
+		{
+			$id_mempelai_pria = '';
+			$nama_mempelai_pria = $('#f_edit_nama_mempelai_pria').val();
+		}
+		else
+		{
+			$id_mempelai_pria = $('#f_edit_list_jemaat_pria').val();
+			$nama_mempelai_pria = $('#f_edit_nama_mempelai_pria').val();
+		}
+		
+		$data = {
+			'id' : $id,
+			'no_pernikahan' : $no_pernikahan,
+			'tanggal_pernikahan' : $tanggal_pernikahan,
+			'id_pendeta' : $id_pendeta,
+					// 'id_gereja' : $id_gereja,			
+			'id_jemaat_pria' : $id_mempelai_pria,
+			'id_jemaat_wanita' : $id_mempelai_wanita,
+			'nama_pria' : $nama_mempelai_pria,
+			'nama_wanita' : $nama_mempelai_wanita
+		};
+		
+		$.ajax({
+			type: 'POST',
+			url: "{{URL('user/edit_pernikahan')}}",
+			data: {
+				'data' : $data
+			},
+			success: function(response){				
+				if(response == "berhasil")
+				{	
+					alert("Berhasil simpan perubahan.");
+					// location.reload();
+					window.location = '{{URL::route('view_olahdata_pernikahan')}}';
+				}
+				else
+				{
+					alert(response);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert(errorThrown);
+			}
+		});
+	});
+</script>

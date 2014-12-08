@@ -53,7 +53,10 @@
 
 						<div class="col-xs-6">
 							<input type="text" name="nomor_baptis" id="f_nomor_baptis" class="form-control">
-						</div>			
+						</div>	
+						<div class="col-xs-0">
+							*
+						</div>						
 					</div>		
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -66,6 +69,9 @@
 							@else
 								{{ Form::select('pembaptis', $list_pembaptis, Input::old('pembaptis'), array('id'=>'f_pembaptis', 'class'=>'form-control')) }}
 							@endif							
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -81,6 +87,9 @@
 								{{ Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control')) }}							
 							@endif							
 						</div>
+						<div class="col-xs-0">
+							*
+						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -95,6 +104,9 @@
 								{{ Form::select('jenis_baptis', $list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_jenis_baptis', 'class'=>'form-control')) }}
 							@endif							
 						</div>
+						<div class="col-xs-0">
+							*
+						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -103,6 +115,9 @@
 
 						<div class="col-xs-6">
 							<input type="text" name="tanggal_baptis" id="f_tanggal_baptis" class="form-control">
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 						<script>
 						jQuery('#f_tanggal_baptis').datetimepicker({
@@ -131,9 +146,9 @@
 					<div class="form-group">
 						<div class="col-xs-6 col-xs-push-3">
 							@if($list_jemaat == null || $list_pembaptis == null || $list_jenis_baptis == null)
-								<button id="f_post_baptis" class="btn btn-success" disabled=true>Simpan Data Baptis</button>
+								<input type="button" id="f_post_baptis" class="btn btn-success" value="Simpan Data Baptis" disabled=true />
 							@else
-								<button id="f_post_baptis" class="btn btn-success">Simpan Data Baptis</button>
+								<input type="button" id="f_post_baptis" class="btn btn-success" value="Simpan Data Baptis" />
 							@endif							
 						</div>
 					</div>
@@ -196,16 +211,16 @@ $('body').on('click', '#f_post_baptis', function(){
 	$nomor_baptis = $('#f_nomor_baptis').val();
 	$pembaptis = $('#f_pembaptis').val();
 	$jemaat = $('#f_jemaat').val();
-	$jenis_baptis = $('#f_jenis_baptis').val();
-		// $gereja = $('#f_id_gereja').val();
-		$tanggal_baptis = $('#f_tanggal_baptis').val();
+	$jenis_baptis = $('#f_jenis_baptis').val();		
+	$tanggal_baptis = $('#f_tanggal_baptis').val();
+	// $gereja = $('#f_id_gereja').val();
 		
 		$data = {
 			'no_baptis' : $nomor_baptis,
 			'id_jemaat' : $jemaat,
 			'id_pendeta' : $pembaptis,
 			'tanggal_baptis' : $tanggal_baptis,
-			'id_jenis_baptis' : $jenis_baptis,
+			'id_jenis_baptis' : $jenis_baptis
 			// 'id_gereja' : $gereja
 		};
 		
@@ -219,7 +234,8 @@ $('body').on('click', '#f_post_baptis', function(){
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data baptis");
-					location.reload();
+					// location.reload();
+					window.location = '{{URL::route('view_inputdata_baptis')}}';
 				}
 				else
 				{

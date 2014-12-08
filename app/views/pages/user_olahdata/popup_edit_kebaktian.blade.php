@@ -510,7 +510,7 @@
 				@if($list_jenis_kegiatan == null || $list_pembicara == null)
 					<input type="button" value="Simpan Perubahan" id="f_edit_post_kebaktian" class="btn btn-success" disabled=true />
 				@else
-					<input type="button" value="Simpan Data Kebaktian" id="f_edit_post_kebaktian" class="btn btn-success" data-dismiss="modal" />
+					<input type="button" value="Simpan Perubahan" id="f_edit_post_kebaktian" class="btn btn-success" data-dismiss="modal" />
 				@endif 							
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
@@ -607,7 +607,7 @@
 				{	
 					alert("Berhasil simpan perubahan.");
 					// location.reload();
-					// window.location = '{{URL::route('view_olahdata_kebaktian')}}';
+					window.location = '{{URL::route('view_olahdata_kebaktian')}}';
 				}
 				else
 				{					

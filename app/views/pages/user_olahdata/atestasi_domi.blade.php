@@ -33,7 +33,7 @@
 						<div class="col-xs-5">{{ Form::text('nomor_atestasi', Input::old('nomor_atestasi'), array('id' => 'f_nomor_atestasi', 'class'=>'form-control')) }}</div>
 					</div>					
 					<div class="form-group">
-						<label class="col-xs-4 control-label">Jemaat</label>
+						<label class="col-xs-4 control-label">Nama Jemaat</label>
 						<div class="col-xs-5">{{Form::text('jemaat', Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control'))}}</div>
 					</div>	
 					<div class="form-group">
@@ -89,13 +89,21 @@
 					</div>	
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Jenis Atestasi</label>
-						<div class="col-xs-5">
-							<!--
-							<select name="jenis_atestasi" id="f_jenis_atestasi" class="form-control">
-								<option>bla</option>
-							</select>  
-							-->
-							{{Form::select('jenis_atestasi', $list_jenis_atestasi, Input::old('pembaptis'), array('id'=>'f_jenis_atestasi', 'class'=>'form-control'))}}
+						<div class="col-xs-5">							
+							<?php 
+								$new_list_jenis_atestasi = array(
+									'-1' => 'pilih!'
+								);									
+								foreach($list_jenis_atestasi as $id => $key)
+								{
+									$new_list_jenis_atestasi[$id] = $key;
+								}
+							?>
+							@if($list_jenis_atestasi == null)
+								<p class="control-label pull-left">(tidak ada daftar jenis atestasi)</p>
+							@else
+								{{Form::select('jenis_atestasi', $new_list_jenis_atestasi, Input::old('pembaptis'), array('id'=>'f_jenis_atestasi', 'class'=>'form-control'))}}
+							@endif						
 						</div>					
 					</div>					
 					<div class="form-group">
@@ -113,16 +121,18 @@
 					</div>			
 				</div>	
 
-
+				<div id="temp_result">
+				</div>
+				
 				<div id="f_result_atestasi">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
 								<th>
-									No. Anggota
+									No. Atestasi
 								</th>
 								<th>
-									Nama Depan Anggota
+									Nama Anggota
 								</th>
 								<th>
 									
@@ -146,44 +156,11 @@
 										delete
 									</button>
 								</td>
-							</tr>
-							<tr>
-								<td>
-									1
-								</td>
-								<td>
-									Wayne
-								</td>
-								<td>
-									<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_atestasi">
-										Edit
-									</button>
-									<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-										delete
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									2
-								</td>
-								<td>
-									Boxxy
-								</td>
-								<td>
-									<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_atestasi">
-										Edit
-									</button>
-									<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-										delete
-									</button>
-								</td>
-							</tr>
+							</tr>							
 							-->
 						</tbody>
 					</table>
 				</div>
-
 			</div>	
 		</div>	
 	</div>	
@@ -210,15 +187,16 @@ $('body').on('click', '#f_search_atestasi', function(){
 	};		
 
 	$.ajax({
-		type: "POST",
+		type: 'POST',
 		url: "{{URL('user/search_atestasi')}}",
 		data: {
 			'data' : $data
 		},
 		success: function(response){	
 			alert("Berhasil cari data atestasi");
-				// alert(response);
-								
+				// alert(JSON.stringify(response));
+				$('#temp_result').html(JSON.stringify(response));
+				
 				if(response != "no result")
 				{
 					var result = "";					
@@ -228,18 +206,19 @@ $('body').on('click', '#f_search_atestasi', function(){
 					{
 						result+= '<tr>';
 							result+='<td>';
-								result+='No atestasi:'+response[$i]['no_atestasi'];								
+								result+=response[$i]['no_atestasi'];								
 							result+='</td>';
 							result+='<td>';
-								result+='Tgl Atestasi:'+response[$i]['tanggal_atestasi'];								
+								result+=response[$i]['nama_depan_anggota']+' '+response[$i]['nama_tengah_anggota']+' '+response[$i]['nama_belakang_anggota'];							
 							result+='</td>';
+														
 							result+='<td>';
 								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-								result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">';
+								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_anggota">';
 									result+='Edit';
 								result+='</button>';
 								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-								result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
 									result+='delete';
 								result+='</button>';
 							result+='</td>';
@@ -252,25 +231,16 @@ $('body').on('click', '#f_search_atestasi', function(){
 				else				
 				{
 					$('#f_result_body_atestasi').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
-				}
-				
-				// if(response == "berhasil")
-				// {	
-					// alert("Berhasil search data atestasi");
-					// location.reload();
-				// }
-				// else
-				// {
-					// alert(response);
-				// }
+				}								
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
 		});
-
 });
 </script>
 
 @include('pages.user_olahdata.popup_edit_atestasi')
+@include('pages.user_olahdata.popup_delete_warning_atestasi')
+
 @stop

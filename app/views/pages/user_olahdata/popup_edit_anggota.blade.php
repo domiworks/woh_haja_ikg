@@ -25,7 +25,9 @@
 						<div class="col-xs-6">
 							{{ Form::text('nama_depan', Input::old('nama_depan'), array('id' => 'f_edit_nama_depan', 'class'=>'form-control')) }} 
 						</div>
-						
+						<div class="col-xs-0">
+							*
+						</div>
 						<!--<div class="col-xs-0">
 							<span class="red">*</span>
 						</div>	-->
@@ -58,7 +60,9 @@
 						<div class="col-xs-6">
 							{{ Form::textarea('alamat', Input::old('alamat'), array('id' => 'f_edit_alamat', 'class'=>'form-control')) }} 
 						</div>
-						
+						<div class="col-xs-0">
+							*
+						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -68,7 +72,9 @@
 						<div class="col-xs-6">
 							{{ Form::text('kota', Input::old('kota'), array('id' => 'f_edit_kota', 'class'=>'form-control')) }} 
 						</div>
-													
+						<div class="col-xs-0">
+							*
+						</div>							
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -88,7 +94,9 @@
 						<div class="col-xs-6">
 							{{ Form::text('telp', Input::old('telp'), array('id' => 'f_edit_telp', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }} 
 						</div>
-													
+						<div class="col-xs-0">
+							*
+						</div>						
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -96,10 +104,10 @@
 						</label>
 						<div class="col-xs-6">			
 							<input type="text" id="f_edit_hp1" class="form-control" name="hp1" onkeypress='return isNumberKey(event)'/>			
-							<div id="addHp"></div>					
-							<a href="javascript:void(0)" onClick="addHp();" id="refHp">tambah nomor hp</a>
+							<div id="edit_addHp"></div>					
+							<a href="javascript:void(0)" onClick="addHp();" id="edit_refHp">tambah nomor hp</a>
 							<script>						
-							var lastIdx = 2;
+							// var lastIdx = 2; //variable nya dipindah ke file olah_data-anggota_domi
 							function addHp(){
 								if(lastIdx <=5)
 								{
@@ -107,9 +115,9 @@
 									newRow +="<input type='text' id='f_edit_hp"+lastIdx+"' class='form-control' name='hp"+lastIdx+"' onkeypress='return isNumberKey(event)'/>";
 									newRow +="<input type='button' value='X' id='delHp"+lastIdx+"' onClick='delHp()' /><br />";
 									$('#delHp'+(lastIdx-1)).hide();
-									$('#addHp').append(newRow);
+									$('#edit_addHp').append(newRow);
 									if(lastIdx==5){
-										$('#refHp').hide();									
+										$('#edit_refHp').hide();									
 									}
 									lastIdx++;							
 								}						
@@ -121,7 +129,7 @@
 								lastIdx--;							
 								$('#delHp'+(lastIdx-1)).show();
 								if(lastIdx==5){
-									$('#refHp').show();
+									$('#edit_refHp').show();
 								}
 							}
 							</script>
@@ -133,9 +141,11 @@
 						</label>
 
 						<div class="col-xs-6">
-							{{ Form::radio('gender', '1', true, array('id'=>'f_edit_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_edit_jenis_kelamin')) }}wanita 
+							{{ Form::radio('edit_gender', '1', true, array('id'=>'f_edit_jenis_kelamin_1')) }}pria    {{ Form::radio('edit_gender', '0', '', array('id'=>'f_edit_jenis_kelamin_0')) }}wanita 
 						</div>
-													
+						<div class="col-xs-0">
+							*
+						</div>							
 					</div>		
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -143,7 +153,11 @@
 						</label>
 
 						<div class="col-xs-6">
-							{{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_edit_wilayah', 'class'=>'form-control')) }}
+							@if($list_wilayah == null)
+								<p class="control-label pull-left">(tidak ada daftar wilayah)</p>
+							@else				
+								{{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_edit_wilayah', 'class'=>'form-control')) }}
+							@endif
 						</div>
 													
 					</div>
@@ -153,7 +167,14 @@
 						</label>
 
 						<div class="col-xs-6">
-							{{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_edit_gol_darah', 'class'=>'form-control')) }}
+							@if($list_gol_darah == null)
+								<p class="control-label pull-left">(tidak ada daftar golongan darah)</p>
+							@else				
+								{{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_edit_gol_darah', 'class'=>'form-control')) }}
+							@endif
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -162,7 +183,11 @@
 						</label>
 
 						<div class="col-xs-6">
-							{{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_edit_pendidikan', 'class'=>'form-control')) }}
+							@if($list_pendidikan == null)
+								<p class="control-label pull-left">(tidak ada daftar pendidikan)</p>
+							@else				
+								{{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_edit_pendidikan', 'class'=>'form-control')) }}
+							@endif
 						</div>
 					</div>
 					<div class="form-group">
@@ -171,7 +196,14 @@
 						</label>
 
 						<div class="col-xs-6">
-							{{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_edit_pekerjaan', 'class'=>'form-control')) }}
+							@if($list_pekerjaan == null)
+								<p class="control-label pull-left">(tidak ada daftar pekerjaan)</p>
+							@else				
+								{{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_edit_pekerjaan', 'class'=>'form-control')) }}
+							@endif
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -180,7 +212,11 @@
 						</label>
 
 						<div class="col-xs-6">
-							{{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_edit_etnis', 'class'=>'form-control')) }}
+							@if($list_etnis == null)
+								<p class="control-label pull-left">(tidak ada daftar etnis)</p>
+							@else				
+								{{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_edit_etnis', 'class'=>'form-control')) }}
+							@endif
 						</div>
 					</div>
 					<div class="form-group">
@@ -191,6 +227,9 @@
 						<div class="col-xs-6">
 							{{ Form::text('kota_lahir', Input::old('kota_lahir'), array('id' => 'f_edit_kota_lahir', 'class'=>'form-control')) }} 
 						</div>
+						<div class="col-xs-0">
+							*
+						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -199,7 +238,10 @@
 
 						<div class="col-xs-6">
 							{{ Form::text('tanggal_lahir', Input::old('tanggal_lahir'), array('id' => 'f_edit_tanggal_lahir', 'class'=>'form-control')) }}
-						</div>			
+						</div>
+						<div class="col-xs-0">
+							*
+						</div>
 						<script>
 						jQuery('#f_edit_tanggal_lahir').datetimepicker({
 							lang:'en',
@@ -229,7 +271,7 @@
 						</label>
 
 						<div class="col-xs-6">
-							<img src="" id="show_foto" width="200" height="200">				
+							<img src="" id="edit_show_foto" width="200" height="200">				
 							{{ Form::file('foto', array('name' => 'foto', 'id' => 'f_edit_foto', 'accept' => 'image/*')) }}
 						</div>
 					</div>
@@ -239,23 +281,131 @@
 						</label>
 
 						<div class="col-xs-6">
-							{{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_edit_status', 'class'=>'form-control')) }}
+							@if($list_role == null)
+								<p class="control-label pull-left">(tidak ada daftar role)</p>
+							@else				
+								{{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_edit_status', 'class'=>'form-control')) }}
+							@endif
 						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-6 col-xs-push-3">
-							<button id="f_edit_post_anggota" class="btn btn-success"	>Simpan Data Anggota</button>
+						<div class="col-xs-0">
+							*
 						</div>
-					</div>
+					</div>					
 				</form>
-			
-				
-				
-
 			</div>
 			<div class="modal-footer">
+				@if($list_wilayah == null || $list_gol_darah == null || $list_pendidikan == null || $list_pekerjaan == null || $list_etnis == null || $list_role == null)								
+					<input type="button" id="f_edit_post_anggota" class="btn btn-success" value="Simpan Perubahan" disabled=true />
+				@else
+					<input type="button" id="f_edit_post_anggota" class="btn btn-success" value="Simpan Perubahan"  />
+				@endif				
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script>
+	$('body').on('change','#f_edit_foto',function(){
+		var i = 0, len = this.files.length, img, reader, file;			
+		for ( ; i < len; i++ ) {
+			file = this.files[i];
+			if (!!file.type.match(/image.*/)) {
+				if ( window.FileReader ) {
+					reader = new FileReader();
+					reader.onloadend = function (e) { 										
+						$('#edit_show_foto').attr('src', e.target.result);																	
+					};
+					reader.readAsDataURL(file);
+				}
+				imageUpload = file;
+			}	
+		}
+	});
+	
+	$('body').on('click', '#f_edit_post_anggota', function(){								
+		var data, xhr;
+		data = new FormData();
+
+		//add id
+		data.append('id', $id); //id anggota
+		
+		$nomor_anggota = $('#f_edit_nomor_anggota').val();			
+		data.append('no_anggota', $nomor_anggota);
+		$nama_depan = $('#f_edit_nama_depan').val();	
+		data.append('nama_depan', $nama_depan);
+		$nama_tengah = $('#f_edit_nama_tengah').val();	
+		data.append('nama_tengah', $nama_tengah);
+		$nama_belakang = $('#f_edit_nama_belakang').val();	
+		data.append('nama_belakang', $nama_belakang);
+		$jalan = $('#f_edit_alamat').val();
+		data.append('jalan', $jalan);
+		$kota = $('#f_edit_kota').val();
+		data.append('kota', $kota);
+		$kodepos = $('#f_edit_kodepos').val();
+		data.append('kodepos', $kodepos);
+		$telp = $('#f_edit_telp').val();	
+		data.append('telp', $telp);		
+		//looping ambil data hp
+		var arr_hp = new Array();
+		for($i = 1; $i < lastIdx; $i++)
+		{
+			arr_hp[arr_hp.length] = $('#f_edit_hp'+$i+'').val();			
+		}
+		data.append('arr_hp', arr_hp);					
+		$gender = $('input[name="edit_gender"]:checked').val();	
+		data.append('gender', $gender);
+		$wilayah = $('#f_edit_wilayah').val();	
+		data.append('wilayah', $wilayah);
+		$gol_darah = $('#f_edit_gol_darah').val();
+		data.append('gol_darah', $gol_darah);
+		$pendidikan = $('#f_edit_pendidikan').val();	
+		data.append('pendidikan', $pendidikan);
+		$pekerjaan = $('#f_edit_pekerjaan').val();	
+		data.append('pekerjaan', $pekerjaan);
+		$etnis = $('#f_edit_etnis').val();	
+		data.append('etnis', $etnis);
+		$kota_lahir	= $('#f_edit_kota_lahir').val();
+		data.append('kota_lahir', $kota_lahir);
+		$tanggal_lahir = $('#f_edit_tanggal_lahir').val();	
+		data.append('tanggal_lahir', $tanggal_lahir);
+		// $anggota_gereja = $('#f_id_gereja').val();
+			// data.append('id_gereja', $anggota_gereja);
+			if($('#f_foto').val() != "")
+			{			
+				$foto = $('#f_edit_foto')[0].files[0];
+			}		
+			else		
+			{
+				$foto = "";
+			}
+			data.append('foto', $foto);
+			$role = $('#f_edit_status').val();
+			data.append('role', $role);						
+
+			$.ajax({
+				type: 'POST',
+				url: "{{URL('user/edit_anggota')}}",
+				data : data,
+				processData: false,
+				contentType: false,	
+				success: function(response){				
+				// alert(response);
+				if(response == "berhasil")
+				{	
+					alert("Berhasil simpan perubahan.");
+					// location.reload();
+					window.location = '{{URL::route('view_olahdata_anggota')}}';
+				}
+				else
+				{
+					alert(response);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert(errorThrown);
+			}
+		});
+
+	});
+</script>

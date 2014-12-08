@@ -53,6 +53,9 @@
 						<div class="col-xs-6">
 							{{ Form::text('nomor_kedukaan', Input::old('nomor_kedukaan'), array('id' => 'f_nomor_kedukaan', 'class'=>'form-control')) }}
 						</div>
+						<div class="col-xs-0">
+							*
+						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -60,6 +63,9 @@
 						</label>
 						<div class="col-xs-6">
 							{{ Form::text('tanggal_meninggal', Input::old('tanggal_meninggal'), array('id' => 'f_tanggal_meninggal', 'class'=>'form-control')) }}
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 						<script>
 						jQuery('#f_tanggal_meninggal').datetimepicker({
@@ -89,11 +95,14 @@
 							Jemaat yang meninggal
 						</label>
 						<div class="col-xs-6">
-							@if($list_jemaat == null)
+							@if($list_anggota == null)
 								<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
 							@else
-								{{Form::select('list_jemaat', $list_jemaat, Input::old('list_jemaat'), array('id'=>'f_list_jemaat', 'class'=>'form-control'))}}
+								{{Form::select('list_jemaat', $list_anggota, Input::old('list_jemaat'), array('id'=>'f_list_jemaat', 'class'=>'form-control'))}}
 							@endif	
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -103,13 +112,16 @@
 						<div class="col-xs-6">
 							{{ Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_keterangan', 'class'=>'form-control'))}}
 						</div>
+						<div class="col-xs-0">
+							*
+						</div>
 					</div>					
 					<div class="form-group">	
 						<div class="col-xs-6 col-xs-push-3">
-							@if($list_jemaat == null)
-								<button id="f_post_kedukaan" class="btn btn-success" disabled=true>Simpan Data Kedukaan</button>
+							@if($list_anggota == null)
+								<input type="button" id="f_post_kedukaan" class="btn btn-success" value="Simpan Data Kedukaan" disabled=true />
 							@else							
-								<button id="f_post_kedukaan" class="btn btn-success">Simpan Data Kedukaan</button>
+								<input type="button" id="f_post_kedukaan" class="btn btn-success" value="Simpan Data Kedukaan" />
 							@endif
 						</div>					
 					</div>	
@@ -118,7 +130,7 @@
 		</div>	
 	</div>	
 
-	<script>
+<script>
 	$('body').on('click', '#f_post_kedukaan', function(){		
 		$no_kedukaan = $('#f_nomor_kedukaan').val();
 		$tanggal_meninggal = $('#f_tanggal_meninggal').val();
@@ -144,7 +156,8 @@
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data kedukaan");
-					location.reload();
+					// location.reload();
+					window.location = '{{URL::route('view_inputdata_kedukaan')}}';
 				}
 				else
 				{
@@ -156,6 +169,6 @@
 			}
 		});
 	});
-	</script>
+</script>
 
 	@stop

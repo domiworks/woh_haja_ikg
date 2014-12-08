@@ -221,7 +221,8 @@ class BaseController extends Controller {
 	public function getListPendeta()
 	{		
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
-					->where('role', '=', 2)
+					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
+					->where('role', '=', 2) //role pendeta					
 					->orderBy('nama_depan')								
 					->lists('nama_lengkap', 'id');					
 		if(count($count) != 0)
@@ -238,7 +239,8 @@ class BaseController extends Controller {
 	public function getListJemaat()
 	{				
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
-					->where('role', '=', 1)
+					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
+					->where('role', '=', 1) //role jemaat					
 					->orderBy('nama_depan')
 					->lists('nama_lengkap', 'id');
 		if(count($count) != 0)
@@ -257,8 +259,9 @@ class BaseController extends Controller {
 		// $count = DB::table('anggota')->where('role', '=', 2)->orderBy('nama_depan','asc')
 				// ->lists('nama_depan'.' '.'nama_tengah'. ' '.'nama_belakang','id');
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
+					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
 					->where('role', '=', 1)
-					->where('gender', '=', 1)
+					->where('gender', '=', 1)					
 					->orderBy('nama_depan')
 					->lists('nama_lengkap', 'id');
 		if(count($count) != 0)
@@ -277,8 +280,9 @@ class BaseController extends Controller {
 		// $count = DB::table('anggota')->where('role', '=', 2)->orderBy('nama_depan','asc')
 				// ->lists('nama_depan'.' '.'nama_tengah'. ' '.'nama_belakang','id');
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
+					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
 					->where('role', '=', 1)
-					->where('gender', '=', 0)
+					->where('gender', '=', 0)					
 					->orderBy('nama_depan')
 					->lists('nama_lengkap', 'id');
 		if(count($count) != 0)
@@ -291,12 +295,13 @@ class BaseController extends Controller {
 		}
 	}
 	
-	//get list jemaat yang masih hidup
-	public function getListJemaatHidup()
+	//get list anggota yang masih hidup
+	public function getListAnggotaHidup()
 	{
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
-					->where('role', '=', 1)
-					->whereNull('tanggal_meninggal')
+					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
+					// ->where('role', '=', 1) //role jemaat saja
+					->whereNull('tanggal_meninggal')					
 					->orderBy('nama_depan')
 					->lists('nama_lengkap', 'id');
 		if(count($count) != 0)

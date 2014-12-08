@@ -98,17 +98,18 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Nomor Atestasi
-						</label>
-						
+						</label>						
 						<div class="col-xs-6">
 							{{ Form::text('nomor_atestasi', Input::old('nomor_atestasi'), array('id' => 'f_nomor_atestasi', 'class'=>'form-control')) }}
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>				
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Jemaat
-						</label>
-						
+						</label>						
 						<div class="col-xs-6">
 							@if($list_jemaat == null)
 								<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
@@ -116,14 +117,19 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 								{{Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control'))}}							
 							@endif
 						</div>
+						<div class="col-xs-0">
+							*
+						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Tanggal Atestasi
-						</label>
-						
+						</label>						
 						<div class="col-xs-6">
 							{{ Form::text('tanggal_atestasi', Input::old('tanggal_atestasi'), array('id' => 'f_tanggal_atestasi', 'class'=>'form-control')) }}
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 						<script>
 						jQuery('#f_tanggal_atestasi').datetimepicker({
@@ -151,8 +157,7 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Jenis Atestasi
-						</label>
-						
+						</label>						
 						<div class="col-xs-6">
 							@if($list_jenis_atestasi == null)
 								<p class="control-label pull-left">(tidak ada daftar jenis atestasi)</p>
@@ -160,12 +165,14 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 								{{Form::select('jenis_atestasi', $list_jenis_atestasi, Input::old('pembaptis'), array('id'=>'f_jenis_atestasi', 'class'=>'form-control'))}}
 							@endif							
 						</div>
+						<div class="col-xs-0">
+							*
+						</div>
 					</div>		
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Gereja Lama
-						</label>
-						
+						</label>						
 						<div class="col-xs-6">
 							@if($list_gereja == null)
 								<p class="control-label pull-left">(tidak ada daftar gereja)</p>
@@ -191,6 +198,9 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 						</label>		
 						<div class="col-xs-6">
 							{{ Form::text('nama_gereja_lama', Input::old('nama_gereja_lama'), array('id' => 'f_nama_gereja_lama', 'class'=>'form-control', 'disabled' => true)) }}
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -219,17 +229,18 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Nama Gereja Baru
-						</label>
-						
+						</label>						
 						<div class="col-xs-6">
 							{{ Form::text('nama_gereja_baru', Input::old('nama_gereja_baru'), array('id' => 'f_nama_gereja_baru', 'class'=>'form-control', 'disabled' => true)) }}
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Keterangan
-						</label>
-						
+						</label>						
 						<div class="col-xs-6">
 							{{Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_keterangan', 'class'=>'form-control'))}}
 						</div>
@@ -237,9 +248,9 @@ $('body').on('click', '#f_check_gereja_baru', function(){
 					<div class="form-group">
 						<div class="col-xs-6 col-xs-push-2">
 							@if($list_gereja == null || $list_jenis_atestasi == null || $list_jemaat == null)
-								<button id="f_post_atestasi" class="btn btn-success" disabled=true>Simpan Data Atestasi</button>
+								<input type="button" id="f_post_atestasi" class="btn btn-success" disabled=true value="Simpan Data Atestasi" />
 							@else
-								<button id="f_post_atestasi" class="btn btn-success">Simpan Data Atestasi</button>
+								<input type="button" id="f_post_atestasi" class="btn btn-success" value="Simpan Data Atestasi" />
 							@endif						
 						</div>		
 					</div>		
@@ -299,7 +310,8 @@ $('body').on('click', '#f_post_atestasi', function(){
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data atestasi");
-					location.reload();
+					// location.reload();
+					window.location = '{{URL::route('view_inputdata_atestasi')}}';
 				}
 				else
 				{

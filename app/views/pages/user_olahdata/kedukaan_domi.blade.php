@@ -103,10 +103,10 @@
 					<thead>
 						<tr>
 							<th>
-								No. Anggota
+								No. Kedukaan
 							</th>
 							<th>
-								Nama Depan Anggota
+								Nama Anggota
 							</th>
 							<th>
 								
@@ -130,39 +130,7 @@
 									delete
 								</button>
 							</td>
-						</tr>
-						<tr>
-							<td>
-								1
-							</td>
-							<td>
-								Wayne
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_kedukaan">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								2
-							</td>
-							<td>
-								Boxxy
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_kedukaan">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
+						</tr>						
 						-->
 					</tbody>
 				</table>
@@ -188,7 +156,7 @@ $('body').on('click', '#f_search_kedukaan', function(){
 		};
 		
 		$.ajax({
-			type: "POST",
+			type: 'POST',
 			url: "{{URL('user/search_kedukaan')}}",
 			data: {
 				'data' : $data
@@ -199,29 +167,27 @@ $('body').on('click', '#f_search_kedukaan', function(){
 				if(response != "no result")
 				{
 					var result = "";	
-
 					//set value di tabel result
 					for($i = 0; $i < response.length; $i++)
 					{
 						result+= '<tr>';
 							result+='<td>';
-								result+='no kedukaan: '+response[$i]['no_kedukaan'];								
+								result+=response[$i]['no_kedukaan'];								
 							result+='</td>';
 							result+='<td>';
-								result+='id jemaat: '+response[$i]['id_jemaat'];								
+								result+=response[$i]['nama_depan_anggota']+' '+response[$i]['nama_tengah_anggota']+' '+response[$i]['nama_belakang_anggota'];								
 							result+='</td>';
 							result+='<td>';
-								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-								result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_kedukaan">';
+								result+='<input type="hidden" value='+response[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kedukaan">';
 									result+='Edit';
 								result+='</button>';
-								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-								result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+								result+='<input type="hidden" value='+response[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kedukaan">';
 									result+='delete';
 								result+='</button>';
 							result+='</td>';
-						result+='</tr>';
-						// alert(response[$i]['tanggal_mulai']);
+						result+='</tr>';						
 					}
 					
 					$('#f_result_body_kedukaan').html(result);
@@ -229,26 +195,50 @@ $('body').on('click', '#f_search_kedukaan', function(){
 				else				
 				{					
 					$('#f_result_body_kedukaan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
-				}
-				/*
-				if(response == "berhasil")
-				{	
-					// alert("Berhasil simpan data kedukaan");
-					// location.reload();
-				}
-				else
-				{
-					alert(response);
-				}
-				*/
+				}				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
 		});
 	});
+	
+	//click edit button
+	$('body').on('click', '.detailButton', function(){
+		$id = $(this).prev().val();		
+		
+		$data = {
+			'id' : $id
+		};
+		
+		$.ajax({
+			type: 'GET',
+			url: "{{URL('user/detail_kedukaan')}}",
+			data : {
+				'data' : $data
+			},
+			success: function(response){				
+				// alert(JSON.stringify(response));
+				
+				//set value di detail view												
+				$('#f_edit_nomor_kedukaan').val(response['no_kedukaan']);
+				$('#f_edit_tanggal_meninggal').val(response['tanggal_meninggal']);
+				$('#f_edit_keterangan').val(response['keterangan']);
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert("error");
+				alert(errorThrown);
+			}
+		});
+	});
+	
+	//click delete button
+	$('body').on('click', '.deleteButton', function(){
+		$id = $(this).prev().val();
+	});
 </script>
 
 @include('pages.user_olahdata.popup_edit_kedukaan')
+@include('pages.user_olahdata.popup_delete_warning_kedukaan')
 
 @stop

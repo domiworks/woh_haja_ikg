@@ -15,7 +15,7 @@ $(document).ready(function(){
 		
 		selected = $('#f_list_jemaat_pria').find(":selected").text();
 		$('#f_nama_mempelai_pria').val(selected);	
-	});
+});
 
 $('body').on('click', '#f_check_jemaat_wanita', function(){		
 	if($('#f_check_jemaat_wanita').val() == 0){	
@@ -102,6 +102,9 @@ $('body').on('click', '#f_check_jemaat_pria', function(){
 						<div class="col-xs-6">
 							{{ Form::text('nomor_pernikahan', Input::old('nomor_pernikahan'), array('id' => 'f_nomor_pernikahan', 'class'=>'form-control')) }}
 						</div>
+						<div class="col-xs-0">
+							*
+						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -109,6 +112,9 @@ $('body').on('click', '#f_check_jemaat_pria', function(){
 						</label>
 						<div class="col-xs-6">
 							{{ Form::text('tanggal_pernikahan', Input::old('tanggal_pernikahan'), array('id' => 'f_tanggal_pernikahan', 'class'=>'form-control')) }}
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 						<script>
 						jQuery('#f_tanggal_pernikahan').datetimepicker({
@@ -143,6 +149,9 @@ $('body').on('click', '#f_check_jemaat_pria', function(){
 							@else
 								{{Form::select('id_pendeta', $list_pendeta, Input::old('id_pendeta'), array('id'=>'f_id_pendeta', 'class'=>'form-control'))}}
 							@endif							
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					
@@ -186,6 +195,9 @@ $('body').on('click', '#f_check_jemaat_pria', function(){
 						<div class="col-xs-6">
 							{{ Form::text('nama_mempelai_pria', Input::old('nama_mempelai_pria'), array('id' => 'f_nama_mempelai_pria', 'class'=>'form-control')) }}
 						</div>
+						<div class="col-xs-0">
+							*
+						</div>
 					</div>
 					
 					<div class="form-group">
@@ -216,14 +228,16 @@ $('body').on('click', '#f_check_jemaat_pria', function(){
 						<div class="col-xs-6">
 							{{ Form::text('nama_mempelai_wanita', Input::old('nama_mempelai_wanita'), array('id' => 'f_nama_mempelai_wanita', 'class'=>'form-control')) }}
 						</div>
+						<div class="col-xs-0">
+							*
+						</div>
 					</div>
-										
 					<div class="form-group">
 						<div class="col-xs-6 col-xs-push-3">
 							@if($list_jemaat_pria == null || $list_jemaat_wanita == null || $list_pendeta == null)
-								<button id="f_post_pernikahan" class="btn btn-success" disabled=true>Simpan Data Pernikahan</button>	
+								<input type="button" id="f_post_pernikahan" class="btn btn-success" disabled=true value="Simpan Data Pernikahan" />
 							@else
-								<button id="f_post_pernikahan" class="btn btn-success">Simpan Data Pernikahan</button>
+								<input type="button" id="f_post_pernikahan" class="btn btn-success" value="Simpan Data Pernikahan" />
 							@endif	
 						</div>
 					</div>				
@@ -264,7 +278,7 @@ $('body').on('click', '#f_post_pernikahan', function(){
 			'no_pernikahan' : $no_pernikahan,
 			'tanggal_pernikahan' : $tanggal_pernikahan,
 			'id_pendeta' : $id_pendeta,
-			// 'id_gereja' : $id_gereja,			
+					// 'id_gereja' : $id_gereja,			
 			'id_jemaat_pria' : $id_mempelai_pria,
 			'id_jemaat_wanita' : $id_mempelai_wanita,
 			'nama_pria' : $nama_mempelai_pria,
@@ -281,7 +295,8 @@ $('body').on('click', '#f_post_pernikahan', function(){
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data pernikahan");
-					location.reload();
+					// location.reload();
+					window.location = '{{URL::route('view_inputdata_pernikahan')}}';
 				}
 				else
 				{

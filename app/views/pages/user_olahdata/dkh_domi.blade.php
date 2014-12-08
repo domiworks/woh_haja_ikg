@@ -53,7 +53,7 @@
 								No. Dkh
 							</th>
 							<th>
-								Nama Depan Anggota
+								Nama Jemaat
 							</th>
 							<th>
 								
@@ -77,39 +77,7 @@
 									delete
 								</button>
 							</td>
-						</tr>
-						<tr>
-							<td>
-								1
-							</td>
-							<td>
-								Wayne
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_dkh">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								2
-							</td>
-							<td>
-								Boxxy
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_dkh">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
+						</tr>						
 						-->
 					</tbody>
 				</table>
@@ -130,7 +98,7 @@ $('body').on('click', '#f_search_dkh', function(){
 	};
 
 	$.ajax({
-		type: "POST",
+		type: 'POST',
 		url: "{{URL('user/search_dkh')}}",
 		data: {
 			'data' : $data
@@ -139,58 +107,81 @@ $('body').on('click', '#f_search_dkh', function(){
 			alert("Berhasil cari data dkh");				
 
 			if(response != "no result")
-			{
-				var result = "";
-
-				//set value di tabel
+			{				
+				var result = "";				
 				for($i = 0; $i < response.length; $i++)
 				{
+					//set value di table
 					result+= '<tr>';
 						result+='<td>';
-							result+='no_dkh: '+response[$i]['no_dkh'];								
+							result+=response[$i]['no_dkh'];								
 						result+='</td>';
 						result+='<td>';
-							result+='id_jemaat: '+response[$i]['id_jemaat'];								
+							result+=response[$i]['nama_depan_jemaat']+' '+response[$i]['nama_tengah_jemaat']+' '+response[$i]['nama_belakang_jemaat'];								
 						result+='</td>';
 						result+='<td>';
-							result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-							result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_dkh">';
+							result+='<input type="hidden" value='+response[$i]['id']+' />';
+							result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_dkh">';
 								result+='Edit';
 							result+='</button>';
-							result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-							result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+							result+='<input type="hidden" value='+response[$i]['id']+' />';
+							result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_dkh">';
 								result+='delete';
 							result+='</button>';
 						result+='</td>';
 					result+='</tr>';
 					// result += response[$i]['no_dkh']+ " ";
 						// alert(response[$i]['tanggal_mulai']);
-					}
+				}
 					
-					$('#f_result_body_dkh').html(result);
-				}					
-				else				
-				{
-					$('#f_result_body_dkh').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
-				}	
-				/*				
-				if(response == "berhasil")
-				{	
-					// alert("Berhasil simpan data kedukaan");
-					// location.reload();
-				}
-				else
-				{
-					alert(response);
-				}
-				*/
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				alert(errorThrown);
-			}
-		});
+				$('#f_result_body_dkh').html(result);
+			}					
+			else				
+			{
+				$('#f_result_body_dkh').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
+			}					
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			alert(errorThrown);
+		}
+			
+	});	
+});
+
+//click edit button
+$('body').on('click', '.detailButton', function(){
+	$id = $(this).prev().val();
+	
+	$data = {
+		'id' : $id
+	};
+	
+	$.ajax({
+		type: 'GET',
+		url: "{{URL('user/detail_dkh')}}",
+		data : {
+			'data' : $data
+		},
+		success: function(response){				
+			//set value tabel pop up
+			$('#f_edit_nomor_dkh').val(response['no_dkh']);
+			$('#f_edit_nama_jemaat').val(response['id_jemaat']);
+			$('#f_edit_keterangan').val(response['keterangan']);
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			alert("error");
+			alert(errorThrown);
+		}
+	});
+});
+
+//click delete button
+$('body').on('click', '.deleteButton', function(){
+	$id = $(this).prev().val();
 });
 </script>
 
 @include('pages.user_olahdata.popup_edit_dkh')
+@include('pages.user_olahdata.popup_delete_warning_dkh')
+
 @stop

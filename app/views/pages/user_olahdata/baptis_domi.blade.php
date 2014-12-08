@@ -35,7 +35,23 @@
 						</div>		
 						<div class="form-group">
 							<label class="col-xs-4 control-label">Nama Pembaptis</label> 
-							<div class="col-xs-5">{{Form::text('pembaptis', Input::old('pembaptis'), array('id'=>'f_pembaptis', 'class'=>'form-control'))}}</div>
+							<div class="col-xs-5">
+								{{--Form::text('pembaptis', Input::old('pembaptis'), array('id'=>'f_pembaptis', 'class'=>'form-control'))--}}
+								<?php 
+									$new_list_pembaptis = array(
+										'-1' => 'pilih!'
+									);									
+									foreach($list_pembaptis as $id => $key)
+									{
+										$new_list_pembaptis[$id] = $key;
+									}
+								?>
+								@if($list_pembaptis == null)
+									<p class="control-label pull-left">(tidak ada daftar pembaptis)</p>
+								@else
+									{{ Form::select('pembaptis', $new_list_pembaptis, Input::old('pembaptis'), array('id'=>'f_pembaptis', 'class'=>'form-control')) }}
+								@endif	
+							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-xs-4 control-label">Nama Jemaat</label> 
@@ -48,7 +64,20 @@
 									<option>bla</option>
 								</select>
 								-->
-								{{ Form::select('jenis_baptis', $list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_jenis_baptis', 'class'=>'form-control')) }}
+								<?php 
+									$new_list_jenis_baptis = array(
+										'-1' => 'pilih!'
+									);									
+									foreach($list_jenis_baptis as $id => $key)
+									{
+										$new_list_jenis_baptis[$id] = $key;
+									}
+								?>
+								@if($list_jenis_baptis == null)
+									<p class="control-label pull-left">(tidak ada daftar jenis baptis)</p>
+								@else
+									{{ Form::select('jenis_baptis', $new_list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_jenis_baptis', 'class'=>'form-control')) }}
+								@endif								
 							</div>
 						</div>
 						<div class="form-group">
@@ -104,7 +133,11 @@
 						</div>
 						<div class="form-group">
 							<div class="col-xs-5 col-xs-push-4">
-								<input type="button" id="f_search_baptis" class="btn btn-success" value="Cari Data Baptis"></input>
+								@if($list_pembaptis == null || $list_jenis_baptis == null)
+									<input type="button" id="f_search_baptis" class="btn btn-success" disabled=true value="Cari Data Baptis"></input>
+								@else
+									<input type="button" id="f_search_baptis" class="btn btn-success" value="Cari Data Baptis"></input>
+								@endif								
 							</div>
 						</div>
 					</form>	
@@ -116,10 +149,10 @@
 					<thead>
 						<tr>
 							<th>
-								No. Anggota
+								No. Baptis
 							</th>
 							<th>
-								Nama Depan Anggota
+								Nama Anggota
 							</th>
 							<th>
 								
@@ -143,39 +176,7 @@
 									delete
 								</button>
 							</td>
-						</tr>
-						<tr>
-							<td>
-								1
-							</td>
-							<td>
-								Wayne
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_baptis">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								2
-							</td>
-							<td>
-								Boxxy
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_baptis">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
+						</tr>						
 						-->
 					</tbody>
 				</table>
@@ -186,19 +187,20 @@
 </div>	
 
 <script>
-$('body').on('click', '#f_search_baptis', function(){
-	$nomor_baptis = $('#f_nomor_baptis').val();
-	$nama_pembaptis = $('#f_pembaptis').val();
-	$nama_jemaat = $('#f_jemaat').val();
-	$jenis_baptis = $('#f_jenis_baptis').val();
+	$('body').on('click', '#f_search_baptis', function(){
+		$nomor_baptis = $('#f_nomor_baptis').val();
+		$id_pembaptis = $('#f_pembaptis').val();
+		$nama_jemaat = $('#f_jemaat').val();
+		$jenis_baptis = $('#f_jenis_baptis').val();
+	
 		// $gereja = $('#f_id_gereja').val();
 		$tanggal_awal = $('#f_tanggal_awal').val();
 		$tanggal_akhir = $('#f_tanggal_akhir').val();
-		
+	
 		$data = {
 			'no_baptis' : $nomor_baptis,
 			'nama_jemaat' : $nama_jemaat,
-			'nama_pembaptis' : $nama_pembaptis,
+			'id_pembaptis' : $id_pembaptis,
 			'tanggal_awal' : $tanggal_awal,
 			'tanggal_akhir' : $tanggal_akhir,
 			'id_jenis_baptis' : $jenis_baptis
@@ -218,26 +220,27 @@ $('body').on('click', '#f_search_baptis', function(){
 				
 				if(response != "no result")
 				{
-					alert('data baptis didapatkan');
+					// alert('data baptis didapatkan');
 					var result = '';					
 					
 					//set value di table result
 					for($i = 0; $i < response.length; $i++)
 					{
+						// alert(JSON.stringify(response[$i]));
 						result+= '<tr>';
 							result+='<td>';
-								result+='nobaptis :'+response[$i]['no_baptis'];								
+								result+=response[$i]['no_baptis'];								
 							result+='</td>';
 							result+='<td>';
-								result+='id jemaat'+response[$i]['id_jemaat'];								
+								result+=response[$i]['nama_depan_jemaat']+' '+response[$i]['nama_tengah_jemaat']+' '+response[$i]['nama_belakang_jemaat'];								
 							result+='</td>';
-							result+='<td>';
-								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-								result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_baptis">';
+							result+='<td>';								
+								result+='<input type="hidden" value='+response[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_baptis">';
 									result+='Edit';
 								result+='</button>';
-								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-								result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+								result+='<input type="hidden" value='+response[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_baptis">';
 									result+='delete';
 								result+='</button>';
 							result+='</td>';
@@ -250,41 +253,52 @@ $('body').on('click', '#f_search_baptis', function(){
 				{
 					$('#f_result_body_baptis').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
 				}
-				
-				// alert(JSON.stringify(response));
-				/*
-				var temp;				
-				if(response.length > 0)
-				{
-					alert(response.length);
-					for($i = 0 ; $i < response.length ; $i++)
-					{
-						// temp += response[$i]['no_baptis']+",";
-						alert(response[$i]['no_baptis']);
-					}
-					// alert(temp);
-				}
-				else
-				{
-					alert(response);
-				}
-				*/
-				// if(response == "berhasil")
-				// {	
-					// alert("Berhasil simpan data baptis");
-					// location.reload();
-				// }
-				// else
-				// {
-					// alert(response);
-				// }
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
+		});	
+	});
+	
+	//click edit button
+	$('body').on('click', '.detailButton', function(){
+		$id = $(this).prev().val();				
+		
+		$data = {
+			'id' : $id			
+		};
+		
+		$.ajax({
+			type: 'GET',
+			url: "{{URL('user/detail_baptis')}}",
+			data : {
+				'data' : $data
+			},
+			success: function(response){				
+				// alert(JSON.stringify(response));
+				
+				//set value di detail view				
+				$('#f_edit_nomor_baptis').val(response['no_baptis']);	
+				$('#f_edit_pembaptis').val(response['id_pendeta']);	
+				$('#f_edit_jemaat').val(response['id_jemaat']);	
+				$('#f_edit_jenis_baptis').val(response['id_jenis_baptis']);	
+				$('#f_edit_tanggal_baptis').val(response['tanggal_baptis'])					
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert("error");
+				alert(errorThrown);
+			}
 		});
-});
+	});
+	
+	//click delete button
+	$('body').on('click', '.deleteButton', function(){
+		$id = $(this).prev().val();		
+				
+	});
 </script>	
 
 @include('pages.user_olahdata.popup_edit_baptis')
+@include('pages.user_olahdata.popup_delete_warning_baptis')
+
 @stop

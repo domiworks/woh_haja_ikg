@@ -6,7 +6,7 @@
 				<h4 class="modal-title" id="myModalLabel">Edit Baptis</h4>
 			</div>
 			<div class="modal-body form-horizontal">
-					<form class="form-horizontal">
+				<form class="form-horizontal">
 
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -15,16 +15,25 @@
 
 						<div class="col-xs-6">
 							<input type="text" name="nomor_baptis" id="f_edit_nomor_baptis" class="form-control">
-						</div>			
+						</div>	
+						<div class="col-xs-0">
+							*
+						</div>						
 					</div>		
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Pembaptis
 						</label>
 
-						<div class="col-xs-6">
-							<!--<input type="text" name="pembaptis" id="f_edit_pembaptis" class="form-control">-->
-							{{ Form::select('pembaptis', $list_pembaptis, Input::old('pembaptis'), array('id'=>'f_edit_pembaptis', 'class'=>'form-control')) }}
+						<div class="col-xs-6">							
+							@if($list_pembaptis == null)
+								<p class="control-label pull-left">(tidak ada daftar pembaptis)</p>
+							@else
+								{{ Form::select('pembaptis', $list_pembaptis, Input::old('pembaptis'), array('id'=>'f_edit_pembaptis', 'class'=>'form-control')) }}
+							@endif							
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -34,7 +43,14 @@
 
 						<div class="col-xs-6">
 							<!--<input type="text" name="jemaat" id="f_edit_jemaat" class="form-control">-->
-							{{ Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_edit_jemaat', 'class'=>'form-control')) }}
+							@if($list_jemaat == null)
+								<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
+							@else
+								{{ Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_edit_jemaat', 'class'=>'form-control')) }}							
+							@endif							
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -44,7 +60,14 @@
 
 						<div class="col-xs-6">
 							<!--<input type="text" name="jenis_baptis" id="f_edit_jenis_baptis" class="form-control">-->
-							{{ Form::select('jenis_baptis', $list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_edit_jenis_baptis', 'class'=>'form-control')) }}
+							@if($list_jenis_baptis == null)
+								<p class="control-label pull-left">(tidak ada daftar jenis baptis)</p>
+							@else
+								{{ Form::select('jenis_baptis', $list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_edit_jenis_baptis', 'class'=>'form-control')) }}
+							@endif							
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 					</div>
 					<div class="form-group">
@@ -54,6 +77,9 @@
 
 						<div class="col-xs-6">
 							<input type="text" name="tanggal_baptis" id="f_edit_tanggal_baptis" class="form-control">
+						</div>
+						<div class="col-xs-0">
+							*
 						</div>
 						<script>
 						jQuery('#f_edit_tanggal_baptis').datetimepicker({
@@ -79,18 +105,61 @@
 
 						</script>
 					</div>
-					<div class="form-group">
-						<div class="col-xs-6 col-xs-push-3">
-							<button id="f_edit_post_baptis" class="btn btn-success">Simpan Data Baptis</button>
-						</div>
-					</div>
-				</form>	
-				
+				</form>
 					
 			</div>
 			<div class="modal-footer">
+				@if($list_jemaat == null || $list_pembaptis == null || 	$list_jenis_baptis == null)
+					<input type="button" id="f_edit_post_baptis" class="btn btn-success" value="Simpan Perubahan" disabled=true />
+				@else
+					<input type="button" id="f_edit_post_baptis" class="btn btn-success" value="Simpan Perubahan" data-dismiss="modal" />
+				@endif							
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script>
+	$('body').on('click', '#f_edit_post_baptis', function(){
+		$nomor_baptis = $('#f_edit_nomor_baptis').val();
+		$pembaptis = $('#f_edit_pembaptis').val();
+		$jemaat = $('#f_edit_jemaat').val();
+		$jenis_baptis = $('#f_edit_jenis_baptis').val();		
+		$tanggal_baptis = $('#f_edit_tanggal_baptis').val();
+		// $gereja = $('#f_edit_id_gereja').val();
+			
+		$data = {
+			'id' : $id,
+			'no_baptis' : $nomor_baptis,
+			'id_jemaat' : $jemaat,
+			'id_pendeta' : $pembaptis,
+			'tanggal_baptis' : $tanggal_baptis,
+			'id_jenis_baptis' : $jenis_baptis
+			// 'id_gereja' : $gereja
+		};
+		
+		$.ajax({
+			type: 'POST',
+			url: "{{URL('user/edit_baptis')}}",
+			data : {
+				'data' : $data
+			},
+			success: function(response){
+				if(response == "berhasil")
+				{	
+					alert("Berhasil simpan perubahan.");
+					// location.reload();
+					window.location = '{{URL::route('view_olahdata_baptis')}}';					
+				}
+				else
+				{
+					alert(response);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert(errorThrown);
+			}
+		});
+	});	
+</script>

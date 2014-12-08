@@ -60,6 +60,10 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::post('/post_kedukaan', ['as' => 'post_kedukaan', 'uses' => 'InputEditController@postKedukaan']);	
 	Route::post('/post_dkh', ['as' => 'post_dkh', 'uses' => 'InputEditController@postDkh']);
 	
+	// Route::get('/tes', function(){
+		// return View::make('pages.user_olahdata.kedukaan_domi');
+	// });
+	
 	//olah data
 	Route::get('/olahdata_kebaktian', ['as' => 'view_olahdata_kebaktian', 'uses' => 'OlahDataController@view_kebaktian']);
 	Route::get('/olahdata_anggota', ['as' => 'view_olahdata_anggota', 'uses' => 'OlahDataController@view_anggota']);
@@ -80,11 +84,30 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	
 	//get detail data
 	Route::get('/detail_kebaktian', ['as' => 'detail_kebaktian', 'uses' => 'OlahDataController@detail_kebaktian']);
-	//...
+	Route::get('/detail_anggota', ['as' => 'detail_anggota', 'uses' => 'OlahDataController@detail_anggota']);	
+	Route::get('/detail_baptis', ['as' => 'detail_baptis', 'uses' => 'OlahDataController@detail_baptis']);	
+	Route::get('/detail_atestasi', ['as' => 'detail_atestasi', 'uses' => 'OlahDataController@detail_atestasi']);
+	Route::get('/detail_pernikahan', ['as' => 'detail_pernikahan', 'uses' => 'OlahDataController@detail_pernikahan']);
+	Route::get('/detail_kedukaan', ['as' => 'detail_kedukaan', 'uses' => 'OlahDataController@detail_kedukaan']);
+	Route::get('/detail_dkh', ['as' => 'detail_dkh', 'uses' => 'OlahDataController@detail_dkh']);
 	
 	//edit or update
 	Route::post('/edit_kebaktian', ['as' => 'edit_kebaktian', 'uses' => 'OlahDataController@edit_kebaktian']);
+	Route::post('/edit_anggota', ['as' => 'edit_anggota', 'uses' => 'OlahDataController@edit_anggota']);
+	Route::post('/edit_baptis', ['as' => 'edit_baptis', 'uses' => 'OlahDataController@edit_baptis']);	
+	Route::post('/edit_atestasi', ['as' => 'edit_atestasi', 'uses' => 'OlahDataController@edit_atestasi']);
+	Route::post('/edit_pernikahan', ['as' => 'edit_pernikahan', 'uses' => 'OlahDataController@edit_pernikahan']);
+	Route::post('/edit_kedukaan', ['as' => 'edit_kedukaan', 'uses' => 'OlahDataController@edit_kedukaan']);
+	Route::post('/edit_dkh', ['as' => 'edit_dkh', 'uses' => 'OlahDataController@edit_dkh']);
 	
+	//delete 
+	Route::delete('/delete_kebaktian', ['as' => 'delete_kebaktian', 'uses' => 'OlahDataController@delete_kebaktian']);
+	Route::delete('/delete_anggota', ['as' => 'delete_anggota', 'uses' => 'OlahDataController@delete_anggota']);
+	Route::delete('/delete_baptis', ['as' => 'delete_baptis', 'uses' => 'OlahDataController@delete_baptis']);
+	Route::delete('/delete_atestasi', ['as' => 'delete_atestasi', 'uses' => 'OlahDataController@delete_atestasi']);
+	Route::delete('/delete_pernikahan', ['as' => 'delete_pernikahan', 'uses' => 'OlahDataController@delete_pernikahan']);
+	Route::delete('/delete_kedukaan', ['as' => 'delete_kedukaan', 'uses' => 'OlahDataController@delete_kedukaan']);
+	Route::delete('/delete_dkh', ['as' => 'delete_dkh', 'uses' => 'OlahDataController@delete_dkh']);
 	
 	//reporting
 	Route::get('/reporting', ['as' => 'view_reporting', 'uses' => 'ReportingController@view_reporting']);	
@@ -95,29 +118,7 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	//tutorial
 	Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);		
 	
-	//edit data
-	// Route::post('/edit_kebaktian');		
-	// Route::put('/kebaktian', ['as' => 'edit_kebaktian', 'uses' => 'InputEditController@editKebaktian']);
-	// edit anggota
-	// Route::post('/anggota', ['as' => 'edit_anggota', 'uses' => 'InputEditController@editAnggota']);
-	// edit baptis
-	// Route::put('/baptis', ['as' => 'edit_baptis', 'uses' => 'InputEditController@editBaptis']);
-	// edit atestasi
-	// Route::put('/atestasi', ['as' => 'edit_atestasi', 'uses' => 'InputEditController@editAtestasi']);
-	// edit pernikahan
-	// Route::put('/pernikahan', ['as' => 'edit_pernikahan', 'uses' => 'InputEditController@editPernikahan']);
-	// adit kedukaan
-	// Route::put('/kedukaan', ['as' => 'edit_kedukaan', 'uses' => 'InputEditController@editKedukaan']);
-	// edit dkh
-	// Route::put('/dkh', ['as' => 'edit_dkh', 'uses' => 'InputEditController@editDkh']);
 	
-	// delete kebaktian		
-	// delete anggota
-	// delete baptis
-	// delete atestasi
-	// delete pernikahan
-	// delete kedukaan
-	// delete dkh
 });
 
 

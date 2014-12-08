@@ -86,7 +86,22 @@
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Pendeta yang memberkati</label> 
-						<div class="col-xs-5">{{Form::text('nama_pendeta', Input::old('nama_pendeta'), array('id'=>'f_nama_pendeta', 'class'=>'form-control'))}}</div>
+						<div class="col-xs-5">
+							<?php 
+								$new_list_pendeta = array(
+									'-1' => 'pilih!'
+								);									
+								foreach($list_pendeta as $id => $key)
+								{
+									$new_list_pendeta[$id] = $key;
+								}
+							?>
+							@if($list_pendeta == null)
+								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
+							@else
+								{{Form::select('nama_pendeta', $new_list_pendeta, Input::old('nama_pendeta'), array('id'=>'f_id_pendeta', 'class'=>'form-control'))}}
+							@endif							
+						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Nama Mempelai Wanita</label> 
@@ -98,7 +113,11 @@
 					</div>
 					<div class="form-group">
 						<div class="col-xs-5 col-xs-push-4">
-							<input type="button" id="f_search_pernikahan" class="btn btn-success" value="Cari Data Pernikahan"></input>
+							@if($list_pendeta == null)
+								<input type="button" id="f_search_pernikahan" class="btn btn-success" value="Cari Data Pernikahan" disabled=true/>
+							@else
+								<input type="button" id="f_search_pernikahan" class="btn btn-success" value="Cari Data Pernikahan"></input>
+							@endif							
 						</div>
 					</div>
 				</form>
@@ -109,7 +128,7 @@
 					<thead>
 						<tr>
 							<th>
-								No. Nikah
+								No. Pernikahan
 							</th>
 							<th>
 								Mempelai Pria
@@ -139,39 +158,7 @@
 									delete
 								</button>
 							</td>
-						</tr>
-						<tr>
-							<td>
-								1
-							</td>
-							<td>
-								Wayne
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_pernikahan">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								2
-							</td>
-							<td>
-								Boxxy
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_pernikahan">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
+						</tr>						
 						-->
 					</tbody>
 				</table>
@@ -181,12 +168,12 @@
 </div>	
 
 <script>
-$('body').on('click', '#f_search_pernikahan', function(){
-	$no_pernikahan = $('#f_nomor_pernikahan').val();		
-	$tanggal_awal = $('#f_tanggal_awal').val();
-	$tanggal_akhir = $('#f_tanggal_akhir').val();
-	$nama_pendeta = $('#f_nama_pendeta').val();
-		// $id_gereja = $('#f_id_gereja').val();
+	$('body').on('click', '#f_search_pernikahan', function(){
+		$no_pernikahan = $('#f_nomor_pernikahan').val();		
+		$tanggal_awal = $('#f_tanggal_awal').val();
+		$tanggal_akhir = $('#f_tanggal_akhir').val();
+		$id_pendeta = $('#f_id_pendeta').val();
+			// $id_gereja = $('#f_id_gereja').val();
 		$nama_mempelai_wanita = $('#f_nama_mempelai_wanita').val();
 		$nama_mempelai_pria = $('#f_nama_mempelai_pria').val();		
 		
@@ -194,8 +181,8 @@ $('body').on('click', '#f_search_pernikahan', function(){
 			'no_pernikahan' : $no_pernikahan,
 			'tanggal_awal' : $tanggal_awal,
 			'tanggal_akhir' : $tanggal_akhir,
-			'nama_pendeta' : $nama_pendeta,
-			// 'id_gereja' : $id_gereja,
+			'id_pendeta' : $id_pendeta,
+					// 'id_gereja' : $id_gereja,
 			'nama_pria' : $nama_mempelai_pria,
 			'nama_wanita' : $nama_mempelai_wanita
 		};
@@ -211,14 +198,13 @@ $('body').on('click', '#f_search_pernikahan', function(){
 				
 				if(response != "no result")
 				{
-					var result = "";					
-					
+					var result = "";									
 					//set value di table result
 					for($i = 0; $i < response.length; $i++)
 					{
 						result+= '<tr>';
 							result+='<td>';
-								result+=response[$i]['no_pernikahan'];								
+								result+=response[$i]['no_pernikahan']								
 							result+='</td>';
 							result+='<td>';
 								result+=response[$i]['nama_pria'];								
@@ -227,44 +213,100 @@ $('body').on('click', '#f_search_pernikahan', function(){
 								result+=response[$i]['nama_wanita'];								
 							result+='</td>';
 							result+='<td>';
-								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-								result+='<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_pernikahan">';
+								result+='<input type="hidden" value='+response[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-warning detailButton " data-toggle="modal" data-target=".popup_edit_pernikahan">';
 									result+='Edit';
 								result+='</button>';
-								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-								result+='<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">';
+								result+='<input type="hidden" value='+response[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_pernikahan">';
 									result+='delete';
 								result+='</button>';
 							result+='</td>';
-						result+='</tr>';
-						// alert(response[$i]['tanggal_mulai']);
-					}
-					
+						result+='</tr>';					
+					}				
 					$('#f_result_body_pernikahan').html(result);
 				}					
 				else				
 				{
 					$('#f_result_body_pernikahan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
-				}
-				
-				// alert(JSON.stringify(response));
-				// if(response == "berhasil")
-				// {	
-					// alert("Berhasil simpan data pernikahan");
-					// location.reload();
-				// }
-				// else
-				// {
-					// alert(response);
-				// }
+				}						
 			},
 			error: function(jqXHR, textStatus, errorThrown){
+				alert(errorThrown);
+			}
+		});		
+	});
+	
+	//click detail button
+	$('body').on('click', '.detailButton', function(){
+		$id = $(this).prev().val();		
+		
+		$data = {
+			'id' : $id
+		};
+		
+		$.ajax({
+			type: 'GET',
+			url: "{{URL('user/detail_pernikahan')}}",
+			data : {
+				'data' : $data
+			},
+			success: function(response){												
+				//set value di detail view												
+				if(response['id_jemaat_wanita'] == null)
+				{
+					$('#f_edit_check_jemaat_wanita').val(1);
+					$('#f_edit_check_jemaat_wanita').prop('checked', true);				
+					$('#f_edit_nama_mempelai_wanita').attr('disabled', false);	
+					$('#f_edit_list_jemaat_wanita').attr('disabled', true);
+				}				
+				else
+				{
+					$('#f_edit_check_jemaat_wanita').val(0);
+					$('#f_edit_check_jemaat_wanita').prop('checked', false);									
+					$('#f_edit_list_jemaat_wanita').val(response['id_jemaat_wanita']);
+					
+					$('#f_edit_nama_mempelai_wanita').attr('disabled', true);
+					$('#f_edit_list_jemaat_wanita').attr('disabled', false);
+				}
+				$('#f_edit_nama_mempelai_wanita').val(response['nama_wanita']);	
+				if(response['id_jemaat_pria'] == null)
+				{
+					$('#f_edit_check_jemaat_pria').val(1);
+					$('#f_edit_check_jemaat_pria').prop('checked', true);				
+					$('#f_edit_nama_mempelai_pria').attr('disabled', false);	
+					$('#f_edit_list_jemaat_pria').attr('disabled', true);
+				}				
+				else
+				{
+					$('#f_edit_check_jemaat_pria').val(0);
+					$('#f_edit_check_jemaat_pria').prop('checked', false);
+					
+					$('#f_edit_list_jemaat_pria').val(response['id_jemaat_pria']);
+					$('#f_edit_nama_mempelai_pria').attr('disabled', true);
+					$('#f_edit_list_jemaat_pria').attr('disabled', false);					
+				}
+				$('#f_edit_nama_mempelai_pria').val(response['nama_pria']);	
+				$('#f_edit_nomor_pernikahan').val(response['no_pernikahan']);		
+				$('#f_edit_tanggal_pernikahan').val(response['tanggal_pernikahan']);
+				$('#f_edit_id_pendeta').val(response['id_pendeta']);
+				// $('#f_edit_id_gereja').val(response['id_gereja']);
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert("error");
 				alert(errorThrown);
 			}
 		});
 		
 	});
+	
+	//click delete button
+	$('body').on('click', '.deleteButton', function(){
+		$id = $(this).prev().val();
+	});
 </script>
 
 @include('pages.user_olahdata.popup_edit_pernikahan')
+@include('pages.user_olahdata.popup_delete_warning_pernikahan')
+
 @stop

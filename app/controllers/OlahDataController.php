@@ -61,13 +61,13 @@ class OlahDataController extends BaseController {
 				compact('list_pendeta','list_jemaat_pria','list_jemaat_wanita','list_gereja'));		
 		// return null;
 	}
-	
+		
 	public function view_kedukaan()
-	{	
-		$list_gereja = $this->getListGereja();
-		$list_jemaat = $this->getListJemaatHidup();
+	{			
+		$list_anggota = $this->getListAnggotaHidup();
+		// $list_gereja = $this->getListGereja();
 		// return View::make('pages.user_olahdata.kedukaan');
-		return View::make('pages.user_olahdata.kedukaan_domi', compact('list_gereja','list_jemaat'));
+		return View::make('pages.user_olahdata.kedukaan_domi', compact('list_anggota'));
 		// return null;
 	}
 	
@@ -313,14 +313,18 @@ class OlahDataController extends BaseController {
 		$role = Input::get('role');		
 		
 		$anggota = DB::table('anggota AS ang');
-							
+		$anggota = $anggota->join('alamat AS alm', 'ang.id', '=','alm.id_anggota'); //yg ini ngerubah 'id' jadi yg di 'alamat'		
+		
+		if($id_gereja != "") //pasti terima value 1-... sesuai dengan login gereja user
+		{
+			$anggota = $anggota->where('ang.id_gereja', '=', $id_gereja);
+		}		
 		if($no_anggota != "")
 		{
 			$anggota = $anggota->where('ang.no_anggota', 'LIKE', '%'.$no_anggota.'%');
 		}
 		if($kota != "")
-		{	
-			$anggota = $anggota->join('alamat AS alm', 'ang.id', '=', 'alm.id_anggota');
+		{				
 			$anggota = $anggota->where('alm.kota', 'LIKE', '%'.$kota.'%');
 		}
 		if($gender != "") //pasti terima value 1 atau 0
@@ -374,11 +378,7 @@ class OlahDataController extends BaseController {
 		// if($tanggal_lahir != "")
 		// {
 			// $anggota = $anggota->where('ang.tanggal_lahir', '=', $tanggal_lahir);
-		// }
-		if($id_gereja != "") //pasti terima value 1-...
-		{
-			$anggota = $anggota->where('ang.id_gereja', '=', $id_gereja);
-		}
+		// }		
 		if($role != "") //pasti terima value 1-...
 		{
 			$anggota = $anggota->where('ang.role', '=', $role);
@@ -389,8 +389,29 @@ class OlahDataController extends BaseController {
 								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama.'%')
 								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama.'%');
 		}
-		
+						
 		$anggota = $anggota->get();
+		
+		//add hp		
+		foreach($anggota as $key)
+		{						
+			$hp = Hp::where('id_anggota', '=', $key->id_anggota)->get();
+			
+			$arr_hp = array();
+			foreach($hp as $each_hp)
+			{
+				$arr_hp[] = $each_hp->no_hp;
+			}			
+			//add to anggota
+			if(count($hp) == 0)
+			{
+				$key->arr_hp = "";
+			}
+			else
+			{
+				$key->arr_hp = $arr_hp;
+			}
+		}
 													
 		if(count($anggota) == 0)
 		{
@@ -409,26 +430,37 @@ class OlahDataController extends BaseController {
 		
 		$no_baptis = $input['no_baptis'];
 		$nama_jemaat = $input['nama_jemaat'];
-		$nama_pembaptis = $input['nama_pembaptis'];
+		$id_pembaptis = $input['id_pembaptis'];
 		$tanggal_awal = $input['tanggal_awal'];
 		$tanggal_akhir = $input['tanggal_akhir'];
-		$id_jenis_baptis = $input['id_jenis_baptis'];
+		$id_jenis_baptis = $input['id_jenis_baptis'];				
+		
 		// $id_gereja = $input['id_gereja'];
 		
 		$baptis = DB::table('baptis AS bap');
 		
+		$baptis = $baptis->join('anggota AS ang', 'bap.id_jemaat', '=', 'ang.id');
+		$baptis = $baptis->whereNotIn('ang.role', array(2)); //yang bukan pendeta
+		$baptis = $baptis->where('ang.id_gereja', '=', Auth::user()->anggota->id_gereja);
+		
+		$baptis = $baptis->where('bap.id_gereja', '=', Auth::user()->anggota->id_gereja);
+		
 		if($no_baptis != "")
 		{
 			$baptis = $baptis->where('bap.no_baptis', 'LIKE', '%'.$no_baptis.'%');
-		}				
+		}						
+			
 		if($nama_jemaat != "")
-		{			
-			$baptis = $baptis->join('anggota AS ang', 'bap.id_jemaat', '=', 'ang.id');
-			$baptis = $baptis->whereNotIn('ang.role', array(2)); //yang bukan pendeta
+		{												
 			$baptis = $baptis->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
 								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
 								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
 		}				
+		if($id_pembaptis != -1)
+		{
+			$baptis = $baptis->where('bap.id_pendeta', '=', $id_pembaptis);
+		}
+		/*
 		if($nama_pembaptis != "")
 		{			
 			$baptis = $baptis->join('anggota AS pend', 'bap.id_pendeta', '=', 'pend.id');			
@@ -436,7 +468,8 @@ class OlahDataController extends BaseController {
 			$baptis = $baptis->where('pend.nama_depan', 'LIKE', '%'.$nama_pembaptis.'%')
 								->orWhere('pend.nama_tengah', 'LIKE', '%'.$nama_pembaptis.'%')
 								->orWhere('pend.nama_belakang', 'LIKE', '%'.$nama_pembaptis.'%');
-		}		
+		}
+		*/		
 		//validation range tanggal
 		if($tanggal_awal != "")
 		{
@@ -461,14 +494,14 @@ class OlahDataController extends BaseController {
 				//ga ada tanggal awal dan akhir
 			}
 		}		
-		if($id_jenis_baptis != "")
+		if($id_jenis_baptis != -1)
 		{
 			$baptis = $baptis->where('bap.id_jenis_baptis', '=', $id_jenis_baptis);
 		}
 		// if($id_gereja != "")
 		// {
-			// $baptis = $baptis->where('bap.id_gereja', '=', $id_gereja);
-		// }
+			// $baptis = $baptis->where('bap.id_gereja', '=', $id_gereja);			
+		// }		
 		
 		$baptis = $baptis->get( array(
 			'bap.id AS id', 
@@ -479,7 +512,10 @@ class OlahDataController extends BaseController {
 			'bap.id_jenis_baptis AS id_jenis_baptis',
 			'bap.id_gereja AS id_gereja',
 			'bap.created_at AS created_at',
-			'bap.updated_at AS updated_at'
+			'bap.updated_at AS updated_at',
+			'ang.nama_depan AS nama_depan_jemaat',
+			'ang.nama_tengah AS nama_tengah_jemaat',
+			'ang.nama_belakang AS nama_belakang_jemaat'
 		));
 									
 		if(count($baptis) == 0)
@@ -495,8 +531,10 @@ class OlahDataController extends BaseController {
 	
 	public function search_atestasi()
 	{
-		$input = Input::get('data');
+		$result = array();
 		
+		$input = Input::get('data');
+				
 		$no_atestasi = $input['no_atestasi'];
 		$nama = $input['nama_jemaat'];
 		$tanggal_awal = $input['tanggal_awal'];
@@ -505,20 +543,26 @@ class OlahDataController extends BaseController {
 		$nama_gereja_lama = $input['nama_gereja_lama'];
 		$nama_gereja_baru = $input['nama_gereja_baru'];
 		
-		$atestasi = DB::table('atestasi AS ate');
+		$atestasi = DB::table('atestasi AS ate');		
+		$atestasi = $atestasi->join('anggota AS ang', 'ate.id', '=', 'ang.id_atestasi');
+		$atestasi = $atestasi->where('ang.role', '=', 1); // role jemaat		
 		
-		if($no_atestasi != "")
-		{
-			$atestasi = $atestasi->where('ate.no_atestasi', 'LIKE', '%'.$no_atestasi.'%');
-		}
+		$atestasi = $atestasi->get();
+		
+		return $atestasi;
+		
 		if($nama != "")
-		{
-			$atestasi = $atestasi->join('anggota AS ang', 'ate.id', '=', 'ang.id_atestasi');
-			$atestasi = $atestasi->where('ang.role', '=', 1); // role jemaat
+		{					
 			$atestasi = $atestasi->where('ang.nama_depan', 'LIKE', '%'.$nama.'%')
 								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama.'%')
 								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama.'%');
 		}		
+		
+		if($no_atestasi != "")
+		{
+			$atestasi = $atestasi->where('ate.no_atestasi', 'LIKE', '%'.$no_atestasi.'%');			
+		}
+		
 		//validation range tanggal
 		if($tanggal_awal != "")
 		{
@@ -543,7 +587,7 @@ class OlahDataController extends BaseController {
 				//ga ada tanggal awal dan akhir
 			}
 		}
-		if($id_jenis_atestasi != "")
+		if($id_jenis_atestasi != -1)
 		{
 			$atestasi = $atestasi->where('ate.id_jenis_atestasi', '=', $id_jenis_atestasi);
 		}
@@ -556,7 +600,21 @@ class OlahDataController extends BaseController {
 			$atestasi = $atestasi->where('ate.nama_gereja_baru', 'LIKE', '%'.$nama_gereja_baru.'%');
 		}
 		
-		$atestasi = $atestasi->get();		
+		// $atestasi = $atestasi->get( array(
+			// 'ate.id AS id', 
+			// 'ate.no_atestasi AS no_atestasi',
+			// 'ate.tanggal_atestasi AS tanggal_atestasi',
+			// 'ate.id_atestasi_baru AS id_atestasi_baru',
+			// 'ate.id_gereja_lama AS id_gereja_lama',
+			// 'ate.id_gereja_baru AS id_gereja_baru',
+			// 'ate.nama_gereja_lama AS nama_gereja_lama',
+			// 'ate.nama_gereja_baru AS nama_gereja_baru',
+			// 'ate.id_jenis_atestasi AS id_jenis_atestasi',
+			// 'ang.nama_depan AS nama_depan_anggota',
+			// 'ang.nama_tengah AS nama_tengah_anggota',
+			// 'ang.nama_belakang AS nama_belakang_anggota'
+		// ));
+		$atestasi = $atestasi->get();
 		
 		if(count($atestasi) == 0)
 		{
@@ -575,11 +633,12 @@ class OlahDataController extends BaseController {
 		$no_pernikahan = $input['no_pernikahan'];
 		$tanggal_awal = $input['tanggal_awal'];
 		$tanggal_akhir = $input['tanggal_akhir'];
-		$nama_pendeta = $input['nama_pendeta'];
+		$id_pendeta = $input['id_pendeta'];
 		$nama_pria = $input['nama_pria'];
 		$nama_wanita = $input['nama_wanita'];
 		
 		$pernikahan = DB::table('pernikahan AS per');		
+		$pernikahan = $pernikahan->where('per.id_gereja', '=', Auth::user()->anggota->id_gereja);
 		
 		if($no_pernikahan != "")
 		{
@@ -609,13 +668,15 @@ class OlahDataController extends BaseController {
 				//ga ada tanggal awal dan akhir
 			}
 		}		
-		if($nama_pendeta != "")
+		if($id_pendeta != -1)
 		{			
-			$pernikahan = $pernikahan->join('anggota AS ang', 'per.id_pendeta', '=', 'ang.id');
-			$pernikahan = $pernikahan->where('ang.role', '=', 2); //role pendeta
-			$pernikahan = $pernikahan->where('ang.nama_depan', 'LIKE', '%'.$nama_pendeta.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_pendeta.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_pendeta.'%');
+			$pernikahan = $pernikahan->where('per.id_pendeta', '=', $id_pendeta);
+			
+			// $pernikahan = $pernikahan->join('anggota AS ang', 'per.id_pendeta', '=', 'ang.id');			
+			// $pernikahan = $pernikahan->where('ang.role', '=', 2); //role pendeta
+			// $pernikahan = $pernikahan->where('ang.nama_depan', 'LIKE', '%'.$nama_pendeta.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_pendeta.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_pendeta.'%');
 		}		
 		if($nama_wanita != "")
 		{						
@@ -625,6 +686,7 @@ class OlahDataController extends BaseController {
 		{						
 			$pernikahan = $pernikahan->where('per.nama_pria', 'LIKE', '%'.$nama_pria.'%');								
 		}		
+		
 		$pernikahan = $pernikahan->get();
 		
 		if(count($pernikahan) == 0)
@@ -634,8 +696,7 @@ class OlahDataController extends BaseController {
 		else
 		{
 			return $pernikahan;
-		}		
-		// return null;
+		}				
 	}
 	
 	public function search_kedukaan()
@@ -648,6 +709,7 @@ class OlahDataController extends BaseController {
 		$tanggal_akhir = $input['tanggal_akhir'];
 		
 		$kedukaan = DB::table('kedukaan AS ked');
+		$kedukaan = $kedukaan->where('ked.id_gereja', '=', Auth::user()->anggota->id_gereja);
 		$kedukaan = $kedukaan->join('anggota AS ang', 'ked.id_jemaat', '=', 'ang.id');
 		
 		if($no_kedukaan != "")
@@ -683,9 +745,19 @@ class OlahDataController extends BaseController {
 			{
 				//ga ada tanggal awal dan akhir
 			}
-		}
+		}				
 		
-		$kedukaan = $kedukaan->get();		
+		$kedukaan = $kedukaan->get( array(
+			'ked.id AS id', 
+			'ked.no_kedukaan AS no_kedukaan',
+			'ked.id_gereja AS id_gereja',
+			'ked.id_jemaat AS id_jemaat',
+			'ked.keterangan AS keterangan',
+			'ang.tanggal_meninggal AS tanggal_meninggal',
+			'ang.nama_depan AS nama_depan_anggota',
+			'ang.nama_tengah AS nama_tengah_anggota',
+			'ang.nama_belakang AS nama_belakang_anggota'
+		));
 		
 		if(count($kedukaan) == 0)
 		{
@@ -694,8 +766,7 @@ class OlahDataController extends BaseController {
 		else
 		{
 			return $kedukaan;
-		}		
-		// return null;
+		}				
 	}
 	
 	public function search_dkh()
@@ -712,16 +783,27 @@ class OlahDataController extends BaseController {
 			$dkh = $dkh->where('dkh.no_dkh', 'LIKE', '%'.$no_dkh.'%');
 		}
 		
+		$dkh = $dkh->join('anggota AS ang', 'dkh.id_jemaat', '=', 'ang.id');
+		$dkh = $dkh->where('ang.role', '=', 1); // role jemaat
+		
 		if($nama_jemaat != "")
-		{
-			$dkh = $dkh->join('anggota AS ang', 'dkh.id_jemaat', '=', 'ang.id');
-			$dkh = $dkh->where('ang.role', '=', 1); // role jemaat
+		{						
 			$dkh = $dkh->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
 								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
 								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
 		}
 		
-		$dkh = $dkh->get();		
+		$dkh = $dkh->get( array(
+			'dkh.id AS id', 
+			'dkh.no_dkh AS no_dkh',
+			'dkh.id_jemaat AS id_jemaat',
+			'dkh.keterangan AS keterangan',
+			'dkh.created_at AS created_at', 
+			'dkh.updated_at AS updated_at',
+			'ang.nama_depan AS nama_depan_jemaat',			
+			'ang.nama_tengah AS nama_tengah_jemaat',
+			'ang.nama_belakang AS nama_belakang_jemaat'			
+		));
 		
 		if(count($dkh) == 0)
 		{
@@ -744,8 +826,7 @@ class OlahDataController extends BaseController {
 		$id = $input['id'];
 		// return "wohohohoho";
 		// return $id;
-		
-		
+				
 		$kebaktian = Kegiatan::find($id);
 		
 		if($kebaktian == null)
@@ -760,6 +841,101 @@ class OlahDataController extends BaseController {
 			$kebaktian->jumlah_persembahan = $persembahan->jumlah_persembahan;			
 			
 			return $kebaktian;
+		}
+	}
+	
+	public function detail_anggota()
+	{
+		return null;
+	}
+	
+	public function detail_baptis()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];		
+		
+		// return "wohohohoho";
+		// return $id;
+			
+		$baptis = Baptis::find($id);
+		
+		if($baptis == null)
+		{
+			return "";
+		}
+		else
+		{						
+			return $baptis;
+		}				
+	}
+	
+	public function detail_atestasi()
+	{
+		return null;
+	}
+	
+	public function detail_pernikahan()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+				
+		$pernikahan = Pernikahan::find($id);
+		
+		if($pernikahan == null)
+		{
+			return "";
+		}
+		else
+		{							
+			return $pernikahan;
+		}
+	}
+	
+	public function detail_kedukaan()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+		
+		// return "wohohohoho";
+		// return $id;
+			
+		$kedukaan = Kedukaan::find($id);
+		
+		if($kedukaan == null)
+		{
+			return "";
+		}
+		else
+		{				
+			$anggota = Anggota::find($kedukaan->id_jemaat);
+						
+			$kedukaan->tanggal_meninggal = $anggota->tanggal_meninggal;
+			
+			return $kedukaan;
+		}
+	}
+	
+	public function detail_dkh()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+		
+		// return "wohohohoho";
+		// return $id;
+			
+		$dkh = Dkh::find($id);
+		
+		if($dkh == null)
+		{
+			return "";
+		}
+		else
+		{						
+			return $dkh;
 		}
 	}
 	
@@ -879,6 +1055,607 @@ class OlahDataController extends BaseController {
 			}
 		}	
 	}
+	
+	public function edit_anggota()
+	{
+		$data_valid = array(
+			'nama_depan' => Input::get('nama_depan'),
+			'telp' => Input::get('telp'),
+			'gender' => Input::get('gender'),
+			'gol_darah' => Input::get('gol_darah'),
+			'pekerjaan' => Input::get('pekerjaan'),
+			'kota_lahir' => Input::get('kota_lahir'),
+			'tanggal_lahir' => Input::get('tanggal_lahir'), 
+			'role' => Input::get('role')
+		);
+		
+		//validate anggota
+		$validator = Validator::make($data = $data_valid, Anggota::$rules);
+		
+		if($validator->fails())
+		{
+			return "Bagian yang bertanda (*) harus diisi.";
+		}
+		
+		$data_valid = array(
+			'jalan' => Input::get('jalan'),
+			'kota' => Input::get('kota')			
+		);
+		
+		//validate alamat
+		$validator = Validator::make($data = $data_valid, Alamat::$rules);
+		
+		if($validator->fails())
+		{
+			return "Bagian yang bertanda (*) harus diisi.";
+		}
+	
+		// $anggota = new Anggota();
+		
+		$anggota = Anggota::find(Input::get('id'));
+		
+		if($anggota == null)
+		{
+			return "Gagal menyimpan perubahan.";
+		}		
+		
+		$anggota->no_anggota = Input::get('no_anggota');
+		$anggota->nama_depan = Input::get('nama_depan');
+		$anggota->nama_tengah = Input::get('nama_tengah');
+		$anggota->nama_belakang = Input::get('nama_belakang');
+		$anggota->telp = Input::get('telp');
+		$anggota->gender = Input::get('gender');
+		$anggota->wilayah = Input::get('wilayah');
+		$anggota->gol_darah = Input::get('gol_darah');
+		$anggota->pendidikan = Input::get('pendidikan');
+		$anggota->pekerjaan = Input::get('pekerjaan');
+		$anggota->etnis = Input::get('etnis');
+		$anggota->kota_lahir = Input::get('kota_lahir');
+		$anggota->tanggal_lahir = Input::get('tanggal_lahir');		
+		// $anggota->id_gereja = Input::get('id_gereja');
+		// $anggota->id_gereja = Auth::user()->anggota->id_gereja;
+		$anggota->role = Input::get('role');
+		
+		// $anggota->id_atestasi = null;
+		
+		try{
+			$anggota->save();
+			
+			//save no hp
+			// $ctHp = 0;			
+			$temp_arr_hp = Input::get('arr_hp');
+			if($temp_arr_hp != "") //kalo ada input hp			
+			{				
+				$hp = Hp::where('id_anggota', '=', Input::get('id'))->get();
+				$length_hp = count($hp);
+				
+				$arr_hp = explode(",", $temp_arr_hp);
+				$length_arr_hp = count($arr_hp);
+												
+				if($length_hp == $length_arr_hp)
+				{
+					$idx = 0;
+					foreach($hp as $row_hp)
+					{
+						$row_hp->no_hp = $arr_hp[$idx];
+						try{
+							$row_hp->save();
+						}catch(Exception $e){
+							//do nothing
+							return "Gagal menyimpan data anggota.";
+						}	
+						$idx++;						
+					}
+				}
+				else if($length_hp < $length_arr_hp) 	//brrt no_hp nambah banyak
+				{
+					$idx = 0;
+					foreach($hp as $row_hp)
+					{
+						$row_hp->no_hp = $arr_hp[$idx];						
+						try{
+							$row_hp->save();
+						}catch(Exception $e){
+							//do nothing
+							return "Gagal menyimpan data anggota.";
+						}	
+						$idx++;						
+					}
+					//add new hp
+					for($i = $idx; $i < $length_arr_hp; $i++)
+					{
+						$newhp = new Hp();
+						$newhp->no_hp = $arr_hp[$i];
+						$newhp->id_anggota = Input::get('id');
+						try{
+							$newhp->save();						
+						}catch(Exception $e){
+							//do nothing
+							return "Gagal menyimpan data anggota.";
+						}						
+					}
+				}
+				else if($length_hp > $length_arr_hp)	//brrt ada yang didelete
+				{
+					$idx = 0;
+					for($j = $idx; $j < $length_arr_hp; $j++)
+					{
+						$hp[$j]->no_hp = $arr_hp[$idx];						
+						try{
+							$hp[$j]->save();
+						}catch(Exception $e){
+							//do nothing
+							return "Gagal menyimpan data anggota.";
+						}	
+						$idx++;						
+					}
+					//delete hp
+					for($i = $idx; $i < $length_hp; $i++)
+					{
+						// $hp = new Hp();
+						// $hp->no_hp = $arr_hp[$i];
+						// $hp->id_anggota = Input::get('id');
+						try{
+							$hp[$i]->delete();						
+						}catch(Exception $e){
+							//do nothing
+							return "Gagal menyimpan data anggota.";
+						}						
+					}
+				}
+								
+			}
+			
+			//save alamat
+					// $alamat = new Alamat();
+			$alamat = Alamat::where('id_anggota', '=', Input::get('id'))->first();
+			
+			$alamat->jalan = Input::get('jalan');
+			$alamat->kota = Input::get('kota');
+			$alamat->kodepos = Input::get('kodepos');
+			// $alamat->id_anggota = $anggota->id;
+			try{
+				$alamat->save();
+			}catch(Exception $e){
+				//delete anggota
+				// $anggota->delete();
+				
+				//delete hp sebelumnya
+				// for($i = 0; $i < $ctHp ; $i++)
+				// {
+					// $delHp = DB::table('hp')->orderBy('created_at', 'desc')->first();
+					// $delHp->delete();
+				// }
+			
+				// return $e->getMessage();
+				return "Gagal menyimpan data anggota.";
+			}
+			
+			//save foto
+			if (Input::hasFile('foto'))
+			{
+				$file = Input::file('foto');
+				$destinationPath = "assets/file_upload/anggota/";
+				$fileName = $file->getClientOriginalName();						
+				
+				$foto_id = $anggota->id;				
+				$destinationPath .= $foto_id;
+				$destinationPath .= "/";
+				if(!file_exists($destinationPath))
+				{
+					File::makeDirectory($destinationPath, $mode = 0777, true, true);
+					$uploadSuccess = $file->move($destinationPath, $fileName);
+					$anggota->foto = $destinationPath.$fileName;
+					try{
+						$anggota->save();
+					}catch(Exception $e){
+						//delete anggota
+						// $anggota->delete();
+						
+						//delete hp sebelumnya
+						// for($i = 0; $i < $ctHp ; $i++)
+						// {
+							// $delHp = DB::table('hp')->orderBy('created_at', 'desc')->first();
+							// $delHp->delete();
+						// }
+						
+						//delete alamat
+						// $alamat->delete();
+						
+						return "Gagal menyimpan data anggota.";
+					}					
+				}
+				else
+				{
+					$uploadSuccess = $file->move($destinationPath, $fileName);
+					$anggota->foto = $destinationPath.$fileName;
+					try{
+						$anggota->save();
+					}catch(Exception $e){
+						//delete anggota
+						// $anggota->delete();
+						
+						//delete hp sebelumnya
+						// for($i = 0; $i < $ctHp ; $i++)
+						// {
+							// $delHp = DB::table('hp')->orderBy('created_at', 'desc')->first();
+							// $delHp->delete();
+						// }
+						
+						//delete alamat
+						// $alamat->delete();
+						
+						return "Gagal menyimpan data anggota.";
+					}					
+				}
+			}			
+		}catch(Exception $e){
+			// return $e->getMessage();
+			return "Gagal menyimpan data anggota.";
+		}		
+		
+		return "berhasil";	
+	}
+	
+	public function edit_baptis()
+	{
+		$input = Input::get('data');
+		
+		$id = $input['id'];		
+		
+		$data_valid = array(
+			'no_baptis' => $input['no_baptis'],
+			'id_jemaat' => $input['id_jemaat'],
+			'id_pendeta' => $input['id_pendeta'],
+			'tanggal_baptis' => $input['tanggal_baptis'],
+			'id_jenis_baptis' => $input['id_jenis_baptis'],
+			'id_gereja' => Auth::user()->anggota->id_gereja
+		);
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, Baptis::$rules);
+		
+		if($validator->fails())
+		{
+			return "Bagian yang bertanda (*) harus diisi.";
+		}
+		
+		$baptis = Baptis::find($id);
+		
+		if($baptis == null)
+		{
+			return "Gagal menyimpan perubahan.";
+		}
+		else
+		{				
+			$baptis->no_baptis = $input['no_baptis'];				
+			$baptis->id_jemaat = $input['id_jemaat'];
+			$baptis->id_pendeta = $input['id_pendeta'];
+			$baptis->tanggal_baptis = $input['tanggal_baptis'];
+			$baptis->id_jenis_baptis = $input['id_jenis_baptis'];
+			// $baptis->id_gereja = $input['id_gereja'];
+			$baptis->id_gereja = Auth::user()->anggota->id_gereja;
+			
+			try{
+				$baptis->save();
+				
+				return "berhasil";
+			}catch(Exception $e){
+				// return $e->getMessage();
+				return "Gagal menyimpan perubahan.";
+			}		
+		}	
+	}
+	
+	public function edit_atestasi()
+	{
+		return null;
+	}
+	
+	public function edit_pernikahan()
+	{
+		$input = Input::get('data');
+		
+		$id = $input['id'];
+		
+		$data_valid = array(
+			'no_pernikahan' => $input['no_pernikahan'],			
+			'tanggal_pernikahan' => $input['tanggal_pernikahan'],
+			'id_pendeta' => $input['id_pendeta'],
+			'nama_pria' => $input['nama_pria'],
+			'nama_wanita' => $input['nama_wanita']
+		);				
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, Pernikahan::$rules); 
+		
+		if ($validator->fails())
+		{			
+			return "Bagian yang bertanda (*) harus diisi.";
+		}		
+		
+		$pernikahan = Pernikahan::find($id);
+		
+		if($pernikahan == null)
+		{
+			return "Gagal menyimpan perubahan.";
+		}
+		else
+		{	
+			$pernikahan->no_pernikahan = $input['no_pernikahan'];
+			$pernikahan->tanggal_pernikahan = $input['tanggal_pernikahan'];
+			$pernikahan->id_pendeta = $input['id_pendeta'];			
+			// $pernikahan->id_gereja = Auth::user()->anggota->id_gereja;
+			$pernikahan->nama_pria = $input['nama_pria'];
+			$pernikahan->nama_wanita = $input['nama_wanita'];
+			if($input['id_jemaat_wanita'] == '')
+			{
+				$pernikahan->id_jemaat_wanita = null;
+			}
+			else
+			{
+				$pernikahan->id_jemaat_wanita = $input['id_jemaat_wanita'];
+			}
+			if($input['id_jemaat_pria'] == '')
+			{
+				$pernikahan->id_jemaat_pria = null;
+			}
+			else
+			{
+				$pernikahan->id_jemaat_pria = $input['id_jemaat_pria'];
+			}
+			try{
+				$pernikahan->save();
+				
+				return "berhasil";
+			}catch(Exception $e){
+				// return $e->getMessage();
+				return "Gagal menyimpan perubahan.";
+			}
+		}	
+	}
+	
+	public function edit_kedukaan()
+	{
+		$input = Input::get('data');
+		
+		$id = $input['id'];
+				
+		//validate
+		if($input['tanggal_meninggal'] == '' ||
+			$input['no_kedukaan'] == '' ||
+			$input['tanggal_meninggal'] == '')
+		{
+			return "Bagian yang bertanda (*) harus diisi.";
+		}
+		
+		$duka = Kedukaan::find($id);
+		
+		if($duka == null)
+		{
+			return "Gagal menyimpan perubahan.";
+		}
+		else
+		{
+			$duka->no_kedukaan = $input['no_kedukaan'];								
+			$duka->keterangan = $input['keterangan'];
+			
+			try{
+				$duka->save();
+				
+				//save tanggal_meninggal anggota
+				$anggota = Anggota::find($duka->id_jemaat);
+				if(count($anggota) != 0)
+				{					
+					$anggota->tanggal_meninggal = $input['tanggal_meninggal'];
+					try{
+						$anggota->save();
+						
+						return "berhasil";
+					}catch(Exception $e){
+						//delete duka
+						// $duka->delete();
+						
+						// return $e->getMessage();
+						return "Gagal menyimpan perubahan.";
+					}
+				}
+				else
+				{
+					return "Gagal menyimpan perubahan.";
+				}							
+			}catch(Exception $e){
+				// return $e->getMessage();
+				return "Gagal menyimpan perubahan.";
+			}
+		}								
+	}
+	
+	public function edit_dkh()
+	{
+		$input = Input::get('data');
+		
+		$id = $input['id'];		
+		
+		$data_valid = array(
+			'no_dkh' => $input['no_dkh'],
+			'id_jemaat' => $input['id_jemaat'],
+			'keterangan' => $input['keterangan']			
+		);
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, Dkh::$rules);
+		
+		if($validator->fails())
+		{
+			return "Bagian yang bertanda (*) harus diisi.";
+		}
+		
+		$dkh = Dkh::find($id);
+		
+		if($dkh == null)
+		{
+			return "Gagal menyimpan perubahan.";
+		}
+		else
+		{				
+			$dkh->no_dkh = $input['no_dkh'];				
+			$dkh->id_jemaat = $input['id_jemaat'];
+			$dkh->keterangan = $input['keterangan'];			
+			
+			try{
+				$dkh->save();
+				
+				return "berhasil";
+			}catch(Exception $e){
+				// return $e->getMessage();
+				return "Gagal menyimpan perubahan.";
+			}		
+		}	
+	}
+	
+	/*--------------------------------DELETE----------------------------------------*/	
+	
+	public function delete_kebaktian()
+	{
+		$input = Input::get('data');
+		
+		$id = $input['id'];		
+		
+		$kebaktian = Kegiatan::find($id);
+		
+		$persembahan = Persembahan::where('id_kegiatan', '=', $id)->first();	
+				
+		try{
+			
+			$persembahan->delete();			
+			$kebaktian->delete();
+			
+			return "berhasil";
+		}catch(Exception $e){
+			return "Tidak berhasil menghapus data.";
+		}					
+	}
+	
+	public function delete_anggota()
+	{
+		//Note : untuk foto anggota dan rekap atestasinya tidak dihapus
+		
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+		
+		$anggota = Anggota::find($id);
+		
+		$alamat = Alamat::where('id_anggota', '=', $id)->first();
+		
+		$hp = Hp::where('id_anggota', '=', $id)->get(); //bisa ga ada				
+		
+		if($anggota == null)
+		{
+			return "Tidak berhasil menghapus data.";
+		}				
+		
+		try{
+			//delete hp
+			if(count($hp) != 0)
+			{
+				foreach($hp as $key)
+				{
+					$key->delete();
+				}
+			}			
+		
+			//delete alamat
+			$alamat->delete();
+			
+			//delete anggota
+			$anggota->delete();			
+			
+			return "berhasil";
+		}catch(Exception $e){
+			return "Tidak berhasil menghapus data.";
+		}
+	}
+	
+	public function delete_baptis()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+		
+		$baptis = Baptis::find($id);
+		
+		try{
+			$baptis->delete();
+			
+			return "berhasil";
+		}catch(Exception $e){
+			return "Tidak berhasil menghapus data.";
+		}
+	}
+	
+	public function delete_atestasi()
+	{
+		return null;
+	}
+	
+	public function delete_pernikahan()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+		
+		$pernikahan = Pernikahan::find($id);
+		
+		try{
+			$pernikahan->delete();
+			
+			return "berhasil";
+		}catch(Exception $e){
+			return "Tidak berhasil menghapus data.";
+		}
+	}
+	
+	public function delete_kedukaan()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+		
+		$duka = Kedukaan::find($id);
+		
+		try{
+			//set null tanggal_meninggal di table anggota
+			$anggota = Anggota::find($duka->id_jemaat);
+			$anggota->tanggal_meninggal = null;
+			$anggota->save();
+			
+			$duka->delete();
+			
+			return "berhasil";
+		}catch(Exception $e){
+			return "Tidak berhasil menghapus data.";
+		}
+	}
+	
+	public function delete_dkh()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+		
+		$dkh = Dkh::find($id);
+		
+		try{
+			$dkh->delete();
+			
+			return "berhasil";
+		}catch(Exception $e){
+			return "Tidak berhasil menghapus data.";
+		}
+	}
+
 }
 
 ?>

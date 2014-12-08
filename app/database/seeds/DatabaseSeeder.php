@@ -13,6 +13,29 @@ class DatabaseSeeder extends Seeder {
 
 		// $this->call('UserTableSeeder');	
 		
+		//SEEDER TEMP	
+		/*
+			$anggota = new Anggota();		
+			// $anggota -> no_anggota = "";
+			$anggota -> nama_depan = "eeeeeee";
+			// $anggota -> nama_tengah = "wuzzy";
+			// $anggota -> nama_belakang = "bear";
+			// $anggota -> telp = "7654321";
+			$anggota -> gender = 1;
+			// $anggota -> wilayah = "I";
+			// $anggota -> gol_darah = "A +";
+			// $anggota -> pendidikan = "S-1";
+			// $anggota -> pekerjaan = "Wirausaha";
+			// $anggota -> etnis = "T.Hoa";
+			// $anggota -> kota_lahir = "Bandung";
+			// $anggota -> tanggal_lahir = "1992-09-13";
+			$anggota -> tanggal_meninggal = null;
+			$anggota -> role = 1;	//sebagai jemaat
+			$anggota -> id_gereja = 1; //gki guntur
+			$anggota -> id_atestasi = null;
+			$anggota -> save();		
+		*/
+		
 		/*				
 		//---------------------------------- USER ----------------------------------					
 		$gereja = new Gereja();		
@@ -138,7 +161,7 @@ class DatabaseSeeder extends Seeder {
 		$anggotacewe -> save();	
 		*/
 		
-		
+		/*
 		//---------------------------------- PENDETA ----------------------------------
 		
 		$anggota3 = new Anggota();		
@@ -180,7 +203,7 @@ class DatabaseSeeder extends Seeder {
 		$anggota4 -> id_gereja = $gereja->id;
 		// $anggota4 -> id_atestasi = -99;
 		$anggota4 -> save();
-		
+		*/
 		
 		/*
 		//---------------------------------- JENIS KEGIATAN ----------------------------------
@@ -229,7 +252,7 @@ class DatabaseSeeder extends Seeder {
 		$jeniskegiatan8 -> save();
 		*/
 		
-		/*
+		
 		//---------------------------------- JENIS ATESTASI ----------------------------------
 		$jenisatestasi1 = new JenisAtestasi();
 		$jenisatestasi1 -> nama_atestasi = "jenis atestasi 1";
@@ -243,19 +266,26 @@ class DatabaseSeeder extends Seeder {
 		$jenisatestasi3 -> nama_atestasi = "jenis atestasi 3";
 		$jenisatestasi3 -> save();
 		
+		
+		/*
 		//---------------------------------- JENIS BAPTIS ----------------------------------
 		$jenisbaptis1 = new JenisBaptis();
-		$jenisbaptis1 -> nama_jenis_baptis = "jenis baptis 1";
+		$jenisbaptis1 -> nama_jenis_baptis = "baptis anak";
+		$jenisbaptis1 -> keterangan = "pembaptisan untuk anak";
 		$jenisbaptis1 -> save();
 		
 		$jenisbaptis2 = new JenisBaptis();
-		$jenisbaptis2 -> nama_jenis_baptis = "jenis baptis 2";
+		$jenisbaptis2 -> nama_jenis_baptis = "baptis sidi";
+		$jenisbaptis2 -> keterangan = "pembaptisan secara sidi";
 		$jenisbaptis2 -> save();
 		
 		$jenisbaptis3 = new JenisBaptis();
-		$jenisbaptis3 -> nama_jenis_baptis = "jenis baptis 3";
+		$jenisbaptis3 -> nama_jenis_baptis = "baptis dewasa";
+		$jenisbaptis3 -> keterangan = "pembaptisan untuk dewasa";
 		$jenisbaptis3 -> save();
+		*/
 		
+		/*
 		//---------------------------------- DAFTAR GEREJA KLASSIS ----------------------------------
 		// GKI Ayudia
 		$gereja2 = new Gereja();		

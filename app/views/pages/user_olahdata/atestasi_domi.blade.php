@@ -166,7 +166,10 @@
 	</div>	
 </div>	
 
-<script>		
+<script>	
+//simpen detail 
+var temp_detail = "";
+	
 $('body').on('click', '#f_search_atestasi', function(){
 	$no_atestasi = $('#f_nomor_atestasi').val();			
 	$nama_jemaat = $('#f_jemaat').val();
@@ -195,7 +198,9 @@ $('body').on('click', '#f_search_atestasi', function(){
 		success: function(response){	
 			alert("Berhasil cari data atestasi");
 				// alert(JSON.stringify(response));
-				$('#temp_result').html(JSON.stringify(response));
+				// $('#temp_result').html(JSON.stringify(response));
+				
+				temp_detail = response;
 				
 				if(response != "no result")
 				{
@@ -209,15 +214,16 @@ $('body').on('click', '#f_search_atestasi', function(){
 								result+=response[$i]['no_atestasi'];								
 							result+='</td>';
 							result+='<td>';
-								result+=response[$i]['nama_depan_anggota']+' '+response[$i]['nama_tengah_anggota']+' '+response[$i]['nama_belakang_anggota'];							
+								result+=response[$i]['nama_depan']+' '+response[$i]['nama_tengah']+' '+response[$i]['nama_belakang'];							
 							result+='</td>';
 														
 							result+='<td>';
-								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
-								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_anggota">';
+								result+='<input type="hidden" value='+$i+' />';
+								result+='<input type="hidden" value='+response[$i]['id_atestasi']+' />';
+								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_atestasi">';
 									result+='Edit';
 								result+='</button>';
-								result+='<input type="hidden" value="'+response[$i]['id']+'" />';
+								result+='<input type="hidden" value='+response[$i]['id_atestasi']+' />';
 								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
 									result+='delete';
 								result+='</button>';
@@ -238,6 +244,51 @@ $('body').on('click', '#f_search_atestasi', function(){
 			}
 		});
 });
+
+//click detail button
+$('body').on('click', '.detailButton', function(){
+	$id = $(this).prev().val();	
+	$index = $(this).prev().prev().val();
+	
+	//set value di table pop up detail
+	$('#f_edit_nomor_atestasi').val(temp_detail[$index]['no_atestasi']);
+	$('#f_edit_jemaat').val(temp_detail[$index]['id']);
+	$('#f_edit_tanggal_atestasi').val(temp_detail[$index]['tanggal_atestasi']);
+	$('#f_edit_jenis_atestasi').val(temp_detail[$index]['id_jenis_atestasi']);
+	if(temp_detail[$index]['id_gereja_lama'] == null)
+	{
+		$('#f_edit_check_gereja_lama').val(1);
+		$('#f_edit_check_gereja_lama').prop('checked', true);
+		$('#f_edit_list_gereja_lama').attr('disabled', true);
+		$('#f_edit_nama_gereja_lama').attr('disabled', false);
+		$('#f_edit_nama_gereja_lama').val(temp_detail[$index]['nama_gereja_lama']);			
+	}
+	else
+	{
+		$('#f_edit_check_gereja_lama').val(0);
+		
+		$('#f_edit_list_gereja_lama').attr('disabled', false);
+		$('#f_edit_nama_gereja_lama').attr('disabled', true);
+		$('#f_edit_nama_gereja_lama').val(temp_detail[$index]['nama_gereja_lama']);			
+	}
+	if(temp_detail[$index]['id_gereja_baru'] == null)
+	{
+		$('#f_edit_check_gereja_baru').val(1);
+		$('#f_edit_check_gereja_baru').prop('checked', true);
+		$('#f_edit_list_gereja_baru').attr('disabled', true);
+		$('#f_edit_nama_gereja_baru').attr('disabled', false);
+		$('#f_edit_nama_gereja_baru').val(temp_detail[$index]['nama_gereja_baru']);			
+	}
+	else
+	{
+		$('#f_edit_check_gereja_baru').val(0);
+		
+		$('#f_edit_list_gereja_baru').attr('disabled', false);
+		$('#f_edit_nama_gereja_baru').attr('disabled', true);
+		$('#f_edit_nama_gereja_baru').val(temp_detail[$index]['nama_gereja_baru']);				
+	}	
+	$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);			
+});	
 </script>
 
 @include('pages.user_olahdata.popup_edit_atestasi')

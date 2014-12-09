@@ -22,11 +22,8 @@ class InputEditController extends BaseController {
 		$list_pendidikan = $this->getListPendidikan();
 		$list_pekerjaan = $this->getListPekerjaan();
 		$list_etnis = $this->getListEtnis();
-		$list_role = $this->getListRoleAnggota();		
-		// return View::make('pages.user_inputdata.anggota', compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
-		// return View::make('pages.user_inputdata.anggota', compact('list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
-		return View::make('pages.user_inputdata.anggota_domi', compact('list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
-		// return null;
+		$list_role = $this->getListRoleAnggota();				
+		return View::make('pages.user_inputdata.anggota_domi', compact('list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));		
 	}
 	
 	public function view_baptis()
@@ -34,20 +31,16 @@ class InputEditController extends BaseController {
 		// $list_gereja = $this->getListGereja();
 		$list_pembaptis = $this->getListPendeta();
 		$list_jenis_baptis = $this->getListJenisBaptis();
-		$list_jemaat = $this->getListJemaat();
-		// return View::make('pages.user_inputdata.baptis', compact('list_gereja','list_pembaptis','list_jenis_baptis','list_jemaat'));
-		return View::make('pages.user_inputdata.baptis_domi', compact('list_pembaptis','list_jenis_baptis','list_jemaat'));
-		// return null;
+		$list_jemaat = $this->getListJemaat();		
+		return View::make('pages.user_inputdata.baptis_domi', compact('list_pembaptis','list_jenis_baptis','list_jemaat'));		
 	}	
 	
 	public function view_atestasi()
 	{
 		$list_jenis_atestasi = $this->getListJenisAtestasi();
 		$list_jemaat = $this->getListJemaat();
-		$list_gereja = $this->getListGereja();
-		// return View::make('pages.user_inputdata.atestasi', compact('list_jenis_atestasi','list_jemaat','list_gereja'));
-		return View::make('pages.user_inputdata.atestasi_domi', compact('list_jenis_atestasi','list_jemaat','list_gereja'));
-		// return null;
+		$list_gereja = $this->getListGereja();		
+		return View::make('pages.user_inputdata.atestasi_domi', compact('list_jenis_atestasi','list_jemaat','list_gereja'));		
 	}
 	
 	public function view_pernikahan()
@@ -55,27 +48,21 @@ class InputEditController extends BaseController {
 		$list_jemaat_pria = $this->getListJemaatPria();
 		$list_jemaat_wanita = $this->getListJemaatWanita();
 		$list_gereja = $this->getListGereja();
-		$list_pendeta = $this->getListPendeta();
-		// return View::make('pages.user_inputdata.pernikahan', compact('list_jemaat_pria','list_jemaat_wanita','list_gereja','list_pendeta'));
+		$list_pendeta = $this->getListPendeta();		
 		return View::make('pages.user_inputdata.pernikahan_domi', compact('list_jemaat_pria','list_jemaat_wanita','list_gereja','list_pendeta'));
-		// return null;
 	}
 	
 	public function view_kedukaan()
 	{
 		$list_gereja = $this->getListGereja();
-		$list_anggota = $this->getListAnggotaHidup();
-		// return View::make('pages.user_inputdata.kedukaan', compact('list_gereja','list_jemaat'));
+		$list_anggota = $this->getListAnggotaHidup();		
 		return View::make('pages.user_inputdata.kedukaan_domi', compact('list_gereja','list_anggota'));
-		// return null;
 	}
 	
 	public function view_dkh()
 	{
-		$list_jemaat = $this->getListJemaat();
-		// return View::make('pages.user_inputdata.dkh', compact('list_jemaat'));
-		return View::make('pages.user_inputdata.dkh_domi', compact('list_jemaat'));
-		// return null;
+		$list_jemaat = $this->getListJemaat();		
+		return View::make('pages.user_inputdata.dkh_domi', compact('list_jemaat'));		
 	}
 
 /*----------------------------------------POST----------------------------------------*/	
@@ -105,11 +92,7 @@ class InputEditController extends BaseController {
 		$validator = Validator::make($data = $data_valid, Kegiatan::$rules); 								
 
 		if ($validator->fails())
-		{
-			// $respond = array('code'=>'400','status' => 'Bad Request','messages' => $validator->messages());
-			// return Response::json($respond);
-			// return "validator";
-			// return $validator->messages();
+		{			
 			return "Bagian yang bertanda (*) harus diisi.";
 		}
 		if($input['jumlah_persembahan'] == '')
@@ -158,6 +141,7 @@ class InputEditController extends BaseController {
 		// $kebaktian->id_gereja = $input['id_gereja'];
 		$kebaktian->id_gereja = Auth::user()->anggota->id_gereja;		
 		$kebaktian->keterangan = $input['keterangan'];					
+		$kebaktian->deleted = 0;
 		
 		try{
 			$kebaktian->save();
@@ -167,7 +151,8 @@ class InputEditController extends BaseController {
 				$persembahan->tanggal_persembahan = $kebaktian->tanggal_mulai;
 				$persembahan->jumlah_persembahan = $input['jumlah_persembahan'];
 				$persembahan->id_kegiatan = $kebaktian->id;
-				$persembahan->jenis = 1;
+				$persembahan->jenis = 1;	//jenis 1 khusus untuk persembahan kebaktian
+				$persembahan->deleted = 0;
 				
 				$persembahan->save();
 				
@@ -175,13 +160,11 @@ class InputEditController extends BaseController {
 			}catch(Exception $e){
 				//delete kebaktian
 				$kebaktian->delete();
-			
-				// return $e->getMessage();
+							
 				return "Gagal menyimpan data kebaktian.";
 			}
 						
-		}catch(Exception $e){
-			// return $e->getMessage();
+		}catch(Exception $e){			
 			return "Gagal menyimpan data kebaktian.";
 		}
 							
@@ -238,8 +221,7 @@ class InputEditController extends BaseController {
 		// $anggota->id_gereja = Input::get('id_gereja');
 		$anggota->id_gereja = Auth::user()->anggota->id_gereja;
 		$anggota->role = Input::get('role');
-		
-		$anggota->id_atestasi = null;
+		$anggota->deleted = 0;		
 		
 		try{
 			$anggota->save();
@@ -255,6 +237,7 @@ class InputEditController extends BaseController {
 					$hp = new Hp();
 					$hp->no_hp = $key;
 					$hp->id_anggota = $anggota->id;
+					$hp->deleted = 0;
 					try{
 						$hp->save();
 						
@@ -269,8 +252,7 @@ class InputEditController extends BaseController {
 							$delHp = DB::table('hp')->orderBy('created_at', 'desc')->first();
 							$delHp->delete();
 						}
-					
-						// return $e->getMessage();
+											
 						return "Gagal menyimpan data anggota.";
 					}
 				}
@@ -282,6 +264,7 @@ class InputEditController extends BaseController {
 			$alamat->kota = Input::get('kota');
 			$alamat->kodepos = Input::get('kodepos');
 			$alamat->id_anggota = $anggota->id;
+			$alamat->deleted = 0;
 			try{
 				$alamat->save();
 			}catch(Exception $e){
@@ -294,8 +277,7 @@ class InputEditController extends BaseController {
 					$delHp = DB::table('hp')->orderBy('created_at', 'desc')->first();
 					$delHp->delete();
 				}
-			
-				// return $e->getMessage();
+							
 				return "Gagal menyimpan data anggota.";
 			}
 			
@@ -357,8 +339,7 @@ class InputEditController extends BaseController {
 					}					
 				}
 			}			
-		}catch(Exception $e){
-			// return $e->getMessage();
+		}catch(Exception $e){			
 			return "Gagal menyimpan data anggota.";
 		}		
 		
@@ -394,6 +375,8 @@ class InputEditController extends BaseController {
 		$baptis->id_jenis_baptis = $input['id_jenis_baptis'];
 		// $baptis->id_gereja = $input['id_gereja'];
 		$baptis->id_gereja = Auth::user()->anggota->id_gereja;
+		$baptis->keterangan = $input['keterangan'];
+		$baptis->deleted = 0;
 		
 		try{
 			$baptis->save();
@@ -433,7 +416,9 @@ class InputEditController extends BaseController {
 		$atestasi->keterangan = $input['keterangan'];
 		$atestasi->nama_gereja_lama = $input['nama_gereja_lama'];
 		$atestasi->nama_gereja_baru = $input['nama_gereja_baru'];
-		$atestasi->id_atestasi_baru = null;
+		$atestasi->id_anggota = $input['id_anggota'];
+		$atestasi->keterangan = $input['keterangan'];
+		$atestasi->deleted = 0;
 		if($input['id_gereja_lama'] == '')
 		{
 			$atestasi->id_gereja_lama = null;
@@ -449,10 +434,14 @@ class InputEditController extends BaseController {
 		else
 		{
 			$atestasi->id_gereja_baru = $input['id_gereja_baru'];
-		}
+		}	
+		
+		/*gimana cara save id atestasi barunya*/		
+		
 		try{
 			$atestasi->save();	
-				
+			
+			/*
 			$anggota = Anggota::find($input['id_jemaat']);
 		
 			if($anggota->id_atestasi == null) //anggota masih blom punya id_atestasi
@@ -466,8 +455,7 @@ class InputEditController extends BaseController {
 				}catch(Exception $e){
 					//delete atestasi
 					$atestasi->delete();
-					
-					// return $e->getMessage();
+										
 					return "Gagal menyimpan data atestasi.";
 				}			
 			}
@@ -494,10 +482,10 @@ class InputEditController extends BaseController {
 					// return $e->getMessage();
 					return "Gagal menyimpan data atestasi.";
 				}
-			}
-		}catch(Exception $e){
-			// return $e;
-			return "Gagal menyimpan data kedukaan.";
+			
+			*/
+		}catch(Exception $e){			
+			return "Gagal menyimpan data atestasi.";
 		}
 		
 	}
@@ -525,11 +513,12 @@ class InputEditController extends BaseController {
 		$pernikahan = new Pernikahan();
 		$pernikahan->no_pernikahan = $input['no_pernikahan'];
 		$pernikahan->tanggal_pernikahan = $input['tanggal_pernikahan'];
-		$pernikahan->id_pendeta = $input['id_pendeta'];
-		// $pernikahan->id_gereja = $input['id_gereja'];		
+		$pernikahan->id_pendeta = $input['id_pendeta'];			
 		$pernikahan->id_gereja = Auth::user()->anggota->id_gereja;
 		$pernikahan->nama_pria = $input['nama_pria'];
 		$pernikahan->nama_wanita = $input['nama_wanita'];
+		$pernikahan->keterangan = $input['keterangan'];
+		$pernikahan->deleted = 0;
 		if($input['id_jemaat_wanita'] == '')
 		{
 			$pernikahan->id_jemaat_wanita = null;
@@ -550,8 +539,7 @@ class InputEditController extends BaseController {
 			$pernikahan->save();
 			
 			return "berhasil";
-		}catch(Exception $e){
-			// return $e->getMessage();
+		}catch(Exception $e){			
 			return "Gagal menyimpan data pernikahan.";
 		}		
 	}
@@ -585,6 +573,7 @@ class InputEditController extends BaseController {
 		$duka->id_gereja = Auth::user()->anggota->id_gereja;
 		$duka->id_jemaat = $input['id_jemaat'];		
 		$duka->keterangan = $input['keterangan'];
+		$duka->deleted = 0;
 		
 		try{
 			$duka->save();
@@ -601,8 +590,7 @@ class InputEditController extends BaseController {
 				}catch(Exception $e){
 					//delete duka
 					$duka->delete();
-					
-					// return $e->getMessage();
+										
 					return "Gagal menyimpan data kedukaan.";
 				}
 			}
@@ -610,8 +598,7 @@ class InputEditController extends BaseController {
 			{
 				return "Gagal menyimpan data kedukaan.";
 			}							
-		}catch(Exception $e){
-			// return $e->getMessage();
+		}catch(Exception $e){			
 			return "Gagal menyimpan data kedukaan.";
 		}
 	}
@@ -638,12 +625,12 @@ class InputEditController extends BaseController {
 		$dkh->no_dkh = $input['no_dkh'];
 		$dkh->id_jemaat = $input['id_jemaat'];
 		$dkh->keterangan = $input['keterangan'];
+		$dkh->deleted = 0;
 		try{
 			$dkh->save();
 			
 			return "berhasil";
-		}catch(Exception $e){
-			// return $e->getMessage();
+		}catch(Exception $e){			
 			return "Gagal menyimpan data dkh.";
 		}
 							

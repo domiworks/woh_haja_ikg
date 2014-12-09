@@ -23,6 +23,8 @@ class Pernikahan extends Eloquent
 				'id_jemaat_wanita',
 				'id_jemaat_pria',
 				'nama_pria',
-				'nama_wanita'];		
+				'nama_wanita',
+				'keterangan',
+				'deleted'];		
 				
 }

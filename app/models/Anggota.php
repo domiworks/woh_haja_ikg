@@ -45,5 +45,5 @@ class Anggota extends Eloquent
 				'role',
 				'foto',
 				'id_gereja',
-				'id_atestasi'];	
+				'deleted'];	
 }

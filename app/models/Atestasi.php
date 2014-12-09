@@ -24,5 +24,7 @@ class Atestasi extends Eloquent
 				'id_gereja_baru',
 				'nama_gereja_baru',
 				'id_jenis_atestasi',
-				'keterangan'];				
+				'keterangan',
+				'id_anggota',
+				'deleted'];				
 }

@@ -371,7 +371,7 @@
 		data.append('tanggal_lahir', $tanggal_lahir);
 		// $anggota_gereja = $('#f_id_gereja').val();
 			// data.append('id_gereja', $anggota_gereja);
-			if($('#f_foto').val() != "")
+			if($('#f_edit_foto').val() != "")
 			{			
 				$foto = $('#f_edit_foto')[0].files[0];
 			}		

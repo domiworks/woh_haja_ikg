@@ -432,9 +432,13 @@ $('body').on('click', '.detailButton', function(){
 	$('#f_edit_status').val(temp_detail[$index]['role']);
 	// $('#f_edit_').val(temp_detail[$index]['foto']);
 	//foto
-	if(temp_detail[$index]['foto'] != '' || temp_detail[$index]['foto'] != null)
+	if(temp_detail[$index]['foto'] != '' || temp_detail[$index]['foto'] == null)
 	{
 		$('#edit_show_foto').attr('src', 'http://localhost/gki_git/public/'+temp_detail[$index]['foto'] );
+	}
+	else
+	{
+		$('#edit_show_foto').attr('src', '');
 	}
 	$('#f_edit_alamat').val(temp_detail[$index]['jalan']); //alamat
 	$('#f_edit_kota').val(temp_detail[$index]['kota']);

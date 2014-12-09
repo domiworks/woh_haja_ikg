@@ -43,7 +43,7 @@ $(document).ready(function(){
 			<div class="panel-body">
 				<form class="form-horizontal">
 						<div class="form-group">
-							<label class="col-xs-4 control-label">Kebaktian ke</label> 
+							<label class="col-xs-4 control-label">Nama Kebaktian</label> 
 							<div class="col-xs-5">								
 								{{Form::text('nama_kebaktian', Input::old('nama_kebaktian'), array('id'=>'f_nama_kebaktian', 'class'=>'form-control'))}}
 							</div>
@@ -185,6 +185,10 @@ $(document).ready(function(){
 						</div>
 					</form>
 				</div>
+				
+				<div id="temp_result">
+					
+				</div>
 								
 				<div id="f_result_kebaktian">
 					
@@ -237,6 +241,9 @@ $(document).ready(function(){
 			return false;
 		return true;
 	}
+
+	//simpen detail 
+	var temp_detail = "";
 
 	$('body').on('click', '#f_search_kebaktian', function(){		
 		$nama_kebaktian = $('#f_nama_kebaktian').val();
@@ -294,7 +301,10 @@ $(document).ready(function(){
 				'data' : $data
 			},
 			success: function(response){				
-				alert("Berhasil cari data kebaktian");
+				alert("Berhasil cari data kebaktian");												
+				temp_detail = response;
+				
+				$('#temp_result').html(response);
 								
 				if(response != "no result")
 				{
@@ -302,12 +312,7 @@ $(document).ready(function(){
 					// var result = '<table class="table table-bordered"><thead><tr><th>No. Anggota</th><th>Nama Depan Anggota</th><th></th></tr></thead><tbody>';	
 					var result = '';
 					for($i = 0; $i < response.length; $i++)
-					{
-						// result += response[$i]['id']+ " ";
-						// alert(response[$i]['id']);
-						// alert(response[$i]['tanggal_mulai']);
-						// alert(response[$i]['nama_pendeta']);
-						
+					{						
 						//set value di tabel result
 						result+= '<tr>';
 							result+='<td>';
@@ -318,6 +323,7 @@ $(document).ready(function(){
 								// result+=response[$i]['id'];
 							result+='</td>';
 							result+='<td>';
+								result+='<input type="hidden" value='+$i+' />';
 								result+='<input type="hidden" value='+response[$i]['id']+' />';
 								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kebaktian">';
 									result+='Edit';

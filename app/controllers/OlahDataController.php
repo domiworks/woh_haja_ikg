@@ -8,12 +8,9 @@ class OlahDataController extends BaseController {
 	{	
 		$list_jenis_kegiatan = $this->getListJenisKegiatan();		
 		$list_pembicara = $this->getListPendeta();
-		// $list_gereja = $this->getListGereja();
-		// return View::make('pages.user_olahdata.kebaktian',
-			// compact('list_jenis_kegiatan'));
+		// $list_gereja = $this->getListGereja();		
 		return View::make('pages.user_olahdata.kebaktian_domi',
-			compact('list_jenis_kegiatan', 'list_pembicara'));
-		// return null;
+			compact('list_jenis_kegiatan', 'list_pembicara'));		
 	}		
 
 	public function view_anggota()
@@ -24,8 +21,7 @@ class OlahDataController extends BaseController {
 		$list_pendidikan = $this->getListPendidikan();
 		$list_pekerjaan = $this->getListPekerjaan();
 		$list_etnis = $this->getListEtnis();
-		$list_role = $this->getListRoleAnggota();
-		// return View::make('pages.user_olahdata.anggota', compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
+		$list_role = $this->getListRoleAnggota();		
 		return View::make('pages.user_olahdata.anggota_domi', compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
 	}	
 	
@@ -34,19 +30,16 @@ class OlahDataController extends BaseController {
 		$list_pembaptis = $this->getListPendeta();	
 		$list_jenis_baptis = $this->getListJenisBaptis();
 		$list_gereja = $this->getListGereja();				
-		$list_jemaat = $this->getListJemaat();
-		
-		// return View::make('pages.user_olahdata.baptis', compact('list_pembaptis','list_jenis_baptis','list_gereja'));
-		return View::make('pages.user_olahdata.baptis_domi', compact('list_pembaptis','list_jenis_baptis','list_gereja','list_jemaat'));
-		// return null;
+		$list_jemaat = $this->getListJemaat();				
+		return View::make('pages.user_olahdata.baptis_domi', compact('list_pembaptis','list_jenis_baptis','list_gereja','list_jemaat'));		
 	}
 	
 	public function view_atestasi()
 	{		
 		$list_jenis_atestasi = $this->getListJenisAtestasi();
-		// return View::make('pages.user_olahdata.atestasi', compact('list_jenis_atestasi'));
-		return View::make('pages.user_olahdata.atestasi_domi', compact('list_jenis_atestasi'));
-		// return null;
+		$list_jemaat = $this->getListJemaat();
+		$list_gereja = $this->getListGereja();		
+		return View::make('pages.user_olahdata.atestasi_domi', compact('list_jenis_atestasi','list_jemaat','list_gereja'));		
 	}
 	
 	public function view_pernikahan()
@@ -55,28 +48,23 @@ class OlahDataController extends BaseController {
 		$list_jemaat_pria = $this->getListJemaatPria();
 		$list_jemaat_wanita = $this->getListJemaatWanita();
 		$list_gereja = $this->getListGereja();		
-		// $list_gereja = $this->getListGereja();
-		// return View::make('pages.user_olahdata.pernikahan');
+		// $list_gereja = $this->getListGereja();		
 		return View::make('pages.user_olahdata.pernikahan_domi', 
-				compact('list_pendeta','list_jemaat_pria','list_jemaat_wanita','list_gereja'));		
-		// return null;
+				compact('list_pendeta','list_jemaat_pria','list_jemaat_wanita','list_gereja'));				
 	}
 		
 	public function view_kedukaan()
 	{			
 		$list_anggota = $this->getListAnggotaHidup();
-		// $list_gereja = $this->getListGereja();
-		// return View::make('pages.user_olahdata.kedukaan');
-		return View::make('pages.user_olahdata.kedukaan_domi', compact('list_anggota'));
-		// return null;
+		// $list_gereja = $this->getListGereja();		
+		return View::make('pages.user_olahdata.kedukaan_domi', compact('list_anggota'));		
 	}
 	
 	public function view_dkh()
 	{	
-		$list_jemaat = $this->getListJemaat();
-		// return View::make('pages.user_olahdata.dkh');
+		$list_jemaat = $this->getListJemaat();		
 		return View::make('pages.user_olahdata.dkh_domi', compact('list_jemaat'));
-		// return null;
+		
 	}
 	
 	/*--------------------------------SEARCH----------------------------------------*/		
@@ -282,7 +270,7 @@ class OlahDataController extends BaseController {
 			}
 		}
 		
-		$kebaktian = $kebaktian->orderBy('keg.tanggal_mulai')->get();
+		$kebaktian = $kebaktian->where('deleted', '=', 0)->orderBy('keg.tanggal_mulai')->get();
 				
 		if(count($kebaktian) == 0)
 		{
@@ -290,7 +278,7 @@ class OlahDataController extends BaseController {
 		}
 		else
 		{
-			return $kebaktian;
+			return $kebaktian;			
 		}		
 	}
 	
@@ -309,16 +297,16 @@ class OlahDataController extends BaseController {
 		$tanggal_awal = Input::get('tanggal_awal');
 		$tanggal_akhir = Input::get('tanggal_akhir');
 		// $id_gereja = Input::get('id_gereja');
-		$id_gereja = Auth::user()->anggota->id_gereja;
+		// $id_gereja = Auth::user()->anggota->id_gereja;
 		$role = Input::get('role');		
 		
 		$anggota = DB::table('anggota AS ang');
 		$anggota = $anggota->join('alamat AS alm', 'ang.id', '=','alm.id_anggota'); //yg ini ngerubah 'id' jadi yg di 'alamat'		
-		
-		if($id_gereja != "") //pasti terima value 1-... sesuai dengan login gereja user
-		{
-			$anggota = $anggota->where('ang.id_gereja', '=', $id_gereja);
-		}		
+		$anggota = $anggota->where('ang.id_gereja', '=', Auth::user()->anggota->id_gereja);
+		// if($id_gereja != "") //pasti terima value 1-... sesuai dengan login gereja user
+		// {
+			// $anggota = $anggota->where('ang.id_gereja', '=', $id_gereja);
+		// }		
 		if($no_anggota != "")
 		{
 			$anggota = $anggota->where('ang.no_anggota', 'LIKE', '%'.$no_anggota.'%');
@@ -547,9 +535,9 @@ class OlahDataController extends BaseController {
 		$atestasi = $atestasi->join('anggota AS ang', 'ate.id', '=', 'ang.id_atestasi');
 		$atestasi = $atestasi->where('ang.role', '=', 1); // role jemaat		
 		
-		$atestasi = $atestasi->get();
+		// $atestasi = $atestasi->get();
 		
-		return $atestasi;
+		// return $atestasi;
 		
 		if($nama != "")
 		{					
@@ -785,6 +773,7 @@ class OlahDataController extends BaseController {
 		
 		$dkh = $dkh->join('anggota AS ang', 'dkh.id_jemaat', '=', 'ang.id');
 		$dkh = $dkh->where('ang.role', '=', 1); // role jemaat
+		$dkh = $dkh->where('ang.id_gereja', '=', Auth::user()->anggota->id_gereja);
 		
 		if($nama_jemaat != "")
 		{						

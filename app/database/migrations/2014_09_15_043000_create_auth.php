@@ -10,9 +10,24 @@ class CreateAuth extends Migration {
 	 *
 	 * @return void
 	 */
+	
+	//--------------------------------------------------------REVISI DATABASE--------------------------------------------------------
+	/*	
+	REVISI TABLE-TABLEDI DATABASE (8 DES 2015) :
+		- jadi pakai tumbstone di setiap tabel kecuali di tabel 'auth'		
+		- tambah id_anggota di tabel atestasi		
+		- hapus id_atestasi di tabel anggota
+		- tambah keterangan di tabel baptis
+		- tambah keterangan di tabel pernikahan
+		- kolom jenis di table persembahan -> tinyInteger jadi integer
+		- kolom status di table gereja -> tinyInteger jadi integer
+		- kolom role di table anggota -> tinyInteger jadi integer
+		- kolom role di table auth -> tinyInteger jadi integer 		
+	*/
+	//--------------------------------------------------------END REVISI DATABASE--------------------------------------------------------
+	
 	public function up()
-	{
-		
+	{		
 		//NOTE : SEMUA TABLE YANG GA PUNYA FOREGIN KEY DIBUAT DULU	
 		
 		Schema::table('gereja', function (Blueprint $table){
@@ -20,9 +35,12 @@ class CreateAuth extends Migration {
 			$table->increments('id');			
 			$table->string('nama');	
 			$table->string('alamat');
+			$table->string('kota');
+			$table->string('kodepos');
 			$table->string('telp');
 			$table->integer('id_parent_gereja')->unsigned()->nullable();				
-			$table->tinyInteger('status'); //posjem, bajem, jemaat, klassis, sw, ...
+			$table->integer('status'); //posjem, bajem, jemaat, klassis, sw, ...
+			$table->tinyInteger('deleted');
 			
 			$table->foreign('id_parent_gereja')->references('id')->on('gereja');			
 			$table->timestamps();
@@ -33,34 +51,10 @@ class CreateAuth extends Migration {
 			$table->increments('id');
 			$table->string('nama_atestasi');
 			$table->string('keterangan');
+			$table->tinyInteger('deleted');
 			$table->timestamps();
 		});
 			
-		// buat table ini ada sedikit redundant data
-		// kalo ternyata data gereja lama atau baru ada di table gereja
-		// maka id_gereja_lama atau id_gereja_baru diisi trus otomatis isi juga nama_gereja_lama atau nama_gereja_baru yang diambil dari table gereja
-		// kalo engga ada di table gereja maka id_gereja_lama atau id_gereja_baru bisa dikosongin, isi nama_gereja_lama atau nama_gereja_baru aja			
-		
-		Schema::table('atestasi', function (Blueprint $table){
-			$table->create();
-			$table->increments('id');
-			$table->string('no_atestasi');
-			$table->date('tanggal_atestasi'); //tanggal surat atestasi
-			$table->integer('id_atestasi_baru')->unsigned()->nullable(); //rekursif atestasi
-			$table->integer('id_gereja_lama')->unsigned()->nullable();
-			$table->integer('id_gereja_baru')->unsigned()->nullable();			
-			$table->string('nama_gereja_lama');
-			$table->string('nama_gereja_baru');					
-			$table->integer('id_jenis_atestasi')->unsigned();
-			$table->string('keterangan'); //alasan atestasi
-			
-			$table->foreign('id_atestasi_baru')->references('id')->on('atestasi');
-			$table->foreign('id_gereja_lama')->references('id')->on('gereja');
-			$table->foreign('id_gereja_baru')->references('id')->on('gereja');			
-			$table->foreign('id_jenis_atestasi')->references('id')->on('jenis_atestasi');
-			$table->timestamps();
-		});
-		
 		Schema::table('anggota', function (Blueprint $table){
 			$table->create();
 			$table->increments('id');
@@ -78,15 +72,45 @@ class CreateAuth extends Migration {
 			$table->string('kota_lahir');
 			$table->date('tanggal_lahir');
 			$table->date('tanggal_meninggal')->nullable();
-			$table->tinyInteger('role'); //jemaat, pendeta, majelis, penatua
-			$table->string('foto')->nullable();
+			$table->integer('role'); //jemaat, pendeta, majelis, penatua
+			$table->string('foto')->nullable();			
 			$table->integer('id_gereja')->unsigned();
-			$table->integer('id_atestasi')->unsigned()->nullable();
+			$table->tinyInteger('deleted');
+			// $table->integer('id_atestasi')->unsigned()->nullable();
 				
 			$table->foreign('id_gereja')->references('id')->on('gereja');
-			$table->foreign('id_atestasi')->references('id')->on('atestasi');
+			// $table->foreign('id_atestasi')->references('id')->on('atestasi');
 			$table->timestamps();
 		});
+		
+		// buat table ini ada sedikit redundant data
+		// kalo ternyata data gereja lama atau baru ada di table gereja
+		// maka id_gereja_lama atau id_gereja_baru diisi trus otomatis isi juga nama_gereja_lama atau nama_gereja_baru yang diambil dari table gereja
+		// kalo engga ada di table gereja maka id_gereja_lama atau id_gereja_baru bisa dikosongin, isi nama_gereja_lama atau nama_gereja_baru aja			
+		// karna sekarang jadi ada tambahan id_anggota di tabel atestasi, maka jadi rada ga berguna id_atestasi_baru karena bisa nunjuk id_atestasi_baru berikutnya berdasarkan created_at
+		
+		Schema::table('atestasi', function (Blueprint $table){
+			$table->create();
+			$table->increments('id');
+			$table->string('no_atestasi');
+			$table->date('tanggal_atestasi'); //tanggal surat atestasi
+			$table->integer('id_atestasi_baru')->unsigned()->nullable(); //rekursif atestasi
+			$table->integer('id_gereja_lama')->unsigned()->nullable();
+			$table->integer('id_gereja_baru')->unsigned()->nullable();			
+			$table->string('nama_gereja_lama');
+			$table->string('nama_gereja_baru');					
+			$table->integer('id_jenis_atestasi')->unsigned();
+			$table->integer('id_anggota')->unsigned();
+			$table->string('keterangan'); //alasan atestasi
+			$table->tinyInteger('deleted');
+			
+			$table->foreign('id_atestasi_baru')->references('id')->on('atestasi');
+			$table->foreign('id_gereja_lama')->references('id')->on('gereja');
+			$table->foreign('id_gereja_baru')->references('id')->on('gereja');			
+			$table->foreign('id_jenis_atestasi')->references('id')->on('jenis_atestasi');
+			$table->foreign('id_anggota')->references('id')->on('anggota');
+			$table->timestamps();
+		});				
 		
 		// note : 
 		// - user biasa di tatausaha cuma bisa masukin data aja
@@ -97,7 +121,7 @@ class CreateAuth extends Migration {
 			$table->increments('id');
 			$table->string('username')->unique();
 			$table->string('password');
-			$table->tinyInteger('role'); //ngebedain user access, sementara user, superadmin
+			$table->integer('role'); //ngebedain user access, sementara user, superadmin
 			$table->integer('id_anggota')->unsigned();
 			$table->string('remember_token')->nullable();
 									
@@ -110,6 +134,7 @@ class CreateAuth extends Migration {
 			$table->increments('id');
 			$table->string('no_hp');
 			$table->integer('id_anggota')->unsigned();
+			$table->tinyInteger('deleted');
 						
 			$table->foreign('id_anggota')->references('id')->on('anggota');
 			$table->timestamps();
@@ -122,6 +147,7 @@ class CreateAuth extends Migration {
 			$table->string('kota');
 			$table->string('kodepos');
 			$table->integer('id_anggota')->unsigned();
+			$table->tinyInteger('deleted');
 			
 			$table->foreign('id_anggota')->references('id')->on('anggota');
 			$table->timestamps();
@@ -134,6 +160,7 @@ class CreateAuth extends Migration {
 			$table->integer('id_gereja')->unsigned(); //pasti ambil dari database gereja
 			$table->integer('id_jemaat')->unsigned(); //pasti ambil dari database jemaat karena pasti anggota jemaat						
 			$table->string('keterangan')->nullable(); //alasan meninggal atau tempat meninggal dll
+			$table->tinyInteger('deleted');
 			
 			$table->foreign('id_gereja')->references('id')->on('gereja');
 			$table->foreign('id_jemaat')->references('id')->on('anggota');
@@ -145,6 +172,7 @@ class CreateAuth extends Migration {
 			$table->increments('id');
 			$table->string('nama_jenis_baptis');
 			$table->string('keterangan');
+			$table->tinyInteger('deleted');
 			$table->timestamps();
 		});
 		
@@ -157,6 +185,8 @@ class CreateAuth extends Migration {
 			$table->date('tanggal_baptis');			
 			$table->integer('id_jenis_baptis')->unsigned();
 			$table->integer('id_gereja')->unsigned();
+			$table->string('keterangan');			
+			$table->tinyInteger('deleted');
 							
 			$table->foreign('id_jemaat')->references('id')->on('anggota');
 			$table->foreign('id_pendeta')->references('id')->on('anggota');
@@ -180,6 +210,8 @@ class CreateAuth extends Migration {
 			$table->integer('id_jemaat_pria')->unsigned()->nullable();			
 			$table->string('nama_pria'); //diisi hanya jika merupakan jemaat gereja lain
 			$table->string('nama_wanita'); //diisi hanya jika merupakan jemaat gereja lain
+			$table->string('keterangan');
+			$table->tinyInteger('deleted');
 			
 			$table->foreign('id_pendeta')->references('id')->on('anggota');
 			$table->foreign('id_gereja')->references('id')->on('gereja');			
@@ -193,6 +225,7 @@ class CreateAuth extends Migration {
 			$table->increments('id');
 			$table->string('nama_kegiatan');
 			$table->string('keterangan');
+			$table->tinyInteger('deleted');
 			$table->timestamps();
 				// note 'nama_kegiatan' :
 				// - kebaktian umum 1
@@ -235,7 +268,8 @@ class CreateAuth extends Migration {
 			$table->integer('banyak_komisi_pria')->nullable();
 			$table->integer('banyak_komisi_wanita')->nullable();
 			$table->integer('banyak_komisi');		
-			$table->string('keterangan')->nullable();
+			$table->string('keterangan');
+			$table->tinyInteger('deleted');
 				
 			$table->foreign('id_pendeta')->references('id')->on('anggota');
 			$table->foreign('id_jenis_kegiatan')->references('id')->on('jenis_kegiatan');
@@ -252,8 +286,9 @@ class CreateAuth extends Migration {
 			$table->integer('id_anggota')->unsigned()->nullable();
 			$table->string('nama_pemberi');
 			$table->integer('id_kegiatan')->unsigned()->nullable();
-			$table->tinyInteger('jenis');
-			$table->string('keterangan')->nullable();
+			$table->integer('jenis');
+			$table->string('keterangan');
+			$table->tinyInteger('deleted');
 			
 			$table->foreign('id_gereja')->references('id')->on('gereja');
 			$table->foreign('id_anggota')->references('id')->on('anggota');
@@ -268,6 +303,7 @@ class CreateAuth extends Migration {
 			$table->string('no_dkh');
 			$table->integer('id_jemaat')->unsigned();
 			$table->string('keterangan');
+			$table->tinyInteger('deleted');
 						
 			$table->foreign('id_jemaat')->references('id')->on('anggota');
 			$table->timestamps();

@@ -9,7 +9,7 @@ $(document).ready(function(){
 
 		//set nama kebaktian di awal
 		var selected = $('#f_kebaktian_ke').find(":selected").text();
-		$('#f_nama_kebaktian').val(selected);		
+		$('#f_nama_kebaktian').val(selected);	
 	
 	
 	$('#f_nama_pengkotbah').attr('disabled', true);		
@@ -18,8 +18,8 @@ $(document).ready(function(){
 		//set nama pembicara di awal
 		var selected = $('#f_pengkotbah').find(":selected").text();
 		$('#f_nama_pengkotbah').val(selected);	
+		
 });
-
 </script>
 
 <!-- css -->

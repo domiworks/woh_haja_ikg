@@ -15,5 +15,6 @@ class Kedukaan extends Eloquent
 				['no_kedukaan',
 				'id_gereja',				
 				'id_jemaat',				
-				'keterangan'];		
+				'keterangan',
+				'deleted'];		
 }

@@ -19,5 +19,7 @@ class Baptis extends Eloquent
 				'id_pendeta',
 				'tanggal_baptis',
 				'id_jenis_baptis',
-				'id_gereja'];
+				'id_gereja',
+				'keterangan',
+				'deleted'];
 } 

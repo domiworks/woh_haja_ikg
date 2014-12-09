@@ -42,5 +42,6 @@ class Kegiatan extends Eloquent
 				'banyak_komisi_pria',
 				'banyak_komisi_wanita',
 				'banyak_komisi',
-				'keterangan'];
+				'keterangan',
+				'deleted'];
 }

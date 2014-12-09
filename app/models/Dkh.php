@@ -13,5 +13,6 @@ class Dkh extends Eloquent
 	public $fillable = 
 				['no_dkh',
 				'id_jemaat',				
-				'keterangan'];		
+				'keterangan',
+				'deleted'];		
 }

@@ -37,10 +37,7 @@ class RegisterListenersPassTest extends \PHPUnit_Framework_TestCase
             ->method('getClass')
             ->will($this->returnValue('stdClass'));
 
-        $builder = $this->getMock(
-            'Symfony\Component\DependencyInjection\ContainerBuilder',
-            array('hasDefinition', 'findTaggedServiceIds', 'getDefinition')
-        );
+        $builder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
         $builder->expects($this->any())
             ->method('hasDefinition')
             ->will($this->returnValue(true));
@@ -72,10 +69,7 @@ class RegisterListenersPassTest extends \PHPUnit_Framework_TestCase
             ->method('getClass')
             ->will($this->returnValue('Symfony\Component\HttpKernel\Tests\DependencyInjection\SubscriberService'));
 
-        $builder = $this->getMock(
-            'Symfony\Component\DependencyInjection\ContainerBuilder',
-            array('hasDefinition', 'findTaggedServiceIds', 'getDefinition')
-        );
+        $builder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
         $builder->expects($this->any())
             ->method('hasDefinition')
             ->will($this->returnValue(true));
@@ -89,8 +83,11 @@ class RegisterListenersPassTest extends \PHPUnit_Framework_TestCase
             ->method('getDefinition')
             ->will($this->returnValue($definition));
 
-        $registerListenersPass = new RegisterListenersPass();
+        $builder->expects($this->atLeastOnce())
+            ->method('findDefinition')
+            ->will($this->returnValue($definition));
 
+        $registerListenersPass = new RegisterListenersPass();
         $registerListenersPass->process($builder);
     }
 

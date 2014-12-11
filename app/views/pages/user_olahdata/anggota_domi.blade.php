@@ -205,8 +205,8 @@
 				</form>		
 			</div>
 
-			<!--<div id="temp_result">
-			</div>-->
+			<div id="temp_result">
+			</div>
 			
 			<div id="f_result_anggota">
 				<table class="table table-bordered">
@@ -272,128 +272,133 @@ $('body').on('click', '#f_search_anggota', function(){
 	
 	$nomor_anggota = $('#f_nomor_anggota').val();			
 	data.append('no_anggota', $nomor_anggota);	
-			// alert($nomor_anggota);
-			$nama = $('#f_nama').val();	
-			data.append('nama', $nama);				
-			// alert($nama);
-			$kota = $('#f_kota').val();
-			data.append('kota', $kota);		
-			// alert($kota);
-			$gender = $('input[name="gender"]:checked').val()	
-			data.append('gender', $gender);			
-			// alert($gender);
-			$wilayah = $('#f_wilayah').val();	
-			data.append('wilayah', $wilayah);			
-			// alert($wilayah);
-			$gol_darah = $('#f_gol_darah').val();		
-			data.append('gol_darah', $gol_darah);
-			// alert($gol_darah);
-			$pendidikan = $('#f_pendidikan').val();	
-			data.append('pendidikan', $pendidikan);
-			// alert($pendidikan);
-			$pekerjaan = $('#f_pekerjaan').val();	
-			data.append('pekerjaan', $pekerjaan);
-			// alert($pekerjaan);
-			$etnis = $('#f_etnis').val();	
-			data.append('etnis', $etnis);		
-			// alert($etnis);
-		// $tanggal_lahir = $('#f_tanggal_lahir').val();	
-			// data.append('tanggal_lahir', $tanggal_lahir);
-			$tanggal_awal = $('#f_tanggal_awal').val();
-			data.append('tanggal_awal', $tanggal_awal);
-			$tanggal_akhir = $('#f_tanggal_akhir').val();
-			data.append('tanggal_akhir', $tanggal_akhir);
-			// alert($tanggal_lahir);
-		// $anggota_gereja = $('#f_id_gereja').val();			
-			// data.append('id_gereja', $anggota_gereja);		
-			// alert($anggota_gereja);
-			$role = $('#f_status').val();
-			data.append('role', $role);	
-			// alert($role);
-						
-			$.ajax({
-				type: 'POST',
-				url: "{{URL('user/search_anggota')}}",
-				data : data,
-				processData: false,
-				contentType: false,	
-				success: function(response){		
-					alert("Berhasil cari data anggota");
-					
-					temp_detail = response;
-					
-					var result = '';
-					if(response != "no result")
-					{
-						// alert(JSON.stringify(response));
-						// $('#temp_result').html(JSON.stringify(response));
-												
-						//set value di tabel result
-						for($i = 0; $i < response.length; $i++)
-						{
-							result+= '<tr>';
-								result+='<td>';
-									result+=response[$i]['no_anggota'];								
-								result+='</td>';
-								result+='<td>';
-									result+=response[$i]['nama_depan']+' '+response[$i]['nama_tengah']+' '+response[$i]['nama_belakang'];								
-								result+='</td>';
-								result+='<td>';
-									result+='<input type="hidden" value='+$i+' />';
-									result+='<input type="hidden" value='+response[$i]['id_anggota']+' />';
-									result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_anggota">';
-										result+='Edit';
-									result+='</button>';
-									result+='<input type="hidden" value='+response[$i]['id_anggota']+' />';
-									result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_anggota">';
-										result+='delete';
-									result+='</button>';
-								result+='</td>';
-							result+='</tr>';	
-							// result += response[$i]['nama_depan']+ " ";
-						// alert(response[$i]['tanggal_mulai']);
-						}
-						
-						$('#f_result_body_anggota').html(result);						
-					}					
-					else				
-					{
-						$('#f_result_body_anggota').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
-					}
-				
-				// alert(response.length);
-				
-				/*
-				var temp;				
-				if(response.length > 0)
+	// alert($nomor_anggota);
+	$nama = $('#f_nama').val();	
+	data.append('nama', $nama);				
+	// alert($nama);
+	$kota = $('#f_kota').val();
+	data.append('kota', $kota);		
+	// alert($kota);
+	$gender = $('input[name="gender"]:checked').val()	
+	data.append('gender', $gender);			
+	// alert($gender);
+	$wilayah = $('#f_wilayah').val();	
+	data.append('wilayah', $wilayah);			
+	// alert($wilayah);
+	$gol_darah = $('#f_gol_darah').val();		
+	data.append('gol_darah', $gol_darah);
+	// alert($gol_darah);
+	$pendidikan = $('#f_pendidikan').val();	
+	data.append('pendidikan', $pendidikan);
+	// alert($pendidikan);
+	$pekerjaan = $('#f_pekerjaan').val();	
+	data.append('pekerjaan', $pekerjaan);
+	// alert($pekerjaan);
+	$etnis = $('#f_etnis').val();	
+	data.append('etnis', $etnis);		
+	// alert($etnis);
+	// $tanggal_lahir = $('#f_tanggal_lahir').val();	
+		// data.append('tanggal_lahir', $tanggal_lahir);
+	$tanggal_awal = $('#f_tanggal_awal').val();
+	data.append('tanggal_awal', $tanggal_awal);
+	$tanggal_akhir = $('#f_tanggal_akhir').val();
+	data.append('tanggal_akhir', $tanggal_akhir);
+	// alert($tanggal_lahir);
+	// $anggota_gereja = $('#f_id_gereja').val();			
+		// data.append('id_gereja', $anggota_gereja);		
+	// alert($anggota_gereja);
+	$role = $('#f_status').val();
+	data.append('role', $role);	
+	// alert($role);
+	
+		
+	$.ajax({
+		type: 'POST',
+		url: "{{URL('user/search_anggota')}}",
+		data : data,
+		processData: false,
+		contentType: false,	
+		success: function(response){	
+			// alert('hemmm');
+			
+			result = JSON.parse(response);		
+			
+			if(result.code==200)
+			{			
+				alert('Data ditemukan.');			
+				temp_detail = result.messages;				
+				var result = '';
+				$('#temp_result').html(JSON.stringify(temp_detail));
+				//set value di tabel result
+				for($i = 0; $i < temp_detail.length; $i++)
 				{
-					alert(response.length);
-					for($i = 0 ; $i < response.length ; $i++)
-					{
-						// temp += response[$i]['nama_depan']+",";
-						alert(response[$i]['nama_depan']);
-					}
-					// alert(temp);
-				}
-				else
-				{
-					alert(response);
-				}
-				*/
+					result+= '<tr>';
+						result+='<td>';
+							result+=temp_detail[$i]['no_anggota'];								
+						result+='</td>';
+						result+='<td>';
+							result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
+						result+='</td>';
+						result+='<td>';
+							result+='<input type="hidden" value='+$i+' />';
+							result+='<input type="hidden" value='+temp_detail[$i]['id_anggota']+' />';
+							result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_anggota">';
+								result+='Edit';
+							result+='</button>';
+							result+='<input type="hidden" value='+temp_detail[$i]['id_anggota']+' />';
+							result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_anggota">';
+								result+='delete';
+							result+='</button>';
+						result+='</td>';
+					result+='</tr>';							
 				
-				// if(response == true)
-				// {	
-					// alert("Berhasil simpan data anggota");
-				// }
-				// else
-				// {
-					// alert(response);
-				// }
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				alert(errorThrown);
+				}
+				$('#f_result_body_anggota').html(result);						
+								
 			}
-		});		
+			else				
+			{
+				alert(result.messages);
+				$('#f_result_body_anggota').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
+			}
+			
+		
+		// alert(response.length);
+		
+		/*
+		var temp;				
+		if(response.length > 0)
+		{
+			alert(response.length);
+			for($i = 0 ; $i < response.length ; $i++)
+			{
+				// temp += response[$i]['nama_depan']+",";
+				alert(response[$i]['nama_depan']);
+			}
+			// alert(temp);
+		}
+		else
+		{
+			alert(response);
+		}
+		*/
+		
+		// if(response == true)
+		// {	
+			// alert("Berhasil simpan data anggota");
+		// }
+		// else
+		// {
+			// alert(response);
+		// }
+		
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			alert('error');
+			alert(errorThrown);
+		}
+	},'json');	
+	
 });
 
 //simpen last index
@@ -432,13 +437,14 @@ $('body').on('click', '.detailButton', function(){
 	$('#f_edit_status').val(temp_detail[$index]['role']);
 	// $('#f_edit_').val(temp_detail[$index]['foto']);
 	//foto
-	if(temp_detail[$index]['foto'] != '' || temp_detail[$index]['foto'] == null)
+	if(temp_detail[$index]['foto'] == '' || temp_detail[$index]['foto'] == null)
 	{
-		$('#edit_show_foto').attr('src', 'http://localhost/gki_git/public/'+temp_detail[$index]['foto'] );
+		$('#edit_show_foto').attr('src', '');
+		
 	}
 	else
 	{
-		$('#edit_show_foto').attr('src', '');
+		$('#edit_show_foto').attr('src', 'http://localhost/gki_git/public/'+temp_detail[$index]['foto'] );
 	}
 	$('#f_edit_alamat').val(temp_detail[$index]['jalan']); //alamat
 	$('#f_edit_kota').val(temp_detail[$index]['kota']);

@@ -123,6 +123,10 @@
 				</form>
 			</div>
 
+			<div id="temp_result">				
+			
+			</div>
+			
 			<div id="f_result_pernikahan">
 				<table class="table table-bordered">
 					<thead>
@@ -168,6 +172,9 @@
 </div>	
 
 <script>
+	//simpen detail 
+	var temp_detail = "";
+
 	$('body').on('click', '#f_search_pernikahan', function(){
 		$no_pernikahan = $('#f_nomor_pernikahan').val();		
 		$tanggal_awal = $('#f_tanggal_awal').val();
@@ -187,13 +194,58 @@
 			'nama_wanita' : $nama_mempelai_wanita
 		};
 		
+		var json_data = JSON.stringify($data);
+		
 		$.ajax({
 			type: "POST",
 			url: "{{URL('user/search_pernikahan')}}",
 			data: {
-				'data' : $data
+				'json_data' : json_data
+				// 'data' : $data
 			},
 			success: function(response){
+				result = JSON.parse(response);
+				if(result.code==200)
+				{
+					// alert(result.messages);
+					alert('Data ditemukan.');
+					temp_detail = result.messages;
+					$('#temp_result').html(JSON.stringify(temp_detail));	
+					var result = "";									
+					//set value di table result
+					for($i = 0; $i < temp_detail.length; $i++)
+					{
+						result+= '<tr>';
+							result+='<td>';
+								result+=temp_detail[$i]['no_pernikahan']								
+							result+='</td>';
+							result+='<td>';
+								result+=temp_detail[$i]['nama_pria'];								
+							result+='</td>';
+							result+='<td>';
+								result+=temp_detail[$i]['nama_wanita'];								
+							result+='</td>';
+							result+='<td>';
+								result+='<input type="hidden" value='+$i+' />';
+								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-warning detailButton " data-toggle="modal" data-target=".popup_edit_pernikahan">';
+									result+='Edit';
+								result+='</button>';
+								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_pernikahan">';
+									result+='delete';
+								result+='</button>';
+							result+='</td>';
+						result+='</tr>';					
+					}				
+					$('#f_result_body_pernikahan').html(result);
+				}
+				else
+				{
+					alert(result.messages);
+					$('#f_result_body_pernikahan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");		
+				}				
+				/*
 				alert("Berhasil cari data pernikahan");				
 				
 				if(response != "no result")
@@ -229,18 +281,61 @@
 				else				
 				{
 					$('#f_result_body_pernikahan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
-				}						
+				}
+				*/				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
-		});		
+		},'json');		
 	});
 	
 	//click detail button
 	$('body').on('click', '.detailButton', function(){
 		$id = $(this).prev().val();		
+		$index = $(this).prev().prev().val();
 		
+		//set value di detail view												
+		if(temp_detail[$index]['id_jemaat_wanita'] == null)
+		{
+			$('#f_edit_check_jemaat_wanita').val(1);
+			$('#f_edit_check_jemaat_wanita').prop('checked', true);				
+			$('#f_edit_nama_mempelai_wanita').attr('disabled', false);	
+			$('#f_edit_list_jemaat_wanita').attr('disabled', true);
+		}				
+		else
+		{
+			$('#f_edit_check_jemaat_wanita').val(0);
+			$('#f_edit_check_jemaat_wanita').prop('checked', false);									
+			$('#f_edit_list_jemaat_wanita').val(temp_detail[$index]['id_jemaat_wanita']);
+			
+			$('#f_edit_nama_mempelai_wanita').attr('disabled', true);
+			$('#f_edit_list_jemaat_wanita').attr('disabled', false);
+		}
+		$('#f_edit_nama_mempelai_wanita').val(temp_detail[$index]['nama_wanita']);	
+		if(temp_detail[$index]['id_jemaat_pria'] == null)
+		{
+			$('#f_edit_check_jemaat_pria').val(1);
+			$('#f_edit_check_jemaat_pria').prop('checked', true);				
+			$('#f_edit_nama_mempelai_pria').attr('disabled', false);	
+			$('#f_edit_list_jemaat_pria').attr('disabled', true);
+		}				
+		else
+		{
+			$('#f_edit_check_jemaat_pria').val(0);
+			$('#f_edit_check_jemaat_pria').prop('checked', false);
+			
+			$('#f_edit_list_jemaat_pria').val(temp_detail[$index]['id_jemaat_pria']);
+			$('#f_edit_nama_mempelai_pria').attr('disabled', true);
+			$('#f_edit_list_jemaat_pria').attr('disabled', false);					
+		}
+		$('#f_edit_nama_mempelai_pria').val(temp_detail[$index]['nama_pria']);	
+		$('#f_edit_nomor_pernikahan').val(temp_detail[$index]['no_pernikahan']);		
+		$('#f_edit_tanggal_pernikahan').val(temp_detail[$index]['tanggal_pernikahan']);
+		$('#f_edit_id_pendeta').val(temp_detail[$index]['id_pendeta']);
+		$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);
+				
+		/*
 		$data = {
 			'id' : $id
 		};
@@ -297,6 +392,7 @@
 				alert(errorThrown);
 			}
 		});
+		*/
 		
 	});
 	

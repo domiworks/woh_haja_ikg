@@ -45,6 +45,9 @@
 				</form>
 			</div>	
 
+			<div id="temp_result">
+			</div>
+			
 			<div id="f_result_dkh">
 				<table class="table table-bordered">
 					<thead>
@@ -88,6 +91,9 @@
 </div>	
 
 <script>
+//simpen detail 
+var temp_detail = "";
+	
 $('body').on('click', '#f_search_dkh', function(){
 	$no_dkh = $('#f_nomor_dkh').val();
 	$nama_jemaat = $('#f_nama_jemaat').val();		
@@ -97,13 +103,57 @@ $('body').on('click', '#f_search_dkh', function(){
 		'nama_jemaat' : $nama_jemaat			
 	};
 
+	var json_data = JSON.stringify($data);
+	
 	$.ajax({
 		type: 'POST',
 		url: "{{URL('user/search_dkh')}}",
 		data: {
-			'data' : $data
+			'json_data' : json_data
+			// 'data' : $data
 		},
-		success: function(response){	
+		success: function(response){
+			result = JSON.parse(response);
+			if(result.code==200)
+			{
+				alert('Data ditemukan.');
+				temp_detail = result.messages;
+				$('#temp_result').html(JSON.stringify(temp_detail));
+				var result = "";				
+				for($i = 0; $i < temp_detail.length; $i++)
+				{
+					//set value di table
+					result+= '<tr>';
+						result+='<td>';
+							result+=temp_detail[$i]['no_dkh'];								
+						result+='</td>';
+						result+='<td>';
+							result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
+						result+='</td>';
+						result+='<td>';
+							result+='<input type="hidden" value='+$i+' />';
+							result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+							result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_dkh">';
+								result+='Edit';
+							result+='</button>';
+							result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+							result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_dkh">';
+								result+='delete';
+							result+='</button>';
+						result+='</td>';
+					result+='</tr>';
+					// result += response[$i]['no_dkh']+ " ";
+						// alert(response[$i]['tanggal_mulai']);
+				}
+					
+				$('#f_result_body_dkh').html(result);
+			}
+			else
+			{
+				alert(result.messages);
+				$('#f_result_body_dkh').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");			
+			}
+			/*
 			alert("Berhasil cari data dkh");				
 
 			if(response != "no result")
@@ -139,19 +189,26 @@ $('body').on('click', '#f_search_dkh', function(){
 			else				
 			{
 				$('#f_result_body_dkh').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
-			}					
+			}
+			*/			
 		},
 		error: function(jqXHR, textStatus, errorThrown){
+			alert('error');
 			alert(errorThrown);
 		}
 			
-	});	
+	},'json');	
 });
 
 //click edit button
 $('body').on('click', '.detailButton', function(){
 	$id = $(this).prev().val();
+	$index = $(this).prev().prev().val();
 	
+	$('#f_edit_nomor_dkh').val(temp_detail[$index]['no_dkh']);
+	$('#f_edit_nama_jemaat').val(temp_detail[$index]['id_jemaat']);
+	$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);
+	/*
 	$data = {
 		'id' : $id
 	};
@@ -173,6 +230,7 @@ $('body').on('click', '.detailButton', function(){
 			alert(errorThrown);
 		}
 	});
+	*/
 });
 
 //click delete button

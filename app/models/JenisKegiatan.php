@@ -6,7 +6,8 @@ class JenisKegiatan extends Eloquent
 	protected $table = 'jenis_kegiatan';
 	
 	public static $rules = 
-				['nama_kegiatan' => 'required'];
+				['nama_kegiatan' => 'required',
+				'keterangan' => 'required'];
 	
 	public $fillable = 
 				['nama_kegiatan',

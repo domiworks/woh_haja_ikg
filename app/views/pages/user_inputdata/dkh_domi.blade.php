@@ -110,13 +110,29 @@ $('body').on('click', '#f_post_dkh', function(){
 		'keterangan' : $keterangan
 	};
 	
+	var json_data = JSON.stringify($data);
+	
 	$.ajax({
 		type: "POST",
 		url: "{{URL('user/post_dkh')}}",
 		data: {
-			'data' : $data
+			// 'data' : $data
+			'json_data' : json_data
 		},
 		success: function(response){				
+			result = JSON.parse(response);
+			if(result.code==201)
+			{
+				alert(result.messages);
+				window.location = '{{URL::route('view_inputdata_dkh')}}';
+			}
+			else
+			{
+				alert(result.messages);
+			}
+			// alert(result.code);
+			// alert(result.status);
+			/*
 			if(response == "berhasil")
 			{	
 				alert("Berhasil simpan data dkh");
@@ -127,11 +143,12 @@ $('body').on('click', '#f_post_dkh', function(){
 			{
 				alert(response);
 			}
+			*/
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			alert(errorThrown);
 		}
-	});
+	},'json');
 });
 </script>
 	

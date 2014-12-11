@@ -87,13 +87,27 @@
 			'tanggal_meninggal' : $tanggal_meninggal
 		};
 		
+		var json_data = JSON.stringify($data);
+		
 		$.ajax({
 			type: 'POST',
 			url: "{{URL('user/edit_kedukaan')}}",
 			data: {
-				'data' : $data
+				'json_data' : json_data
+				// 'data' : $data
 			},
-			success: function(response){					
+			success: function(response){
+				result = JSON.parse(response);
+				if(result.code==200)
+				{
+					alert(result.messages);
+					window.location = '{{URL::route('view_olahdata_kedukaan')}}';
+				}
+				else
+				{
+					alert(result.messages);
+				}
+				/*
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data kedukaan");
@@ -104,10 +118,11 @@
 				{
 					alert(response);
 				}
+				*/
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
-		});
+		},'json');
 	});
 </script>

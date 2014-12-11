@@ -22,13 +22,27 @@
 			'id' : $id
 		};
 		
+		var json_data = JSON.stringify($data);
+		
 		$.ajax({
 			type: 'DELETE',
 			url: "{{URL('user/delete_kedukaan')}}",
 			data : {
-				'data' : $data
+				'json_data' : json_data
+				// 'data' : $data
 			},
 			success: function(response){
+				result = JSON.parse(response);				
+				if(result.code==204)
+				{
+					alert(result.messages);
+					window.location = '{{URL::route('view_olahdata_kedukaan')}}';
+				}
+				else
+				{
+					alert(result.messages);
+				}
+				/*
 				if(response == "berhasil")
 				{	
 					alert("Berhasil hapus data.");
@@ -39,6 +53,7 @@
 				{
 					alert(response);
 				}
+				*/
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);

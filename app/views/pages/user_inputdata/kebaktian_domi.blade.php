@@ -642,13 +642,29 @@ $(document).ready(function(){
 			'keterangan' : $keterangan
 		};				
 		
+		var json_data = JSON.stringify($data);
+		
 		$.ajax({
 			type: 'POST',
 			url: "{{URL('user/post_kebaktian')}}",
 			data : {
-				'data' : $data
+				'json_data' : json_data
+				// 'data' : $data
 			},
 			success: function(response){				
+				result = JSON.parse(response);				
+				if(result.code==201)
+				{
+					// alert("Berhasil simpan data kebaktian");					
+					// location.reload();
+					alert(result.messages);
+					window.location = '{{URL::route('view_inputdata_kebaktian')}}';
+				}
+				else
+				{
+					alert(result.messages);
+				}
+				/*
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data kebaktian");
@@ -659,11 +675,12 @@ $(document).ready(function(){
 				{					
 					alert(response);
 				}
+				*/
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
-		});
+		},'json');
 	});
 </script>
 

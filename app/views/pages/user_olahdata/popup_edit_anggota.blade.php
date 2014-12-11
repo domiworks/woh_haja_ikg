@@ -383,13 +383,24 @@
 			$role = $('#f_edit_status').val();
 			data.append('role', $role);						
 
-			$.ajax({
-				type: 'POST',
-				url: "{{URL('user/edit_anggota')}}",
-				data : data,
-				processData: false,
-				contentType: false,	
-				success: function(response){				
+		$.ajax({
+			type: 'POST',
+			url: "{{URL('user/edit_anggota')}}",
+			data : data,
+			processData: false,
+			contentType: false,	
+			success: function(response){				
+				result = JSON.parse(response);				
+				if(result.code==200)
+				{				
+					alert(result.messages);
+					window.location = '{{URL::route('view_olahdata_anggota')}}';
+				}
+				else
+				{
+					alert(result.messages);
+				}
+				/*
 				// alert(response);
 				if(response == "berhasil")
 				{	
@@ -401,11 +412,12 @@
 				{
 					alert(response);
 				}
+				*/
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
-		});
+		},'json');
 
 	});
 </script>

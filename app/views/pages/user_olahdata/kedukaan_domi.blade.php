@@ -98,6 +98,10 @@
 					</div>
 				</form>
 			</div>
+			
+			<div id="temp_result">
+			</div>
+			
 			<div id="f_result_kedukaan">
 				<table class="table table-bordered">
 					<thead>
@@ -140,6 +144,9 @@
 </div>	
 
 <script>
+//simpen detail 
+var temp_detail = "";
+
 $('body').on('click', '#f_search_kedukaan', function(){		
 	$no_kedukaan = $('#f_nomor_kedukaan').val();
 	$tanggal_awal = $('#f_tanggal_awal').val();
@@ -155,13 +162,56 @@ $('body').on('click', '#f_search_kedukaan', function(){
 			'tanggal_akhir' : $tanggal_akhir
 		};
 		
+		var json_data = JSON.stringify($data);
+		
 		$.ajax({
 			type: 'POST',
 			url: "{{URL('user/search_kedukaan')}}",
 			data: {
-				'data' : $data
+				'json_data' : json_data
+				// 'data' : $data
 			},
 			success: function(response){					
+				result = JSON.parse(response);
+				if(result.code==200)
+				{
+					// alert(result.messages);
+					alert('Data ditemukan.');
+					temp_detail = result.messages;
+					$('#temp_result').html(JSON.stringify(temp_detail));
+					var result = "";	
+					//set value di tabel result
+					for($i = 0; $i < temp_detail.length; $i++)
+					{
+						result+= '<tr>';
+							result+='<td>';
+								result+=temp_detail[$i]['no_kedukaan'];								
+							result+='</td>';
+							result+='<td>';
+								result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
+							result+='</td>';
+							result+='<td>';
+								result+='<input type="hidden" value='+$i+' />';
+								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kedukaan">';
+									result+='Edit';
+								result+='</button>';
+								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kedukaan">';
+									result+='delete';
+								result+='</button>';
+							result+='</td>';
+						result+='</tr>';						
+					}
+					
+					$('#f_result_body_kedukaan').html(result);
+				}
+				else
+				{
+					alert(result.messages);
+					$('#f_result_body_kedukaan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
+				}
+				/*
 				alert("Berhasil cari data kedukaan");				
 				
 				if(response != "no result")
@@ -195,18 +245,27 @@ $('body').on('click', '#f_search_kedukaan', function(){
 				else				
 				{					
 					$('#f_result_body_kedukaan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
-				}				
+				}	
+				*/				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
+				alert('error');
 				alert(errorThrown);
 			}
-		});
+		},'json');
 	});
 	
 	//click edit button
 	$('body').on('click', '.detailButton', function(){
 		$id = $(this).prev().val();		
+		$index = $(this).prev().prev().val();
 		
+		//set value di detail view												
+		$('#f_edit_nomor_kedukaan').val(temp_detail[$index]['no_kedukaan']);
+		$('#f_edit_tanggal_meninggal').val(temp_detail[$index]['tanggal_meninggal']);
+		$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);
+				
+		/*
 		$data = {
 			'id' : $id
 		};
@@ -230,6 +289,7 @@ $('body').on('click', '#f_search_kedukaan', function(){
 				alert(errorThrown);
 			}
 		});
+		*/
 	});
 	
 	//click delete button

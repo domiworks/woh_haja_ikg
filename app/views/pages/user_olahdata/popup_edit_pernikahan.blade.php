@@ -181,7 +181,15 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 						<div class="col-xs-0">
 							*
 						</div>
-					</div>															
+					</div>		
+					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Keterangan
+						</label>
+						<div class="col-xs-6">
+							{{Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_edit_keterangan', 'class'=>'form-control'))}}
+						</div>
+					</div>
 				</form>
 				
 				
@@ -203,6 +211,7 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 		$no_pernikahan = $('#f_edit_nomor_pernikahan').val();		
 		$tanggal_pernikahan = $('#f_edit_tanggal_pernikahan').val();
 		$id_pendeta = $('#f_edit_id_pendeta').val();
+		$keterangan = $('#f_edit_keterangan').val();
 		// $id_gereja = $('#f_edit_id_gereja').val();
 		if($('#f_edit_check_jemaat_wanita').val() == 1) //pakai nama gereja lain
 		{
@@ -234,16 +243,31 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 			'id_jemaat_pria' : $id_mempelai_pria,
 			'id_jemaat_wanita' : $id_mempelai_wanita,
 			'nama_pria' : $nama_mempelai_pria,
-			'nama_wanita' : $nama_mempelai_wanita
+			'nama_wanita' : $nama_mempelai_wanita,
+			'keterangan' : $keterangan
 		};
+		
+		var json_data = JSON.stringify($data);
 		
 		$.ajax({
 			type: 'POST',
 			url: "{{URL('user/edit_pernikahan')}}",
 			data: {
-				'data' : $data
+				'json_data' : json_data
+				// 'data' : $data
 			},
 			success: function(response){				
+				result = JSON.parse(response);
+				if(result.code==200)
+				{
+					alert(result.messages);
+					window.location = '{{URL::route('view_olahdata_pernikahan')}}';
+				}
+				else
+				{
+					alert(result.messages);
+				}
+				/*
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan perubahan.");
@@ -254,10 +278,12 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 				{
 					alert(response);
 				}
+				*/
 			},
 			error: function(jqXHR, textStatus, errorThrown){
+				alert('error');
 				alert(errorThrown);
 			}
-		});
+		},'json');
 	});
 </script>

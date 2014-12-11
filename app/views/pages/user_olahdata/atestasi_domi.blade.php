@@ -135,6 +135,12 @@
 									Nama Anggota
 								</th>
 								<th>
+									Gereja Lama
+								</th>
+								<th>
+									Gereja Baru
+								</th>
+								<th>
 									
 								</th>
 							</tr>
@@ -189,13 +195,64 @@ $('body').on('click', '#f_search_atestasi', function(){
 		'nama_gereja_baru' : $nama_gereja_baru			
 	};		
 
+	var json_data = JSON.stringify($data);
+	
 	$.ajax({
 		type: 'POST',
 		url: "{{URL('user/search_atestasi')}}",
 		data: {
-			'data' : $data
+			'json_data' : json_data
+			// 'data' : $data
 		},
 		success: function(response){	
+			result = JSON.parse(response);
+			if(result.code==200)
+			{
+				// alert(result.messages);
+				alert('Data ditemukan.');
+				temp_detail = result.messages;
+				$('#temp_result').html(JSON.stringify(temp_detail));
+				var result = "";					
+					
+				//set value di tabel result
+				for($i = 0; $i < temp_detail.length; $i++)
+				{
+					result+= '<tr>';
+						result+='<td>';
+							result+=temp_detail[$i]['no_atestasi'];								
+						result+='</td>';
+						result+='<td>';
+							result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];							
+						result+='</td>';
+						result+='<td>';
+							result+=temp_detail[$i]['nama_gereja_lama'];								
+						result+='</td>';
+						result+='<td>';
+							result+=temp_detail[$i]['nama_gereja_baru'];								
+						result+='</td>';
+						result+='<td>';
+							result+='<input type="hidden" value='+$i+' />';
+							result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+							result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_atestasi">';
+								result+='Edit';
+							result+='</button>';
+							result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+							result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
+								result+='delete';
+							result+='</button>';
+						result+='</td>';
+					result+='</tr>';
+					// alert(response[$i]['tanggal_mulai']);
+				}
+				
+				$('#f_result_body_atestasi').html(result);
+			}
+			else
+			{
+				alert(result.messages);
+				$('#f_result_body_atestasi').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
+			}				
+			/*
 			alert("Berhasil cari data atestasi");
 				// alert(JSON.stringify(response));
 				// $('#temp_result').html(JSON.stringify(response));
@@ -242,7 +299,12 @@ $('body').on('click', '#f_search_atestasi', function(){
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
-		});
+			*/
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			alert(errorThrown);
+		}
+	},'json');
 });
 
 //click detail button
@@ -252,7 +314,7 @@ $('body').on('click', '.detailButton', function(){
 	
 	//set value di table pop up detail
 	$('#f_edit_nomor_atestasi').val(temp_detail[$index]['no_atestasi']);
-	$('#f_edit_jemaat').val(temp_detail[$index]['id']);
+	$('#f_edit_jemaat').val(temp_detail[$index]['id_anggota']);
 	$('#f_edit_tanggal_atestasi').val(temp_detail[$index]['tanggal_atestasi']);
 	$('#f_edit_jenis_atestasi').val(temp_detail[$index]['id_jenis_atestasi']);
 	if(temp_detail[$index]['id_gereja_lama'] == null)
@@ -269,6 +331,7 @@ $('body').on('click', '.detailButton', function(){
 		
 		$('#f_edit_list_gereja_lama').attr('disabled', false);
 		$('#f_edit_nama_gereja_lama').attr('disabled', true);
+		$('#f_edit_list_gereja_lama').val(temp_detail[$index]['id_gereja_lama']);
 		$('#f_edit_nama_gereja_lama').val(temp_detail[$index]['nama_gereja_lama']);			
 	}
 	if(temp_detail[$index]['id_gereja_baru'] == null)
@@ -285,10 +348,17 @@ $('body').on('click', '.detailButton', function(){
 		
 		$('#f_edit_list_gereja_baru').attr('disabled', false);
 		$('#f_edit_nama_gereja_baru').attr('disabled', true);
+		$('#f_edit_list_gereja_baru').val(temp_detail[$index]['id_gereja_baru']);
 		$('#f_edit_nama_gereja_baru').val(temp_detail[$index]['nama_gereja_baru']);				
 	}	
 	$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);			
 });	
+
+//click delete button
+$('body').on('click', '.deleteButton', function(){
+	$id = $(this).prev().val();
+});
+
 </script>
 
 @include('pages.user_olahdata.popup_edit_atestasi')

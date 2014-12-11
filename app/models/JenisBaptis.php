@@ -6,7 +6,8 @@ class JenisBaptis extends Eloquent
 	protected $table = 'jenis_baptis';
 	
 	public static $rules = 
-				['nama_jenis_baptis' => 'required'];
+				['nama_jenis_baptis' => 'required',
+				'keterangan' => 'required'];
 	
 	public $fillable = 
 				['nama_jenis_baptis',

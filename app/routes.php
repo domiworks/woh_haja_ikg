@@ -14,7 +14,14 @@
 Route::get('/import', ['as' => 'get.import' , 'uses' => 'ExcelController@import']);
 Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export']);
 
-Route::get('/tes', 'InputEditController@getListPembicara');
+Route::get('/tes', function(){
+	$baptis = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->whereNotIn('ang.role', array(2));
+		
+		$baptis = $baptis->join('baptis AS bap', 'bap.id_jemaat', '=', 'ang.id');
+		$baptis = $baptis->get();
+		
+		var_dump($baptis);
+});
 
 
 //view

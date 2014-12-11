@@ -6,7 +6,8 @@ class JenisAtestasi extends Eloquent
 	protected $table = 'jenis_atestasi';
 	
 	public static $rules = 
-				['nama_atestasi' => 'required'];
+				['nama_atestasi' => 'required',
+				'keterangan' => 'required'];
 	
 	public $fillable = 
 				['nama_atestasi',

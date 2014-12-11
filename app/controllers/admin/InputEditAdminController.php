@@ -4,198 +4,437 @@ use Carbon\Carbon;
 
 class InputEditAdminController extends BaseController {
 	
-	public function view_kebaktian()
-	{		
-		return View::make('pages.kebaktian');		
-		// return null;
-	}
-	
-	public function view_anggota()
-	{
-		// return View::make('pages.anggota');
-		return null;
-	}
-	
-	public function view_baptis()
-	{
-		// return View::make('pages.baptis');
-		return null;
-	}	
-	
-	public function view_atestasi()
-	{
-		// return View::make('pages.atestasi');
-		return null;
-	}
-	
-	public function view_pernikahan()
-	{
-		// return View::make('pages.pernikahan');
-		return null;
-	}
-	
-	public function view_kedukaan()
-	{
-		// return View::make('pages.kedukaan');
-		return null;
-	}
-	
-	public function view_dkh()
-	{
-		// return View::make('pages.dkh');
-		return null;
-	}
-	
-	public function postKebaktian()
+	public function admin_view_auth()
 	{
 		return null;
 	}
 	
-	public function postAnggota()
+	public function admin_view_gereja()
 	{
 		return null;
 	}
 	
-	public function postBaptis()
+	public function admin_view_jenis_baptis()
 	{
 		return null;
 	}
 	
-	public function postAtestasi()
+	public function admin_view_jenis_atesasi()
 	{
 		return null;
 	}
 	
-	public function postPernikahan()
+	public function admin_view_jenis_kegiatan()
 	{
 		return null;
 	}
+
 	
-	public function postKedukaan()
+/*----------------------------------------POST----------------------------------------*/	
+
+	public function admin_postAuth()
 	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+				
 		return null;
 	}
 	
-	public function postDkh()
+	public function admin_postGereja()
 	{
-		return null;
-	}
-	
-	//get list gereja
-	public function getListGereja()
-	{		
-		$count = DB::table('gereja')->orderBy('id','asc')->lists('nama','id');
-		if(count($count) != 0)
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$nama = $input->{'nama'};
+		$alamat = $input->{'alamat'};
+		$kota = $input->{'kota'};
+		$kodepos = $input->{'kodepos'};
+		$telp = $input->{'telp'};
+		$id_parent_gereja = $input->{'id_parent_gereja'}; //kalo null maka -1
+		$status = $input->{'status'};
+		// deleted
+		
+		$data_valid = array(
+			'nama' => $nama,
+			'alamat' => $alamat,
+			'kota' => $kota,
+			'kodepos' => $kodepos,
+			'telp' => $telp,
+			'status' => $status
+		);
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, Gereja::$rules); 								
+		if($validator->fails())
+		{			
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);			
+		}
+		
+		$gereja = new Gereja();
+		
+		$gereja->nama = $nama;
+		$gereja->alamat = $alamat;
+		$gereja->kota = $kota;
+		$gereja->kodepos = $kodepos;
+		$gereja->telp = $telp;
+		if($id_parent_gereja == -1)
 		{
-			return $count;
+			$gereja->id_parent_gereja = null;
 		}
 		else
 		{
-			return null;
+			$gereja->id_parent_gereja = $id_parent_gereja;
+		}			
+		$gereja->status = $status;
+		$gereja->deleted = 0;
+		
+		try{
+			$gereja->save();
+			
+			$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data gereja.');
+			return json_encode($respond);
+		}catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
+			return json_encode($respond);
+		}
+						
+	}
+	
+	public function admin_postJenisBaptis()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$nama_jenis_baptis = $input->{'nama_jenis_baptis'};
+		$keterangan = $input->{'keterangan'};
+		
+		$data_valid = array(
+			'nama_jenis_baptis' => $nama_jenis_baptis,
+			'keterangan' =>	$keterangan
+		);
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, JenisBaptis::$rules); 								
+		if($validator->fails())
+		{			
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);			
+		}
+		
+		$jenis_baptis = new JenisBaptis();
+
+		$jenis_baptis->nama_jenis_baptis = $nama_jenis_baptis;
+		$jenis_baptis->keterangan = $keterangan;
+		$jenis_baptis->deleted = 0;
+				
+		try{
+			$jenis_baptis->save();
+			
+			$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data jenis baptis.');
+			return json_encode($respond);
+		}Catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data jenis baptis');
+			return json_encode($respond);
 		}
 	}
 	
-	//get list wilayah
-	public function getListWilayah()
+	public function admin_postJenisAtestasi()
 	{
-		$arrWilayah = array(
-			'' => 'pilih!',
-			'I' => 'I',
-			'II' => 'II',
-			'III' => 'III',
-			'IV' => 'IV',
-			'V' => 'V',
-			'VI' => 'VI',
-			'VII' => 'VII',
-			'VIII' => 'VIII',
-			'IX' => 'IX',
-			'X' => 'X',
-			'XI' => 'X1',
-			'XII' => 'XII',
-			'XIII' => 'XIII',
-			'XIV' => 'XIV',
-			'XV' => 'XI'
-		);		
-		return $arrWilayah;
-	}
-	
-	//get list gol_darah	
-	public function getListGolonganDarah()
-	{
-		$arrGolonganDarah = array(
-			'' => 'pilih!',
-			'A +' => 'A +',
-			'B +' => 'B +',
-			'A B+' => 'AB +',
-			'O +' => 'O +',
-			'A -' => 'A -',
-			'B -' => 'B -',
-			'A B-' => 'AB -',
-			'O -' => 'O -'	
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$nama_atestasi = $input->{'nama_atestasi'};
+		$keterangan = $input->{'keterangan'};
+		
+		$data_valid = array(
+			'nama_atestasi' => $nama_atestasi,
+			'keterangan' =>	$keterangan
 		);
-		return $arrGolonganDarah;
-	}
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, JenisAtestasi::$rules); 								
+		if($validator->fails())
+		{			
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);			
+		}
+		
+		$jenis_atestasi = new JenisAtestasi();
+
+		$jenis_atestasi->nama_atestasi = $nama_atestasi;
+		$jenis_atestasi->keterangan = $keterangan;
+		$jenis_atestasi->deleted = 0;
+				
+		try{
+			$jenis_atestasi->save();
 			
-	//get list pendidikan
-	public function getListPendidikan()
+			$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data jenis atestasi.');
+			return json_encode($respond);
+		}Catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data jenis atestasi');
+			return json_encode($respond);
+		}
+	}
+	
+	public function admin_postJenisKegiatan()
 	{
-		$arrPendidikan = array(
-			'' => 'pilih!',
-			'TK' => 'TK',
-			'SD' => 'SD',
-			'SLTP' => 'SLTP',
-			'SMU' => 'SMU',
-			'Kejuruan' => 'Kejuruan',
-			'D-1' => 'D-1',
-			'D-2' => 'D-2',
-			'D-3' => 'D-3',
-			'S-1' => 'S-1',
-			'S-2' => 'S-2',
-			'S-3' => 'S-3',
-			'Lain-Lain' => 'Lain-Lain'
-		);			
-		return $arrPendidikan;
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$nama_kegiatan = $input->{'nama_kegiatan'};
+		$keterangan = $input->{'keterangan'};
+		
+		$data_valid = array(
+			'nama_kegiatan' => $nama_kegiatan,
+			'keterangan' =>	$keterangan
+		);
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, JenisKegiatan::$rules); 								
+		if($validator->fails())
+		{			
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);			
+		}
+		
+		$jenis_kegiatan = new JenisKegiatan();
+
+		$jenis_kegiatan->nama_kegiatan = $nama_kegiatan;
+		$jenis_kegiatan->keterangan = $keterangan;
+		$jenis_kegiatan->deleted = 0;
+				
+		try{
+			$jenis_kegiatan->save();
+			
+			$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data jenis kegiatan.');
+			return json_encode($respond);
+		}Catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data jenis kegiatan');
+			return json_encode($respond);
+		}
 	}
 	
-	//get list pekerjaan
-	public function getListPekerjaan()
+/*----------------------------------------EDIT----------------------------------------*/	
+	
+	public function admin_edit_auth()
+	{		
+		return null;
+	}
+	
+	public function admin_edit_gereja()
 	{
-		$arrPekerjaan = array(
-			'' => 'pilih!',
-			'Wirausaha' => 'Wirausaha',
-			'P.Negeri' => 'P.Negeri',
-			'P.Swasta' => 'P.Swasta',
-			'Profesional' => 'Profesional',
-			'Pensiunan' => 'Pensiunan',
-			'Ibu RT' => 'Ibu RT',
-			'Petani' => 'Petani',
-			'Pel/Mhs' => 'Pel/Mhs',
-			'Lain-Lain' => 'Lain-Lain'
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};
+		
+		$nama = $input->{'nama'};
+		$alamat = $input->{'alamat'};
+		$kota = $input->{'kota'};
+		$kodepos = $input->{'kodepos'};
+		$telp = $input->{'telp'};
+		$id_parent_gereja = $input->{'id_parent_gereja'}; //kalo null maka -1
+		$status = $input->{'status'};
+		// deleted
+		
+		$data_valid = array(
+			'nama' => $nama,
+			'alamat' => $alamat,
+			'kota' => $kota,
+			'kodepos' => $kodepos,
+			'telp' => $telp,
+			'status' => $status
 		);
-		return $arrPekerjaan;
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, Gereja::$rules); 								
+		if($validator->fails())
+		{			
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);			
+		}
+		
+		$gereja = Gereja::find($id);
+		
+		if($gereja == null)
+		{
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
+			return json_encode($respond);
+		}
+		else
+		{		
+			$gereja->nama = $nama;
+			$gereja->alamat = $alamat;
+			$gereja->kota = $kota;
+			$gereja->kodepos = $kodepos;
+			$gereja->telp = $telp;
+			if($id_parent_gereja == -1)
+			{
+				$gereja->id_parent_gereja = null;
+			}
+			else
+			{
+				$gereja->id_parent_gereja = $id_parent_gereja;
+			}			
+			$gereja->status = $status;
+			$gereja->deleted = 0;
+			
+			try{
+				$gereja->save();
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				return json_encode($respond);
+			}catch(Exception $e){
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
+				return json_encode($respond);
+			}	
+		}
 	}
 	
-	//get list etnis
-	public function getListEtnis()
-	{	
-		$arrEtnis = array(
-			'' => 'pilih!',
-			'T.Hoa' => 'T.Hoa',
-			'Sunda' => 'Sunda',
-			'Batak' => 'Batak',
-			'Jawa' => 'Jawa',
-			'Ambon' => 'Ambon',
-			'Minahasa' => 'Minahasa',
-			'Nias' => 'Nias',
-			'Timor' => 'Timor',
-			'Toraja' => 'Toraja',
-			'Dayak' => 'Dayak',
-			'Papua' => 'Papua',
-			'Lain-Lain' => 'Lain-Lain'
+	public function admin_edit_jenis_baptis()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};
+		
+		$nama_jenis_baptis = $input->{'nama_jenis_baptis'};
+		$keterangan = $input->{'keterangan'};
+		
+		$data_valid = array(
+			'nama_jenis_baptis' => $nama_jenis_baptis,
+			'keterangan' =>	$keterangan
 		);
-		return $arrEtnis;
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, JenisBaptis::$rules); 								
+		if($validator->fails())
+		{			
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);			
+		}
+		
+		$jenis_baptis = JenisBaptis::find($id);
+
+		if($jenis_baptis == null)
+		{
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
+			return json_encode($respond);
+		}
+		else
+		{		
+			$jenis_baptis->nama_jenis_baptis = $nama_jenis_baptis;
+			$jenis_baptis->keterangan = $keterangan;
+			$jenis_baptis->deleted = 0;
+					
+			try{
+				$jenis_baptis->save();
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				return json_encode($respond);
+			}Catch(Exception $e){
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data jenis baptis');
+				return json_encode($respond);
+			}
+		}	
 	}
 	
+	public function admin_edit_jenis_atesasi()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};
+		
+		$nama_atestasi = $input->{'nama_atestasi'};
+		$keterangan = $input->{'keterangan'};
+		
+		$data_valid = array(
+			'nama_atestasi' => $nama_atestasi,
+			'keterangan' =>	$keterangan
+		);
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, JenisAtestasi::$rules); 								
+		if($validator->fails())
+		{			
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);			
+		}
+		
+		$jenis_atestasi = JenisAtestasi::find($id);
+
+		if($jenis_atestasi == null)
+		{
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
+			return json_encode($respond);
+		}
+		else
+		{
+			$jenis_atestasi->nama_atestasi = $nama_atestasi;
+			$jenis_atestasi->keterangan = $keterangan;
+			$jenis_atestasi->deleted = 0;
+					
+			try{
+				$jenis_atestasi->save();
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				return json_encode($respond);
+			}Catch(Exception $e){
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data jenis atestasi');
+				return json_encode($respond);
+			}
+		}	
+	}
+	
+	public function admin_edit_jenis_kegiatan()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};
+		
+		$nama_kegiatan = $input->{'nama_kegiatan'};
+		$keterangan = $input->{'keterangan'};
+		
+		$data_valid = array(
+			'nama_kegiatan' => $nama_kegiatan,
+			'keterangan' =>	$keterangan
+		);
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, JenisKegiatan::$rules); 								
+		if($validator->fails())
+		{			
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);			
+		}
+		
+		$jenis_kegiatan = JenisKegiatan::find($id);
+
+		if($jenis_kegiatan == null)
+		{
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
+			return json_encode($respond);
+		}
+		else
+		{
+			$jenis_kegiatan->nama_kegiatan = $nama_kegiatan;
+			$jenis_kegiatan->keterangan = $keterangan;
+			$jenis_kegiatan->deleted = 0;
+					
+			try{
+				$jenis_kegiatan->save();
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				return json_encode($respond);
+			}Catch(Exception $e){
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data jenis kegiatan');
+				return json_encode($respond);
+			}
+		}
+	}
 }
 
 ?>

@@ -233,6 +233,14 @@ $('body').on('click', '#f_check_jemaat_pria', function(){
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Keterangan
+						</label>
+						<div class="col-xs-6">
+							{{Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_keterangan', 'class'=>'form-control'))}}
+						</div>
+					</div>
+					<div class="form-group">
 						<div class="col-xs-6 col-xs-push-3">
 							@if($list_jemaat_pria == null || $list_jemaat_wanita == null || $list_pendeta == null)
 								<input type="button" id="f_post_pernikahan" class="btn btn-success" disabled=true value="Simpan Data Pernikahan" />
@@ -253,6 +261,8 @@ $('body').on('click', '#f_post_pernikahan', function(){
 	$tanggal_pernikahan = $('#f_tanggal_pernikahan').val();
 	$id_pendeta = $('#f_id_pendeta').val();
 	$id_gereja = $('#f_id_gereja').val();
+	$keterangan = $('#f_keterangan').val();
+	
 		if($('#f_check_jemaat_wanita').val() == 1) //pakai nama gereja lain
 		{
 			$id_mempelai_wanita = '';
@@ -282,16 +292,33 @@ $('body').on('click', '#f_post_pernikahan', function(){
 			'id_jemaat_pria' : $id_mempelai_pria,
 			'id_jemaat_wanita' : $id_mempelai_wanita,
 			'nama_pria' : $nama_mempelai_pria,
-			'nama_wanita' : $nama_mempelai_wanita
+			'nama_wanita' : $nama_mempelai_wanita,
+			'keterangan' : $keterangan
 		};
+		
+		var json_data = JSON.stringify($data);
 		
 		$.ajax({
 			type: "POST",
 			url: "{{URL('user/post_pernikahan')}}",
 			data: {
-				'data' : $data
+				'json_data' : json_data
+				// 'data' : $data
 			},
-			success: function(response){				
+			success: function(response){		
+				result = JSON.parse(response);				
+				if(result.code==201)
+				{
+					// alert("Berhasil simpan data kebaktian");					
+					// location.reload();
+					alert(result.messages);
+					window.location = '{{URL::route('view_inputdata_pernikahan')}}';
+				}
+				else
+				{
+					alert(result.messages);
+				}
+				/*			
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data pernikahan");
@@ -302,12 +329,12 @@ $('body').on('click', '#f_post_pernikahan', function(){
 				{
 					alert(response);
 				}
+				*/
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
-		});
-		
+		},'json');
 	});
 </script>
 

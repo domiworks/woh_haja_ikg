@@ -13,7 +13,8 @@ class Atestasi extends Eloquent
 				'nama_gereja_lama' => 'required',
 						// 'id_gereja_baru' => 'required',
 				'nama_gereja_baru' => 'required',
-				'id_jenis_atestasi' => 'required'];
+				'id_jenis_atestasi' => 'required',
+				'id_anggota' => 'required'];
 	
 	public $fillable = 
 				['no_atestasi',

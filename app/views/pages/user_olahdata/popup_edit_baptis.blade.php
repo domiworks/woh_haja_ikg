@@ -105,6 +105,14 @@
 
 						</script>
 					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Keterangan
+						</label>
+						<div class="col-xs-6">
+							{{Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_edit_keterangan', 'class'=>'form-control'))}}
+						</div>
+					</div>
 				</form>
 					
 			</div>
@@ -128,24 +136,39 @@
 		$jenis_baptis = $('#f_edit_jenis_baptis').val();		
 		$tanggal_baptis = $('#f_edit_tanggal_baptis').val();
 		// $gereja = $('#f_edit_id_gereja').val();
-			
+		$keterangan = $('#f_edit_keterangan').val();	
 		$data = {
 			'id' : $id,
 			'no_baptis' : $nomor_baptis,
 			'id_jemaat' : $jemaat,
 			'id_pendeta' : $pembaptis,
 			'tanggal_baptis' : $tanggal_baptis,
-			'id_jenis_baptis' : $jenis_baptis
+			'id_jenis_baptis' : $jenis_baptis,
+			'keterangan' : $keterangan
 			// 'id_gereja' : $gereja
 		};
+		
+		var json_data = JSON.stringify($data);
 		
 		$.ajax({
 			type: 'POST',
 			url: "{{URL('user/edit_baptis')}}",
 			data : {
-				'data' : $data
+				'json_data' : json_data
+				// 'data' : $data
 			},
 			success: function(response){
+				result = JSON.parse(response);
+				if(result.code==200)
+				{
+					alert(result.messages);
+					window.location = '{{URL::route('view_olahdata_baptis')}}';					
+				}
+				else
+				{
+					alert(result.messages);
+				}
+				/*
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan perubahan.");
@@ -156,10 +179,11 @@
 				{
 					alert(response);
 				}
+				*/
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
-		});
+		},'json');
 	});	
 </script>

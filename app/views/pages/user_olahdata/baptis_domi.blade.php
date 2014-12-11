@@ -144,6 +144,10 @@
 				</div>
 			</div>
 
+			<div id="temp_result">
+				
+			</div>
+			
 			<div id="f_result_baptis">
 				<table class="table table-bordered">
 					<thead>
@@ -187,6 +191,9 @@
 </div>	
 
 <script>
+	//simpen detail
+	var temp_detail = "";
+
 	$('body').on('click', '#f_search_baptis', function(){
 		$nomor_baptis = $('#f_nomor_baptis').val();
 		$id_pembaptis = $('#f_pembaptis').val();
@@ -207,15 +214,57 @@
 			// 'id_gereja' : $gereja
 		};
 		
+		var json_data = JSON.stringify($data);
+		
 		$.ajax({
 			type: 'POST',
 			url: "{{URL('user/search_baptis')}}",
-			data : {
-				'data' : $data
+			data : {	
+				'json_data' : json_data
+				// 'data' : $data
 			},
 			success: function(response){
+				result = JSON.parse(response);
+				if(result.code==200)
+				{
+					alert('Data ditemukan.');
+					temp_detail = result.messages;
+					$('#temp_result').html(JSON.stringify(temp_detail));
+					var result = '';
+					for($i = 0; $i < temp_detail.length; $i++)
+					{
+						// alert(JSON.stringify(temp_detail[$i]));
+						result+= '<tr>';
+							result+='<td>';
+								result+=temp_detail[$i]['no_baptis'];								
+							result+='</td>';
+							result+='<td>';
+								result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
+							result+='</td>';
+							result+='<td>';							
+								result+='<input type="hidden" value='+$i+' />';
+								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_baptis">';
+									result+='Edit';
+								result+='</button>';
+								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_baptis">';
+									result+='delete';
+								result+='</button>';
+							result+='</td>';
+						result+='</tr>';
+					}
+					
+					$('#f_result_body_baptis').html(result);
+				}
+				else
+				{
+					alert(result.messages);
+					$('#f_result_body_baptis').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
+				}
 				// alert(response);
 				
+				/*
 				alert("Berhasil cari data baptis");				
 				
 				if(response != "no result")
@@ -253,17 +302,27 @@
 				{
 					$('#f_result_body_baptis').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
 				}
+				*/
 			},
 			error: function(jqXHR, textStatus, errorThrown){
+				alert('error');
 				alert(errorThrown);
 			}
-		});	
+		},'json');	
 	});
 	
 	//click edit button
 	$('body').on('click', '.detailButton', function(){
 		$id = $(this).prev().val();				
+		$index = $(this).prev().prev().val();
 		
+		$('#f_edit_nomor_baptis').val(temp_detail[$index]['no_baptis']);	
+		$('#f_edit_pembaptis').val(temp_detail[$index]['id_pendeta']);	
+		$('#f_edit_jemaat').val(temp_detail[$index]['id_jemaat']);	
+		$('#f_edit_jenis_baptis').val(temp_detail[$index]['id_jenis_baptis']);	
+		$('#f_edit_tanggal_baptis').val(temp_detail[$index]['tanggal_baptis']);					
+		$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);
+		/*
 		$data = {
 			'id' : $id			
 		};
@@ -289,6 +348,7 @@
 				alert(errorThrown);
 			}
 		});
+		*/
 	});
 	
 	//click delete button

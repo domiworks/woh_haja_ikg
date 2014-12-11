@@ -31,22 +31,22 @@ class InputEditController extends BaseController {
 		// $list_gereja = $this->getListGereja();
 		$list_pembaptis = $this->getListPendeta();
 		$list_jenis_baptis = $this->getListJenisBaptis();
-		$list_jemaat = $this->getListJemaat();		
+		$list_jemaat = $this->getListAnggota();		
 		return View::make('pages.user_inputdata.baptis_domi', compact('list_pembaptis','list_jenis_baptis','list_jemaat'));		
 	}	
 	
 	public function view_atestasi()
 	{
 		$list_jenis_atestasi = $this->getListJenisAtestasi();
-		$list_jemaat = $this->getListJemaat();
+		$list_jemaat = $this->getListAnggota();
 		$list_gereja = $this->getListGereja();		
 		return View::make('pages.user_inputdata.atestasi_domi', compact('list_jenis_atestasi','list_jemaat','list_gereja'));		
 	}
 	
 	public function view_pernikahan()
 	{
-		$list_jemaat_pria = $this->getListJemaatPria();
-		$list_jemaat_wanita = $this->getListJemaatWanita();
+		$list_jemaat_pria = $this->getListAnggotaPria();
+		$list_jemaat_wanita = $this->getListAnggotaWanita();
 		$list_gereja = $this->getListGereja();
 		$list_pendeta = $this->getListPendeta();		
 		return View::make('pages.user_inputdata.pernikahan_domi', compact('list_jemaat_pria','list_jemaat_wanita','list_gereja','list_pendeta'));
@@ -61,31 +61,33 @@ class InputEditController extends BaseController {
 	
 	public function view_dkh()
 	{
-		$list_jemaat = $this->getListJemaat();		
+		$list_jemaat = $this->getListAnggota();		
 		return View::make('pages.user_inputdata.dkh_domi', compact('list_jemaat'));		
 	}
 
 /*----------------------------------------POST----------------------------------------*/	
 	
+	//NOTE :			
+	//masukin data ke persembahan ... 
 	public function postKebaktian()
-	{		
-		//NOTE :			
-		//masukin data ke persembahan ... 
-		
-		$input = Input::get('data');							
+	{				
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+								
+		// $input = Input::get('data');							
 		
 		$data_valid = array(			
-			'nama_pendeta' => $input['nama_pendeta'],			
-			'nama_jenis_kegiatan' => $input['nama_jenis_kegiatan'],
-			'tanggal_mulai' => $input['tanggal_mulai'],
-			'tanggal_selesai' => $input['tanggal_selesai'],
-			'jam_mulai' => $input['jam_mulai'],
-			'jam_selesai' => $input['jam_selesai'],
-			'banyak_jemaat' => $input['banyak_jemaat'],
-			'banyak_simpatisan' => $input['banyak_simpatisan'],
-			'banyak_penatua' => $input['banyak_penatua'],
-			'banyak_pemusik' => $input['banyak_pemusik'],
-			'banyak_komisi' => $input['banyak_komisi']
+			'nama_pendeta' => $input->{'nama_pendeta'},			
+			'nama_jenis_kegiatan' => $input->{'nama_jenis_kegiatan'},
+			'tanggal_mulai' => $input->{'tanggal_mulai'},
+			'tanggal_selesai' => $input->{'tanggal_selesai'},
+			'jam_mulai' => $input->{'jam_mulai'},
+			'jam_selesai' => $input->{'jam_selesai'},
+			'banyak_jemaat' => $input->{'banyak_jemaat'},
+			'banyak_simpatisan' => $input->{'banyak_simpatisan'},
+			'banyak_penatua' => $input->{'banyak_penatua'},
+			'banyak_pemusik' => $input->{'banyak_pemusik'},
+			'banyak_komisi' => $input->{'banyak_komisi'}
 		);
 		
 		//validate
@@ -93,54 +95,58 @@ class InputEditController extends BaseController {
 
 		if ($validator->fails())
 		{			
-			return "Bagian yang bertanda (*) harus diisi.";
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+			// return "Bagian yang bertanda (*) harus diisi.";
 		}
-		if($input['jumlah_persembahan'] == '')
+		if($input->{'jumlah_persembahan'} == '')
 		{
-			return "Bagian yang bertanda (*) harus diisi.";
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+			// return "Bagian yang bertanda (*) harus diisi.";
 		}
 				
 		$kebaktian = new Kegiatan();												
-		if($input['id_jenis_kegiatan'] == '')
+		if($input->{'id_jenis_kegiatan'} == '')
 		{
 			$kebaktian->id_jenis_kegiatan = null;
 		}
 		else
 		{
-			$kebaktian->id_jenis_kegiatan = $input['id_jenis_kegiatan'];
+			$kebaktian->id_jenis_kegiatan = $input->{'id_jenis_kegiatan'};
 		}
-		$kebaktian->nama_jenis_kegiatan = $input['nama_jenis_kegiatan'];
-		if($input['id_pendeta'] == '')
+		$kebaktian->nama_jenis_kegiatan = $input->{'nama_jenis_kegiatan'};
+		if($input->{'id_pendeta'} == '')
 		{
 			$kebaktian->id_pendeta = null;
 		}
 		else
 		{
-			$kebaktian->id_pendeta = $input['id_pendeta'];
+			$kebaktian->id_pendeta = $input->{'id_pendeta'};
 		}		
-		$kebaktian->nama_pendeta = $input['nama_pendeta'];				
-		$kebaktian->tanggal_mulai = $input['tanggal_mulai'];
-		$kebaktian->tanggal_selesai = $input['tanggal_selesai'];
-		$kebaktian->jam_mulai = $input['jam_mulai'];
-		$kebaktian->jam_selesai = $input['jam_selesai'];
-		$kebaktian->banyak_jemaat_pria = $input['banyak_jemaat_pria'];
-		$kebaktian->banyak_jemaat_wanita = $input['banyak_jemaat_wanita'];
-		$kebaktian->banyak_jemaat = $input['banyak_jemaat'];
-		$kebaktian->banyak_simpatisan_pria = $input['banyak_simpatisan_pria'];
-		$kebaktian->banyak_simpatisan_wanita = $input['banyak_simpatisan_wanita'];
-		$kebaktian->banyak_simpatisan = $input['banyak_simpatisan'];
-		$kebaktian->banyak_penatua_pria = $input['banyak_penatua_pria'];
-		$kebaktian->banyak_penatua_wanita = $input['banyak_penatua_wanita'];
-		$kebaktian->banyak_penatua = $input['banyak_penatua'];
-		$kebaktian->banyak_komisi_pria = $input['banyak_komisi_pria'];
-		$kebaktian->banyak_komisi_wanita = $input['banyak_komisi_wanita'];
-		$kebaktian->banyak_komisi = $input['banyak_komisi'];
-		$kebaktian->banyak_pemusik_pria = $input['banyak_pemusik_pria'];
-		$kebaktian->banyak_pemusik_wanita = $input['banyak_pemusik_wanita'];
-		$kebaktian->banyak_pemusik = $input['banyak_pemusik'];		
-		// $kebaktian->id_gereja = $input['id_gereja'];
+		$kebaktian->nama_pendeta = $input->{'nama_pendeta'};				
+		$kebaktian->tanggal_mulai = $input->{'tanggal_mulai'};
+		$kebaktian->tanggal_selesai = $input->{'tanggal_selesai'};
+		$kebaktian->jam_mulai = $input->{'jam_mulai'};
+		$kebaktian->jam_selesai = $input->{'jam_selesai'};
+		$kebaktian->banyak_jemaat_pria = $input->{'banyak_jemaat_pria'};
+		$kebaktian->banyak_jemaat_wanita = $input->{'banyak_jemaat_wanita'};
+		$kebaktian->banyak_jemaat = $input->{'banyak_jemaat'};
+		$kebaktian->banyak_simpatisan_pria = $input->{'banyak_simpatisan_pria'};
+		$kebaktian->banyak_simpatisan_wanita = $input->{'banyak_simpatisan_wanita'};
+		$kebaktian->banyak_simpatisan = $input->{'banyak_simpatisan'};
+		$kebaktian->banyak_penatua_pria = $input->{'banyak_penatua_pria'};
+		$kebaktian->banyak_penatua_wanita = $input->{'banyak_penatua_wanita'};
+		$kebaktian->banyak_penatua = $input->{'banyak_penatua'};
+		$kebaktian->banyak_komisi_pria = $input->{'banyak_komisi_pria'};
+		$kebaktian->banyak_komisi_wanita = $input->{'banyak_komisi_wanita'};
+		$kebaktian->banyak_komisi = $input->{'banyak_komisi'};
+		$kebaktian->banyak_pemusik_pria = $input->{'banyak_pemusik_pria'};
+		$kebaktian->banyak_pemusik_wanita = $input->{'banyak_pemusik_wanita'};
+		$kebaktian->banyak_pemusik = $input->{'banyak_pemusik'};		
+		// $kebaktian->id_gereja = $input->{'id_gereja'};
 		$kebaktian->id_gereja = Auth::user()->anggota->id_gereja;		
-		$kebaktian->keterangan = $input['keterangan'];					
+		$kebaktian->keterangan = $input->{'keterangan'};					
 		$kebaktian->deleted = 0;
 		
 		try{
@@ -149,29 +155,59 @@ class InputEditController extends BaseController {
 			try{
 				$persembahan = new Persembahan();
 				$persembahan->tanggal_persembahan = $kebaktian->tanggal_mulai;
-				$persembahan->jumlah_persembahan = $input['jumlah_persembahan'];
+				$persembahan->jumlah_persembahan = $input->{'jumlah_persembahan'};
 				$persembahan->id_kegiatan = $kebaktian->id;
 				$persembahan->jenis = 1;	//jenis 1 khusus untuk persembahan kebaktian
 				$persembahan->deleted = 0;
 				
 				$persembahan->save();
 				
-				return "berhasil";
+				$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data kebaktian.');
+				return json_encode($respond);
+				
+				// return "berhasil";
 			}catch(Exception $e){
 				//delete kebaktian
 				$kebaktian->delete();
-							
-				return "Gagal menyimpan data kebaktian.";
+				
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data kebaktian');
+				return json_encode($respond);
+				// return "Gagal menyimpan data kebaktian.";
 			}
 						
 		}catch(Exception $e){			
-			return "Gagal menyimpan data kebaktian.";
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data kebaktian');
+			return json_encode($respond);
+			// return "Gagal menyimpan data kebaktian.";
 		}
 							
 	}
 		
 	public function postAnggota()
 	{	
+		/*
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);	
+		
+		$data_valid = array(
+			'nama_depan' => $input->{'nama_depan'},
+			'telp' => $input->{'telp'},
+			'gender' => $input->{'gender'},
+			'gol_darah' => $input->{'gol_darah'},
+			'pekerjaan' => $input->{'pekerjaan'},
+			'kota_lahir' => $input->{'kota_lahir'},
+			'tanggal_lahir' => $input->{'tanggal_lahir'}, 
+			'role' => $input->{'role'}
+		);	
+			
+		// $file = Input::file('foto');	
+			
+		$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data anggota.');
+		return json_encode($respond);
+		*/
+		
+		
+		//BEFORE
 		$data_valid = array(
 			'nama_depan' => Input::get('nama_depan'),
 			'telp' => Input::get('telp'),
@@ -188,7 +224,9 @@ class InputEditController extends BaseController {
 		
 		if($validator->fails())
 		{
-			return "Bagian yang bertanda (*) harus diisi.";
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+			// return "Bagian yang bertanda (*) harus diisi.";
 		}
 		
 		$data_valid = array(
@@ -199,9 +237,11 @@ class InputEditController extends BaseController {
 		//validate alamat
 		$validator = Validator::make($data = $data_valid, Alamat::$rules);
 		
-		if($validator->fails())
+		if($validator->fails())		
 		{
-			return "Bagian yang bertanda (*) harus diisi.";
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+			// return "Bagian yang bertanda (*) harus diisi.";
 		}
 	
 		$anggota = new Anggota();
@@ -252,8 +292,10 @@ class InputEditController extends BaseController {
 							$delHp = DB::table('hp')->orderBy('created_at', 'desc')->first();
 							$delHp->delete();
 						}
-											
-						return "Gagal menyimpan data anggota.";
+						
+						$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data anggota');
+						return json_encode($respond);						
+						// return "Gagal menyimpan data anggota.";
 					}
 				}
 			}
@@ -277,8 +319,10 @@ class InputEditController extends BaseController {
 					$delHp = DB::table('hp')->orderBy('created_at', 'desc')->first();
 					$delHp->delete();
 				}
-							
-				return "Gagal menyimpan data anggota.";
+						
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data anggota');
+				return json_encode($respond);
+				// return "Gagal menyimpan data anggota.";
 			}
 			
 			//save foto
@@ -312,7 +356,9 @@ class InputEditController extends BaseController {
 						//delete alamat
 						$alamat->delete();
 						
-						return "Gagal menyimpan data anggota.";
+						$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data angggota');
+						return json_encode($respond);
+						// return "Gagal menyimpan data anggota.";
 					}					
 				}
 				else
@@ -335,27 +381,36 @@ class InputEditController extends BaseController {
 						//delete alamat
 						$alamat->delete();
 						
-						return "Gagal menyimpan data anggota.";
+						$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data anggota');
+						return json_encode($respond);
+						// return "Gagal menyimpan data anggota.";
 					}					
 				}
 			}			
 		}catch(Exception $e){			
-			return "Gagal menyimpan data anggota.";
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data angggota');
+			return json_encode($respond);
+			// return "Gagal menyimpan data anggota.";
 		}		
 		
-		return "berhasil";		
+		$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data kebaktian.');
+		return json_encode($respond);
+		// return "berhasil";		
 	}
 	
 	public function postBaptis()
 	{		
-		$input = Input::get('data');
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		// $input = Input::get('data');
 		
 		$data_valid = array(
-			'no_baptis' => $input['no_baptis'],
-			'id_jemaat' => $input['id_jemaat'],
-			'id_pendeta' => $input['id_pendeta'],
-			'tanggal_baptis' => $input['tanggal_baptis'],
-			'id_jenis_baptis' => $input['id_jenis_baptis'],
+			'no_baptis' => $input->{'no_baptis'},
+			'id_jemaat' => $input->{'id_jemaat'},
+			'id_pendeta' => $input->{'id_pendeta'},
+			'tanggal_baptis' => $input->{'tanggal_baptis'},
+			'id_jenis_baptis' => $input->{'id_jenis_baptis'},
 			'id_gereja' => Auth::user()->anggota->id_gereja
 		);
 		
@@ -364,41 +419,53 @@ class InputEditController extends BaseController {
 		
 		if($validator->fails())
 		{
-			return "Bagian yang bertanda (*) harus diisi.";
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+			// return "Bagian yang bertanda (*) harus diisi.";
 		}
 		
 		$baptis = new Baptis();
-		$baptis->no_baptis = $input['no_baptis'];				
-		$baptis->id_jemaat = $input['id_jemaat'];
-		$baptis->id_pendeta = $input['id_pendeta'];
-		$baptis->tanggal_baptis = $input['tanggal_baptis'];
-		$baptis->id_jenis_baptis = $input['id_jenis_baptis'];
-		// $baptis->id_gereja = $input['id_gereja'];
+		$baptis->no_baptis = $input->{'no_baptis'};				
+		$baptis->id_jemaat = $input->{'id_jemaat'};
+		$baptis->id_pendeta = $input->{'id_pendeta'};
+		$baptis->tanggal_baptis = $input->{'tanggal_baptis'};
+		$baptis->id_jenis_baptis = $input->{'id_jenis_baptis'};
+		// $baptis->id_gereja = $input->{'id_gereja'};
 		$baptis->id_gereja = Auth::user()->anggota->id_gereja;
-		$baptis->keterangan = $input['keterangan'];
+		$baptis->keterangan = $input->{'keterangan'};
 		$baptis->deleted = 0;
 		
 		try{
 			$baptis->save();
 			
-			return "berhasil";
+			$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data baptis.');
+			return json_encode($respond);
+			
+			// return "berhasil";
 		}catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data baptis');
+			return json_encode($respond);
+			
 			// return $e->getMessage();
-			return "Gagal menyimpan data baptis.";
+			// return "Gagal menyimpan data baptis.";
 		}
 				
 	}
 		
 	public function postAtestasi()
 	{	
-		$input = Input::get('data');
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		// $input = Input::get('data');
 		
 		$data_valid = array(
-			'no_atestasi' => $input['no_atestasi'],			
-			'tanggal_atestasi' => $input['tanggal_atestasi'],			
-			'nama_gereja_lama' => $input['nama_gereja_lama'],
-			'nama_gereja_baru' => $input['nama_gereja_baru'],
-			'id_jenis_atestasi' => $input['id_jenis_atestasi']
+			'no_atestasi' => $input->{'no_atestasi'},			
+			'tanggal_atestasi' => $input->{'tanggal_atestasi'},			
+			'nama_gereja_lama' => $input->{'nama_gereja_lama'},
+			'nama_gereja_baru' => $input->{'nama_gereja_baru'},
+			'id_jenis_atestasi' => $input->{'id_jenis_atestasi'},
+			'id_anggota' => $input->{'id_anggota'}
 		);				
 		
 		//validate
@@ -406,41 +473,42 @@ class InputEditController extends BaseController {
 		
 		if ($validator->fails())
 		{			
-			return "Bagian yang bertanda (*) harus diisi.";
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+			// return "Bagian yang bertanda (*) harus diisi.";
 		}	
 		
 		$atestasi = new Atestasi();
-		$atestasi->no_atestasi = $input['no_atestasi'];
-		$atestasi->tanggal_atestasi = $input['tanggal_atestasi'];
-		$atestasi->id_jenis_atestasi = $input['id_jenis_atestasi'];
-		$atestasi->keterangan = $input['keterangan'];
-		$atestasi->nama_gereja_lama = $input['nama_gereja_lama'];
-		$atestasi->nama_gereja_baru = $input['nama_gereja_baru'];
-		$atestasi->id_anggota = $input['id_anggota'];
-		$atestasi->keterangan = $input['keterangan'];
+		$atestasi->no_atestasi = $input->{'no_atestasi'};
+		$atestasi->tanggal_atestasi = $input->{'tanggal_atestasi'};
+		$atestasi->id_jenis_atestasi = $input->{'id_jenis_atestasi'};		
+		$atestasi->nama_gereja_lama = $input->{'nama_gereja_lama'};
+		$atestasi->nama_gereja_baru = $input->{'nama_gereja_baru'};
+		$atestasi->id_anggota = $input->{'id_anggota'};		
+		$atestasi->keterangan = $input->{'keterangan'};
 		$atestasi->deleted = 0;
-		if($input['id_gereja_lama'] == '')
+		if($input->{'id_gereja_lama'} == '')
 		{
 			$atestasi->id_gereja_lama = null;
 		}
 		else
 		{
-			$atestasi->id_gereja_lama = $input['id_gereja_lama'];
+			$atestasi->id_gereja_lama = $input->{'id_gereja_lama'};
 		}
-		if($input['id_gereja_baru'] == '')
+		if($input->{'id_gereja_baru'} == '')
 		{
 			$atestasi->id_gereja_baru = null;
 		}
 		else
 		{
-			$atestasi->id_gereja_baru = $input['id_gereja_baru'];
-		}	
-		
-		/*gimana cara save id atestasi barunya*/		
+			$atestasi->id_gereja_baru = $input->{'id_gereja_baru'};
+		}				
 		
 		try{
 			$atestasi->save();	
 			
+			$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data atestasi.');
+			return json_encode($respond);
 			/*
 			$anggota = Anggota::find($input['id_jemaat']);
 		
@@ -484,74 +552,88 @@ class InputEditController extends BaseController {
 				}
 			
 			*/
-		}catch(Exception $e){			
-			return "Gagal menyimpan data atestasi.";
+		}catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data kebaktian');
+			return json_encode($respond);
+			// return "Gagal menyimpan data atestasi.";
 		}
 		
 	}
 	
 	public function postPernikahan()
 	{
-		$input = Input::get('data');
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		// $input = Input::get('data');
 		
 		$data_valid = array(
-			'no_pernikahan' => $input['no_pernikahan'],			
-			'tanggal_pernikahan' => $input['tanggal_pernikahan'],
-			'id_pendeta' => $input['id_pendeta'],
-			'nama_pria' => $input['nama_pria'],
-			'nama_wanita' => $input['nama_wanita']
+			'no_pernikahan' => $input->{'no_pernikahan'},			
+			'tanggal_pernikahan' => $input->{'tanggal_pernikahan'},
+			'id_pendeta' => $input->{'id_pendeta'},
+			'nama_pria' => $input->{'nama_pria'},
+			'nama_wanita' => $input->{'nama_wanita'}
 		);				
 		
 		//validate
 		$validator = Validator::make($data = $data_valid, Pernikahan::$rules); 
 		
 		if ($validator->fails())
-		{			
-			return "Bagian yang bertanda (*) harus diisi.";
+		{		
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+			// return "Bagian yang bertanda (*) harus diisi.";
 		}		
 		
 		$pernikahan = new Pernikahan();
-		$pernikahan->no_pernikahan = $input['no_pernikahan'];
-		$pernikahan->tanggal_pernikahan = $input['tanggal_pernikahan'];
-		$pernikahan->id_pendeta = $input['id_pendeta'];			
+		$pernikahan->no_pernikahan = $input->{'no_pernikahan'};
+		$pernikahan->tanggal_pernikahan = $input->{'tanggal_pernikahan'};
+		$pernikahan->id_pendeta = $input->{'id_pendeta'};			
 		$pernikahan->id_gereja = Auth::user()->anggota->id_gereja;
-		$pernikahan->nama_pria = $input['nama_pria'];
-		$pernikahan->nama_wanita = $input['nama_wanita'];
-		$pernikahan->keterangan = $input['keterangan'];
+		$pernikahan->nama_pria = $input->{'nama_pria'};
+		$pernikahan->nama_wanita = $input->{'nama_wanita'};
+		$pernikahan->keterangan = $input->{'keterangan'};
 		$pernikahan->deleted = 0;
-		if($input['id_jemaat_wanita'] == '')
+		if($input->{'id_jemaat_wanita'} == '')
 		{
 			$pernikahan->id_jemaat_wanita = null;
 		}
 		else
 		{
-			$pernikahan->id_jemaat_wanita = $input['id_jemaat_wanita'];
+			$pernikahan->id_jemaat_wanita = $input->{'id_jemaat_wanita'};
 		}
-		if($input['id_jemaat_pria'] == '')
+		if($input->{'id_jemaat_pria'} == '')
 		{
 			$pernikahan->id_jemaat_pria = null;
 		}
 		else
 		{
-			$pernikahan->id_jemaat_pria = $input['id_jemaat_pria'];
+			$pernikahan->id_jemaat_pria = $input->{'id_jemaat_pria'};
 		}
 		try{
 			$pernikahan->save();
 			
-			return "berhasil";
+			$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data pernikahan.');
+			return json_encode($respond);
+			// return "berhasil";
 		}catch(Exception $e){			
-			return "Gagal menyimpan data pernikahan.";
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data pernikahan');
+			return json_encode($respond);
+			// return "Gagal menyimpan data pernikahan.";
 		}		
 	}
 	
 	public function postKedukaan()
 	{		
-		$input = Input::get('data');
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		// $input = Input::get('data');
 		
 		$data_valid = array(
-			'no_kedukaan' => $input['no_kedukaan'],			
-			'id_jemaat' => $input['id_jemaat'],
-			'keterangan' => $input['keterangan']
+			'no_kedukaan' => $input->{'no_kedukaan'},			
+			'id_jemaat' => $input->{'id_jemaat'},
+			'keterangan' => $input->{'keterangan'}
 			// 'id_gereja' : $id_gereja,
 			// 'tanggal_meninggal' : $tanggal_meninggal
 		);				
@@ -561,56 +643,71 @@ class InputEditController extends BaseController {
 		
 		if ($validator->fails())
 		{			
-			return "Bagian yang bertanda (*) harus diisi.";
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+			// return "Bagian yang bertanda (*) harus diisi.";
 		}
-		if($input['tanggal_meninggal'] == '')
+		if($input->{'tanggal_meninggal'} == '')
 		{
-			return "Bagian yang bertanda (*) harus diisi.";
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+			// return "Bagian yang bertanda (*) harus diisi.";
 		}
 		
 		$duka = new Kedukaan();
-		$duka->no_kedukaan = $input['no_kedukaan'];		
+		$duka->no_kedukaan = $input->{'no_kedukaan'};		
 		$duka->id_gereja = Auth::user()->anggota->id_gereja;
-		$duka->id_jemaat = $input['id_jemaat'];		
-		$duka->keterangan = $input['keterangan'];
+		$duka->id_jemaat = $input->{'id_jemaat'};		
+		$duka->keterangan = $input->{'keterangan'};
 		$duka->deleted = 0;
 		
 		try{
 			$duka->save();
 			
 			//save tanggal_meninggal anggota
-			$anggota = Anggota::find($input['id_jemaat']);
+			$anggota = Anggota::find($input->{'id_jemaat'});
 			if(count($anggota) != 0)
 			{
-				$anggota->tanggal_meninggal = $input['tanggal_meninggal'];
+				$anggota->tanggal_meninggal = $input->{'tanggal_meninggal'};
 				try{
 					$anggota->save();
 					
-					return "berhasil";
+					$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data kedukaan.');
+					return json_encode($respond);
+					// return "berhasil";
 				}catch(Exception $e){
 					//delete duka
 					$duka->delete();
-										
-					return "Gagal menyimpan data kedukaan.";
+							
+					$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data kedukaan');
+					return json_encode($respond);
+					// return "Gagal menyimpan data kedukaan.";
 				}
 			}
 			else
 			{
-				return "Gagal menyimpan data kedukaan.";
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data kedukaan');
+				return json_encode($respond);
+				// return "Gagal menyimpan data kedukaan.";
 			}							
 		}catch(Exception $e){			
-			return "Gagal menyimpan data kedukaan.";
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data kedukaan');
+			return json_encode($respond);
+			// return "Gagal menyimpan data kedukaan.";
 		}
 	}
 		
 	public function postDkh()
 	{
-		$input = Input::get('data');	
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		// $input = Input::get('data');	
 		
 		$data_valid = array(
-			'no_dkh' => $input['no_dkh'],
-			'id_jemaat' => $input['id_jemaat'],
-			'keterangan' => $input['keterangan']
+			'no_dkh' => $input->{'no_dkh'},
+			'id_jemaat' => $input->{'id_jemaat'},
+			'keterangan' => $input->{'keterangan'}
 		);
 		
 		//validate
@@ -618,20 +715,26 @@ class InputEditController extends BaseController {
 		
 		if($validator->fails())
 		{
-			return "Bagian yang bertanda (*) harus diisi.";
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+			// return "Bagian yang bertanda (*) harus diisi.";
 		}
 		
 		$dkh = new Dkh();
-		$dkh->no_dkh = $input['no_dkh'];
-		$dkh->id_jemaat = $input['id_jemaat'];
-		$dkh->keterangan = $input['keterangan'];
+		$dkh->no_dkh = $input->{'no_dkh'};
+		$dkh->id_jemaat = $input->{'id_jemaat'};
+		$dkh->keterangan = $input->{'keterangan'};
 		$dkh->deleted = 0;
 		try{
 			$dkh->save();
 			
-			return "berhasil";
+			$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data dkh.');
+			return json_encode($respond);
+			// return "berhasil";
 		}catch(Exception $e){			
-			return "Gagal menyimpan data dkh.";
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data dkh');
+			return json_encode($respond);
+			// return "Gagal menyimpan data dkh.";
 		}
 							
 	}

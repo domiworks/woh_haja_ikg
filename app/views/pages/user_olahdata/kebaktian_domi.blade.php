@@ -294,18 +294,61 @@ $(document).ready(function(){
 			'batas_atas_hadir_komisi' : $batas_atas_hadir_komisi
 		};
 		
+		var json_data = JSON.stringify($data);
+		
 		$.ajax({
 			type: 'POST',
 			url: "{{URL('user/search_kebaktian')}}",
 			data : {
-				'data' : $data
+				'json_data' : json_data
+				// 'data' : $data
 			},
 			success: function(response){				
-				alert("Berhasil cari data kebaktian");												
-				temp_detail = response;
+				result = JSON.parse(response);
+				if(result.code==200)
+				{
+					// alert(result.messages);
+					alert('Data ditemukan.');
+					temp_detail = result.messages;
+					$('#temp_result').html(JSON.stringify(temp_detail));					
+					var result = '';
+					for($i = 0; $i < temp_detail.length; $i++)
+					{						
+						//set value di tabel result
+						result+= '<tr>';
+							result+='<td>';
+								result+=temp_detail[$i]['tanggal_mulai'];								
+							result+='</td>';
+							result+='<td>';
+								result+=temp_detail[$i]['nama_jenis_kegiatan'];						
+								// result+=temp_detail[$i]['id'];
+							result+='</td>';
+							result+='<td>';
+								result+='<input type="hidden" value='+$i+' />';
+								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kebaktian">';
+									result+='Edit';
+								result+='</button>';
+								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kebaktian">';
+									result+='delete';
+								result+='</button>';
+							result+='</td>';
+						result+='</tr>';						
+					}
+					
+					$('#f_result_body_kebaktian').html(result);		
+				}
+				else
+				{
+					alert(result.messages);
+					$('#f_result_body_kebaktian').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
+				}
 				
-				$('#temp_result').html(response);
-								
+				// alert("Berhasil cari data kebaktian");												
+				// temp_detail = response;
+												
+				/*				
 				if(response != "no result")
 				{
 					// alert('data kebaktian didapatkan');
@@ -342,24 +385,77 @@ $(document).ready(function(){
 				else				
 				{
 					$('#f_result_body_kebaktian').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
-				}				
+				}	
+				*/				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert("error");
 				alert(errorThrown);
 			}
-		});
+		},'json');
 				
 	});
 	
 	//click edit button
 	$('body').on('click', '.detailButton', function(){
 		$id = $(this).prev().val();		
+		$index = $(this).prev().prev().val();
+			
+		if(temp_detail[$index]['id_jenis_kegiatan'] == null)
+		{
+			$('#f_edit_check_kebaktian_lain').val(1);
+			$('#f_edit_check_kebaktian_lain').prop('checked', true);				
+			$('#f_edit_nama_kebaktian').attr('disabled', false);	
+			$('#f_edit_kebaktian_ke').attr('disabled', true);
+		}				
+		else
+		{
+			$('#f_edit_kebaktian_ke').val(temp_detail[$index]['id_jenis_kegiatan']);
+		}
+		$('#f_edit_nama_kebaktian').val(temp_detail[$index]['nama_jenis_kegiatan']);	
+		if(temp_detail[$index]['id_pendeta'] == null)
+		{
+			$('#f_edit_check_pembicara_luar').val(1);
+			$('#f_edit_check_pembicara_luar').prop('checked', true);				
+			$('#f_edit_nama_pengkotbah').attr('disabled', false);	
+			$('#f_edit_pengkotbah').attr('disabled', true);
+		}
+		else
+		{
+			$('#f_edit_pengkotbah').val(temp_detail[$index]['id_pendeta']);
+		}
+		$('#f_edit_nama_pengkotbah').val(temp_detail[$index]['nama_pendeta']);	
+		$('#f_edit_tanggal_mulai').val(temp_detail[$index]['tanggal_mulai']);	
+		$('#f_edit_tanggal_selesai').val(temp_detail[$index]['tanggal_selesai']);	
+		$('#f_edit_jam_mulai').val(temp_detail[$index]['jam_mulai']);	
+		$('#f_edit_jam_selesai').val(temp_detail[$index]['jam_selesai']);	
+		$('#f_edit_tanggal_mulai').val(temp_detail[$index]['tanggal_mulai']);					
+		$('#f_edit_banyak_jemaat_pria').val(temp_detail[$index]['banyak_jemaat_pria']);	
+		$('#f_edit_banyak_jemaat_wanita').val(temp_detail[$index]['banyak_jemaat_wanita']);	
+		$('#f_edit_banyak_jemaat').val(temp_detail[$index]['banyak_jemaat']);	
+		$('#f_edit_banyak_simpatisan_pria').val(temp_detail[$index]['banyak_simpatisan_pria']);	
+		$('#f_edit_banyak_simpatisan_wanita').val(temp_detail[$index]['banyak_simpatisan_wanita']);	
+		$('#f_edit_banyak_simpatisan').val(temp_detail[$index]['banyak_simpatisan']);	
+		$('#f_edit_banyak_penatua_pria').val(temp_detail[$index]['banyak_penatua_pria']);	
+		$('#f_edit_banyak_penatua_wanita').val(temp_detail[$index]['banyak_penatua_wanita']);	
+		$('#f_edit_banyak_penatua').val(temp_detail[$index]['banyak_penatua']);	
+		$('#f_edit_banyak_pemusik_pria').val(temp_detail[$index]['banyak_pemusik_pria']);	
+		$('#f_edit_banyak_pemusik_wanita').val(temp_detail[$index]['banyak_pemusik_wanita']);	
+		$('#f_edit_banyak_pemusik').val(temp_detail[$index]['banyak_pemusik']);	
+		$('#f_edit_banyak_komisi_pria').val(temp_detail[$index]['banyak_komisi_pria']);	
+		$('#f_edit_banyak_komisi_wanita').val(temp_detail[$index]['banyak_komisi_wanita']);	
+		$('#f_edit_banyak_komisi').val(temp_detail[$index]['banyak_komisi']);	
+		$('#f_edit_jumlah_persembahan').val(temp_detail[$index]['jumlah_persembahan']);
+		$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);
 		
-		$data = {
-			'id' : $id
-		};
+		$('#f_edit_id_persembahan').val(temp_detail[$index]['id_persembahan']);
 		
+		// $data = {
+			// 'id' : $id
+		// };
+		
+		
+		/*
 		$.ajax({
 			type: 'GET',
 			url: "{{URL('user/detail_kebaktian')}}",
@@ -425,7 +521,7 @@ $(document).ready(function(){
 				alert(errorThrown);
 			}
 		});
-		
+		*/
 	});
 	
 	//click delete button

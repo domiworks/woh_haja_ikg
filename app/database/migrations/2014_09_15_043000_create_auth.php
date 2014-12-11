@@ -17,6 +17,7 @@ class CreateAuth extends Migration {
 		- jadi pakai tumbstone di setiap tabel kecuali di tabel 'auth'		
 		- tambah id_anggota di tabel atestasi		
 		- hapus id_atestasi di tabel anggota
+		- hapus id_atestasi_baru di tabel atestasi
 		- tambah keterangan di tabel baptis
 		- tambah keterangan di tabel pernikahan
 		- kolom jenis di table persembahan -> tinyInteger jadi integer
@@ -94,7 +95,7 @@ class CreateAuth extends Migration {
 			$table->increments('id');
 			$table->string('no_atestasi');
 			$table->date('tanggal_atestasi'); //tanggal surat atestasi
-			$table->integer('id_atestasi_baru')->unsigned()->nullable(); //rekursif atestasi
+			// $table->integer('id_atestasi_baru')->unsigned()->nullable(); //rekursif atestasi
 			$table->integer('id_gereja_lama')->unsigned()->nullable();
 			$table->integer('id_gereja_baru')->unsigned()->nullable();			
 			$table->string('nama_gereja_lama');
@@ -104,7 +105,7 @@ class CreateAuth extends Migration {
 			$table->string('keterangan'); //alasan atestasi
 			$table->tinyInteger('deleted');
 			
-			$table->foreign('id_atestasi_baru')->references('id')->on('atestasi');
+			// $table->foreign('id_atestasi_baru')->references('id')->on('atestasi');
 			$table->foreign('id_gereja_lama')->references('id')->on('gereja');
 			$table->foreign('id_gereja_baru')->references('id')->on('gereja');			
 			$table->foreign('id_jenis_atestasi')->references('id')->on('jenis_atestasi');

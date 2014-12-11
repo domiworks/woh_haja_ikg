@@ -144,6 +144,14 @@
 						</script>
 					</div>
 					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Keterangan
+						</label>
+						<div class="col-xs-6">
+							{{Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_keterangan', 'class'=>'form-control'))}}
+						</div>
+					</div>
+					<div class="form-group">
 						<div class="col-xs-6 col-xs-push-3">
 							@if($list_jemaat == null || $list_pembaptis == null || $list_jenis_baptis == null)
 								<input type="button" id="f_post_baptis" class="btn btn-success" value="Simpan Data Baptis" disabled=true />
@@ -214,39 +222,57 @@ $('body').on('click', '#f_post_baptis', function(){
 	$jenis_baptis = $('#f_jenis_baptis').val();		
 	$tanggal_baptis = $('#f_tanggal_baptis').val();
 	// $gereja = $('#f_id_gereja').val();
+	$keterangan = $('#f_keterangan').val();
 		
-		$data = {
-			'no_baptis' : $nomor_baptis,
-			'id_jemaat' : $jemaat,
-			'id_pendeta' : $pembaptis,
-			'tanggal_baptis' : $tanggal_baptis,
-			'id_jenis_baptis' : $jenis_baptis
-			// 'id_gereja' : $gereja
-		};
+	$data = {
+		'no_baptis' : $nomor_baptis,
+		'id_jemaat' : $jemaat,
+		'id_pendeta' : $pembaptis,
+		'tanggal_baptis' : $tanggal_baptis,
+		'id_jenis_baptis' : $jenis_baptis,
+		'keterangan' : $keterangan
+		// 'id_gereja' : $gereja
 		
-		$.ajax({
-			type: 'POST',
-			url: "{{URL('user/post_baptis')}}",
-			data : {
-				'data' : $data
-			},
-			success: function(response){
-				if(response == "berhasil")
-				{	
-					alert("Berhasil simpan data baptis");
-					// location.reload();
-					window.location = '{{URL::route('view_inputdata_baptis')}}';
-				}
-				else
-				{
-					alert(response);
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				alert(errorThrown);
+	};
+	
+	var json_data = JSON.stringify($data);
+	
+	$.ajax({
+		type: 'POST',
+		url: "{{URL('user/post_baptis')}}",
+		data : {
+			'json_data' : json_data
+			// 'data' : $data
+		},
+		success: function(response){
+			result = JSON.parse(response);
+			if(result.code==201)
+			{
+				alert(result.messages);
+				window.location = '{{URL::route('view_inputdata_baptis')}}';
 			}
-		});
-	});
+			else
+			{
+				alert(result.messages);
+			}
+			/*
+			if(response == "berhasil")
+			{	
+				alert("Berhasil simpan data baptis");
+				// location.reload();
+				window.location = '{{URL::route('view_inputdata_baptis')}}';
+			}
+			else
+			{
+				alert(response);
+			}
+			*/
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			alert(errorThrown);
+		}
+	},'json');
+});
 </script>	
 
 @stop

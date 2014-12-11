@@ -369,88 +369,198 @@
 		return true;
 	}
 
-	$('body').on('click', '#f_post_anggota', function(){								
+/*
+	$('body').on('click', '#f_post_anggota', function(){		
 		var data, xhr;
 		data = new FormData();
-
+		
 		$nomor_anggota = $('#f_nomor_anggota').val();			
-		data.append('no_anggota', $nomor_anggota);
-		$nama_depan = $('#f_nama_depan').val();	
-		data.append('nama_depan', $nama_depan);
-		$nama_tengah = $('#f_nama_tengah').val();	
-		data.append('nama_tengah', $nama_tengah);
-		$nama_belakang = $('#f_nama_belakang').val();	
-		data.append('nama_belakang', $nama_belakang);
-		$jalan = $('#f_alamat').val();
-		data.append('jalan', $jalan);
-		$kota = $('#f_kota').val();
-		data.append('kota', $kota);
-		$kodepos = $('#f_kodepos').val();
-		data.append('kodepos', $kodepos);
-		$telp = $('#f_telp').val();	
-		data.append('telp', $telp);		
+		$nama_depan = $('#f_nama_depan').val();			
+		$nama_tengah = $('#f_nama_tengah').val();			
+		$nama_belakang = $('#f_nama_belakang').val();			
+		$jalan = $('#f_alamat').val();		
+		$kota = $('#f_kota').val();		
+		$kodepos = $('#f_kodepos').val();		
+		$telp = $('#f_telp').val();			
 		//looping ambil data hp
 		var arr_hp = new Array();
 		for($i = 1; $i < lastIdx; $i++)
 		{
 			arr_hp[arr_hp.length] = $('#f_hp'+$i+'').val();			
-		}
-		data.append('arr_hp', arr_hp);					
-		$gender = $('input[name="gender"]:checked').val();	
-		data.append('gender', $gender);
-		$wilayah = $('#f_wilayah').val();	
-		data.append('wilayah', $wilayah);
-		$gol_darah = $('#f_gol_darah').val();
-		data.append('gol_darah', $gol_darah);
-		$pendidikan = $('#f_pendidikan').val();	
-		data.append('pendidikan', $pendidikan);
-		$pekerjaan = $('#f_pekerjaan').val();	
-		data.append('pekerjaan', $pekerjaan);
-		$etnis = $('#f_etnis').val();	
-		data.append('etnis', $etnis);
-		$kota_lahir	= $('#f_kota_lahir').val();
-		data.append('kota_lahir', $kota_lahir);
-		$tanggal_lahir = $('#f_tanggal_lahir').val();	
-		data.append('tanggal_lahir', $tanggal_lahir);
-		// $anggota_gereja = $('#f_id_gereja').val();
-			// data.append('id_gereja', $anggota_gereja);
-			if($('#f_foto').val() != "")
-			{			
-				$foto = $('#f_foto')[0].files[0];
-			}		
-			else		
-			{
-				$foto = "";
-			}
-			data.append('foto', $foto);
-			$role = $('#f_status').val();
-			data.append('role', $role);						
-
-			$.ajax({
-				type: 'POST',
-				url: "{{URL('user/post_anggota')}}",
-				data : data,
-				processData: false,
-				contentType: false,	
-				success: function(response){				
-				// alert(response);
-				if(response == "berhasil")
-				{	
-					alert("Berhasil simpan data anggota");
-					// location.reload();
-					window.location = '{{URL::route('view_inputdata_anggota')}}';
+		}						
+		$gender = $('input[name="gender"]:checked').val();			
+		$wilayah = $('#f_wilayah').val();			
+		$gol_darah = $('#f_gol_darah').val();		
+		$pendidikan = $('#f_pendidikan').val();			
+		$pekerjaan = $('#f_pekerjaan').val();			
+		$etnis = $('#f_etnis').val();			
+		$kota_lahir	= $('#f_kota_lahir').val();		
+		$tanggal_lahir = $('#f_tanggal_lahir').val();					
+		$role = $('#f_status').val();				
+		
+		if($('#f_foto').val() != "")
+		{			
+			$foto = $('#f_foto')[0].files[0];
+		}		
+		else		
+		{
+			$foto = "";
+		}		
+		data.append('foto', $foto);
+		
+		
+		$data = {
+			'no_anggota' : $nomor_anggota,		
+			'nama_depan' : $nama_depan,
+			'nama_tengah' : $nama_tengah,
+			'nama_belakang' : $nama_belakang,
+			'jalan' : $jalan,
+			'kota' : $kota,
+			'kodepos' : $kodepos,
+			'telp' : $telp,		
+			'arr_hp' : arr_hp,	
+			'gender' : $gender,
+			'wilayah' : $wilayah,
+			'gol_darah' : $gol_darah,
+			'pendidikan' : $pendidikan,
+			'pekerjaan' : $pekerjaan,
+			'etnis' : $etnis,
+			'kota_lahir' : $kota_lahir,
+			'tanggal_lahir' : $tanggal_lahir,
+			'role' : $role		
+		};
+		
+		var json_data = JSON.stringify($data);
+		
+		$.ajax({
+			type: 'POST',
+			url: "{{URL('user/post_anggota')}}",
+			data : {
+				'json_data' : json_data
+				// 'foto' : data
+			},
+			dataType: 'json',
+			processData: false,
+			contentType: false,				
+			success: function(response){				
+				result = JSON.parse(response);				
+				if(result.code==201)
+				{					
+					alert('berhasil');
+					// alert(result.messages);
+					// window.location = '{{URL::route('view_inputdata_anggota')}}';
 				}
 				else
 				{
-					alert(response);
-				}
+					alert(result.messages);
+				}				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
+				alert('error');
 				alert(errorThrown);
 			}
 		});
-
 	});
+*/
+
+
+//BEFORE
+$('body').on('click', '#f_post_anggota', function(){		
+			
+	var data, xhr;
+	data = new FormData();
+
+	$nomor_anggota = $('#f_nomor_anggota').val();			
+	data.append('no_anggota', $nomor_anggota);		
+	$nama_depan = $('#f_nama_depan').val();	
+	data.append('nama_depan', $nama_depan);
+	$nama_tengah = $('#f_nama_tengah').val();	
+	data.append('nama_tengah', $nama_tengah);
+	$nama_belakang = $('#f_nama_belakang').val();	
+	data.append('nama_belakang', $nama_belakang);
+	$jalan = $('#f_alamat').val();
+	data.append('jalan', $jalan);
+	$kota = $('#f_kota').val();
+	data.append('kota', $kota);
+	$kodepos = $('#f_kodepos').val();
+	data.append('kodepos', $kodepos);
+	$telp = $('#f_telp').val();	
+	data.append('telp', $telp);		
+	//looping ambil data hp
+	var arr_hp = new Array();
+	for($i = 1; $i < lastIdx; $i++)
+	{
+		arr_hp[arr_hp.length] = $('#f_hp'+$i+'').val();			
+	}
+	data.append('arr_hp', arr_hp);					
+	$gender = $('input[name="gender"]:checked').val();	
+	data.append('gender', $gender);
+	$wilayah = $('#f_wilayah').val();	
+	data.append('wilayah', $wilayah);
+	$gol_darah = $('#f_gol_darah').val();
+	data.append('gol_darah', $gol_darah);
+	$pendidikan = $('#f_pendidikan').val();	
+	data.append('pendidikan', $pendidikan);
+	$pekerjaan = $('#f_pekerjaan').val();	
+	data.append('pekerjaan', $pekerjaan);
+	$etnis = $('#f_etnis').val();	
+	data.append('etnis', $etnis);
+	$kota_lahir	= $('#f_kota_lahir').val();
+	data.append('kota_lahir', $kota_lahir);
+	$tanggal_lahir = $('#f_tanggal_lahir').val();	
+	data.append('tanggal_lahir', $tanggal_lahir);
+	// $anggota_gereja = $('#f_id_gereja').val();
+	// data.append('id_gereja', $anggota_gereja);
+	if($('#f_foto').val() != "")
+	{			
+		$foto = $('#f_foto')[0].files[0];
+	}		
+	else		
+	{
+		$foto = "";
+	}
+	data.append('foto', $foto);
+	$role = $('#f_status').val();
+	data.append('role', $role);						
+
+	$.ajax({
+		type: 'POST',
+		url: "{{URL('user/post_anggota')}}",
+		data : data,
+		processData: false,
+		contentType: false,	
+		success: function(response){
+			result = JSON.parse(response);				
+			if(result.code==201)
+			{				
+				alert(result.messages);
+				window.location = '{{URL::route('view_inputdata_anggota')}}';
+			}
+			else
+			{
+				alert(result.messages);
+			}
+			// alert(response);				
+			/*
+			if(response == "berhasil")
+			{	
+				alert("Berhasil simpan data anggota");
+				// location.reload();
+				window.location = '{{URL::route('view_inputdata_anggota')}}';
+			}
+			else
+			{
+				alert(response);
+			}
+			*/
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			alert('error');
+			alert(errorThrown);
+		}
+	},'json');
+});
+
 </script>
 
 @stop

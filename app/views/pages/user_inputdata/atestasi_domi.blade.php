@@ -287,10 +287,10 @@ $('body').on('click', '#f_post_atestasi', function(){
 			$nama_gereja_baru = $('#f_nama_gereja_baru').val();
 		}
 		$keterangan = $('#f_keterangan').val();
-
+		
 		$data = {
 			'no_atestasi' : $no_atestasi,
-			'id_jemaat' : $id_jemaat,
+			'id_anggota' : $id_jemaat,
 			'tanggal_atestasi' : $tanggal_atestasi,
 			'id_jenis_atestasi' : $id_jenis_atestasi,
 			'id_gereja_lama' : $id_gereja_lama,
@@ -299,14 +299,30 @@ $('body').on('click', '#f_post_atestasi', function(){
 			'nama_gereja_baru' : $nama_gereja_baru,
 			'keterangan' : $keterangan
 		};		
+		
+		var json_data = JSON.stringify($data);
 
 		$.ajax({
-			type: "POST",
+			type: 'POST',
 			url: "{{URL('user/post_atestasi')}}",
 			data: {
-				'data' : $data
+				'json_data' : json_data
+				// 'data' : $data
 			},
 			success: function(response){				
+				result = JSON.parse(response);				
+				if(result.code==201)
+				{
+					// alert("Berhasil simpan data kebaktian");					
+					// location.reload();
+					alert(result.messages);
+					window.location = '{{URL::route('view_inputdata_atestasi')}}';
+				}
+				else
+				{
+					alert(result.messages);
+				}
+				/*
 				if(response == "berhasil")
 				{	
 					alert("Berhasil simpan data atestasi");
@@ -317,13 +333,14 @@ $('body').on('click', '#f_post_atestasi', function(){
 				{
 					alert(response);
 				}
+				*/
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
-		});
+		},'json');
 		
-	});
+});
 </script>
 
 @stop

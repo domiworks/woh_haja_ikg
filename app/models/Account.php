@@ -10,7 +10,19 @@ class Account extends Eloquent implements UserInterface, RemindableInterface
 	public $timestamps = true;
 	protected $hidden = array('password');
 
-
+	public static $rules = 
+				['username' => 'required',
+				'password' => 'required',
+				'role' => 'required'
+				];
+	
+	public $fillable = 
+				['username',
+				'password',				
+				'role',
+				'id_anggota'
+				];
+				
     public function getAuthIdentifier()
     {
         return $this->getKey();

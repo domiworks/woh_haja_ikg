@@ -202,10 +202,105 @@ $('body').on('click', '#f_edit_check_gereja_baru', function(){
 				@if($list_gereja == null || $list_jenis_atestasi == null || $list_jemaat == null)
 					<input type="button" id="f_edit_post_atestasi" class="btn btn-success" disabled=true value="Simpan Data Atestasi" />
 				@else
-					<input type="button" id="f_edit_post_atestasi" class="btn btn-success" value="Simpan Data Atestasi" />
+					<input type="button" id="f_edit_post_atestasi" class="btn btn-success" value="Simpan Data Atestasi" data-dismiss="modal" />
 				@endif	
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script>
+$('body').on('click', '#f_edit_post_atestasi', function(){		
+	$no_atestasi = $('#f_edit_nomor_atestasi').val();
+	$id_jemaat = $('#f_edit_jemaat').val();
+	$tanggal_atestasi = $('#f_edit_tanggal_atestasi').val();		
+	$id_jenis_atestasi = $('#f_edit_jenis_atestasi').val();
+		if($('#f_edit_check_gereja_lama').val() == 1) //pakai nama gereja lain
+		{
+			$id_gereja_lama = '';
+			$nama_gereja_lama = $('#f_edit_nama_gereja_lama').val();
+		}
+		else
+		{
+			$id_gereja_lama = $('#f_edit_list_gereja_lama').val();
+			$nama_gereja_lama = $('#f_edit_nama_gereja_lama').val();
+		}
+		if($('#f_edit_check_gereja_baru').val() == 1) //pakai nama gereja lain
+		{
+			$id_gereja_baru = '';		
+			$nama_gereja_baru = $('#f_edit_nama_gereja_baru').val();
+		}
+		else
+		{
+			$id_gereja_baru = $('#f_edit_list_gereja_baru').val();		
+			$nama_gereja_baru = $('#f_edit_nama_gereja_baru').val();
+		}
+		$keterangan = $('#f_edit_keterangan').val();
+		
+		$data = {
+			'id' : $id,
+			'no_atestasi' : $no_atestasi,
+			'id_anggota' : $id_jemaat,
+			'tanggal_atestasi' : $tanggal_atestasi,
+			'id_jenis_atestasi' : $id_jenis_atestasi,
+			'id_gereja_lama' : $id_gereja_lama,
+			'nama_gereja_lama' : $nama_gereja_lama,
+			'id_gereja_baru' : $id_gereja_baru,
+			'nama_gereja_baru' : $nama_gereja_baru,
+			'keterangan' : $keterangan
+		};		
+		
+		var json_data = JSON.stringify($data);
+
+		$.ajax({
+			type: 'POST',
+			url: "{{URL('user/edit_atestasi')}}",
+			data: {
+				'json_data' : json_data
+				// 'data' : $data
+			},
+			success: function(response){
+				result = JSON.parse(response);
+				if(result.code==200)
+				{
+					alert(result.messages);
+					window.location = '{{URL::route('view_olahdata_atestasi')}}';
+				}
+				else
+				{
+					alert(result.messages);
+				}
+				/*
+				result = JSON.parse(response);				
+				if(result.code==200)
+				{
+					// alert("Berhasil simpan data kebaktian");					
+					// location.reload();
+					alert(result.messages);
+					window.location = '{{URL::route('view_inputdata_atestasi')}}';
+				}
+				else
+				{
+					alert(result.messages);
+				}
+				*/
+				/*
+				if(response == "berhasil")
+				{	
+					alert("Berhasil simpan data atestasi");
+					// location.reload();
+					window.location = '{{URL::route('view_inputdata_atestasi')}}';
+				}
+				else
+				{
+					alert(response);
+				}
+				*/
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert(errorThrown);
+			}
+		},'json');					
+});
+</script>	

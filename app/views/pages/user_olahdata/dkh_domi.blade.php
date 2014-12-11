@@ -1,6 +1,12 @@
 @extends('layouts.admin_layout')
 @section('content')
-
+<div class="s_content_maindiv" style="overflow: hidden;">
+	<div class="s_sidebar_main" style="">
+		<div>
+			@include('includes.sidebar.sidebar_00')
+		</div>
+	</div>
+	<div class="s_main_side" style="">
 <!-- css -->
 <style>
 
@@ -239,6 +245,8 @@ $('body').on('click', '.deleteButton', function(){
 });
 </script>
 
+</div>
+</div>
 @include('pages.user_olahdata.popup_edit_dkh')
 @include('pages.user_olahdata.popup_delete_warning_dkh')
 

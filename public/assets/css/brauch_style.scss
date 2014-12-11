@@ -63,6 +63,47 @@ hr {
 	border-top: 1px solid #ccc;
 }
 
+.navbar {
+	margin-bottom: 0px;
+}
+
+.s_sidebar_main {
+	background-color: #1D2127; 
+	width: 300px; 
+	display: block; 
+	float: left; 
+	overflow-y: auto; 
+	overflow-x: hidden;
+
+	*{
+		list-style-type: none;
+	}
+	ul{
+		padding-left:0px;
+		li {
+			a {
+				background-color: #383c42;
+				line-height: 44px;
+				display: block;
+				@include box-sizing(border-box);
+				@include border-radius(4px);
+				padding-left: 20px;
+				margin: 4px 6px;
+				color: #D1D4DF;
+
+				&:hover {
+					background-color: #575b61;
+				}
+			}
+		}
+	}
+}
+
+.s_main_side {
+	float: left; 
+	overflow-y: scroll; 
+	overflow-x: hidden;
+}
 
 /* ==========================================================================
    Pop up

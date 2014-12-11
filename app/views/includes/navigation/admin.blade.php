@@ -48,6 +48,9 @@
 			<li><a href="#">Other Link</a></li>
 			-->
 		</ul>
+		
+     
+     <span class="pull-right" id="f_clock" style="margin-right: 10px; line-height: 30px; color: #fff;"></span>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container -->
 </nav>

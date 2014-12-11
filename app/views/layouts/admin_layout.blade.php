@@ -2,9 +2,33 @@
 <html lang="en">
 	<head>
 		@include('includes.head_html')
-		
+		<script>
+
+		function startTime() {
+			var m_names = new Array("Januari", "Februari", "Maret", 
+			"April", "Mei", "Juni", "Juli", "Agustus", "September", 
+			"Oktober", "November", "Desember");
+
+		    var today=new Date();
+		    var mo=today.getMonth();
+		    var da=today.getDate();
+		    var y=today.getFullYear();
+		    var h=today.getHours();
+		    var m=today.getMinutes();
+		    var s=today.getSeconds();
+		    m = checkTime(m);
+		    s = checkTime(s);
+		    document.getElementById('f_clock').innerHTML = da+" "+m_names[mo]+" "+y+" - "+h+":"+m+":"+s;
+		    var t = setTimeout(function(){startTime()},500);
+		}
+
+		function checkTime(i) {
+		    if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
+		    return i;
+		}
+		</script>
 	</head>
-	<body>
+	<body onload="startTime()">
 		<!-- <div class="s_orenji_header">
 		</div> -->		
 		<div class="s_top_header">
@@ -37,6 +61,11 @@
 				var iHeight = $(window).height() - 270;
 				
 				$('.s_set_height_window').height(iHeight);
+
+				$('.s_content_maindiv').height(height-($('.s_top_header').height()+$('.navbar').height())-3);
+				$('.s_sidebar_main').height(height-($('.s_top_header').height()+$('.navbar').height())-3);
+				$('.s_main_side').height(height-($('.s_top_header').height()+$('.navbar').height())-3);
+				$('.s_main_side').width(width-$('.s_sidebar_main').width());
 				//$('.irashai').width(width);
 				//$('.willkommen').width($('.irashai').width()/2);
 				//$('.willkommen').height(height);

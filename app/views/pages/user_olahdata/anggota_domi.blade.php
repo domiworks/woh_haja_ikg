@@ -1,264 +1,270 @@
 @extends('layouts.admin_layout')
 @section('content')
+
 <div class="s_content_maindiv" style="overflow: hidden;">
 	<div class="s_sidebar_main" style="">
 		<div>
-			@include('includes.sidebar.sidebar_00')
+			@include('includes.sidebar.sidebar_01')
 		</div>
 	</div>
 	<div class="s_main_side" style="">
-<!-- css -->
-<style>
+		<!-- css -->
+		<style>
 
-</style>
-<!-- end css -->
-<ol class="breadcrumb">
-	<li><a href="#">Olah Data</a></li>
-	<li class="active">Anggota</li>
-</ol>
+		</style>
+		<!-- end css -->
+		<!--<ol class="breadcrumb">
+			<li><a href="#">Olah Data</a></li>
+			<li class="active">Anggota</li>
+		</ol>-->
 
-<script>
-	$('body').on('change','#f_edit_foto',function(){
-		var i = 0, len = this.files.length, img, reader, file;			
-		for ( ; i < len; i++ ) {
-			file = this.files[i];
-			if (!!file.type.match(/image.*/)) {
-				if ( window.FileReader ) {
-					reader = new FileReader();
-					reader.onloadend = function (e) { 										
-						$('#show_foto').attr('src', e.target.result);																	
-					};
-					reader.readAsDataURL(file);
+		<script>
+			$('body').on('change','#f_edit_foto',function(){
+				var i = 0, len = this.files.length, img, reader, file;			
+				for ( ; i < len; i++ ) {
+					file = this.files[i];
+					if (!!file.type.match(/image.*/)) {
+						if ( window.FileReader ) {
+							reader = new FileReader();
+							reader.onloadend = function (e) { 										
+								$('#show_foto').attr('src', e.target.result);																	
+							};
+							reader.readAsDataURL(file);
+						}
+						imageUpload = file;
+					}	
 				}
-				imageUpload = file;
-			}	
-		}
-	});
+			});
 
-	function isNumberKey(evt){
-		var charCode = (evt.which) ? evt.which : event.keyCode
-		if (charCode > 31 && (charCode < 48 || charCode > 57))
-			return false;
-		return true;
-	}
-</script>
+			function isNumberKey(evt){
+				var charCode = (evt.which) ? evt.which : event.keyCode
+				if (charCode > 31 && (charCode < 48 || charCode > 57))
+					return false;
+				return true;
+			}
+		</script>
 
-<div class="s_table_search">
+		<div class="s_table_search">
 
-	<div class="container-fluid">
-		<div class="col-md-3 panel panel-default ">
-			<ul>		
-				<li>{{HTML::linkRoute('view_olahdata_kebaktian', 'Olah Data Kebaktian')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_baptis', 'Olah Data Baptis')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_atestasi', 'Olah Data Atestasi')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_pernikahan', 'Olah Data Pernikahan')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh')}}</li>
-			</ul>
-		</div>
-		<div class="panel panel-default col-md-9">
-			<div class="panel-body">
-				
-				<form class="form-horizontal">	
+			<div class="container-fluid">
+				<!--
+				<div class="col-md-3 panel panel-default ">
+					<ul>		
+						<li>{{HTML::linkRoute('view_olahdata_kebaktian', 'Olah Data Kebaktian')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_baptis', 'Olah Data Baptis')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_atestasi', 'Olah Data Atestasi')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_pernikahan', 'Olah Data Pernikahan')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh')}}</li>
+					</ul>
+				</div>
+				-->
+				<!--div class="panel panel-default col-md-9"-->
+				<div style="margin-top: 15px;" class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							ANGGOTA
+						</h3>
+					</div>
+					<div class="panel-body">
+						
+						<form class="form-horizontal">	
 
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Nomor anggota</label> 
-						<div class="col-xs-5">
-							{{ Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_nomor_anggota', 'class'=>'form-control')) }}
-						</div>
-					</div>	
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Nama</label> 
-						<div class="col-xs-5">
-							{{ Form::text('nama', Input::old('nama'), array('id' => 'f_nama', 'class'=>'form-control')) }} 
-						</div>						
-					</div>							
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Kota</label> 
-						<div class="col-xs-5">
-							{{ Form::text('kota', Input::old('kota'), array('id' => 'f_kota', 'class'=>'form-control')) }}  
-						</div>						
-					</div>		
-					<div class="form-group">		
-						<label class="col-xs-4 control-label">Jenis kelamin</label> 				
-						<div class="col-xs-5">
-							{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita
-						</div>															
-					</div>		
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Wilayah</label> 
-						<div class="col-xs-5">
-							<!--
-							<select name="wilayah" id="f_wilayah" class="form-control">
-								<option>bla</option>
-							</select>  
-							-->
-							{{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_wilayah', 'class'=>'form-control')) }}
-						</div>						
-					</div>
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Golongan darah</label> 
-						<div class="col-xs-5">
-							<!--<select name="gol_darah" id="f_gol_darah" class="form-control">
-								<option>bla</option>
-							</select> -->
-							{{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_gol_darah', 'class'=>'form-control')) }}
-						</div>						
-					</div>
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Pendidikan </label> 
-						<div class="col-xs-5">
-							<!--
-							<select name="pendidikan" id="f_pendidikan" class="form-control">
-								<option>bla</option>
-							</select>  
-							-->
-							{{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_pendidikan', 'class'=>'form-control')) }}
-						</div>						
-					</div>
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Pekerjaan</label> 
-						<div class="col-xs-5">
-							<!--
-							<select name="pekerjaan" id="f_pekerjaan" class="form-control">
-								<option>bla</option>
-							</select>  
-							-->
-							{{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_pekerjaan', 'class'=>'form-control')) }}
-						</div>						
-					</div>
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Etnis</label> 
-						<div class="col-xs-5">
-							<!--
-							<select name="etnis" id="f_etnis" class="form-control">
-								<option>bla</option>
-							</select>  
-							-->
-							{{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_etnis', 'class'=>'form-control')) }}
-						</div>						
-					</div>
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Tanggal lahir antara </label> 
-						<div class="col-xs-2">
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Nomor anggota</label> 
+								<div class="col-xs-5">
+									{{ Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_nomor_anggota', 'class'=>'form-control')) }}
+								</div>
+							</div>	
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Nama</label> 
+								<div class="col-xs-5">
+									{{ Form::text('nama', Input::old('nama'), array('id' => 'f_nama', 'class'=>'form-control')) }} 
+								</div>						
+							</div>							
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Kota</label> 
+								<div class="col-xs-5">
+									{{ Form::text('kota', Input::old('kota'), array('id' => 'f_kota', 'class'=>'form-control')) }}  
+								</div>						
+							</div>		
+							<div class="form-group">		
+								<label class="col-xs-4 control-label">Jenis kelamin</label> 				
+								<div class="col-xs-5">
+									{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita
+								</div>															
+							</div>		
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Wilayah</label> 
+								<div class="col-xs-5">
+									<!--
+									<select name="wilayah" id="f_wilayah" class="form-control">
+										<option>bla</option>
+									</select>  
+									-->
+									{{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_wilayah', 'class'=>'form-control')) }}
+								</div>						
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Golongan darah</label> 
+								<div class="col-xs-5">
+									<!--<select name="gol_darah" id="f_gol_darah" class="form-control">
+										<option>bla</option>
+									</select> -->
+									{{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_gol_darah', 'class'=>'form-control')) }}
+								</div>						
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Pendidikan </label> 
+								<div class="col-xs-5">
+									<!--
+									<select name="pendidikan" id="f_pendidikan" class="form-control">
+										<option>bla</option>
+									</select>  
+									-->
+									{{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_pendidikan', 'class'=>'form-control')) }}
+								</div>						
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Pekerjaan</label> 
+								<div class="col-xs-5">
+									<!--
+									<select name="pekerjaan" id="f_pekerjaan" class="form-control">
+										<option>bla</option>
+									</select>  
+									-->
+									{{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_pekerjaan', 'class'=>'form-control')) }}
+								</div>						
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Etnis</label> 
+								<div class="col-xs-5">
+									<!--
+									<select name="etnis" id="f_etnis" class="form-control">
+										<option>bla</option>
+									</select>  
+									-->
+									{{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_etnis', 'class'=>'form-control')) }}
+								</div>						
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Tanggal lahir antara </label> 
+								<div class="col-xs-2">
 
-							{{ Form::text('tanggal_awal', Input::old('tanggal_awal'), array('id' => 'f_tanggal_awal', 'class'=>'form-control')) }} 
-						</div>
-						<div class="col-xs-2">
-							{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
-						</div>						
-						<script>
-						jQuery('#f_tanggal_awal').datetimepicker({
-							lang:'en',
-							i18n:{
-								en:{
-									months:[
-									'Januari','Februari','Maret','April',
-									'Mei','Juni','Juli','Agustus',
-									'September','Oktober','November','Desember',
-									],
-									dayOfWeek:[
-									"Ming.", "Sen.", "Sel.", "Rab.", 
-									"Kam.", "Jum.", "Sab.",
-									]
-									
-								}
-							},
-							timepicker:false,
-							format: 'Y-m-d',					
-							yearStart: '1900'
-						});			
-						jQuery('#f_tanggal_akhir').datetimepicker({
-							lang:'en',
-							i18n:{
-								en:{
-									months:[
-									'Januari','Februari','Maret','April',
-									'Mei','Juni','Juli','Agustus',
-									'September','Oktober','November','Desember',
-									],
-									dayOfWeek:[
-									"Ming.", "Sen.", "Sel.", "Rab.", 
-									"Kam.", "Jum.", "Sab.",
-									]
-									
-								}
-							},
-							timepicker:false,
-							format: 'Y-m-d',					
-							yearStart: '1900'
-						});	
-						</script>
-					</div>			
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Status</label> 
-						<div class="col-xs-5">
-							<!--
-							<select name="status" id="f_status" class="form-control">
-								<option>bla</option>
-							</select>  
-							-->
-							{{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_status', 'class'=>'form-control')) }}
-						</div>						
-					</div>
-					<div class="form-group">
+									{{ Form::text('tanggal_awal', Input::old('tanggal_awal'), array('id' => 'f_tanggal_awal', 'class'=>'form-control')) }} 
+								</div>
+								<div class="col-xs-2">
+									{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
+								</div>						
+								<script>
+								jQuery('#f_tanggal_awal').datetimepicker({
+									lang:'en',
+									i18n:{
+										en:{
+											months:[
+											'Januari','Februari','Maret','April',
+											'Mei','Juni','Juli','Agustus',
+											'September','Oktober','November','Desember',
+											],
+											dayOfWeek:[
+											"Ming.", "Sen.", "Sel.", "Rab.", 
+											"Kam.", "Jum.", "Sab.",
+											]
+											
+										}
+									},
+									timepicker:false,
+									format: 'Y-m-d',					
+									yearStart: '1900'
+								});			
+								jQuery('#f_tanggal_akhir').datetimepicker({
+									lang:'en',
+									i18n:{
+										en:{
+											months:[
+											'Januari','Februari','Maret','April',
+											'Mei','Juni','Juli','Agustus',
+											'September','Oktober','November','Desember',
+											],
+											dayOfWeek:[
+											"Ming.", "Sen.", "Sel.", "Rab.", 
+											"Kam.", "Jum.", "Sab.",
+											]
+											
+										}
+									},
+									timepicker:false,
+									format: 'Y-m-d',					
+									yearStart: '1900'
+								});	
+								</script>
+							</div>			
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Status</label> 
+								<div class="col-xs-5">
+									<!--
+									<select name="status" id="f_status" class="form-control">
+										<option>bla</option>
+									</select>  
+									-->
+									{{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_status', 'class'=>'form-control')) }}
+								</div>						
+							</div>
+							<div class="form-group">
 
-						<div class="col-xs-5 col-xs-push-4">							
-							<input type="button" id="f_search_anggota" class="btn btn-success" value="Cari Anggota"></input>
-						</div>
+								<div class="col-xs-5 col-xs-push-4">							
+									<input type="button" id="f_search_anggota" class="btn btn-success" value="Cari Anggota"></input>
+								</div>
+							</div>
+						</form>		
 					</div>
-				</form>		
+
+					<!--<div id="temp_result">
+					</div>-->
+					
+					<div id="f_result_anggota">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>
+										No. Anggota
+									</th>
+									<th>
+										Nama Anggota
+									</th>
+									<th>
+										
+									</th>
+								</tr>
+							</thead>
+							<tbody id="f_result_body_anggota">
+								<!--
+								<tr>
+									<td>
+										0
+									</td>
+									<td>
+										Catie
+									</td>
+									<td>
+										<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">
+											Edit
+										</button>
+										<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
+											delete
+										</button>
+									</td>
+								</tr>
+								-->
+							</tbody>
+						</table>
+					</div>
+				</div>				
 			</div>
-
-			<div id="temp_result">
-			</div>
-			
-			<div id="f_result_anggota">
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>
-								No. Anggota
-							</th>
-							<th>
-								Nama Anggota
-							</th>
-							<th>
-								
-							</th>
-						</tr>
-					</thead>
-					<tbody id="f_result_body_anggota">
-						<!--
-						<tr>
-							<td>
-								0
-							</td>
-							<td>
-								Catie
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_anggota">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>
-						-->
-					</tbody>
-				</table>
-			</div>
-
-
-		</div>
+		</div>	
 	</div>
-
-</div>	
-
-
+</div>
 
 
 <script>		
@@ -483,8 +489,6 @@ $('body').on('click', '.deleteButton', function(){
 
 </script>
 
-</div>
-</div>
 @include('pages.user_olahdata.popup_edit_anggota')
 @include('pages.user_olahdata.popup_delete_warning_anggota')
 

@@ -13,14 +13,14 @@
 
 		</style>
 		<!-- end css -->
-
-		<ol class="breadcrumb">
+		
+		<!--<ol class="breadcrumb">
 			<li><a href="#">Input Data</a></li>
 			<li class="active">Anggota</li>
-		</ol>
+		</ol>-->
 		<div class="s_content">
 			<div class="container-fluid">
-				<div class="col-md-3 panel panel-default ">
+				<!--<div class="col-md-3 panel panel-default ">
 					<ul>		
 						<li>{{HTML::linkRoute('view_inputdata_kebaktian', 'Input Data Kebaktian')}}</li>
 						<li>{{HTML::linkRoute('view_inputdata_anggota', 'Input Data Anggota')}}</li>
@@ -30,9 +30,15 @@
 						<li>{{HTML::linkRoute('view_inputdata_kedukaan', 'Input Data Kedukaan')}}</li>
 						<li>{{HTML::linkRoute('view_inputdata_dkh', 'Input Data Dkh')}}</li>
 					</ul>
-				</div>
+				</div>-->
 
-				<div class="panel panel-default col-md-9">
+				<!--div class="panel panel-default col-md-9"-->
+				<div style="margin-top: 15px;" class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							ANGGOTA
+						</h3>
+					</div>
 					<div class="panel-body">
 						<form class="form-horizontal">	
 							<div class="form-group">
@@ -59,282 +65,283 @@
 							<!--<div class="col-xs-0">
 								<span class="red">*</span>
 							</div>	-->
-						</div>				
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Nama tengah
-							</label>
+							</div>				
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Nama tengah
+								</label>
 
-							<div class="col-xs-6">
-								{{ Form::text('nama_tengah', Input::old('nama_tengah'), array('id' => 'f_nama_tengah', 'class'=>'form-control')) }} 
+								<div class="col-xs-6">
+									{{ Form::text('nama_tengah', Input::old('nama_tengah'), array('id' => 'f_nama_tengah', 'class'=>'form-control')) }} 
+								</div>
+
 							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Nama belakang
+								</label>
+								
+								<div class="col-xs-6">
+									{{ Form::text('nama_belakang', Input::old('nama_belakang'), array('id' => 'f_nama_belakang', 'class'=>'form-control')) }} 
+								</div>
 
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Nama belakang
-							</label>
-							
-							<div class="col-xs-6">
-								{{ Form::text('nama_belakang', Input::old('nama_belakang'), array('id' => 'f_nama_belakang', 'class'=>'form-control')) }} 
+							</div>			
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Alamat
+								</label>
+
+								<div class="col-xs-6">
+									{{ Form::textarea('alamat', Input::old('alamat'), array('id' => 'f_alamat', 'class'=>'form-control')) }} 
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>
 							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Kota
+								</label>
 
-						</div>			
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Alamat
-							</label>
-
-							<div class="col-xs-6">
-								{{ Form::textarea('alamat', Input::old('alamat'), array('id' => 'f_alamat', 'class'=>'form-control')) }} 
+								<div class="col-xs-6">
+									{{ Form::text('kota', Input::old('kota'), array('id' => 'f_kota', 'class'=>'form-control')) }} 
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>							
 							</div>
-							<div class="col-xs-0">
-								*
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Kota
-							</label>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Kodepos
+								</label>
 
-							<div class="col-xs-6">
-								{{ Form::text('kota', Input::old('kota'), array('id' => 'f_kota', 'class'=>'form-control')) }} 
-							</div>
-							<div class="col-xs-0">
-								*
-							</div>							
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Kodepos
-							</label>
+								<div class="col-xs-6">
+									{{ Form::text('kodepos', Input::old('kodepos'), array('id' => 'f_kodepos', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }} 
+								</div>
 
-							<div class="col-xs-6">
-								{{ Form::text('kodepos', Input::old('kodepos'), array('id' => 'f_kodepos', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }} 
 							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Telepon
+								</label>
 
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Telepon
-							</label>
-
-							<div class="col-xs-6">
-								{{ Form::text('telp', Input::old('telp'), array('id' => 'f_telp', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }} 
+								<div class="col-xs-6">
+									{{ Form::text('telp', Input::old('telp'), array('id' => 'f_telp', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }} 
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>							
 							</div>
-							<div class="col-xs-0">
-								*
-							</div>							
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Hp
-							</label>
-							<div class="col-xs-6">			
-								<input type="text" id="f_hp1" class="form-control" name="hp1" onkeypress='return isNumberKey(event)'/>			
-								<div id="addHp"></div>					
-								<a href="javascript:void(0)" onClick="addHp();" id="refHp">tambah nomor hp</a>
-								<script>						
-								var lastIdx = 2;
-								function addHp(){
-									if(lastIdx <=5)
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Hp
+								</label>
+								<div class="col-xs-6">			
+									<input type="text" id="f_hp1" class="form-control" name="hp1" onkeypress='return isNumberKey(event)'/>			
+									<div id="addHp"></div>					
+									<a href="javascript:void(0)" onClick="addHp();" id="refHp">tambah nomor hp</a>
+									<script>						
+									var lastIdx = 2;
+									function addHp(){
+										if(lastIdx <=5)
+										{
+											var newRow = "";							
+											newRow +="<input type='text' id='f_hp"+lastIdx+"' class='form-control' name='hp"+lastIdx+"' onkeypress='return isNumberKey(event)'/>";
+											newRow +="<input type='button' value='X' id='delHp"+lastIdx+"' onClick='delHp()' /><br />";
+											$('#delHp'+(lastIdx-1)).hide();
+											$('#addHp').append(newRow);
+											if(lastIdx==5){
+												$('#refHp').hide();									
+											}
+											lastIdx++;							
+										}						
+									}
+									function delHp()
 									{
-										var newRow = "";							
-										newRow +="<input type='text' id='f_hp"+lastIdx+"' class='form-control' name='hp"+lastIdx+"' onkeypress='return isNumberKey(event)'/>";
-										newRow +="<input type='button' value='X' id='delHp"+lastIdx+"' onClick='delHp()' /><br />";
-										$('#delHp'+(lastIdx-1)).hide();
-										$('#addHp').append(newRow);
+										$('#f_hp'+(lastIdx-1)).remove();
+										$('#delHp'+(lastIdx-1)).remove();
+										lastIdx--;							
+										$('#delHp'+(lastIdx-1)).show();
 										if(lastIdx==5){
-											$('#refHp').hide();									
+											$('#refHp').show();
 										}
-										lastIdx++;							
-									}						
-								}
-								function delHp()
-								{
-									$('#f_hp'+(lastIdx-1)).remove();
-									$('#delHp'+(lastIdx-1)).remove();
-									lastIdx--;							
-									$('#delHp'+(lastIdx-1)).show();
-									if(lastIdx==5){
-										$('#refHp').show();
 									}
-								}
+									</script>
+								</div>
+							</div>
+							<div class="form-group">		
+								<label class="col-xs-4 control-label">
+									Jenis kelamin
+								</label>
+
+								<div class="col-xs-6">
+									{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita 
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>						
+							</div>		
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Wilayah
+								</label>
+
+								<div class="col-xs-6">
+									 @if($list_wilayah == null) 
+									<p class="control-label pull-left">(tidak ada daftar wilayah)</p>
+									 @else  
+									 {{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_wilayah', 'class'=>'form-control')) }} 
+									 @endif	 
+								</div>
+
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Golongan darah
+								</label>
+
+								<div class="col-xs-6">
+									 @if($list_gol_darah == null) 
+									<p class="control-label pull-left">(tidak ada daftar golongan darah)</p>
+									 @else 
+									 {{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_gol_darah', 'class'=>'form-control')) }} 
+									 @endif 
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Pendidikan 
+								</label>
+
+								<div class="col-xs-6">
+									 @if($list_pendidikan == null) 
+									<p class="control-label pull-left">(tidak ada daftar pendidikan)</p>
+									 @else 
+									 {{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_pendidikan', 'class'=>'form-control')) }} 
+									 @endif 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Pekerjaan
+								</label>
+
+								<div class="col-xs-6">
+									 @if($list_pekerjaan == null) 
+									<p class="control-label pull-left">(tidak ada daftar pekerjaan)</p>
+									 @else 
+									 {{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_pekerjaan', 'class'=>'form-control')) }} 
+									 @endif 
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Etnis
+								</label>
+
+								<div class="col-xs-6">
+									 @if($list_etnis == null) 
+									<p class="control-label pull-left">(tidak ada daftar etnis)</p>
+									 @else 
+									 {{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_etnis', 'class'=>'form-control')) }} 
+									 @endif 
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Kota lahir
+								</label>
+
+								<div class="col-xs-6">
+									 {{ Form::text('kota_lahir', Input::old('kota_lahir'), array('id' => 'f_kota_lahir', 'class'=>'form-control')) }}  
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Tanggal lahir
+								</label>
+
+								<div class="col-xs-6">
+									 {{ Form::text('tanggal_lahir', Input::old('tanggal_lahir'), array('id' => 'f_tanggal_lahir', 'class'=>'form-control')) }} 
+								</div>	
+								<div class="col-xs-0">
+									*
+								</div>							
+								<script>
+								jQuery('#f_tanggal_lahir').datetimepicker({
+									lang:'en',
+									i18n:{
+										en:{
+											months:[
+											'Januari','Februari','Maret','April',
+											'Mei','Juni','Juli','Agustus',
+											'September','Oktober','November','Desember',
+											],
+											dayOfWeek:[
+											"Ming.", "Sen.", "Sel.", "Rab.", 
+											"Kam.", "Jum.", "Sab.",
+											]
+
+										}
+									},
+									timepicker:false,
+									format: 'Y-m-d',
+									yearStart: '1900'
+								});
 								</script>
-							</div>
-						</div>
-						<div class="form-group">		
-							<label class="col-xs-4 control-label">
-								Jenis kelamin
-							</label>
+							</div>		
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Foto
+								</label>
 
-							<div class="col-xs-6">
-								{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria    {{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita 
+								<div class="col-xs-6">
+									<img src="" id="show_foto" width="200" height="200">				
+									{{ Form::file('foto', array('name' => 'foto', 'id' => 'f_foto', 'accept' => 'image/*')) }}
+								</div>
 							</div>
-							<div class="col-xs-0">
-								*
-							</div>						
-						</div>		
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Wilayah
-							</label>
-
-							<div class="col-xs-6">
-								 @if($list_wilayah == null) 
-								<p class="control-label pull-left">(tidak ada daftar wilayah)</p>
-								 @else  
-								 {{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_wilayah', 'class'=>'form-control')) }} 
-								 @endif	 
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Status
+								</label>
+								<div class="col-xs-6">
+									 @if($list_role == null)
+									<p class="control-label pull-left">(tidak ada daftar role)</p>
+									 @else								
+									 {{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_status', 'class'=>'form-control')) }}
+									 @endif	
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>
 							</div>
-
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Golongan darah
-							</label>
-
-							<div class="col-xs-6">
-								 @if($list_gol_darah == null) 
-								<p class="control-label pull-left">(tidak ada daftar golongan darah)</p>
-								 @else 
-								 {{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_gol_darah', 'class'=>'form-control')) }} 
-								 @endif 
+							<div class="form-group">
+								<div class="col-xs-6 col-xs-push-5">
+									 @if($list_wilayah == null || $list_gol_darah == null || $list_pendidikan == null || $list_pekerjaan == null || $list_etnis == null || $list_role == null) 
+									<input type="button" id="f_post_anggota" class="btn btn-success" value="Simpan Data Anggota" disabled=true />
+									 @else 
+									<input type="button" id="f_post_anggota" class="btn btn-success" value="Simpan Data Anggota" />
+									 @endif 
+								</div>
 							</div>
-							<div class="col-xs-0">
-								*
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Pendidikan 
-							</label>
-
-							<div class="col-xs-6">
-								 @if($list_pendidikan == null) 
-								<p class="control-label pull-left">(tidak ada daftar pendidikan)</p>
-								 @else 
-								 {{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_pendidikan', 'class'=>'form-control')) }} 
-								 @endif 
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Pekerjaan
-							</label>
-
-							<div class="col-xs-6">
-								 @if($list_pekerjaan == null) 
-								<p class="control-label pull-left">(tidak ada daftar pekerjaan)</p>
-								 @else 
-								 {{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_pekerjaan', 'class'=>'form-control')) }} 
-								 @endif 
-							</div>
-							<div class="col-xs-0">
-								*
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Etnis
-							</label>
-
-							<div class="col-xs-6">
-								 @if($list_etnis == null) 
-								<p class="control-label pull-left">(tidak ada daftar etnis)</p>
-								 @else 
-								 {{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_etnis', 'class'=>'form-control')) }} 
-								 @endif 
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Kota lahir
-							</label>
-
-							<div class="col-xs-6">
-								 {{ Form::text('kota_lahir', Input::old('kota_lahir'), array('id' => 'f_kota_lahir', 'class'=>'form-control')) }}  
-							</div>
-							<div class="col-xs-0">
-								*
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Tanggal lahir
-							</label>
-
-							<div class="col-xs-6">
-								 {{ Form::text('tanggal_lahir', Input::old('tanggal_lahir'), array('id' => 'f_tanggal_lahir', 'class'=>'form-control')) }} 
-							</div>	
-							<div class="col-xs-0">
-								*
-							</div>							
-							<script>
-							jQuery('#f_tanggal_lahir').datetimepicker({
-								lang:'en',
-								i18n:{
-									en:{
-										months:[
-										'Januari','Februari','Maret','April',
-										'Mei','Juni','Juli','Agustus',
-										'September','Oktober','November','Desember',
-										],
-										dayOfWeek:[
-										"Ming.", "Sen.", "Sel.", "Rab.", 
-										"Kam.", "Jum.", "Sab.",
-										]
-
-									}
-								},
-								timepicker:false,
-								format: 'Y-m-d',
-								yearStart: '1900'
-							});
-							</script>
-						</div>		
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Foto
-							</label>
-
-							<div class="col-xs-6">
-								<img src="" id="show_foto" width="200" height="200">				
-								{{ Form::file('foto', array('name' => 'foto', 'id' => 'f_foto', 'accept' => 'image/*')) }}
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-4 control-label">
-								Status
-							</label>
-							<div class="col-xs-6">
-								 @if($list_role == null)
-								<p class="control-label pull-left">(tidak ada daftar role)</p>
-								 @else								
-								 {{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_status', 'class'=>'form-control')) }}
-								 @endif	
-							</div>
-							<div class="col-xs-0">
-								*
-							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-xs-6 col-xs-push-3">
-								 @if($list_wilayah == null || $list_gol_darah == null || $list_pendidikan == null || $list_pekerjaan == null || $list_etnis == null || $list_role == null) 
-								<input type="button" id="f_post_anggota" class="btn btn-success" value="Simpan Data Anggota" disabled=true />
-								 @else 
-								<input type="button" id="f_post_anggota" class="btn btn-success" value="Simpan Data Anggota" />
-								 @endif 
-							</div>
-						</div>
-					</form>	
+						</form>	
+					</div>	
 				</div>	
 			</div>	
-		</div>	
-	</div>	
+		</div>
+	</div>
+</div>
 
-
-	<script>
+<script>
 	$('body').on('change','#f_foto',function(){
 		var i = 0, len = this.files.length, img, reader, file;			
 		for ( ; i < len; i++ ) {
@@ -552,8 +559,5 @@
 	});
 
 </script>
-
-</div>
-</div>
 
 @stop

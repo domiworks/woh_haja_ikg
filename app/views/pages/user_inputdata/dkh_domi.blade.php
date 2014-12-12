@@ -1,5 +1,6 @@
 @extends('layouts.admin_layout')
 @section('content')
+
 <div class="s_content_maindiv" style="overflow: hidden;">
 	<div class="s_sidebar_main" style="">
 		<div>
@@ -12,15 +13,14 @@
 
 		</style>
 		<!-- end css -->
-		<ol class="breadcrumb">
+		<!--<ol class="breadcrumb">
 			<li><a href="#">Input Data</a></li>
 			<li class="active">DKH</li>
-		</ol>
-
+		</ol>-->
 
 		<div class="s_content">
 			<div class="container-fluid">
-				<div class="col-md-3 panel panel-default ">
+				<!--<div class="col-md-3 panel panel-default ">
 					<ul>		
 						<li>{{HTML::linkRoute('view_inputdata_kebaktian', 'Input Data Kebaktian')}}</li>
 						<li>{{HTML::linkRoute('view_inputdata_anggota', 'Input Data Anggota')}}</li>
@@ -30,8 +30,15 @@
 						<li>{{HTML::linkRoute('view_inputdata_kedukaan', 'Input Data Kedukaan')}}</li>
 						<li>{{HTML::linkRoute('view_inputdata_dkh', 'Input Data Dkh')}}</li>
 					</ul>
-				</div>
-				<div class="panel panel-default col-md-9">
+				</div>-->
+				
+				<!--div class="panel panel-default col-md-9"-->
+				<div style="margin-top: 15px;" class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							DKH
+						</h3>
+					</div>
 					<div class="panel-body">
 						<form class="form-horizontal">
 
@@ -73,7 +80,7 @@
 								</div>
 							</div>						
 							<div class="form-group">							
-								<div class="col-xs-6 col-xs-push-3">
+								<div class="col-xs-6 col-xs-push-5">
 									@if($list_jemaat == null)
 									<input type="button" id="f_post_dkh" class="btn btn-success" value="Simpan Data Dkh" disabled=true />
 									@else
@@ -86,7 +93,9 @@
 				</div>	
 			</div>	
 		</div>	
-		
+	</div>
+</div>
+
 		<script>
 		$('body').on('click', '#f_post_dkh', function(){
 			$no_dkh = $('#f_nomor_dkh').val();
@@ -138,9 +147,7 @@
 			alert(errorThrown);
 		}
 	},'json');
-		});
+});
 </script>
 
-</div>
-</div>
 @stop

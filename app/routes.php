@@ -89,6 +89,7 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::post('/search_kedukaan', ['as' => 'search_kedukaan', 'uses' => 'OlahDataController@search_kedukaan']);
 	Route::post('/search_dkh', ['as' => 'search_dkh', 'uses' => 'OlahDataController@search_dkh']);
 	
+	/*
 	//get detail data
 	Route::get('/detail_kebaktian', ['as' => 'detail_kebaktian', 'uses' => 'OlahDataController@detail_kebaktian']);
 	Route::get('/detail_anggota', ['as' => 'detail_anggota', 'uses' => 'OlahDataController@detail_anggota']);	
@@ -97,6 +98,7 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::get('/detail_pernikahan', ['as' => 'detail_pernikahan', 'uses' => 'OlahDataController@detail_pernikahan']);
 	Route::get('/detail_kedukaan', ['as' => 'detail_kedukaan', 'uses' => 'OlahDataController@detail_kedukaan']);
 	Route::get('/detail_dkh', ['as' => 'detail_dkh', 'uses' => 'OlahDataController@detail_dkh']);
+	*/
 	
 	//edit or update
 	Route::post('/edit_kebaktian', ['as' => 'edit_kebaktian', 'uses' => 'OlahDataController@edit_kebaktian']);

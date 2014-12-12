@@ -1,9 +1,10 @@
 @extends('layouts.admin_layout')
 @section('content')
+
 <div class="s_content_maindiv" style="overflow: hidden;">
 	<div class="s_sidebar_main" style="">
 		<div>
-			@include('includes.sidebar.sidebar_00')
+			@include('includes.sidebar.sidebar_01')
 		</div>
 	</div>
 	<div class="s_main_side" style="">
@@ -13,15 +14,14 @@
 		</style>
 		<!-- end css -->
 
-		<ol class="breadcrumb">
+		<!--<ol class="breadcrumb">
 			<li><a href="#">Olah Data</a></li>
 			<li class="active">DKH</li>
-		</ol>
-
+		</ol>-->
 
 		<div class="s_content">
 			<div class="container-fluid">
-				<div class="col-md-3 panel panel-default ">
+				<!--<div class="col-md-3 panel panel-default ">
 					<ul>		
 						<li>{{HTML::linkRoute('view_olahdata_kebaktian', 'Olah Data Kebaktian')}}</li>
 						<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
@@ -31,8 +31,15 @@
 						<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan')}}</li>
 						<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh')}}</li>
 					</ul>
-				</div>
-				<div class="panel panel-default col-md-9">
+				</div>-->
+				
+				<!--div class="panel panel-default col-md-9"-->
+				<div style="margin-top: 15px;" class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							DKH
+						</h3>
+					</div>
 					<div class="panel-body">
 						<form class="form-horizontal">	
 							<div class="form-group">
@@ -51,8 +58,8 @@
 						</form>
 					</div>	
 
-					<div id="temp_result">
-					</div>
+					<!--<div id="temp_result">
+					</div>-->
 					
 					<div id="f_result_dkh">
 						<table class="table table-bordered">
@@ -88,13 +95,15 @@
 							</td>
 						</tr>						
 					-->
-				</tbody>
-			</table>
-		</div>
-	</div>	
-
-</div>	
-</div>	
+					
+							</tbody>
+						</table>
+					</div>
+				</div>	
+			</div>	
+		</div>	
+	</div>
+</div>
 
 <script>
 //simpen detail 
@@ -245,8 +254,6 @@ $('body').on('click', '.deleteButton', function(){
 });
 </script>
 
-</div>
-</div>
 @include('pages.user_olahdata.popup_edit_dkh')
 @include('pages.user_olahdata.popup_delete_warning_dkh')
 

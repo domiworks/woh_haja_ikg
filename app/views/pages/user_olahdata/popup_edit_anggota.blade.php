@@ -153,11 +153,11 @@
 						</label>
 
 						<div class="col-xs-6">
-							@if($list_wilayah == null)
+							<!--if(list_wilayah == null)-->
 								<p class="control-label pull-left">(tidak ada daftar wilayah)</p>
-							@else				
-								{{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_edit_wilayah', 'class'=>'form-control')) }}
-							@endif
+							<!--else-->				
+								{{-- Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_edit_wilayah', 'class'=>'form-control')) --}}
+							<!--endif-->
 						</div>
 													
 					</div>
@@ -167,11 +167,11 @@
 						</label>
 
 						<div class="col-xs-6">
-							@if($list_gol_darah == null)
+							<!--if(list_gol_darah == null)-->
 								<p class="control-label pull-left">(tidak ada daftar golongan darah)</p>
-							@else				
-								{{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_edit_gol_darah', 'class'=>'form-control')) }}
-							@endif
+							<!--else-->				
+								{{-- Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_edit_gol_darah', 'class'=>'form-control')) --}}
+							<!--endif-->
 						</div>
 						<div class="col-xs-0">
 							*
@@ -183,11 +183,11 @@
 						</label>
 
 						<div class="col-xs-6">
-							@if($list_pendidikan == null)
+							<!--if(list_pendidikan == null)-->
 								<p class="control-label pull-left">(tidak ada daftar pendidikan)</p>
-							@else				
-								{{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_edit_pendidikan', 'class'=>'form-control')) }}
-							@endif
+							<!--else-->				
+								{{-- Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_edit_pendidikan', 'class'=>'form-control')) --}}
+							<!--endif-->
 						</div>
 					</div>
 					<div class="form-group">
@@ -196,11 +196,11 @@
 						</label>
 
 						<div class="col-xs-6">
-							@if($list_pekerjaan == null)
+							<!--if(list_pekerjaan == null)-->
 								<p class="control-label pull-left">(tidak ada daftar pekerjaan)</p>
-							@else				
-								{{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_edit_pekerjaan', 'class'=>'form-control')) }}
-							@endif
+							<!--else-->				
+								{{-- Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_edit_pekerjaan', 'class'=>'form-control')) --}}
+							<!--endif-->
 						</div>
 						<div class="col-xs-0">
 							*
@@ -212,11 +212,11 @@
 						</label>
 
 						<div class="col-xs-6">
-							@if($list_etnis == null)
+							<!--if(list_etnis == null)-->
 								<p class="control-label pull-left">(tidak ada daftar etnis)</p>
-							@else				
-								{{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_edit_etnis', 'class'=>'form-control')) }}
-							@endif
+							<!--else-->			
+								{{-- Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_edit_etnis', 'class'=>'form-control')) --}}
+							<!--endif-->
 						</div>
 					</div>
 					<div class="form-group">
@@ -281,11 +281,11 @@
 						</label>
 
 						<div class="col-xs-6">
-							@if($list_role == null)
+							<!--if(list_role == null)-->
 								<p class="control-label pull-left">(tidak ada daftar role)</p>
-							@else				
-								{{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_edit_status', 'class'=>'form-control')) }}
-							@endif
+							<!--else-->
+								{{-- Form::select('status', $list_role, Input::old('status'), array('id' => 'f_edit_status', 'class'=>'form-control')) --}}
+							<!--endif-->
 						</div>
 						<div class="col-xs-0">
 							*
@@ -294,11 +294,11 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				@if($list_wilayah == null || $list_gol_darah == null || $list_pendidikan == null || $list_pekerjaan == null || $list_etnis == null || $list_role == null)								
+				<!--if($list_wilayah == null || $list_gol_darah == null || $list_pendidikan == null || $list_pekerjaan == null || $list_etnis == null || $list_role == null)-->
 					<input type="button" id="f_edit_post_anggota" class="btn btn-success" value="Simpan Perubahan" disabled=true />
-				@else
+				<!--else-->
 					<input type="button" id="f_edit_post_anggota" class="btn btn-success" value="Simpan Perubahan"  />
-				@endif				
+				<!--endif-->
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>

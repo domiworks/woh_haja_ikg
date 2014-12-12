@@ -1,181 +1,192 @@
 @extends('layouts.admin_layout')
 @section('content')
+
 <div class="s_content_maindiv" style="overflow: hidden;">
 	<div class="s_sidebar_main" style="">
 		<div>
-			@include('includes.sidebar.sidebar_00')
+			@include('includes.sidebar.sidebar_01')
 		</div>
 	</div>
 	<div class="s_main_side" style="">
-<!-- css -->
-<style>
+		<!-- css -->
+		<style>
 
-</style>
-<!-- end css -->
+		</style>
+		<!-- end css -->
 
-<ol class="breadcrumb">
-	<li><a href="#">Olah Data</a></li>
-	<li class="active">Pernikahan</li>
-</ol>
+		<!--<ol class="breadcrumb">
+			<li><a href="#">Olah Data</a></li>
+			<li class="active">Pernikahan</li>
+		</ol>-->
 
-<div class="s_content">
+		<div class="s_content">
 
-	<div class="container-fluid">
-		<div class="col-md-3 panel panel-default ">
-			<ul>		
-				<li>{{HTML::linkRoute('view_olahdata_kebaktian', 'Olah Data Kebaktian')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_baptis', 'Olah Data Baptis')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_atestasi', 'Olah Data Atestasi')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_pernikahan', 'Olah Data Pernikahan')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan')}}</li>
-				<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh')}}</li>
-			</ul>
-		</div>
-		<div class="panel panel-default col-md-9">
-			<div class="panel-body">
-				<form class="form-horizontal">	
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Nomor Pernikahan</label> 
-						<div class="col-xs-5">{{ Form::text('nomor_pernikahan', Input::old('nomor_pernikahan'), array('id' => 'f_nomor_pernikahan', 'class'=>'form-control')) }}</div>
+			<div class="container-fluid">
+				<!--<div class="col-md-3 panel panel-default ">
+					<ul>		
+						<li>{{HTML::linkRoute('view_olahdata_kebaktian', 'Olah Data Kebaktian')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_baptis', 'Olah Data Baptis')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_atestasi', 'Olah Data Atestasi')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_pernikahan', 'Olah Data Pernikahan')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan')}}</li>
+						<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh')}}</li>
+					</ul>
+				</div>-->
+				<!--div class="panel panel-default col-md-9"-->
+				<div style="margin-top: 15px;" class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							PERNIKAHAN
+						</h3>
 					</div>
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Antara tanggal </label> 
-						<div class="col-xs-2">
-							{{ Form::text('tanggal_awal', Input::old('tanggal_awal'), array('id' => 'f_tanggal_awal', 'class'=>'form-control')) }}
-						</div>
-						<div class="col-xs-2">
-							{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
-						</div>
-						<script>
-						jQuery('#f_tanggal_awal').datetimepicker({
-							lang:'en',
-							i18n:{
-								en:{
-									months:[
-									'Januari','Februari','Maret','April',
-									'Mei','Juni','Juli','Agustus',
-									'September','Oktober','November','Desember',
-									],
-									dayOfWeek:[
-									"Ming.", "Sen.", "Sel.", "Rab.", 
-									"Kam.", "Jum.", "Sab.",
-									]
+				
+					<div class="panel-body">
+						<form class="form-horizontal">	
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Nomor Pernikahan</label> 
+								<div class="col-xs-5">{{ Form::text('nomor_pernikahan', Input::old('nomor_pernikahan'), array('id' => 'f_nomor_pernikahan', 'class'=>'form-control')) }}</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Antara tanggal </label> 
+								<div class="col-xs-2">
+									{{ Form::text('tanggal_awal', Input::old('tanggal_awal'), array('id' => 'f_tanggal_awal', 'class'=>'form-control')) }}
+								</div>
+								<div class="col-xs-2">
+									{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
+								</div>
+								<script>
+								jQuery('#f_tanggal_awal').datetimepicker({
+									lang:'en',
+									i18n:{
+										en:{
+											months:[
+											'Januari','Februari','Maret','April',
+											'Mei','Juni','Juli','Agustus',
+											'September','Oktober','November','Desember',
+											],
+											dayOfWeek:[
+											"Ming.", "Sen.", "Sel.", "Rab.", 
+											"Kam.", "Jum.", "Sab.",
+											]
 
-								}
-							},
-							timepicker:false,
-							format: 'Y-m-d',					
-							yearStart: '1900'
-						});			
-						jQuery('#f_tanggal_akhir').datetimepicker({
-							lang:'en',
-							i18n:{
-								en:{
-									months:[
-									'Januari','Februari','Maret','April',
-									'Mei','Juni','Juli','Agustus',
-									'September','Oktober','November','Desember',
-									],
-									dayOfWeek:[
-									"Ming.", "Sen.", "Sel.", "Rab.", 
-									"Kam.", "Jum.", "Sab.",
-									]
+										}
+									},
+									timepicker:false,
+									format: 'Y-m-d',					
+									yearStart: '1900'
+								});			
+								jQuery('#f_tanggal_akhir').datetimepicker({
+									lang:'en',
+									i18n:{
+										en:{
+											months:[
+											'Januari','Februari','Maret','April',
+											'Mei','Juni','Juli','Agustus',
+											'September','Oktober','November','Desember',
+											],
+											dayOfWeek:[
+											"Ming.", "Sen.", "Sel.", "Rab.", 
+											"Kam.", "Jum.", "Sab.",
+											]
 
-								}
-							},
-							timepicker:false,
-							format: 'Y-m-d',					
-							yearStart: '1900'
-						});	
-						</script>
+										}
+									},
+									timepicker:false,
+									format: 'Y-m-d',					
+									yearStart: '1900'
+								});	
+								</script>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Pendeta yang memberkati</label> 
+								<div class="col-xs-5">
+									<?php 
+										$new_list_pendeta = array(
+											'-1' => 'pilih!'
+										);									
+										foreach($list_pendeta as $id => $key)
+										{
+											$new_list_pendeta[$id] = $key;
+										}
+									?>
+									@if($list_pendeta == null)
+										<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
+									@else
+										{{Form::select('nama_pendeta', $new_list_pendeta, Input::old('nama_pendeta'), array('id'=>'f_id_pendeta', 'class'=>'form-control'))}}
+									@endif							
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Nama Mempelai Wanita</label> 
+								<div class="col-xs-5">{{ Form::text('nama_mempelai_wanita', Input::old('nama_mempelai_wanita'), array('id' => 'f_nama_mempelai_wanita', 'class'=>'form-control')) }}</div>
+							</div>		
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Nama Mempelai Pria</label> 
+								<div class="col-xs-5">{{ Form::text('nama_mempelai_pria', Input::old('nama_mempelai_pria'), array('id' => 'f_nama_mempelai_pria', 'class'=>'form-control')) }}</div>
+							</div>
+							<div class="form-group">
+								<div class="col-xs-5 col-xs-push-4">
+									@if($list_pendeta == null)
+										<input type="button" id="f_search_pernikahan" class="btn btn-success" value="Cari Data Pernikahan" disabled=true/>
+									@else
+										<input type="button" id="f_search_pernikahan" class="btn btn-success" value="Cari Data Pernikahan"></input>
+									@endif							
+								</div>
+							</div>
+						</form>
 					</div>
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Pendeta yang memberkati</label> 
-						<div class="col-xs-5">
-							<?php 
-								$new_list_pendeta = array(
-									'-1' => 'pilih!'
-								);									
-								foreach($list_pendeta as $id => $key)
-								{
-									$new_list_pendeta[$id] = $key;
-								}
-							?>
-							@if($list_pendeta == null)
-								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
-							@else
-								{{Form::select('nama_pendeta', $new_list_pendeta, Input::old('nama_pendeta'), array('id'=>'f_id_pendeta', 'class'=>'form-control'))}}
-							@endif							
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Nama Mempelai Wanita</label> 
-						<div class="col-xs-5">{{ Form::text('nama_mempelai_wanita', Input::old('nama_mempelai_wanita'), array('id' => 'f_nama_mempelai_wanita', 'class'=>'form-control')) }}</div>
-					</div>		
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Nama Mempelai Pria</label> 
-						<div class="col-xs-5">{{ Form::text('nama_mempelai_pria', Input::old('nama_mempelai_pria'), array('id' => 'f_nama_mempelai_pria', 'class'=>'form-control')) }}</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-5 col-xs-push-4">
-							@if($list_pendeta == null)
-								<input type="button" id="f_search_pernikahan" class="btn btn-success" value="Cari Data Pernikahan" disabled=true/>
-							@else
-								<input type="button" id="f_search_pernikahan" class="btn btn-success" value="Cari Data Pernikahan"></input>
-							@endif							
-						</div>
-					</div>
-				</form>
-			</div>
 
-			<div id="temp_result">				
-			
-			</div>
-			
-			<div id="f_result_pernikahan">
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>
-								No. Pernikahan
-							</th>
-							<th>
-								Mempelai Pria
-							</th>
-							<th>
-								Mempelai Wanita
-							</th>
-							<th>
-								
-							</th>
-						</tr>
-					</thead>
-					<tbody id="f_result_body_pernikahan">
-						<!--
-						<tr>
-							<td>
-								0
-							</td>
-							<td>
-								Catie
-							</td>
-							<td>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_pernikahan">
-									Edit
-								</button>
-								<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
-									delete
-								</button>
-							</td>
-						</tr>						
-						-->
-					</tbody>
-				</table>
-			</div>
+					<!--<div id="temp_result">				
+					
+					</div>-->
+					
+					<div id="f_result_pernikahan">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>
+										No. Pernikahan
+									</th>
+									<th>
+										Mempelai Pria
+									</th>
+									<th>
+										Mempelai Wanita
+									</th>
+									<th>
+										
+									</th>
+								</tr>
+							</thead>
+							<tbody id="f_result_body_pernikahan">
+								<!--
+								<tr>
+									<td>
+										0
+									</td>
+									<td>
+										Catie
+									</td>
+									<td>
+										<button type="button" class="btn btn-warning" data-toggle="modal" data-target=".popup_edit_pernikahan">
+											Edit
+										</button>
+										<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".popup_delete_warning">
+											delete
+										</button>
+									</td>
+								</tr>						
+								-->
+							</tbody>
+						</table>
+					</div>
+				</div>	
+			</div>	
 		</div>	
-	</div>	
-</div>	
+	</div>
+</div>		
+
 
 <script>
 	//simpen detail 
@@ -408,8 +419,6 @@
 	});
 </script>
 
-</div>
-</div>
 @include('pages.user_olahdata.popup_edit_pernikahan')
 @include('pages.user_olahdata.popup_delete_warning_pernikahan')
 

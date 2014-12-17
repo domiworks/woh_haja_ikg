@@ -1,17 +1,17 @@
-<div class="modal fade popup_edit_jenis_atestasi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade popup_edit_jenis_baptis" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title" id="myModalLabel">Edit Jenis Atestasi</h4>
+				<h4 class="modal-title" id="myModalLabel">Edit Jenis Baptis</h4>
 			</div>
 			<div class="modal-body form-horizontal">
 
 				<form class="form-horizontal">
 					<div class="form-group">
-						<label class="col-xs-4 control-label">Nama Jenis Atestasi</label>
+						<label class="col-xs-4 control-label">Nama Jenis Baptis</label>
 						<div class="col-xs-5">
-							{{Form::text('nama_jenis_atestasi', Input::old('nama_jenis_atestasi'), array('id' => 'f_edit_nama_jenis_atestasi', 'class' => 'form-control'))}}
+							{{Form::text('nama_jenis_baptis', Input::old('nama_jenis_baptis'), array('id' => 'f_edit_nama_jenis_baptis', 'class' => 'form-control'))}}
 						</div>
 						<div class="col-xs-0">
 							*
@@ -30,7 +30,7 @@
 				
 			</div>
 			<div class="modal-footer">
-				<input type="button" value="Simpan Perubahan" id="f_edit_post_jenis_atestasi" class="btn btn-success" data-dismiss="modal" />
+				<input type="button" value="Simpan Perubahan" id="f_edit_post_jenis_baptis" class="btn btn-success" data-dismiss="modal" />
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
@@ -38,12 +38,12 @@
 </div>
 
 <script>
-	$('body').on('click', '#f_edit_post_jenis_atestasi', function(){
-		$nama_atestasi = $('#f_edit_nama_jenis_atestasi').val();
+	$('body').on('click', '#f_edit_post_jenis_baptis', function(){
+		$nama_jenis_baptis = $('#f_edit_nama_jenis_baptis').val();
 		$keterangan = $('#f_edit_keterangan').val();
 		
 		$data = {
-			'nama_atestasi' : $nama_atestasi,
+			'nama_jenis_baptis' : $nama_jenis_baptis,
 			'keterangan' : $keterangan
 		};
 		
@@ -51,7 +51,7 @@
 				
 		$.ajax({
 			type: 'POST',
-			url: "{{URL('admin/edit_jenis_atestasi')}}",
+			url: "{{URL('admin/edit_jenis_baptis')}}",
 			data : {
 				'json_data' : json_data
 			},
@@ -60,7 +60,7 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_jenis_atestasi')}}';
+					window.location = '{{URL::route('admin_view_input_jenis_baptis')}}';
 				}
 				else				
 				{

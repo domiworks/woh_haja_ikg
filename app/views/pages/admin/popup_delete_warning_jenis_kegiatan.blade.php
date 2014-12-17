@@ -1,4 +1,4 @@
-<div class="modal fade popup_delete_warning_jenis_atestasi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade popup_delete_warning_jenis_kegiatan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -26,7 +26,7 @@
 		
 		$.ajax({
 			type: 'DELETE',
-			url: "{{URL('admin/delete_jenis_atestasi')}}",
+			url: "{{URL('admin/delete_jenis_kegiatan')}}",
 			data : {
 				'json_data' : json_data				
 			},
@@ -36,7 +36,7 @@
 				if(result.code==204)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_jenis_atestasi')}}';
+					window.location = '{{URL::route('admin_view_input_jenis_kegiatan')}}';
 				}
 				else
 				{

@@ -177,8 +177,8 @@
 		$index = $(this).prev().val();
 		
 		//set value di popup detail/edit
-		// $('#f_edit_nama_gereja').val(data_gereja[$index]['nama']);
-		
+		$('#f_edit_nama_jenis_atestasi').val(data_jenis_atestasi[$index]['nama_atestasi']);
+		$('#f_edit_keterangan').val(data_jenis_atestasi[$index]['keterangan']);
 		
 	});
 	
@@ -225,5 +225,8 @@
 		
 	});
 </script>
+
+@include('pages.admin.popup_edit_jenis_atestasi')
+@include('pages.admin.popup_delete_warning_jenis_atestasi')
 
 @stop

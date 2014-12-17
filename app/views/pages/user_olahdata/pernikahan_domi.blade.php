@@ -1,10 +1,10 @@
-@extends('layouts.admin_layout')
+@extends('layouts.user_layout')
 @section('content')
 
 <div class="s_content_maindiv" style="overflow: hidden;">
 	<div class="s_sidebar_main" style="">
 		<div>
-			@include('includes.sidebar.sidebar_01')
+			@include('includes.sidebar.sidebar_user_olahdata')
 		</div>
 	</div>
 	<div class="s_main_side" style="">
@@ -104,7 +104,8 @@
 									<?php 
 										$new_list_pendeta = array(
 											'-1' => 'pilih!'
-										);									
+										);								
+										
 										foreach($list_pendeta as $id => $key)
 										{
 											$new_list_pendeta[$id] = $key;

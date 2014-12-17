@@ -15,10 +15,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		<ul class="nav navbar-nav">
-						
-			<li><a href="{{URL::to('/admin/inputdata_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Input Data</a></li>
-			<li><a href="{{URL::to('/user/olahdata_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Olah Data</a></li>			
-			
+			<li><a href="{{URL::to('/user/inputdata_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Input Data</a></li>
+			<li><a href="{{URL::to('/user/olahdata_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Olah Data</a></li>
 			<!--
 			<li><a href="{{URL::to('/user/reporting')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Reporting</a></li>
 			<li><a href="{{URL::to('/user/importeksport')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Import/Eksport</a></li>

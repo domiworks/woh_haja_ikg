@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-	<title>Project 1</title>
+<html lang="en">	
 	<head>
-		@include('includes.head_admin')
+		@include('includes.head_user')
 		<script>
 
 		function startTime() {
@@ -37,7 +36,12 @@
 				<div class="row">
 					<div class="col-lg-4">
 						<!-- <img src="" height="50" width="50" style="float: left; margin-right:20px; margin-top: 10px;"/> -->
-						<h2 style="margin-left:20px;">Admin Panel GKI</h2>
+						<h2 style="margin-left:20px;">GKI</h2>
+					</div>
+					<div class="pull-right" style="margin-right: 15px;">
+						<h5>
+							logout						
+						</h5>					
 					</div>
 					<!--
 					<div class="col-lg-8" style="line-height: 69px; text-align: right;">
@@ -48,7 +52,7 @@
 			</div>
 		</div>
 			
-		@include('includes.navigation.admin')
+		@include('includes.navigation.user')
 		
 		<div id="yield_content" class=""> <!-- s_content_admin -->
 			@yield('content')

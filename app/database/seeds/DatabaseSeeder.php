@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder {
 		$gereja2 -> nama = "GKI Ayudia";
 		$gereja2 -> alamat = "Jalan Ayudia no. 10";
 		$gereja2 -> kota = "Bandung";
-		$gereja2 -> kodepos = "";
-		$gereja2 -> telp = "";		
+		$gereja2 -> kodepos = "40172";
+		$gereja2 -> telp = "(022)-6013341";		
 		//$gereja2 -> id_parent_gereja = -99;		
 		$gereja2 -> save();
 		// GKI Cianjur
@@ -100,8 +100,8 @@ class DatabaseSeeder extends Seeder {
 		$gereja9 -> nama = "GKI Pasir Kaliki";
 		$gereja9 -> alamat = "Jalan Pasirkaliki 157";
 		$gereja9 -> kota = "Bandung";
-		$gereja9 -> kodepos = "";
-		$gereja9 -> telp = "";		
+		$gereja9 -> kodepos = "40164";
+		$gereja9 -> telp = "(022)-2012354";		
 		//$gereja9 -> id_parent_gereja = -99;		
 		$gereja9 -> save();
 		// GKI Pasirkaliki

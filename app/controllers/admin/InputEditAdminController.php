@@ -4,29 +4,31 @@ use Carbon\Carbon;
 
 class InputEditAdminController extends BaseController {
 	
-	public function admin_view_auth()
+	public function admin_view_input_auth()
 	{
-		return null;
+		return View::make('pages.admin.input_auth');
 	}
 	
-	public function admin_view_gereja()
+	public function admin_view_input_gereja()
 	{
-		return null;
+		$list_status_gereja = $this->getListStatusGereja();
+		$list_gereja = $this->getListGereja();
+		return View::make('pages.admin.input_gereja', compact('list_status_gereja','list_gereja'));
 	}
 	
-	public function admin_view_jenis_baptis()
+	public function admin_view_input_jenis_baptis()
 	{
-		return null;
+		return View::make('pages.admin.input_jenisbaptis');
 	}
 	
-	public function admin_view_jenis_atesasi()
+	public function admin_view_input_jenis_atesasi()
 	{
-		return null;
+		return View::make('pages.admin.input_jenisatestasi');
 	}
 	
-	public function admin_view_jenis_kegiatan()
+	public function admin_view_input_jenis_kegiatan()
 	{
-		return null;
+		return View::make('pages.admin.input_jeniskegiatan');
 	}
 
 	
@@ -49,9 +51,9 @@ class InputEditAdminController extends BaseController {
 		$alamat = $input->{'alamat'};
 		$kota = $input->{'kota'};
 		$kodepos = $input->{'kodepos'};
-		$telp = $input->{'telp'};
-		$id_parent_gereja = $input->{'id_parent_gereja'}; //kalo null maka -1
+		$telp = $input->{'telp'};		
 		$status = $input->{'status'};
+		$id_parent_gereja = $input->{'id_parent_gereja'}; //kalo null maka -1
 		// deleted
 		
 		$data_valid = array(

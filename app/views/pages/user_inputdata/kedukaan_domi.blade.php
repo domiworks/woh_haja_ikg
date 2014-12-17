@@ -1,9 +1,9 @@
-@extends('layouts.admin_layout')
+@extends('layouts.user_layout')
 @section('content')
 <div class="s_content_maindiv" style="overflow: hidden;">
 	<div class="s_sidebar_main" style="">
 		<div>
-			@include('includes.sidebar.sidebar_00')
+			@include('includes.sidebar.sidebar_user_inputdata')
 		</div>
 	</div>
 	<div class="s_main_side" style="">

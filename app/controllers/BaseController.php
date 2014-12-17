@@ -62,6 +62,19 @@ class BaseController extends Controller {
 		}
 	}
 	
+	//get list status gereja
+	public function getListStatusGereja()
+	{		
+		$arrStatusGereja = array(			
+			'1' => 'Posjem',
+			'2' => 'Bajem',
+			'3' => 'Jemaat',
+			'4' => 'Klassis',
+			'5' => 'Sinode Wilayah'			
+		);		
+		return $arrStatusGereja;
+	}
+		
 	//get list wilayah
 	public function getListWilayah()
 	{

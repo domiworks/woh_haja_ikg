@@ -30,14 +30,34 @@ Route::get('/', ['as' => 'home', 'uses' => 'HomeController@view_index']); //lang
 //post route
 Route::post('/signin', ['as' => 'signin', 'uses' => 'HomeController@postSignIn']);
 
+
+
+
 //admin ---> asumsi superuser atau majelis yang bisa lakuin akses apa aj
 Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 // Route::group(['prefix' => 'admin'], function () {
-	Route::get('/', ['as' => 'home_admin', 'uses' => 'UserAdminController@view_homeadmin']);	
+
+	Route::get('/', ['as' => 'home_admin', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);		
+
+	//input data	
+	Route::get('/inputdata_gereja', ['as' => 'admin_view_input_gereja', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);	
+	Route::get('/inputdata_jenisbaptis', ['as' => 'admin_view_input_jenis_baptis', 'uses' => 'InputEditAdminController@admin_view_input_jenis_baptis']);	
+	Route::get('/inputdata_jenisatestasi', ['as' => 'admin_view_input_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_view_input_jenis_atesasi']);	
+	Route::get('/inputdata_jeniskegiatan', ['as' => 'admin_view_input_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_view_input_jenis_kegiatan']);	
+	Route::get('/inputdata_account', ['as' => 'admin_view_input_auth', 'uses' => 'InputEditAdminController@admin_view_input_auth']);	
+	
+	Route::post('/post_gereja', ['as' => 'post_gereja', 'uses' => 'InputEditAdminController@admin_postGereja']);
+	Route::post('/post_jenis_baptis', ['as' => 'post_jenis_baptis', 'uses' => 'InputEditAdminController@admin_postJenisBaptis']);
+	Route::post('/post_jenis_atestasi', ['as' => 'post_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_postJenisAtestasi']);
+	Route::post('/post_jenis_kegiatan', ['as' => 'post_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_postJenisKegiatan']);
+	Route::post('/post_auth', ['as' => 'post_auth', 'uses' => 'InputEditAdminController@admin_postAuth']);
+	
 	//logout
 	Route::get('/logout', ['as' => 'logout_admin' , 'uses' => 'UserAdminController@postLogout']);
 
 });
+
+
 
 
 //user ---> asumsi orang TU yang jadi user bisa ngapain aja di sini
@@ -45,7 +65,7 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 // Route::group(['prefix' => 'user'], function() {	
 
 	// Route::get('/', ['as' => 'profile_user', 'uses' => 'UserController@view_profile']);		
-	Route::get('/', ['as' => 'profile_user', 'uses' => 'InputEditController@view_kebaktian']);		
+	Route::get('/', ['as' => 'home_user', 'uses' => 'InputEditController@view_kebaktian']);		
 	
 	//logout
 	Route::get('/logout', ['as' => 'logout_user' , 'uses' => 'UserController@postLogout']);					

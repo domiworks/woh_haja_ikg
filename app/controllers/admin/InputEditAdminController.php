@@ -12,25 +12,82 @@ class InputEditAdminController extends BaseController {
 	public function admin_view_input_gereja()
 	{
 		$list_status_gereja = $this->getListStatusGereja();
-		$list_gereja = $this->getListGereja();
-		return View::make('pages.admin.input_gereja', compact('list_status_gereja','list_gereja'));
+		$list_gereja = $this->getListGereja();	
+		$data_gereja = $this->getDataGereja();		
+		return View::make('pages.admin.input_gereja', compact('list_status_gereja','list_gereja','data_gereja'));
 	}
 	
 	public function admin_view_input_jenis_baptis()
 	{
-		return View::make('pages.admin.input_jenisbaptis');
+		$data_jenis_baptis = $this->getDataJenisBaptis();
+		return View::make('pages.admin.input_jenisbaptis', compact('data_jenis_baptis'));
 	}
 	
 	public function admin_view_input_jenis_atesasi()
 	{
-		return View::make('pages.admin.input_jenisatestasi');
+		$data_jenis_atestasi = $this->getDataJenisAtestasi();
+		return View::make('pages.admin.input_jenisatestasi', compact('data_jenis_atestasi'));
 	}
 	
 	public function admin_view_input_jenis_kegiatan()
 	{
-		return View::make('pages.admin.input_jeniskegiatan');
+		$data_jenis_kegiatan = $this->getDataJenisKegiatan();
+		return View::make('pages.admin.input_jeniskegiatan', compact('data_jenis_kegiatan'));
 	}
 
+/*----------------------------------------GET----------------------------------------*/
+
+	public function getDataGereja()
+	{
+		$gereja = Gereja::all();
+		if(count($gereja) == 0)
+		{
+			return null;
+		}		
+		else
+		{
+			return $gereja;
+		}
+	}
+	
+	public function getDataJenisAtestasi()
+	{
+		$jenis_atestasi = JenisAtestasi::all();
+		if(count($jenis_atestasi) == 0)
+		{
+			return null;
+		}		
+		else
+		{
+			return $jenis_atestasi;
+		}
+	
+	
+	public function getDataJenisBaptis()
+	{
+		$jenis_baptis = JenisBaptis::all();
+		if(count($jenis_baptis) == 0)
+		{
+			return null;
+		}		
+		else
+		{
+			return $jenis_baptis;
+		}
+	}
+	
+	public function getDataJenisKegiatan()
+	{
+		$jenis_kegiatan = JenisKegiatan::all();
+		if(count($jenis_kegiatan) == 0)
+		{
+			return null;
+		}		
+		else
+		{
+			return $jenis_kegiatan;
+		}
+	}
 	
 /*----------------------------------------POST----------------------------------------*/	
 
@@ -437,6 +494,239 @@ class InputEditAdminController extends BaseController {
 			}
 		}
 	}
+	
+/*----------------------------------------VISIBLE----------------------------------------*/		
+
+	public function admin_change_visible_gereja()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};				
+		
+		$gereja = Gereja::find($id);
+		
+		if($gereja == null)
+		{
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
+			return json_encode($respond);
+		}
+		else
+		{		
+			if($gereja->deleted == 0)
+			{
+				$gereja->deleted = 1;
+			}
+			else
+			{
+				$gereja->deleted = 0;
+			}			
+			
+			try{
+				$gereja->save();
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				return json_encode($respond);
+			}catch(Exception $e){
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
+				return json_encode($respond);
+			}	
+		}
+	}
+	
+	public function admin_change_visible_jenis_baptis()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};				
+		
+		$jenis_baptis = JenisBaptis::find($id);
+		
+		if($jenis_baptis == null)
+		{
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
+			return json_encode($respond);
+		}
+		else
+		{		
+			if($jenis_baptis->deleted == 0)
+			{
+				$jenis_baptis->deleted = 1;
+			}
+			else
+			{
+				$jenis_baptis->deleted = 0;
+			}			
+			
+			try{
+				$jenis_baptis->save();
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				return json_encode($respond);
+			}catch(Exception $e){
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
+				return json_encode($respond);
+			}	
+		}
+	}
+	
+	public function admin_change_visible_jenis_atestasi()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};				
+		
+		$jenis_atestasi = JenisAtestasi::find($id);
+		
+		if($jenis_atestasi == null)
+		{
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
+			return json_encode($respond);
+		}
+		else
+		{		
+			if($jenis_atestasi->deleted == 0)
+			{
+				$jenis_atestasi->deleted = 1;
+			}
+			else
+			{
+				$jenis_atestasi->deleted = 0;
+			}			
+			
+			try{
+				$jenis_atestasi->save();
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				return json_encode($respond);
+			}catch(Exception $e){
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
+				return json_encode($respond);
+			}	
+		}
+	}
+	
+	public function admin_change_visible_jenis_kegiatan()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};				
+		
+		$jenis_kegiatan = JenisKegiatan::find($id);
+		
+		if($jenis_kegiatan == null)
+		{
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
+			return json_encode($respond);
+		}
+		else
+		{		
+			if($jenis_kegiatan->deleted == 0)
+			{
+				$jenis_kegiatan->deleted = 1;
+			}
+			else
+			{
+				$jenis_kegiatan->deleted = 0;
+			}			
+			
+			try{
+				$jenis_kegiatan->save();
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				return json_encode($respond);
+			}catch(Exception $e){
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
+				return json_encode($respond);
+			}	
+		}
+	}
+
+/*----------------------------------------DELETE----------------------------------------*/		
+	
+	public function admin_delete_gereja()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};
+		
+		$gereja = Gereja::find($id);
+		
+		try{						
+			$gereja->delete();
+			
+			$respond = array('code' => '204', 'status' => 'No Content', 'messages' => 'Berhasil menghapus data.');
+			return json_encode($respond);			
+		}catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menghapus data.');
+			return json_encode($respond);						
+		}
+	}
+	
+	public function admin_delete_jenis_baptis()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};
+		
+		$jenis_baptis = JenisBaptis::find($id);
+		
+		try{						
+			$jenis_baptis->delete();
+			
+			$respond = array('code' => '204', 'status' => 'No Content', 'messages' => 'Berhasil menghapus data.');
+			return json_encode($respond);			
+		}catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menghapus data.');
+			return json_encode($respond);						
+		}
+	}
+	
+	public function admin_delete_jenis_atestasi()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};
+		
+		$jenis_atestasi = JenisAtestasi::find($id);
+		
+		try{						
+			$jenis_atestasi->delete();
+			
+			$respond = array('code' => '204', 'status' => 'No Content', 'messages' => 'Berhasil menghapus data.');
+			return json_encode($respond);			
+		}catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menghapus data.');
+			return json_encode($respond);						
+		}
+	}
+	
+	public function admin_delete_jenis_kegiatan()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};
+		
+		$jenis_kegiatan = JenisKegiatan::find($id);
+		
+		try{						
+			$jenis_kegiatan->delete();
+			
+			$respond = array('code' => '204', 'status' => 'No Content', 'messages' => 'Berhasil menghapus data.');
+			return json_encode($respond);			
+		}catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menghapus data.');
+			return json_encode($respond);						
+		}
+	}
+	
 }
 
 ?>

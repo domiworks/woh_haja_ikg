@@ -39,6 +39,9 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 
 	Route::get('/', ['as' => 'home_admin', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);		
 
+	//logout
+	Route::get('/logout', ['as' => 'logout_admin' , 'uses' => 'UserAdminController@postLogout']);
+	
 	//input data	
 	Route::get('/inputdata_gereja', ['as' => 'admin_view_input_gereja', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);	
 	Route::get('/inputdata_jenisbaptis', ['as' => 'admin_view_input_jenis_baptis', 'uses' => 'InputEditAdminController@admin_view_input_jenis_baptis']);	
@@ -46,15 +49,34 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 	Route::get('/inputdata_jeniskegiatan', ['as' => 'admin_view_input_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_view_input_jenis_kegiatan']);	
 	Route::get('/inputdata_account', ['as' => 'admin_view_input_auth', 'uses' => 'InputEditAdminController@admin_view_input_auth']);	
 	
+	//post data
 	Route::post('/post_gereja', ['as' => 'post_gereja', 'uses' => 'InputEditAdminController@admin_postGereja']);
 	Route::post('/post_jenis_baptis', ['as' => 'post_jenis_baptis', 'uses' => 'InputEditAdminController@admin_postJenisBaptis']);
 	Route::post('/post_jenis_atestasi', ['as' => 'post_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_postJenisAtestasi']);
 	Route::post('/post_jenis_kegiatan', ['as' => 'post_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_postJenisKegiatan']);
 	Route::post('/post_auth', ['as' => 'post_auth', 'uses' => 'InputEditAdminController@admin_postAuth']);
 	
-	//logout
-	Route::get('/logout', ['as' => 'logout_admin' , 'uses' => 'UserAdminController@postLogout']);
-
+	//edit data
+	Route::post('/edit_gereja', ['as' => 'edit_gereja', 'uses' => 'InputEditAdminController@admin_edit_gereja']);
+	Route::post('/edit_jenis_baptis', ['as' => 'edit_jenis_baptis', 'uses' => 'InputEditAdminController@admin_edit_jenis_baptis']);
+	Route::post('/edit_jenis_atestasi', ['as' => 'edit_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_edit_jenis_atestasi']);
+	Route::post('/edit_jenis_kegiatan', ['as' => 'edit_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_edit_jenis_kegiatan']);
+	Route::post('/edit_auth', ['as' => 'edit_auth', 'uses' => 'InputEditAdminController@admin_edit_auth']);
+	
+	//change visible
+	Route::post('/change_visible_gereja', ['as' => 'change_visible_gereja', 'uses' => 'InputEditAdminController@admin_change_visible_gereja']);
+	Route::post('/change_visible_jenis_baptis', ['as' => 'change_visible_jenis_baptis', 'uses' => 'InputEditAdminController@admin_change_visible_jenis_baptis']);
+	Route::post('/change_visible_jenis_atestasi', ['as' => 'change_visible_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_change_visible_jenis_atestasi']);
+	Route::post('/change_visible_jenis_kegiatan', ['as' => 'change_visible_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_change_visible_jenis_kegiatan']);
+	Route::post('/change_visible_auth', ['as' => 'change_visible_auth', 'uses' => 'InputEditAdminController@admin_change_visible_auth']);
+	
+	//delete data
+	Route::delete('/delete_gereja', ['as' => 'delete_gereja', 'uses' => 'InputEditAdminController@admin_delete_gereja']);
+	Route::delete('/delete_jenis_baptis', ['as' => 'delete_jenis_baptis', 'uses' => 'InputEditAdminController@admin_delete_jenis_baptis']);
+	Route::delete('/delete_jenis_atestasi', ['as' => 'delete_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_delete_jenis_atestasi']);
+	Route::delete('/delete_jenis_kegiatan', ['as' => 'delete_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_delete_jenis_kegiatan']);
+	Route::delete('/delete_auth', ['as' => 'delete_auth', 'uses' => 'InputEditAdminController@admin_delete_auth']);
+	
 });
 
 

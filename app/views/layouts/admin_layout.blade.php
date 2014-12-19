@@ -38,12 +38,10 @@
 					<div class="col-lg-4">
 						<!-- <img src="" height="50" width="50" style="float: left; margin-right:20px; margin-top: 10px;"/> -->
 						<h2 style="margin-left:20px;">Admin Panel GKI</h2>
-					</div>
-					<!--
+					</div>					
 					<div class="col-lg-8" style="line-height: 69px; text-align: right;">
-						log in as admin | <a href="#">log out</a>
-					</div>
-					-->
+						Selamat datang, {{ Auth::user()->username }} | {{ HTML::linkRoute('logout', 'keluar')}}
+					</div>					
 				</div>
 			</div>
 		</div>

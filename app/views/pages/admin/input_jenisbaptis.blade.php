@@ -176,7 +176,7 @@
 		$index = $(this).prev().val();
 		
 		//set value di popup detail/edit
-		$('#f_edit_nama_jenis_baptis').val(data_jenis_baptis[$index]['nama_atestasi']);
+		$('#f_edit_nama_jenis_baptis').val(data_jenis_baptis[$index]['nama_jenis_baptis']);
 		$('#f_edit_keterangan').val(data_jenis_baptis[$index]['keterangan']);
 		
 	});

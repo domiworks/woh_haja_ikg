@@ -1,20 +1,23 @@
 
 <nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
+
+  <!--<div class="container-fluid">-->
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
+    <!--<div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </button>
+      </button>-->
       <!--<a class="navbar-brand" href="#">Brand</a>-->
-    </div>
+    <!--</div>-->
 
+	<span class="pull-right" id="f_clock" style="margin-right: 10px; line-height: 30px; color: #fff;"></span>
+	
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		<ul class="nav navbar-nav">
+    <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul class="nav navbar-nav">-->
 			
 			<!--				
 			<li><a href="{{--URL::to('/admin/inputdata_kebaktian')--}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Input Data</a></li>
@@ -52,10 +55,10 @@
 			<li><a href="#">Other Link</a></li>
 			<li><a href="#">Other Link</a></li>
 			-->
-		</ul>
+		<!--</ul>-->
 		
      
-     <span class="pull-right" id="f_clock" style="margin-right: 10px; line-height: 30px; color: #fff;"></span>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container -->
+		
+    <!--</div>--><!-- /.navbar-collapse -->
+  <!--</div>--><!-- /.container -->
 </nav>

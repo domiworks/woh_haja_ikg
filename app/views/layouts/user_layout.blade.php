@@ -35,14 +35,13 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-4">
-						<!-- <img src="" height="50" width="50" style="float: left; margin-right:20px; margin-top: 10px;"/> -->
-						<h2 style="margin-left:20px;">GKI</h2>
+						<!-- <img src="" height="50" width="50" style="float: left; margin-right:20px; margin-top: 10px;"/> -->						
+						<h2 style="margin-top: 5px; margin-bottom: 5px;">{{ $header['nama'] }}</h2>
+						<h4>{{ $header['alamat'] }} {{ $header['kota'] }}</h4>						
 					</div>
-					<div class="pull-right" style="margin-right: 15px;">
-						<h5>
-							logout						
-						</h5>					
-					</div>
+					<div class="col-lg-8" style="line-height: 69px; text-align: right;">
+						Selamat datang, {{ Auth::user()->username }} | {{ HTML::linkRoute('logout', 'keluar')}}
+					</div>	
 					<!--
 					<div class="col-lg-8" style="line-height: 69px; text-align: right;">
 						log in as admin | <a href="#">log out</a>

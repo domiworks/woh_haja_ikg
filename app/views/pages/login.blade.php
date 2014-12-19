@@ -25,6 +25,13 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="control-label col-lg-4"><!-- kosong --></label>
+								<div class="col-lg-6">
+									{{ Form::checkbox('remember_me', 'yes', null, ['style' => 'margin-top: 8px;']) }}
+									Remember me
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="control-label col-lg-4"></label>
 								<div class="col-lg-6">
 									{{ Form::submit('Login', array('class' => 'btn btn-success')) }}						

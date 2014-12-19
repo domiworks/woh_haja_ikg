@@ -25,27 +25,8 @@ class HomeController extends BaseController {
 		return View::make('pages.login');
 	}
 
-	public function postSignIn()
-	{
-		$username = Input::get('username');
-		$password = Input::get('password');
-		$data  = array('username'=>$username, 'password'=>$password);
-		
-		if(Auth::attempt($data, false))		
-		{
-			if(Auth::user()->role == 0)			
-			{
-				return Redirect::to('/user');
-			}			
-			else
-			{
-				return Redirect::to('/admin');
-			}
-		}
-		else
-		{
-			return Redirect::to('/');
-		}
-	}
+	
+	
+	
 		
 }

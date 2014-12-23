@@ -23,19 +23,25 @@ class BaseController extends Controller {
 		
 		$telepon_gereja = $this->get_gereja('telp');				
 		
-		$arr = array(
+		$kota_gereja = $this->get_gereja('kota');
+		
+		$header = array(
 			'nama' => $nama_gereja,
 			'alamat' => $alamat_gereja, 
-			'telp' => $telepon_gereja
+			'telp' => $telepon_gereja,
+			'kota' => $kota_gereja
 		);
 		
-		return $arr;
+		return $header;
 	}
 	
 	private function get_gereja($kembalian)
 	{
+		$gereja = Gereja::find(Auth::user()->anggota->id_gereja);
+		return $gereja->$kembalian;
+		/*
 		//get gereja status:jemaat yang pertama di get di database
-		$count = Gereja::where('status','=', '2')->first();		
+		$count = Gereja::where('status','=', '3')->first();		
 		if(count($count) != 0)
 		{
 			return $count->$kembalian;
@@ -43,6 +49,7 @@ class BaseController extends Controller {
 		{
 			return "";
 		}
+		*/
 	}
 	
 	//--------------------------------------------------GET LIST--------------------------------------------------

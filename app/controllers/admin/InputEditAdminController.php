@@ -61,7 +61,7 @@ class InputEditAdminController extends BaseController {
 		{
 			return $jenis_atestasi;
 		}
-	
+	}
 	
 	public function getDataJenisBaptis()
 	{
@@ -337,7 +337,7 @@ class InputEditAdminController extends BaseController {
 				$gereja->id_parent_gereja = $id_parent_gereja;
 			}			
 			$gereja->status = $status;
-			$gereja->deleted = 0;
+			// $gereja->deleted = 0;
 			
 			try{
 				$gereja->save();
@@ -385,7 +385,7 @@ class InputEditAdminController extends BaseController {
 		{		
 			$jenis_baptis->nama_jenis_baptis = $nama_jenis_baptis;
 			$jenis_baptis->keterangan = $keterangan;
-			$jenis_baptis->deleted = 0;
+			// $jenis_baptis->deleted = 0;
 					
 			try{
 				$jenis_baptis->save();
@@ -433,7 +433,7 @@ class InputEditAdminController extends BaseController {
 		{
 			$jenis_atestasi->nama_atestasi = $nama_atestasi;
 			$jenis_atestasi->keterangan = $keterangan;
-			$jenis_atestasi->deleted = 0;
+			// $jenis_atestasi->deleted = 0;
 					
 			try{
 				$jenis_atestasi->save();
@@ -481,7 +481,7 @@ class InputEditAdminController extends BaseController {
 		{
 			$jenis_kegiatan->nama_kegiatan = $nama_kegiatan;
 			$jenis_kegiatan->keterangan = $keterangan;
-			$jenis_kegiatan->deleted = 0;
+			// $jenis_kegiatan->deleted = 0;
 					
 			try{
 				$jenis_kegiatan->save();

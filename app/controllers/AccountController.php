@@ -4,6 +4,83 @@ use Carbon\Carbon;
 
 class AccountController extends BaseController {
 	
+	public function postSignIn()
+	{
+		$username = Input::get('username');
+		$password = Input::get('password');
+		$data  = array('username'=>$username, 'password'=>$password);
+		$remember_me = Input::get('remember_me') === 'yes';	
+		if($remember_me == true)
+		{
+			if(Auth::attempt($data, $remember_me))		
+			{
+				if(Auth::user()->role == 0)			
+				{
+					return Redirect::to('/user');
+				}			
+				else
+				{
+					return Redirect::to('/admin');
+				}
+			}
+			else
+			{
+				return Redirect::to('/')->with('message', 'username dan password tidak tepat.');
+			}		
+		}
+		else
+		{
+			if(Auth::attempt($data, false))		
+			{
+				if(Auth::user()->role == 0)			
+				{
+					return Redirect::to('/user');
+				}			
+				else
+				{
+					return Redirect::to('/admin');
+				}
+			}
+			else
+			{
+				return Redirect::to('/')->with('message', 'username dan password tidak tepat.');
+			}
+		}
+		
+		/*
+		$username = Input::get('username');
+		$password = Input::get('password');
+		$data  = array('username'=>$username, 'password'=>$password);
+		
+		if(Auth::attempt($data, false))		
+		{
+			if(Auth::user()->role == 0)			
+			{
+				return Redirect::to('/user');
+			}			
+			else
+			{
+				return Redirect::to('/admin');
+			}
+		}
+		else
+		{
+			return Redirect::to('/');
+		}
+		*/
+	}
+	
+	
+	public function postLogout()
+	{
+		Auth::logout();
+		Session::flush();
+		return Redirect::to('/')->with('message', 'Anda telah keluar.');
+	}
+	
+	
+	//------------------------------------------------------------------
+	
 	// public function view_login()
 	// {
 		// $arr = $this->setHeader();
@@ -58,9 +135,9 @@ class AccountController extends BaseController {
 		// if(count($cekCount) == 0) //kalo blom ada datanya di table jemaat
 		// {
 			// $nama = Input::get('nama');
-			.
-			.
-			.
+			// .
+			// .
+			// .
 			// return Redirect::to('/');
 		// }
 		// else

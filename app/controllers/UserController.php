@@ -287,12 +287,14 @@ class UserController extends BaseController {
 		return $arrEtnis;
 	}
 	
+	/*
 	public function postLogout()
 	{
 		Auth::logout();
 		Session::flush();
 		return Redirect::to('/')->with('message', 'Anda telah keluar.');
 	}
+	*/
 	
 	
 	// public function view_login()

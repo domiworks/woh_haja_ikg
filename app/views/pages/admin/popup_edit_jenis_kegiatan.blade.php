@@ -43,6 +43,7 @@
 		$keterangan = $('#f_edit_keterangan').val();
 		
 		$data = {
+			'id' : $id,
 			'nama_kegiatan' : $nama_kegiatan,
 			'keterangan' : $keterangan
 		};

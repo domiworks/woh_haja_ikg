@@ -136,6 +136,58 @@
 </div>	
 
 <script>
+	//click change visible
+	$('body').on('click', '.visibleButton', function(){
+		$id = $(this).prev().val();
+		
+		$data = {
+			'id' : $id
+		};
+		
+		var json_data = JSON.stringify($data);
+				
+		$.ajax({
+			type: 'POST',
+			url: "{{URL('admin/change_visible_jenis_kegiatan')}}",
+			data: {
+				'json_data' : json_data
+			},
+			success: function(response){
+				result = JSON.parse(response);
+				if(result.code==200)
+				{
+					alert(result.messages);
+					window.location = '{{URL::route('admin_view_input_jenis_kegiatan')}}';
+				}
+				else
+				{
+					alert(result.messages);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert(errorThrown);
+			}
+		},'json');
+	});
+	
+	//click detail/edit button
+	$('body').on('click', '.detailButton', function(){
+		$id = $(this).prev().prev().val();
+		$index = $(this).prev().val();
+		
+		//set value di popup detail/edit
+		$('#f_edit_nama_jenis_kebaktian').val(data_jenis_kegiatan[$index]['nama_kegiatan']);
+		$('#f_edit_keterangan').val(data_jenis_kegiatan[$index]['keterangan']);
+		
+	});
+	
+	//click delete button
+	$('body').on('click', '.deleteButton', function(){
+		$id = $(this).prev().prev().val();
+		$index = $(this).prev().val();
+			
+	});
+	
 	$('body').on('click', '#f_post_jenis_kebaktian', function(){
 		$nama_kegiatan = $('#f_nama_jenis_kebaktian').val();
 		$keterangan = $('#f_keterangan').val();

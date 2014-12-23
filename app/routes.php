@@ -28,19 +28,17 @@ Route::get('/tes', function(){
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@view_index']); //langsung login view aja	
 
 //post route
-Route::post('/signin', ['as' => 'signin', 'uses' => 'HomeController@postSignIn']);
+Route::post('/signin', ['as' => 'signin', 'uses' => 'AccountController@postSignIn']);
 
-
+//logout
+Route::get('/logout', ['as' => 'logout' , 'uses' => 'AccountController@postLogout']);					
 
 
 //admin ---> asumsi superuser atau majelis yang bisa lakuin akses apa aj
 Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 // Route::group(['prefix' => 'admin'], function () {
 
-	Route::get('/', ['as' => 'home_admin', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);		
-
-	//logout
-	Route::get('/logout', ['as' => 'logout_admin' , 'uses' => 'UserAdminController@postLogout']);
+	Route::get('/', ['as' => 'home_admin', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);			
 	
 	//input data	
 	Route::get('/inputdata_gereja', ['as' => 'admin_view_input_gereja', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);	
@@ -87,10 +85,7 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 // Route::group(['prefix' => 'user'], function() {	
 
 	// Route::get('/', ['as' => 'profile_user', 'uses' => 'UserController@view_profile']);		
-	Route::get('/', ['as' => 'home_user', 'uses' => 'InputEditController@view_kebaktian']);		
-	
-	//logout
-	Route::get('/logout', ['as' => 'logout_user' , 'uses' => 'UserController@postLogout']);					
+	Route::get('/', ['as' => 'home_user', 'uses' => 'InputEditController@view_kebaktian']);				
 	
 	//input data 
 	Route::get('/inputdata_kebaktian', ['as' => 'view_inputdata_kebaktian', 'uses' => 'InputEditController@view_kebaktian']);	

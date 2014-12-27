@@ -36,7 +36,10 @@
 				if(result.code==204)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_gereja')}}';
+					
+					location.reload();
+					
+					// window.location = '{{URL::route('admin_view_input_gereja')}}';
 				}
 				else
 				{

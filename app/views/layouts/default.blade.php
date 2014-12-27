@@ -29,7 +29,8 @@
 			}
 		</script>
 	</head>
-	<body onload="startTime()">
+	<!--<body onload="startTime()">-->
+	<body>
 		<!-- <div class="s_orenji_header">
 		</div> -->		
 		<div class="s_top_header">

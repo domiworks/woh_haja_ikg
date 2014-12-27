@@ -123,7 +123,8 @@
 				</div>		
 
 				<!-- INI PANEL BUAT SHOW SELURUH DATA GEREJA -->	
-				<div style="margin-top: 15px;" class="panel panel-default">	
+				<div style="margin-top: 15px;" class="panel panel-default" id="tabel_gereja">	
+					{{$data_gereja->links()}}
 					<table class="table">
 						<thead>
 							<tr class="active">
@@ -133,7 +134,7 @@
 								<td class="col-md-4"><!-- edit delete --></td>
 							</tr>								
 						</thead>
-						<tbody>
+						<tbody class="tabel_body">
 							<!-- set variable javascript biar ga usah get detail lagi -->
 							<script>
 								var data_gereja = new Array();
@@ -157,23 +158,24 @@
 									// alert(data_gereja[1]);
 									// alert(arr_gereja);
 								});
-							</script>
+							</script>							
 							<!-- set list gereja -->
 							<?php $index = 0; ?>
 							@foreach($data_gereja as $gereja)
 								<tr>
-									<td>{{$gereja->id}}</td>
-									<td>{{$gereja->nama}}</td>
-									<td>
+									<td class="tabel_id_gereja<?php echo $index; ?>">{{$gereja->id}}</td>
+									<td class="tabel_nama_gereja<?php echo $index; ?>">{{$gereja->nama}}</td>
+									<td class="tabel_visible<?php echo $index; ?>">
 										@if($gereja->deleted == 0)
 											<span style="color:green;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 										@else											
 											<span style="color:red;" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 										@endif
-									</td>
-									<td>										
-										<div class="pull-right">
+									</td>																		
+									<td>											
+										<div class="pull-right">											
 											<input type="hidden" value="{{$gereja->id}}" />
+											<input type="hidden" value="<?php echo $index; ?>" />
 											<button type="button" class="btn btn-warning visibleButton">Ganti Visible</button>
 											<input type="hidden" value="{{$gereja->id}}" />
 											<input type="hidden" value="<?php echo $index; ?>" />
@@ -186,7 +188,7 @@
 										<?php $index++; ?>
 									</td>
 								</tr>
-							@endforeach
+							@endforeach							
 						</tbody>
 					</table>
 				</div>
@@ -197,9 +199,14 @@
 </div>	
 
 <script>
+	//global variable buat ajax ganti view
+	var temp = '';
+	
 	//click change visible
-	$('body').on('click', '.visibleButton', function(){
-		$id = $(this).prev().val();
+	$('body').on('click', '.visibleButton', function(){		
+					
+		$id = $(this).prev().prev().val();
+		temp = $(this).prev().val();		
 		
 		$data = {
 			'id' : $id
@@ -213,28 +220,42 @@
 			data: {
 				'json_data' : json_data
 			},
-			success: function(response){
+			success: function(response){							
 				result = JSON.parse(response);
 				if(result.code==200)
 				{
-					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_gereja')}}';
+					alert(result.messages);					
+					// window.location = '{{URL::route('admin_view_input_gereja')}}';
+										
+					//ganti isi row sesuai hasil edit
+					// alert(result.data['deleted']);
+					if(result.data['deleted'] == 0)
+					{						
+						$('.tabel_visible'+temp).html("<span style='color:green;' class='glyphicon glyphicon-ok' aria-hidden='true'></span>");						
+					}
+					else
+					{							
+						$('.tabel_visible'+temp).html("<span style='color:red;' class='glyphicon glyphicon-remove' aria-hidden='true'></span>");
+					}					
 				}
 				else
 				{
 					alert(result.messages);
-				}
+				}				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
 		},'json');
+		
 	});
 	
 	//click detail/edit button
 	$('body').on('click', '.detailButton', function(){
 		$id = $(this).prev().prev().val();
-		$index = $(this).prev().val();
+		$index = $(this).prev().val();				
+		
+		temp = $(this).prev().val();				
 		
 		//set value di popup detail/edit
 		$('#f_edit_nama_gereja').val(data_gereja[$index]['nama']);
@@ -300,7 +321,11 @@
 				if(result.code==201)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_gereja')}}';
+					
+					location.reload();
+					
+					// window.location = '{{URL::route('admin_view_input_gereja')}}';
+										
 				}
 				else
 				{

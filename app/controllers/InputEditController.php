@@ -35,7 +35,7 @@ class InputEditController extends BaseController {
 		// $list_gereja = $this->getListGereja();
 		$list_pembaptis = $this->getListPendeta();
 		$list_jenis_baptis = $this->getListJenisBaptis();
-		$list_jemaat = $this->getListAnggota();		
+		$list_jemaat = $this->getListJemaat();		
 		return View::make('pages.user_inputdata.baptis_domi', 
 			compact('header','list_pembaptis','list_jenis_baptis','list_jemaat'));		
 	}	
@@ -158,7 +158,7 @@ class InputEditController extends BaseController {
 		$kebaktian->banyak_pemusik_wanita = $input->{'banyak_pemusik_wanita'};
 		$kebaktian->banyak_pemusik = $input->{'banyak_pemusik'};		
 		// $kebaktian->id_gereja = $input->{'id_gereja'};
-		$kebaktian->id_gereja = Auth::user()->anggota->id_gereja;		
+		$kebaktian->id_gereja = Auth::user()->id_gereja;		
 		$kebaktian->keterangan = $input->{'keterangan'};					
 		$kebaktian->deleted = 0;
 		
@@ -272,7 +272,7 @@ class InputEditController extends BaseController {
 		$anggota->kota_lahir = Input::get('kota_lahir');
 		$anggota->tanggal_lahir = Input::get('tanggal_lahir');		
 		// $anggota->id_gereja = Input::get('id_gereja');
-		$anggota->id_gereja = Auth::user()->anggota->id_gereja;
+		$anggota->id_gereja = Auth::user()->id_gereja;
 		$anggota->role = Input::get('role');
 		$anggota->deleted = 0;		
 		
@@ -424,7 +424,7 @@ class InputEditController extends BaseController {
 			'id_pendeta' => $input->{'id_pendeta'},
 			'tanggal_baptis' => $input->{'tanggal_baptis'},
 			'id_jenis_baptis' => $input->{'id_jenis_baptis'},
-			'id_gereja' => Auth::user()->anggota->id_gereja
+			'id_gereja' => Auth::user()->id_gereja
 		);
 		
 		//validate
@@ -444,7 +444,7 @@ class InputEditController extends BaseController {
 		$baptis->tanggal_baptis = $input->{'tanggal_baptis'};
 		$baptis->id_jenis_baptis = $input->{'id_jenis_baptis'};
 		// $baptis->id_gereja = $input->{'id_gereja'};
-		$baptis->id_gereja = Auth::user()->anggota->id_gereja;
+		$baptis->id_gereja = Auth::user()->id_gereja;
 		$baptis->keterangan = $input->{'keterangan'};
 		$baptis->deleted = 0;
 		
@@ -602,7 +602,7 @@ class InputEditController extends BaseController {
 		$pernikahan->no_pernikahan = $input->{'no_pernikahan'};
 		$pernikahan->tanggal_pernikahan = $input->{'tanggal_pernikahan'};
 		$pernikahan->id_pendeta = $input->{'id_pendeta'};			
-		$pernikahan->id_gereja = Auth::user()->anggota->id_gereja;
+		$pernikahan->id_gereja = Auth::user()->id_gereja;
 		$pernikahan->nama_pria = $input->{'nama_pria'};
 		$pernikahan->nama_wanita = $input->{'nama_wanita'};
 		$pernikahan->keterangan = $input->{'keterangan'};
@@ -669,7 +669,7 @@ class InputEditController extends BaseController {
 		
 		$duka = new Kedukaan();
 		$duka->no_kedukaan = $input->{'no_kedukaan'};		
-		$duka->id_gereja = Auth::user()->anggota->id_gereja;
+		$duka->id_gereja = Auth::user()->id_gereja;
 		$duka->id_jemaat = $input->{'id_jemaat'};		
 		$duka->keterangan = $input->{'keterangan'};
 		$duka->deleted = 0;

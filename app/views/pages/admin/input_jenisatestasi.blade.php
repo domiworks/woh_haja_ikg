@@ -77,6 +77,7 @@
 							<!-- set variable javascript biar ga usah get detail lagi -->
 							<script>
 								var data_jenis_atestasi = new Array();
+							
 								$(document).ready(function(){
 
 									//reset kalau sampai reload page
@@ -96,15 +97,15 @@
 									// var data_gereja = '';
 									// alert(data_gereja[1]);
 									// alert(arr_gereja);
-								});
+								});	
 							</script>
 							<!-- set list jenis atestasi -->
 							<?php $index = 0; ?>
 							@foreach($data_jenis_atestasi as $atestasi)
 								<tr>
-									<td>{{$atestasi->id}}</td>
-									<td>{{$atestasi->nama_atestasi}}</td>
-									<td>
+									<td class="tabel_id_jenis_atestasi<?php echo $index; ?>">{{$atestasi->id}}</td>
+									<td class="tabel_nama_jenis_atestasi<?php echo $index; ?>">{{$atestasi->nama_atestasi}}</td>
+									<td class="tabel_visible<?php echo $index; ?>">
 										@if($atestasi->deleted == 0)
 											<span style="color:green;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 										@else											
@@ -114,6 +115,7 @@
 									<td>										
 										<div class="pull-right">
 											<input type="hidden" value="{{$atestasi->id}}" />
+											<input type="hidden" value="<?php echo $index; ?>" />
 											<button type="button" class="btn btn-warning visibleButton">Ganti Visible</button>
 											<input type="hidden" value="{{$atestasi->id}}" />
 											<input type="hidden" value="<?php echo $index; ?>" />
@@ -137,9 +139,14 @@
 </div>	
 
 <script>
+	//global variable buat ajax ganti view
+	var temp = '';
+	
 	//click change visible
 	$('body').on('click', '.visibleButton', function(){
-		$id = $(this).prev().val();
+	
+		$id = $(this).prev().prev().val();
+		temp = $(this).prev().val();
 		
 		$data = {
 			'id' : $id
@@ -158,7 +165,19 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_jenis_atestasi')}}';
+					
+					// window.location = '{{URL::route('admin_view_input_jenis_atestasi')}}';
+					
+					//ganti isi row sesuai hasil edit
+					// alert(result.data['deleted']);
+					if(result.data['deleted'] == 0)
+					{						
+						$('.tabel_visible'+temp).html("<span style='color:green;' class='glyphicon glyphicon-ok' aria-hidden='true'></span>");						
+					}
+					else
+					{							
+						$('.tabel_visible'+temp).html("<span style='color:red;' class='glyphicon glyphicon-remove' aria-hidden='true'></span>");
+					}	
 				}
 				else
 				{
@@ -175,6 +194,8 @@
 	$('body').on('click', '.detailButton', function(){
 		$id = $(this).prev().prev().val();
 		$index = $(this).prev().val();
+		
+		temp = $(this).prev().val();
 		
 		//set value di popup detail/edit
 		$('#f_edit_nama_jenis_atestasi').val(data_jenis_atestasi[$index]['nama_atestasi']);
@@ -211,7 +232,10 @@
 				if(result.code==201)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_jenis_atestasi')}}';
+					
+					location.reload();
+					
+					// window.location = '{{URL::route('admin_view_input_jenis_atestasi')}}';
 				}
 				else				
 				{

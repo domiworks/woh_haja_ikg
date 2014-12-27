@@ -20,21 +20,21 @@
 							*
 						</div>						
 					</div>
-					<div class="form-group">
+					<!--<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Nama Jemaat
 						</label>
 						<div class="col-xs-6">
-							@if($list_jemaat == null)
+							if($list_jemaat == null)
 								<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
-							@else
-								{{Form::select('nama_jemaat', $list_jemaat, Input::old('nama_jemaat'), array('id'=>'f_edit_nama_jemaat', 'class'=>'form-control'))}}
-							@endif
+							else
+								{{--Form::select('nama_jemaat', $list_jemaat, Input::old('nama_jemaat'), array('id'=>'f_edit_nama_jemaat', 'class'=>'form-control'))--}}
+							endif
 						</div>
 						<div class="col-xs-0">
 							*
 						</div>
-					</div>		
+					</div>		-->
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Keterangan
@@ -64,13 +64,13 @@
 <script>
 	$('body').on('click', '#f_edit_post_dkh', function(){
 		$no_dkh = $('#f_edit_nomor_dkh').val();
-		$id_jemaat = $('#f_edit_nama_jemaat').val();
+		// $id_jemaat = $('#f_edit_nama_jemaat').val();
 		$keterangan = $('#f_edit_keterangan').val();
 		
 		$data = {
 			'id' : $id,
 			'no_dkh' : $no_dkh,
-			'id_jemaat' : $id_jemaat,
+			// 'id_jemaat' : $id_jemaat,
 			'keterangan' : $keterangan
 		};
 		
@@ -88,7 +88,13 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('view_olahdata_dkh')}}';
+					// window.location = '{{URL::route('view_olahdata_dkh')}}';
+					
+					//ganti isi row sesuai hasil edit_kebaktian
+					$('.tabel_no_dkh'+temp).html(result.data['no_dkh']);
+					$('.tabel_nama_anggota'+temp).html(result.data['nama_anggota']);
+					//ganti isi detail sesuai hasil edit
+					temp_detail[temp] = result.data;
 				}
 				else
 				{

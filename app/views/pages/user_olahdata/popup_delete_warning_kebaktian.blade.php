@@ -17,12 +17,13 @@
 </div>
 
 <script>
-	$('body').on('click', '.okDelete', function(){
+	$('body').on('click', '.okDelete', function(){		
+		
 		$data = {
 			'id' : $id
 		};
 		
-		var json_data = JSON.stringify($data);
+		var json_data = JSON.stringify($data);				
 		
 		$.ajax({
 			type: 'DELETE',
@@ -36,7 +37,61 @@
 				if(result.code==204)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('view_olahdata_kebaktian')}}';
+					
+					// window.location = '{{URL::route('view_olahdata_kebaktian')}}';
+					
+					//remove row
+					temp_detail[temp] = 'remove';					
+					
+					//gambar ulang tabel
+					var result = '';						
+					result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
+						result += '<thead>';
+							result += '<tr>';
+								result += '<th>';
+									result += 'Tanggal Kebaktian';
+								result += '</th>';
+								result += '<th>';
+									result += 'Nama Kebaktian';
+								result += '</th>';
+								result += '<th>';										
+								result += '</th>';
+							result += '</tr>';
+						result += '</thead>';
+						result += '<tbody id="f_result_body_kebaktian">';
+						for($i = 0; $i < temp_detail.length; $i++)
+						{	
+							if(temp_detail[$i] != 'remove')
+							{
+								//set value di tabel result
+								result+= '<tr class="tabel_row'+$i+'">';
+									result+='<td class="tabel_tanggal_mulai'+$i+'">';
+										result+=temp_detail[$i]['tanggal_mulai'];								
+									result+='</td>';
+									result+='<td class="tabel_nama_jenis_kegiatan'+$i+'">';
+										result+=temp_detail[$i]['nama_jenis_kegiatan'];						
+										// result+=temp_detail[$i]['id'];
+									result+='</td>';
+									result+='<td>';
+										result+='<input type="hidden" value='+$i+' />';
+										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+										result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kebaktian">';
+											result+='Detail/Edit';
+										result+='</button>';
+										result+='<input type="hidden" value='+$i+' />';
+										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+										result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kebaktian">';
+											result+='Delete';
+										result+='</button>';
+									result+='</td>';
+								result+='</tr>';		
+							}
+						}
+						result += '</tbody>';
+					result += '</table>';
+					
+					// $('#f_result_body_kebaktian').html(result);		
+					$('#f_result_kebaktian').html(result);		
 				}
 				else
 				{
@@ -58,6 +113,6 @@
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
-		},'json');
+		},'json');		
 	});
 </script>

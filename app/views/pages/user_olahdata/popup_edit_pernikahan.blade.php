@@ -261,7 +261,14 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('view_olahdata_pernikahan')}}';
+					// window.location = '{{URL::route('view_olahdata_pernikahan')}}';
+					
+					//ganti isi row sesuai hasil edit_pernikahan
+					$('.tabel_no_pernikahan'+temp).html(result.data['no_pernikahan']);
+					$('.tabel_nama_pria'+temp).html(result.data['nama_pria']);
+					$('.tabel_nama_wanita'+temp).html(result.data['nama_wanita']);
+					//ganti isi detail sesuai hasil edit
+					temp_detail[temp] = result.data;
 				}
 				else
 				{

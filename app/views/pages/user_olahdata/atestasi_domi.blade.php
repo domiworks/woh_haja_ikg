@@ -139,7 +139,7 @@
 					</div>
 					
 					<div id="f_result_atestasi">
-						<table class="table table-bordered">
+						<!--<table class="table table-bordered">
 							<thead>
 								<tr>
 									<th>
@@ -159,7 +159,7 @@
 									</th>
 								</tr>
 							</thead>
-							<tbody id="f_result_body_atestasi">
+							<tbody id="f_result_body_atestasi">-->
 								<!--
 								<tr>
 									<td>
@@ -178,8 +178,8 @@
 									</td>
 								</tr>							
 								-->
-							</tbody>
-						</table>
+							<!--</tbody>
+						</table>-->
 					</div>
 				</div>	
 			</div>	
@@ -191,6 +191,9 @@
 
 //simpen detail 
 var temp_detail = "";
+
+//global variable buat ajax ganti view
+var temp = '';
 	
 $('body').on('click', '#f_search_atestasi', function(){
 	$no_atestasi = $('#f_nomor_atestasi').val();			
@@ -227,46 +230,72 @@ $('body').on('click', '#f_search_atestasi', function(){
 				// alert(result.messages);
 				alert('Data ditemukan.');
 				temp_detail = result.messages;
-				$('#temp_result').html(JSON.stringify(temp_detail));
+				// $('#temp_result').html(JSON.stringify(temp_detail));
 				var result = "";					
-					
-				//set value di tabel result
-				for($i = 0; $i < temp_detail.length; $i++)
-				{
-					result+= '<tr>';
-						result+='<td>';
-							result+=temp_detail[$i]['no_atestasi'];								
-						result+='</td>';
-						result+='<td>';
-							result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];							
-						result+='</td>';
-						result+='<td>';
-							result+=temp_detail[$i]['nama_gereja_lama'];								
-						result+='</td>';
-						result+='<td>';
-							result+=temp_detail[$i]['nama_gereja_baru'];								
-						result+='</td>';
-						result+='<td>';
-							result+='<input type="hidden" value='+$i+' />';
-							result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-							result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_atestasi">';
-								result+='Edit';
-							result+='</button>';
-							result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-							result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
-								result+='delete';
-							result+='</button>';
-						result+='</td>';
-					result+='</tr>';
-					// alert(response[$i]['tanggal_mulai']);
-				}
+				result += '<table class="table table-bordered">';
+					result += '<thead>';
+						result += '<tr>';
+							result += '<th>';
+								result += 'No. Atestasi';
+							result += '</th>';
+							result += '<th>';
+								result += 'Nama Anggota';
+							result += '</th>';
+							result += '<th>';
+								result += 'Gereja Lama';
+							result += '</th>';
+							result += '<th>';
+								result += 'Gereja Baru';
+							result += '</th>';
+							result += '<th>';
+								
+							result += '</th>';
+						result += '</tr>';
+					result += '</thead>';
+					result += '<tbody id="f_result_body_atestasi">';
+					//set value di tabel result
+					for($i = 0; $i < temp_detail.length; $i++)
+					{
+						result+= '<tr class="tabel_row'+$i+'">';
+							result+='<td class="tabel_no_atestasi'+$i+'">';
+								result+=temp_detail[$i]['no_atestasi'];								
+							result+='</td>';
+							result+='<td class="tabel_nama_jemaat'+$i+'">';
+								result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];							
+							result+='</td>';
+							result+='<td class="tabel_nama_gereja_lama'+$i+'">';
+								result+=temp_detail[$i]['nama_gereja_lama'];								
+							result+='</td>';
+							result+='<td class="tabel_nama_gereja_baru'+$i+'">';
+								result+=temp_detail[$i]['nama_gereja_baru'];								
+							result+='</td>';
+							result+='<td>';
+								result+='<input type="hidden" value='+$i+' />';
+								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_atestasi">';
+									result+='Detail/Edit';
+								result+='</button>';
+								result+='<input type="hidden" value='+$i+' />';
+								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
+									result+='Delete';
+								result+='</button>';
+							result+='</td>';
+						result+='</tr>';
+						// alert(response[$i]['tanggal_mulai']);
+					}
+					result += '</tbody>';
+				result += '</table>';
 				
-				$('#f_result_body_atestasi').html(result);
+				// $('#f_result_body_atestasi').html(result);
+				$('#f_result_atestasi').html(result);
 			}
 			else
 			{
 				alert(result.messages);
-				$('#f_result_body_atestasi').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
+				$('#f_result_atestasi').html("<p>Hasil pencarian tidak didapatkan.</p>");
+				// $('#f_result_body_atestasi').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
+				
 			}				
 			/*
 			alert("Berhasil cari data atestasi");
@@ -328,6 +357,8 @@ $('body').on('click', '.detailButton', function(){
 	$id = $(this).prev().val();	
 	$index = $(this).prev().prev().val();
 	
+	temp = $(this).prev().prev().val();
+	
 	//set value di table pop up detail
 	$('#f_edit_nomor_atestasi').val(temp_detail[$index]['no_atestasi']);
 	$('#f_edit_jemaat').val(temp_detail[$index]['id_anggota']);
@@ -373,6 +404,7 @@ $('body').on('click', '.detailButton', function(){
 //click delete button
 $('body').on('click', '.deleteButton', function(){
 	$id = $(this).prev().val();
+	temp = $(this).prev().prev().val();
 });
 
 </script>

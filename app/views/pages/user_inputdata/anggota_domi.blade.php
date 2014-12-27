@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px;">
 		<div>
 			@include('includes.sidebar.sidebar_user_inputdata')
 		</div>
@@ -136,37 +136,11 @@
 								<label class="col-xs-4 control-label">
 									Hp
 								</label>
-								<div class="col-xs-6">			
-									<input type="text" id="f_hp1" class="form-control" name="hp1" onkeypress='return isNumberKey(event)'/>			
-									<div id="addHp"></div>					
-									<a href="javascript:void(0)" onClick="addHp();" id="refHp">tambah nomor hp</a>
-									<script>						
-									var lastIdx = 2;
-									function addHp(){
-										if(lastIdx <=5)
-										{
-											var newRow = "";							
-											newRow +="<input type='text' id='f_hp"+lastIdx+"' class='form-control' name='hp"+lastIdx+"' onkeypress='return isNumberKey(event)'/>";
-											newRow +="<input type='button' value='X' id='delHp"+lastIdx+"' onClick='delHp()' /><br />";
-											$('#delHp'+(lastIdx-1)).hide();
-											$('#addHp').append(newRow);
-											if(lastIdx==5){
-												$('#refHp').hide();									
-											}
-											lastIdx++;							
-										}						
-									}
-									function delHp()
-									{
-										$('#f_hp'+(lastIdx-1)).remove();
-										$('#delHp'+(lastIdx-1)).remove();
-										lastIdx--;							
-										$('#delHp'+(lastIdx-1)).show();
-										if(lastIdx==5){
-											$('#refHp').show();
-										}
-									}
-									</script>
+								<div class="col-xs-6">												
+									<input style="width:200px;" type="text" id="f_hp1" class="form-control" name="hp1" onkeypress='return isNumberKey(event)'/>			
+									<div id="addHp" style="margin-top:10px;" ></div>														
+									<a href="javascript:void(0)" onClick="addHp();" id="refHp" >tambah nomor hp</a>									
+									
 								</div>
 							</div>
 							<div class="form-group">		
@@ -276,28 +250,7 @@
 								<div class="col-xs-0">
 									*
 								</div>							
-								<script>
-								jQuery('#f_tanggal_lahir').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',
-									yearStart: '1900'
-								});
-								</script>
+								
 							</div>		
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
@@ -342,6 +295,58 @@
 </div>
 
 <script>
+	// <input style="width:200px;" type="text" id="f_hp1" class="form-control" name="hp1" onkeypress='return isNumberKey(event)'/>			
+									// <div id="addHp" style="margin-top:2px;" ></div>														
+									// <a href="javascript:void(0)" onClick="addHp();" id="refHp" >tambah nomor hp</a>									
+	//----------keperluan tambah nomor hp----------
+	var lastIdx = 2;
+		function addHp(){
+			if(lastIdx <=5)
+			{
+				var newRow = "";											
+				newRow += "<input style='width:200px; margin-top:10px;' type='text' id='f_hp"+lastIdx+"' class='form-control' name='hp"+lastIdx+"' onkeypress='return isNumberKey(event)'/>";
+				newRow += "<input type='button' value='X' id='delHp"+lastIdx+"' onClick='delHp()' />";				
+				$('#delHp'+(lastIdx-1)).hide();
+				$('#addHp').append(newRow);
+				if(lastIdx==5){
+					$('#refHp').hide();									
+				}
+				lastIdx++;							
+			}						
+		}
+		function delHp()
+		{
+			$('#f_hp'+(lastIdx-1)).remove();
+			$('#delHp'+(lastIdx-1)).remove();
+			lastIdx--;							
+			$('#delHp'+(lastIdx-1)).show();
+			if(lastIdx==5){
+				$('#refHp').show();
+			}
+		}
+	//----------------------------------------------
+	
+	jQuery('#f_tanggal_lahir').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',
+		yearStart: '1900'
+	});
+	
 	$('body').on('change','#f_foto',function(){
 		var i = 0, len = this.files.length, img, reader, file;			
 		for ( ; i < len; i++ ) {
@@ -366,7 +371,7 @@
 		return true;
 	}
 
-	/*
+	/* //TETOT GA BISA JSON
 		$('body').on('click', '#f_post_anggota', function(){		
 			var data, xhr;
 			data = new FormData();

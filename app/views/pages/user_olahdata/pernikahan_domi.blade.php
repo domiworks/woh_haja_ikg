@@ -138,12 +138,11 @@
 						</form>
 					</div>
 
-					<!--<div id="temp_result">				
-					
+					<!--<div id="temp_result">					
 					</div>-->
 					
 					<div id="f_result_pernikahan">
-						<table class="table table-bordered">
+						<!--<table class="table table-bordered">
 							<thead>
 								<tr>
 									<th>
@@ -160,7 +159,7 @@
 									</th>
 								</tr>
 							</thead>
-							<tbody id="f_result_body_pernikahan">
+							<tbody id="f_result_body_pernikahan">-->
 								<!--
 								<tr>
 									<td>
@@ -179,8 +178,8 @@
 									</td>
 								</tr>						
 								-->
-							</tbody>
-						</table>
+							<!--</tbody>
+						</table>-->
 					</div>
 				</div>	
 			</div>	
@@ -193,6 +192,9 @@
 	//simpen detail 
 	var temp_detail = "";
 
+	//global variable buat ajax ganti view
+	var temp = '';
+	
 	$('body').on('click', '#f_search_pernikahan', function(){
 		$no_pernikahan = $('#f_nomor_pernikahan').val();		
 		$tanggal_awal = $('#f_tanggal_awal').val();
@@ -228,40 +230,63 @@
 					// alert(result.messages);
 					alert('Data ditemukan.');
 					temp_detail = result.messages;
-					$('#temp_result').html(JSON.stringify(temp_detail));	
-					var result = "";									
-					//set value di table result
-					for($i = 0; $i < temp_detail.length; $i++)
-					{
-						result+= '<tr>';
-							result+='<td>';
-								result+=temp_detail[$i]['no_pernikahan']								
-							result+='</td>';
-							result+='<td>';
-								result+=temp_detail[$i]['nama_pria'];								
-							result+='</td>';
-							result+='<td>';
-								result+=temp_detail[$i]['nama_wanita'];								
-							result+='</td>';
-							result+='<td>';
-								result+='<input type="hidden" value='+$i+' />';
-								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-								result+='<button type="button" class="btn btn-warning detailButton " data-toggle="modal" data-target=".popup_edit_pernikahan">';
-									result+='Edit';
-								result+='</button>';
-								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_pernikahan">';
-									result+='delete';
-								result+='</button>';
-							result+='</td>';
-						result+='</tr>';					
-					}				
-					$('#f_result_body_pernikahan').html(result);
+					// $('#temp_result').html(JSON.stringify(temp_detail));	
+					var result = '';
+					result += '<table class="table table-bordered">';
+						result += '<thead>';
+							result += '<tr>';
+								result += '<th>';
+									result += 'No. Pernikahan';
+								result += '</th>';
+								result += '<th>';
+									result += 'Mempelai Pria';
+								result += '</th>';
+								result += '<th>';
+									result += 'Mempelai Wanita';
+								result += '</th>';
+								result += '<th>';
+									
+								result += '</th>';
+							result += '</tr>';
+						result += '</thead>';
+						result += '<tbody id="f_result_body_pernikahan">';
+						//set value di table result
+						for($i = 0; $i < temp_detail.length; $i++)
+						{
+							result+= '<tr class="tabel_row'+$i+'">';
+								result+='<td class="tabel_no_pernikahan'+$i+'">';
+									result+=temp_detail[$i]['no_pernikahan']								
+								result+='</td>';
+								result+='<td class="tabel_nama_pria'+$i+'">';
+									result+=temp_detail[$i]['nama_pria'];								
+								result+='</td>';
+								result+='<td class="tabel_nama_wanita'+$i+'">';
+									result+=temp_detail[$i]['nama_wanita'];								
+								result+='</td>';
+								result+='<td>';
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+									result+='<button type="button" class="btn btn-warning detailButton " data-toggle="modal" data-target=".popup_edit_pernikahan">';
+										result+='Edit';
+									result+='</button>';
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+									result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_pernikahan">';
+										result+='delete';
+									result+='</button>';
+								result+='</td>';
+							result+='</tr>';					
+						}	
+						result += '</tbody>';
+					result += '</table>';
+					// $('#f_result_body_pernikahan').html(result);
+					$('#f_result_pernikahan').html(result);
 				}
 				else
 				{
 					alert(result.messages);
-					$('#f_result_body_pernikahan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");		
+					$('#f_result_pernikahan').html("<p>Hasil pencarian tidak didapatkan.</p>");
+					// $('#f_result_body_pernikahan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");							
 				}				
 				/*
 				alert("Berhasil cari data pernikahan");				
@@ -312,6 +337,8 @@
 	$('body').on('click', '.detailButton', function(){
 		$id = $(this).prev().val();		
 		$index = $(this).prev().prev().val();
+		
+		temp = $(this).prev().prev().val();
 		
 		//set value di detail view												
 		if(temp_detail[$index]['id_jemaat_wanita'] == null)
@@ -417,6 +444,7 @@
 	//click delete button
 	$('body').on('click', '.deleteButton', function(){
 		$id = $(this).prev().val();
+		temp = $(this).prev().prev().val();
 	});
 </script>
 

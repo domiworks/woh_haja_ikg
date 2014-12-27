@@ -610,7 +610,15 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('view_olahdata_kebaktian')}}';
+					// alert(result.data['nama_jenis_kegiatan']);
+					// alert(JSON.stringify(result.data));
+					// window.location = '{{URL::route('view_olahdata_kebaktian')}}';
+					
+					//ganti isi row sesuai hasil edit_kebaktian
+					$('.tabel_tanggal_mulai'+temp).html(result.data['tanggal_mulai']);
+					$('.tabel_nama_jenis_kegiatan'+temp).html(result.data['nama_jenis_kegiatan']);
+					//ganti isi detail sesuai hasil edit
+					temp_detail[temp] = result.data;
 				}
 				else
 				{

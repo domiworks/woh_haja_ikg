@@ -39,8 +39,10 @@ $(document).ready(function(){
 -->
 <!-- </div> -->
 
+
+
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px;">
 		<div>
 			@include('includes.sidebar.sidebar_user_inputdata')
 		</div>
@@ -94,13 +96,7 @@ $(document).ready(function(){
 											<input id="f_check_kebaktian_lain" type="checkbox" name="kebaktian_lain" value="0" /> Kebaktian Lain
 										</label>
 									</div>							
-								</div>
-								<script>				
-								$('body').on('change','#f_kebaktian_ke', function(){
-									var selected = $('#f_kebaktian_ke').find(":selected").text();
-									$('#f_nama_kebaktian').val(selected);					
-								});
-								</script>
+								</div>								
 							</div>
 							
 							<div class="form-group">
@@ -126,13 +122,7 @@ $(document).ready(function(){
 											<input id="f_check_pembicara_luar" type="checkbox" name="pembicara_luar" value="0" /> Pembicara Luar
 										</label>
 									</div>
-								</div>
-								<script>				
-								$('body').on('change','#f_pengkotbah', function(){
-									var selected = $('#f_pengkotbah').find(":selected").text();
-									$('#f_nama_pengkotbah').val(selected);					
-								});
-								</script>
+								</div>								
 							</div>
 
 							<div class="form-group">
@@ -157,48 +147,7 @@ $(document).ready(function(){
 								<div class="col-xs-0">
 									*
 								</div>
-								<script>				
-								jQuery('#f_tanggal_mulai').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',
-									yearStart: '1900'
-								});
-								jQuery('#f_tanggal_selesai').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',
-									yearStart: '1900'
-								});
-								</script>
+								
 							</div>
 
 							<div class="form-group">
@@ -213,22 +162,8 @@ $(document).ready(function(){
 								<div class="col-xs-0">
 									*
 								</div>
-								<script>
-
-								jQuery('#f_jam_mulai').datetimepicker({
-									datepicker:false,
-									 // allowTimes:[
-									  // '12:00', '13:00', '15:00', 
-									  // '17:00', '17:05', '17:20', '19:00', '20:00'
-									 // ]
-									 format:'H:i'
-									});
-								jQuery('#f_jam_selesai').datetimepicker({
-									datepicker:false,
-									format:'H:i'
-								});
-								</script>				
-							</div>
+							</div>	
+								
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Banyak Jemaat Pria, Banyak Jemaat Wanita</label>
 
@@ -369,7 +304,7 @@ $(document).ready(function(){
 									@if($list_jenis_kegiatan == null || $list_pembicara == null)
 										<input type="button" value="Simpan Data Kebaktian" id="f_post_kebaktian" class="btn btn-success" disabled=true />
 									@else
-										<input type="button" value="Simpan Data Kebaktian" id="f_post_kebaktian" class="btn btn-success" />
+										<input type="button" value="Simpan Data Kebaktian" id="f_post_kebaktian" class="btn btn-success" data-toggle="modal" data-target=".popup_confirm_warning_kebaktian"/>
 									@endif 							
 								</div>
 							</div>
@@ -381,7 +316,73 @@ $(document).ready(function(){
 	</div>
 </div>	
 
-<script>	
+<script>
+	$('body').on('change','#f_kebaktian_ke', function(){
+		var selected = $('#f_kebaktian_ke').find(":selected").text();
+		$('#f_nama_kebaktian').val(selected);					
+	});
+	
+	$('body').on('change','#f_pengkotbah', function(){
+		var selected = $('#f_pengkotbah').find(":selected").text();
+		$('#f_nama_pengkotbah').val(selected);					
+	});
+	
+	jQuery('#f_tanggal_mulai').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',
+		yearStart: '1900'
+	});
+	
+	jQuery('#f_tanggal_selesai').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',
+		yearStart: '1900'
+	});
+	
+	jQuery('#f_jam_mulai').datetimepicker({
+		datepicker:false,
+		 // allowTimes:[
+		  // '12:00', '13:00', '15:00', 
+		  // '17:00', '17:05', '17:20', '19:00', '20:00'
+		 // ]
+		 format:'H:i'
+		});
+		
+	jQuery('#f_jam_selesai').datetimepicker({
+		datepicker:false,
+		format:'H:i'
+	});
+	
 	$('body').on('click', '#f_check_kebaktian_lain', function(){		
 		if($('#f_check_kebaktian_lain').val() == 0){	
 			$('#f_check_kebaktian_lain').val(1); //pakai pembicara luar jika value f_check_pembicara_luar == 1
@@ -584,7 +585,13 @@ $(document).ready(function(){
 		return true;
 	}
 	
-	$('body').on('click', '#f_post_kebaktian', function(){					
+	$('body').on('click', '#f_post_kebaktian', function(){	  
+		//SHOW POP UP CONFIRM KEBAKTIAN
+	
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
+		/*
 		if($('#f_check_kebaktian_lain').val() == 1) //pakai nama kebaktian lain
 		{
 			$kebaktian_ke = '';
@@ -678,25 +685,16 @@ $(document).ready(function(){
 				else
 				{
 					alert(result.messages);
-				}
-				/*
-				if(response == "berhasil")
-				{	
-					alert("Berhasil simpan data kebaktian");
-					// location.reload();
-					window.location = '{{URL::route('view_inputdata_kebaktian')}}';
-				}
-				else
-				{					
-					alert(response);
-				}
-				*/
+				}				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
 		},'json');
+		*/
 	});
 </script>
+
+@include('pages.user_inputdata.popup_confirm_warning_kebaktian')
 
 @stop

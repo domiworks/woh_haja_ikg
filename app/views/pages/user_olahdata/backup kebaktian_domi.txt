@@ -75,9 +75,6 @@
 									{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
 								</div>
 								<script>
-								// $('#f_tanggal_awal').datepicker({
-									// format: 'yyyy-m-d'
-								// });
 								jQuery('#f_tanggal_awal').datetimepicker({
 									lang:'en',
 									i18n:{
@@ -203,7 +200,8 @@
 					<!--<div id="temp_result">					
 					</div>-->
 									
-					<div id="f_result_kebaktian">						
+					<div id="f_result_kebaktian">
+						
 						<!--<table class="table table-bordered">
 							<thead>
 								<tr>
@@ -255,12 +253,9 @@
 		return true;
 	}
 
-	//simpen detail tabel 
+	//simpen detail 
 	var temp_detail = "";
 
-	//global variable buat ajax ganti view
-	var temp = '';
-	
 	$('body').on('click', '#f_search_kebaktian', function(){		
 		$nama_kebaktian = $('#f_nama_kebaktian').val();
 		$nama_pendeta = $('#f_nama_pengkotbah').val();			
@@ -326,9 +321,9 @@
 					// alert(result.messages);
 					alert('Data ditemukan.');
 					temp_detail = result.messages;
-					// $('#temp_result').html(JSON.stringify(temp_detail));					
+					$('#temp_result').html(JSON.stringify(temp_detail));					
 					var result = '';						
-					result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
+					result += '<table class="table table-bordered">';
 						result += '<thead>';
 							result += '<tr>';
 								result += '<th>';
@@ -345,11 +340,11 @@
 						for($i = 0; $i < temp_detail.length; $i++)
 						{						
 							//set value di tabel result
-							result+= '<tr class="tabel_row'+$i+'">';
-								result+='<td class="tabel_tanggal_mulai'+$i+'">';
+							result+= '<tr>';
+								result+='<td>';
 									result+=temp_detail[$i]['tanggal_mulai'];								
 								result+='</td>';
-								result+='<td class="tabel_nama_jenis_kegiatan'+$i+'">';
+								result+='<td>';
 									result+=temp_detail[$i]['nama_jenis_kegiatan'];						
 									// result+=temp_detail[$i]['id'];
 								result+='</td>';
@@ -357,12 +352,11 @@
 									result+='<input type="hidden" value='+$i+' />';
 									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
 									result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kebaktian">';
-										result+='Detail/Edit';
+										result+='Edit';
 									result+='</button>';
-									result+='<input type="hidden" value='+$i+' />';
 									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
 									result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kebaktian">';
-										result+='Delete';
+										result+='delete';
 									result+='</button>';
 								result+='</td>';
 							result+='</tr>';						
@@ -437,8 +431,6 @@
 		$id = $(this).prev().val();		
 		$index = $(this).prev().prev().val();
 			
-		temp = $(this).prev().prev().val();
-			
 		if(temp_detail[$index]['id_jenis_kegiatan'] == null)
 		{
 			$('#f_edit_check_kebaktian_lain').val(1);
@@ -449,10 +441,6 @@
 		else
 		{
 			$('#f_edit_kebaktian_ke').val(temp_detail[$index]['id_jenis_kegiatan']);
-			$('#f_edit_check_kebaktian_lain').val(0);
-			$('#f_edit_check_kebaktian_lain').prop('checked', false);				
-			$('#f_edit_nama_kebaktian').attr('disabled', true);	
-			$('#f_edit_kebaktian_ke').attr('disabled', false);
 		}
 		$('#f_edit_nama_kebaktian').val(temp_detail[$index]['nama_jenis_kegiatan']);	
 		if(temp_detail[$index]['id_pendeta'] == null)
@@ -465,10 +453,6 @@
 		else
 		{
 			$('#f_edit_pengkotbah').val(temp_detail[$index]['id_pendeta']);
-			$('#f_edit_check_pembicara_luar').val(0);
-			$('#f_edit_check_pembicara_luar').prop('checked', false);				
-			$('#f_edit_nama_pengkotbah').attr('disabled', true);	
-			$('#f_edit_pengkotbah').attr('disabled', false);
 		}
 		$('#f_edit_nama_pengkotbah').val(temp_detail[$index]['nama_pendeta']);	
 		$('#f_edit_tanggal_mulai').val(temp_detail[$index]['tanggal_mulai']);	
@@ -573,7 +557,6 @@
 	//click delete button
 	$('body').on('click', '.deleteButton', function(){
 		$id = $(this).prev().val();
-		temp = $(this).prev().prev().val();
 	});
 	
 </script>

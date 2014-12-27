@@ -12,13 +12,14 @@
 		<style>
 
 		</style>
-		<!-- end css -->		
+		<!-- end css -->
 	
 		<div class="s_content">
 			<div class="container-fluid">
 				
 				<!-- INI PANEL BUAT TAMBAH JENIS BAPTIS -->
-				<div style="margin-top: 15px;" class="panel panel-default">	
+				<div style="margin-top: 15px;" class="panel panel-default">
+				
 					<div class="panel-group" style="margin-bottom: 0px;" id="accordion" role="tablist" aria-multiselectable="true">
 						<div class="panel panel-default">
 							<div class="panel-heading" role="tab" id="headingOne">
@@ -102,9 +103,9 @@
 							<?php $index = 0; ?>
 							@foreach($data_jenis_baptis as $baptis)
 								<tr>
-									<td>{{$baptis->id}}</td>
-									<td>{{$baptis->nama_jenis_baptis}}</td>
-									<td>
+									<td class="tabel_id_jenis_baptis<?php echo $index; ?>">{{$baptis->id}}</td>
+									<td class="tabel_nama_jenis_baptis<?php echo $index; ?>">{{$baptis->nama_jenis_baptis}}</td>
+									<td class="tabel_visible<?php echo $index; ?>">
 										@if($baptis->deleted == 0)
 											<span style="color:green;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 										@else											
@@ -114,6 +115,7 @@
 									<td>										
 										<div class="pull-right">
 											<input type="hidden" value="{{$baptis->id}}" />
+											<input type="hidden" value="<?php echo $index; ?>" />
 											<button type="button" class="btn btn-warning visibleButton">Ganti Visible</button>
 											<input type="hidden" value="{{$baptis->id}}" />
 											<input type="hidden" value="<?php echo $index; ?>" />
@@ -136,9 +138,14 @@
 </div>	
 
 <script>
+	//global variable buat ajax ganti view
+	var temp = '';
+	
 	//click change visible
 	$('body').on('click', '.visibleButton', function(){
-		$id = $(this).prev().val();
+		
+		$id = $(this).prev().prev().val();
+		temp = $(this).prev().val();		
 		
 		$data = {
 			'id' : $id
@@ -157,7 +164,19 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_jenis_baptis')}}';
+					
+					// window.location = '{{URL::route('admin_view_input_jenis_baptis')}}';
+					
+					//ganti isi row sesuai hasil edit
+					// alert(result.data['deleted']);
+					if(result.data['deleted'] == 0)
+					{						
+						$('.tabel_visible'+temp).html("<span style='color:green;' class='glyphicon glyphicon-ok' aria-hidden='true'></span>");						
+					}
+					else
+					{							
+						$('.tabel_visible'+temp).html("<span style='color:red;' class='glyphicon glyphicon-remove' aria-hidden='true'></span>");
+					}		
 				}
 				else
 				{
@@ -174,6 +193,8 @@
 	$('body').on('click', '.detailButton', function(){
 		$id = $(this).prev().prev().val();
 		$index = $(this).prev().val();
+		
+		temp = $(this).prev().val();
 		
 		//set value di popup detail/edit
 		$('#f_edit_nama_jenis_baptis').val(data_jenis_baptis[$index]['nama_jenis_baptis']);
@@ -210,7 +231,11 @@
 				if(result.code==201)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_jenis_baptis')}}';
+					
+					location.reload();
+					
+					// window.location = '{{URL::route('admin_view_input_jenis_baptis')}}';
+										
 				}
 				else				
 				{

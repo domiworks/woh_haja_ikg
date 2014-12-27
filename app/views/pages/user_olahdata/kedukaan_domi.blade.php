@@ -116,7 +116,7 @@
 					</div>-->
 					
 					<div id="f_result_kedukaan">
-						<table class="table table-bordered">
+						<!--<table class="table table-bordered">
 							<thead>
 								<tr>
 									<th>
@@ -130,7 +130,7 @@
 									</th>
 								</tr>
 							</thead>
-							<tbody id="f_result_body_kedukaan">
+							<tbody id="f_result_body_kedukaan">-->
 								<!--
 								<tr>
 									<td>
@@ -149,8 +149,8 @@
 									</td>
 								</tr>						
 								-->
-							</tbody>
-						</table>
+							<!--</tbody>
+						</table>-->
 					</div>
 				</div>	
 			</div>	
@@ -162,6 +162,9 @@
 //simpen detail 
 var temp_detail = "";
 
+//global variable buat ajax ganti view
+var temp = '';
+	
 $('body').on('click', '#f_search_kedukaan', function(){		
 	$no_kedukaan = $('#f_nomor_kedukaan').val();
 	$tanggal_awal = $('#f_tanggal_awal').val();
@@ -193,38 +196,64 @@ $('body').on('click', '#f_search_kedukaan', function(){
 					// alert(result.messages);
 					alert('Data ditemukan.');
 					temp_detail = result.messages;
-					$('#temp_result').html(JSON.stringify(temp_detail));
+					// $('#temp_result').html(JSON.stringify(temp_detail));
 					var result = "";	
-					//set value di tabel result
-					for($i = 0; $i < temp_detail.length; $i++)
-					{
-						result+= '<tr>';
-							result+='<td>';
-								result+=temp_detail[$i]['no_kedukaan'];								
-							result+='</td>';
-							result+='<td>';
-								result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
-							result+='</td>';
-							result+='<td>';
-								result+='<input type="hidden" value='+$i+' />';
-								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kedukaan">';
-									result+='Edit';
-								result+='</button>';
-								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kedukaan">';
-									result+='delete';
-								result+='</button>';
-							result+='</td>';
-						result+='</tr>';						
-					}
+					result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
+						result += '<thead>';
+							result += '<tr>';
+								result += '<th>';
+									result += 'No. Kedukaan';
+								result += '</th>';
+								result += '<th>';
+									result += 'Nama Anggota';
+								result += '</th>';
+								result += '<th>';
+									result += 'Tanggal Meninggal';
+								result += '</th>';
+								result += '<th>';
+									
+								result += '</th>';
+							result += '</tr>';
+						result += '</thead>';
+						result += '<tbody id="f_result_body_kedukaan">';
+						//set value di tabel result
+						for($i = 0; $i < temp_detail.length; $i++)
+						{
+							result+= '<tr class="tabel_row'+$i+'">';
+								result+='<td class="tabel_no_kedukaan'+$i+'">';
+									result+=temp_detail[$i]['no_kedukaan'];								
+								result+='</td>';
+								result+='<td class="tabel_nama_anggota'+$i+'">';
+									result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
+								result+='</td>';	
+								result+='<td class="tabel_tanggal_meninggal'+$i+'">';
+									result+=temp_detail[$i]['tanggal_meninggal'];
+								result+='</td>';
+								result+='<td>';
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+									result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kedukaan">';
+										result+='Detail/Edit';
+									result+='</button>';
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+									result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kedukaan">';
+										result+='Delete';
+									result+='</button>';
+								result+='</td>';
+							result+='</tr>';						
+						}
+						result += '</tbody>';
+					result += '</table>';
 					
-					$('#f_result_body_kedukaan').html(result);
+					// $('#f_result_body_kedukaan').html(result);
+					$('#f_result_kedukaan').html(result);
 				}
 				else
 				{
 					alert(result.messages);
-					$('#f_result_body_kedukaan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
+					$('#f_result_kedukaan').html("<p>Hasil pencarian tidak didapatkan.</p>");
+					// $('#f_result_body_kedukaan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
 				}
 				/*
 				alert("Berhasil cari data kedukaan");				
@@ -275,6 +304,8 @@ $('body').on('click', '#f_search_kedukaan', function(){
 		$id = $(this).prev().val();		
 		$index = $(this).prev().prev().val();
 		
+		temp = $(this).prev().prev().val();
+		
 		//set value di detail view												
 		$('#f_edit_nomor_kedukaan').val(temp_detail[$index]['no_kedukaan']);
 		$('#f_edit_tanggal_meninggal').val(temp_detail[$index]['tanggal_meninggal']);
@@ -310,6 +341,7 @@ $('body').on('click', '#f_search_kedukaan', function(){
 	//click delete button
 	$('body').on('click', '.deleteButton', function(){
 		$id = $(this).prev().val();
+		temp = $(this).prev().prev().val();				
 	});
 </script>
 

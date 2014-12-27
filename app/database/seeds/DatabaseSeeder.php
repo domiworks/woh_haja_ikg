@@ -125,8 +125,26 @@ class DatabaseSeeder extends Seeder {
 		//$gereja11 -> id_parent_gereja = -99;		
 		$gereja11 -> save();
 		
+		//---------------------------------- AKUN -----------------------------------
+		
+		$acc = new Account();		
+		$acc -> username = "admin";
+		$acc -> password = Hash::make("admin");
+		$acc -> id_gereja = $gereja->id; //GKI Guntur
+		// $acc -> remember_token = "";
+		$acc -> role = 1;	//untuk superadmin 
+		$acc -> save();
+		
+		$acc2 = new Account();		
+		$acc2 -> username = "userguntur";
+		$acc2 -> password = Hash::make("userguntur");
+		$acc2 -> id_gereja = $gereja->id; //GKI Guntur
+		// $acc2 -> remember_token = ""; //auto generate dari laravel
+		$acc2 -> role = 0;	//untuk user biasa atau operator TU
+		$acc2 -> save();
 		
 		//---------------------------------- ADMIN ----------------------------------				
+		/*
 		$anggota = new Anggota();		
 		$anggota -> no_anggota = "Guntur-XX-0001";
 		$anggota -> nama_depan = "admin";
@@ -146,15 +164,9 @@ class DatabaseSeeder extends Seeder {
 		$anggota -> id_gereja = $gereja->id;
 		// $anggota2 -> id_atestasi = -99;
 		$anggota -> save();
+		*/
 		
-		$acc = new Account();		
-		$acc -> username = "admin";
-		$acc -> password = Hash::make("admin");
-		$acc -> id_anggota = $anggota->id;
-		// $acc -> remember_token = "";
-		$acc -> role = 1;	//untuk superadmin 
-		$acc -> save();
-		
+		/*
 		$alamat = new Alamat();
 		$alamat -> id_anggota = $anggota->id;
 		$alamat -> jalan = "Jalan Admin no 1";
@@ -171,8 +183,13 @@ class DatabaseSeeder extends Seeder {
 		$hp2 -> id_anggota = $anggota->id;
 		$hp2 -> no_hp = "081123987456";
 		$hp2 -> save();	
+		*/
 		
-		//---------------------------------- USER ----------------------------------									
+		
+		//---------------------------------- USER ----------------------------------								
+		
+		
+		/*
 		$anggota2 = new Anggota();		
 		$anggota2 -> no_anggota = "Guntur-XX-0002";
 		$anggota2 -> nama_depan = "Bernico";
@@ -191,15 +208,9 @@ class DatabaseSeeder extends Seeder {
 		$anggota2 -> role = 1;	//sebagai jemaat
 		$anggota2 -> id_gereja = $gereja->id;		
 		$anggota2 -> save();
+		*/
 		
-		$acc2 = new Account();		
-		$acc2 -> username = "userbernico";
-		$acc2 -> password = Hash::make("userbernico");
-		$acc2 -> id_anggota = $anggota2->id;
-		// $acc2 -> remember_token = ""; //auto generate dari laravel
-		$acc2 -> role = 0;	//untuk user biasa atau operator TU
-		$acc2 -> save();
-		
+		/*
 		$alamat2 = new Alamat();
 		$alamat2 -> id_anggota = $anggota2->id;
 		$alamat2 -> jalan = "Jalan WuzzyBeruang no 13";
@@ -216,6 +227,7 @@ class DatabaseSeeder extends Seeder {
 		$hp4 -> id_anggota = $anggota2->id;
 		$hp4 -> no_hp = "081123456789";
 		$hp4 -> save();
+		*/
 		
 		//---------------------------------- PENDETA ----------------------------------		
 		$anggota3 = new Anggota();		
@@ -237,6 +249,23 @@ class DatabaseSeeder extends Seeder {
 		$anggota3 -> id_gereja = $gereja->id;		
 		$anggota3 -> save();
 		
+			$alamat3 = new Alamat();
+			$alamat3 -> id_anggota = $anggota3->id;
+			$alamat3 -> jalan = "Jalan Macan";
+			$alamat3 -> kota = "Bandung";
+			$alamat3 -> kodepos = "45678";
+			$alamat3 -> save();
+			
+			$hp3 = new Hp();
+			$hp3 -> id_anggota = $anggota3->id; 
+			$hp3 -> no_hp = "081987654321";
+			$hp3 -> save();
+			
+			$hp3 = new Hp();
+			$hp3 -> id_anggota = $anggota3->id;
+			$hp3 -> no_hp = "081123456789";
+			$hp3 -> save();
+			
 		$anggota4 = new Anggota();		
 		$anggota4 -> no_anggota = "Guntur-XX-0004";
 		$anggota4 -> nama_depan = "Iwan";
@@ -256,6 +285,23 @@ class DatabaseSeeder extends Seeder {
 		$anggota4 -> id_gereja = $gereja->id;		
 		$anggota4 -> save();
 		
+			$alamat4 = new Alamat();
+			$alamat4 -> id_anggota = $anggota3->id;
+			$alamat4 -> jalan = "Jalan Kangkung";
+			$alamat4 -> kota = "Bandung";
+			$alamat4 -> kodepos = "87642";
+			$alamat4 -> save();
+			
+			$hp4 = new Hp();
+			$hp4 -> id_anggota = $anggota4->id; 
+			$hp4 -> no_hp = "081987654321";
+			$hp4 -> save();
+			
+			$hp4 = new Hp();
+			$hp4 -> id_anggota = $anggota4->id;
+			$hp4 -> no_hp = "081123456789";
+			$hp4 -> save();
+			
 		
 		//---------------------------------- USER COWO/CEWE ----------------------------------			
 		$idx = 11;
@@ -418,6 +464,83 @@ class DatabaseSeeder extends Seeder {
 		$jenisbaptis3 -> save();		
 		
 				
+		
+		//---------------------------------- DATA KEGIATAN/KEBAKTIAN ----------------------------------
+		
+		$kebaktian = new Kegiatan();			
+		$kebaktian->id_jenis_kegiatan = 1;
+		$kebaktian->nama_jenis_kegiatan = 'kebaktian umum 1';
+		$kebaktian->id_pendeta = 1; //pendeta eddo
+		$kebaktian->nama_pendeta = 'Eddo Ega Wirakusuma';
+		$kebaktian->tanggal_mulai = '2014-12-07';
+		$kebaktian->tanggal_selesai = '2014-12-07';
+		$kebaktian->jam_mulai = '07:00';
+		$kebaktian->jam_selesai = '08:30';		
+		$kebaktian->banyak_jemaat = 150;		
+		$kebaktian->banyak_simpatisan = 10;		
+		$kebaktian->banyak_penatua = 20;		
+		$kebaktian->banyak_komisi = 15;		
+		$kebaktian->banyak_pemusik = 5;				
+		$kebaktian->id_gereja = $gereja->id; //id GKI Guntur		
+		$kebaktian->deleted = 0;
+		$kebaktian->save();
+			$persembahan = new Persembahan();
+			$persembahan->tanggal_persembahan = $kebaktian->tanggal_mulai;
+			$persembahan->jumlah_persembahan = 4000000;
+			$persembahan->id_kegiatan = $kebaktian->id;
+			$persembahan->jenis = 1; //jenis 1 khusus untuk persembahan kebaktian
+			$persembahan->deleted = 0;			
+			$persembahan->save();
+		
+		$kebaktian2 = new Kegiatan();			
+		$kebaktian2->id_jenis_kegiatan = 2;
+		$kebaktian2->nama_jenis_kegiatan = 'kebaktian umum 2';
+		$kebaktian2->id_pendeta = 1; //pendeta eddo
+		$kebaktian2->nama_pendeta = 'Eddo Ega Wirakusuma';
+		$kebaktian2->tanggal_mulai = '2014-12-07';
+		$kebaktian2->tanggal_selesai = '2014-12-07';
+		$kebaktian2->jam_mulai = '09:30';
+		$kebaktian2->jam_selesai = '11:00';		
+		$kebaktian2->banyak_jemaat = 200;		
+		$kebaktian2->banyak_simpatisan = 10;		
+		$kebaktian2->banyak_penatua = 20;		
+		$kebaktian2->banyak_komisi = 15;		
+		$kebaktian2->banyak_pemusik = 5;				
+		$kebaktian2->id_gereja = $gereja->id; //id GKI Guntur		
+		$kebaktian2->deleted = 0;
+		$kebaktian2->save();
+			$persembahan2 = new Persembahan();
+			$persembahan2->tanggal_persembahan = $kebaktian2->tanggal_mulai;
+			$persembahan2->jumlah_persembahan = 5000000;
+			$persembahan2->id_kegiatan = $kebaktian2->id;
+			$persembahan2->jenis = 1; //jenis 1 khusus untuk persembahan kebaktian
+			$persembahan2->deleted = 0;			
+			$persembahan2->save();
+			
+		$kebaktian3 = new Kegiatan();			
+		$kebaktian3->id_jenis_kegiatan = 3;
+		$kebaktian3->nama_jenis_kegiatan = 'kebaktian umum 3';
+		$kebaktian3->id_pendeta = 2; //pendeta eddo
+		$kebaktian3->nama_pendeta = 'Iwan Santoso';
+		$kebaktian3->tanggal_mulai = '2014-12-07';
+		$kebaktian3->tanggal_selesai = '2014-12-07';
+		$kebaktian3->jam_mulai = '17:00';
+		$kebaktian3->jam_selesai = '18:30';		
+		$kebaktian3->banyak_jemaat = 100;		
+		$kebaktian3->banyak_simpatisan = 10;		
+		$kebaktian3->banyak_penatua = 20;		
+		$kebaktian3->banyak_komisi = 15;		
+		$kebaktian3->banyak_pemusik = 5;				
+		$kebaktian3->id_gereja = $gereja->id; //id GKI Guntur		
+		$kebaktian3->deleted = 0;
+		$kebaktian3->save();
+			$persembahan3 = new Persembahan();
+			$persembahan3->tanggal_persembahan = $kebaktian3->tanggal_mulai;
+			$persembahan3->jumlah_persembahan = 3000000;
+			$persembahan3->id_kegiatan = $kebaktian3->id;
+			$persembahan3->jenis = 1; //jenis 1 khusus untuk persembahan kebaktian
+			$persembahan3->deleted = 0;			
+			$persembahan3->save();	
 	}
 
 }

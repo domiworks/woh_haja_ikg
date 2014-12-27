@@ -132,7 +132,14 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_gereja')}}';
+					// window.location = '{{URL::route('admin_view_input_gereja')}}';
+					
+					//ganti isi row sesuai hasil edit
+					//tabel_id_gereja
+					$('.tabel_nama_gereja'+temp).html(result.data['nama']);				
+					//ganti isi detail sesuai hasil edit
+					data_gereja[temp] = result.data;				
+					
 				}
 				else
 				{

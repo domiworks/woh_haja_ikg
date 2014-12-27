@@ -12,15 +12,14 @@ class Account extends Eloquent implements UserInterface, RemindableInterface
 
 	public static $rules = 
 				['username' => 'required',
-				'password' => 'required',
-				'role' => 'required'
+				'password' => 'required'				
 				];
 	
 	public $fillable = 
 				['username',
 				'password',				
 				'role',
-				'id_anggota'
+				'id_gereja'
 				];
 				
     public function getAuthIdentifier()
@@ -60,9 +59,14 @@ class Account extends Eloquent implements UserInterface, RemindableInterface
         return $this->username;
     }
 	
-	public function anggota()
-    {
-       return $this->belongsTo('Anggota', 'id_anggota');
-    }
+	// public function anggota()
+    // {
+       // return $this->belongsTo('Anggota', 'id_anggota');
+    // }
+	
+	public function gereja()
+	{
+	   return $this->belongsTo('Gereja', 'id_gereja');
+	}
 }
 

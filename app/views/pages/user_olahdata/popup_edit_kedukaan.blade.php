@@ -59,10 +59,7 @@
 						</label>
 						<div class="col-xs-6">
 							{{ Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_edit_keterangan', 'class'=>'form-control'))}}
-						</div>
-						<div class="col-xs-0">
-							*
-						</div>
+						</div>						
 					</div>										
 				</form>									
 			</div>
@@ -101,7 +98,14 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('view_olahdata_kedukaan')}}';
+					// window.location = '{{URL::route('view_olahdata_kedukaan')}}';
+					
+					//ganti isi row sesuai hasil edit_kedukaan
+					$('.tabel_no_kedukaan'+temp).html(result.data['no_kedukaan']);
+					$('.tabel_nama_anggota'+temp).html(result.data['nama_anggota']);
+					$('.tabel_tanggal_meninggal'+temp).html(result.data['tanggal_meninggal']);
+					//ganti isi detail sesuai hasil edit
+					temp_detail[temp] = result.data;
 				}
 				else
 				{

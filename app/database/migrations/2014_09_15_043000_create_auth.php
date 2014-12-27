@@ -13,7 +13,7 @@ class CreateAuth extends Migration {
 	
 	//--------------------------------------------------------REVISI DATABASE--------------------------------------------------------
 	/*	
-	REVISI TABLE-TABLEDI DATABASE (8 DES 2015) :
+	REVISI TABLE-TABLE DI DATABASE (8 DES 2015) :
 		- jadi pakai tumbstone di setiap tabel kecuali di tabel 'auth'		
 		- tambah id_anggota di tabel atestasi		
 		- hapus id_atestasi di tabel anggota
@@ -24,6 +24,11 @@ class CreateAuth extends Migration {
 		- kolom status di table gereja -> tinyInteger jadi integer
 		- kolom role di table anggota -> tinyInteger jadi integer
 		- kolom role di table auth -> tinyInteger jadi integer 		
+	REVISI TABLE-TABLE DI DATABASE (19 DES 2015) :
+		- auth ga jadi referensi ke anggota karena ga bisa langsung liat
+			profile pribadi, 
+			JADI id_anggota diganti id_gereja,
+			reference ke gereja
 	*/
 	//--------------------------------------------------------END REVISI DATABASE--------------------------------------------------------
 	
@@ -123,10 +128,10 @@ class CreateAuth extends Migration {
 			$table->string('username')->unique();
 			$table->string('password');
 			$table->integer('role'); //ngebedain user access, sementara user, superadmin
-			$table->integer('id_anggota')->unsigned();
+			$table->integer('id_gereja')->unsigned()->nullable();
 			$table->string('remember_token')->nullable();
 									
-			$table->foreign('id_anggota')->references('id')->on('anggota');
+			$table->foreign('id_gereja')->references('id')->on('gereja');
 			$table->timestamps();
 		});
 		

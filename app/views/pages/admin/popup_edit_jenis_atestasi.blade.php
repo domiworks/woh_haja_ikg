@@ -43,6 +43,7 @@
 		$keterangan = $('#f_edit_keterangan').val();
 		
 		$data = {
+			'id' : $id,
 			'nama_atestasi' : $nama_atestasi,
 			'keterangan' : $keterangan
 		};
@@ -60,7 +61,13 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_jenis_atestasi')}}';
+					// window.location = '{{URL::route('admin_view_input_jenis_atestasi')}}';
+					
+					//ganti isi row sesuai hasil edit
+					//tabel id_jenis_atestasi
+					$('.tabel_nama_jenis_atestasi'+temp).html(result.data['nama_atestasi']);				
+					//ganti isi detail sesuai hasil edit
+					data_jenis_atestasi[temp] = result.data;	
 				}
 				else				
 				{

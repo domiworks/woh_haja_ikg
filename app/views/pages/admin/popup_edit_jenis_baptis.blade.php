@@ -61,7 +61,13 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_jenis_baptis')}}';
+					// window.location = '{{URL::route('admin_view_input_jenis_baptis')}}';
+					
+					//ganti isi row sesuai hasil edit
+					//tabel id_jenis_baptis
+					$('.tabel_nama_jenis_baptis'+temp).html(result.data['nama_jenis_baptis']);				
+					//ganti isi detail sesuai hasil edit
+					data_jenis_baptis[temp] = result.data;	
 				}
 				else				
 				{

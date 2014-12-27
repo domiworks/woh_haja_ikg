@@ -154,12 +154,11 @@
 						</form>	
 					</div>
 
-					<!--<div id="temp_result">
-						
+					<!--<div id="temp_result">						
 					</div>-->
 					
 					<div id="f_result_baptis">
-						<table class="table table-bordered">
+						<!--<table class="table table-bordered">
 							<thead>
 								<tr>
 									<th>
@@ -173,7 +172,7 @@
 									</th>
 								</tr>
 							</thead>
-							<tbody id="f_result_body_baptis">
+							<tbody id="f_result_body_baptis">-->
 								<!--
 								<tr>
 									<td>
@@ -192,10 +191,9 @@
 									</td>
 								</tr>						
 								-->
-							</tbody>
-						</table>
-					</div>
-					
+							<!--</tbody>
+						</table>-->
+					</div>					
 				</div>	
 			</div>	
 		</div>	
@@ -205,6 +203,9 @@
 <script>
 	//simpen detail
 	var temp_detail = "";
+	
+	//global variable buat ajax ganti view
+	var temp = '';
 
 	$('body').on('click', '#f_search_baptis', function(){
 		$nomor_baptis = $('#f_nomor_baptis').val();
@@ -241,38 +242,58 @@
 				{
 					alert('Data ditemukan.');
 					temp_detail = result.messages;
-					$('#temp_result').html(JSON.stringify(temp_detail));
+					// $('#temp_result').html(JSON.stringify(temp_detail));
 					var result = '';
-					for($i = 0; $i < temp_detail.length; $i++)
-					{
-						// alert(JSON.stringify(temp_detail[$i]));
-						result+= '<tr>';
-							result+='<td>';
-								result+=temp_detail[$i]['no_baptis'];								
-							result+='</td>';
-							result+='<td>';
-								result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
-							result+='</td>';
-							result+='<td>';							
-								result+='<input type="hidden" value='+$i+' />';
-								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_baptis">';
-									result+='Edit';
-								result+='</button>';
-								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_baptis">';
-									result+='delete';
-								result+='</button>';
-							result+='</td>';
-						result+='</tr>';
-					}
+					result += '<table class="table table-bordered">';
+						result += '<thead>';
+							result += '<tr>';
+								result += '<th>';
+									result += 'No. Baptis';
+								result += '</th>';
+								result += '<th>';
+									result += 'Nama Anggota';
+								result += '</th>';
+								result += '<th>';
+									
+								result += '</th>';
+							result += '</tr>';
+						result += '</thead>';
+						result += '<tbody id="f_result_body_baptis">';
+						for($i = 0; $i < temp_detail.length; $i++)
+						{
+							// alert(JSON.stringify(temp_detail[$i]));
+							result+= '<tr class="tabel_row'+$i+'">';
+								result+='<td class="tabel_no_baptis'+$i+'">';
+									result+=temp_detail[$i]['no_baptis'];								
+								result+='</td>';
+								result+='<td class="tabel_nama_jemaat'+$i+'">';
+									result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
+								result+='</td>';
+								result+='<td>';							
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+									result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_baptis">';
+										result+='Detail/Edit';
+									result+='</button>';
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+									result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_baptis">';
+										result+='Delete';
+									result+='</button>';
+								result+='</td>';
+							result+='</tr>';
+						}
+						result += '</tbody>';
+					result += '</table>';
 					
-					$('#f_result_body_baptis').html(result);
+					// $('#f_result_body_baptis').html(result);
+					$('#f_result_baptis').html(result);
 				}
 				else
 				{
 					alert(result.messages);
-					$('#f_result_body_baptis').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
+					$('#f_result_baptis').html("<p>Hasil pencarian tidak didapatkan.</p>");
+					// $('#f_result_body_baptis').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
 				}
 				// alert(response);
 				
@@ -328,6 +349,8 @@
 		$id = $(this).prev().val();				
 		$index = $(this).prev().prev().val();
 		
+		temp = $(this).prev().prev().val();
+		
 		$('#f_edit_nomor_baptis').val(temp_detail[$index]['no_baptis']);	
 		$('#f_edit_pembaptis').val(temp_detail[$index]['id_pendeta']);	
 		$('#f_edit_jemaat').val(temp_detail[$index]['id_jemaat']);	
@@ -366,7 +389,7 @@
 	//click delete button
 	$('body').on('click', '.deleteButton', function(){
 		$id = $(this).prev().val();		
-				
+		temp = $(this).prev().prev().val();
 	});
 </script>	
 

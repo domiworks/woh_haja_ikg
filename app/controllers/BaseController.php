@@ -37,7 +37,8 @@ class BaseController extends Controller {
 	
 	private function get_gereja($kembalian)
 	{
-		$gereja = Gereja::find(Auth::user()->anggota->id_gereja);
+		// $gereja = Gereja::find(Auth::user()->id_gereja);
+		$gereja = Gereja::find(Auth::user()->id_gereja);
 		return $gereja->$kembalian;
 		/*
 		//get gereja status:jemaat yang pertama di get di database
@@ -242,7 +243,7 @@ class BaseController extends Controller {
 	{		
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
 					->where('deleted', '=', 0)
-					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
+					->where('id_gereja', '=', Auth::user()->id_gereja)
 					->where('role', '=', 2) //role pendeta					
 					->orderBy('nama_depan')								
 					->lists('nama_lengkap', 'id');					
@@ -261,7 +262,7 @@ class BaseController extends Controller {
 	{		
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
 					->where('deleted', '=', 0)
-					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
+					->where('id_gereja', '=', Auth::user()->id_gereja)
 					->where('role', '=', 3) //role pendeta					
 					->orderBy('nama_depan')								
 					->lists('nama_lengkap', 'id');					
@@ -280,7 +281,7 @@ class BaseController extends Controller {
 	{		
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
 					->where('deleted', '=', 0)
-					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
+					->where('id_gereja', '=', Auth::user()->id_gereja)
 					->where('role', '=', 4) //role pendeta					
 					->orderBy('nama_depan')								
 					->lists('nama_lengkap', 'id');					
@@ -299,7 +300,7 @@ class BaseController extends Controller {
 	{				
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
 					->where('deleted', '=', 0)
-					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
+					->where('id_gereja', '=', Auth::user()->id_gereja)
 					// ->where('role', '=', 1) //role jemaat					
 					->orderBy('nama_depan')
 					->lists('nama_lengkap', 'id');
@@ -318,7 +319,7 @@ class BaseController extends Controller {
 	{				
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
 					->where('deleted', '=', 0)
-					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
+					->where('id_gereja', '=', Auth::user()->id_gereja)
 					->where('role', '=', 1) //role jemaat					
 					->orderBy('nama_depan')
 					->lists('nama_lengkap', 'id');
@@ -339,7 +340,7 @@ class BaseController extends Controller {
 				// ->lists('nama_depan'.' '.'nama_tengah'. ' '.'nama_belakang','id');
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
 					->where('deleted', '=', 0)
-					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
+					->where('id_gereja', '=', Auth::user()->id_gereja)
 					// ->where('role', '=', 1)
 					->where('gender', '=', 1)					
 					->orderBy('nama_depan')
@@ -361,7 +362,7 @@ class BaseController extends Controller {
 				// ->lists('nama_depan'.' '.'nama_tengah'. ' '.'nama_belakang','id');
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
 					->where('deleted', '=', 0)
-					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
+					->where('id_gereja', '=', Auth::user()->id_gereja)
 					// ->where('role', '=', 1)
 					->where('gender', '=', 0)					
 					->orderBy('nama_depan')
@@ -381,7 +382,7 @@ class BaseController extends Controller {
 	{
 		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
 					->where('deleted', '=', 0)
-					->where('id_gereja', '=', Auth::user()->anggota->id_gereja)
+					->where('id_gereja', '=', Auth::user()->id_gereja)
 					// ->where('role', '=', 1) //role jemaat saja
 					->whereNull('tanggal_meninggal')					
 					->orderBy('nama_depan')

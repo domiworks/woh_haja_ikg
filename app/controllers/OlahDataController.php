@@ -323,13 +323,13 @@ class OlahDataController extends BaseController {
 		$tanggal_awal = Input::get('tanggal_awal');
 		$tanggal_akhir = Input::get('tanggal_akhir');
 		// $id_gereja = Input::get('id_gereja');
-		// $id_gereja = Auth::user()->anggota->id_gereja;
+		// $id_gereja = Auth::user()->id_gereja;
 		$role = Input::get('role');		
 		
 		// $anggota = DB::table('alamat AS alm');		
-		// $anggota = $anggota->join('anggota AS ang', 'alm.id_anggota', '=', 'ang.id')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->anggota->id_gereja);
+		// $anggota = $anggota->join('anggota AS ang', 'alm.id_anggota', '=', 'ang.id')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->id_gereja);
 		
-		$anggota = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->anggota->id_gereja);
+		$anggota = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->id_gereja);
 		$anggota = $anggota->join('alamat AS alm', 'ang.id', '=','alm.id_anggota'); //yg ini ngerubah 'id' jadi yg di 'alamat'				
 				
 		
@@ -467,7 +467,7 @@ class OlahDataController extends BaseController {
 		
 		$baptis = $baptis->join('baptis AS bap', 'ang.id', '=', 'bap.id_jemaat')->where('bap.deleted', '=', 0);		
 			
-		$baptis = $baptis->where('bap.id_gereja', '=', Auth::user()->anggota->id_gereja);														
+		$baptis = $baptis->where('bap.id_gereja', '=', Auth::user()->id_gereja);														
 		if($no_baptis != "")
 		{
 			$baptis = $baptis->where('bap.no_baptis', 'LIKE', '%'.$no_baptis.'%');
@@ -574,7 +574,7 @@ class OlahDataController extends BaseController {
 		$nama_gereja_lama = $input->{'nama_gereja_lama'};
 		$nama_gereja_baru = $input->{'nama_gereja_baru'};
 		
-		$atestasi = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->anggota->id_gereja);
+		$atestasi = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->id_gereja);
 		
 		$atestasi = $atestasi->join('atestasi AS ate', 'ang.id', '=', 'ate.id_anggota')->where('ate.deleted', '=', 0);				
 		
@@ -684,7 +684,7 @@ class OlahDataController extends BaseController {
 		$nama_wanita = $input->{'nama_wanita'};
 		
 		$pernikahan = DB::table('pernikahan AS per');		
-		$pernikahan = $pernikahan->where('per.id_gereja', '=', Auth::user()->anggota->id_gereja)->where('per.deleted', '=', 0);
+		$pernikahan = $pernikahan->where('per.id_gereja', '=', Auth::user()->id_gereja)->where('per.deleted', '=', 0);
 		
 		if($no_pernikahan != "")
 		{
@@ -765,10 +765,10 @@ class OlahDataController extends BaseController {
 		
 		$kedukaan = $kedukaan->join('kedukaan AS ked', 'ang.id', '=', 'ked.id_jemaat')->where('ked.deleted', '=', 0);
 		
-		$kedukaan = $kedukaan->where('ked.id_gereja', '=', Auth::user()->anggota->id_gereja);
+		$kedukaan = $kedukaan->where('ked.id_gereja', '=', Auth::user()->id_gereja);
 		
 		// $kedukaan = DB::table('kedukaan AS ked');
-		// $kedukaan = $kedukaan->where('ked.id_gereja', '=', Auth::user()->anggota->id_gereja);
+		// $kedukaan = $kedukaan->where('ked.id_gereja', '=', Auth::user()->id_gereja);
 		// $kedukaan = $kedukaan->join('anggota AS ang', 'ked.id_jemaat', '=', 'ang.id');
 		
 		if($no_kedukaan != "")
@@ -844,7 +844,7 @@ class OlahDataController extends BaseController {
 		$no_dkh = $input->{'no_dkh'};
 		$nama_jemaat = $input->{'nama_jemaat'};
 		
-		$dkh = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('id_gereja', '=', Auth::user()->anggota->id_gereja)->where('ang.role', '=', 1); //role hanya jemaat
+		$dkh = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('id_gereja', '=', Auth::user()->id_gereja)->where('ang.role', '=', 1); //role hanya jemaat
 		
 		$dkh = $dkh->join('dkh AS dkh', 'ang.id', '=', 'dkh.id_jemaat')->where('dkh.deleted', '=', 0);
 		
@@ -857,7 +857,7 @@ class OlahDataController extends BaseController {
 		
 		// $dkh = $dkh->join('anggota AS ang', 'dkh.id_jemaat', '=', 'ang.id');
 		// $dkh = $dkh->where('ang.role', '=', 1); // role jemaat
-		// $dkh = $dkh->where('ang.id_gereja', '=', Auth::user()->anggota->id_gereja);
+		// $dkh = $dkh->where('ang.id_gereja', '=', Auth::user()->id_gereja);
 		
 		if($nama_jemaat != "")
 		{						
@@ -951,7 +951,20 @@ class OlahDataController extends BaseController {
 	
 	public function detail_atestasi()
 	{
-		return null;
+		$input = Input::get('data');
+		
+		$id = $input['id'];
+		
+		$atestasi = Atestasi::find($id);
+		
+		if($atestasi == null)
+		{
+			return "";
+		}
+		else
+		{
+			return $atestasi;
+		}
 	}
 	
 	public function detail_pernikahan()
@@ -1113,7 +1126,7 @@ class OlahDataController extends BaseController {
 			$kebaktian->banyak_pemusik_wanita = $input->{'banyak_pemusik_wanita'};
 			$kebaktian->banyak_pemusik = $input->{'banyak_pemusik'};		
 			// $kebaktian->id_gereja = $input->{'id_gereja'};
-			$kebaktian->id_gereja = Auth::user()->anggota->id_gereja;		
+			$kebaktian->id_gereja = Auth::user()->id_gereja;		
 			$kebaktian->keterangan = $input->{'keterangan'};					
 			
 			try{
@@ -1130,7 +1143,14 @@ class OlahDataController extends BaseController {
 					
 					$persembahan->save();
 					
-					$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+					// $respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+					
+					
+					$data = $kebaktian->toArray();
+					$data['id_persembahan'] = $persembahan->id;
+					$data['jumlah_persembahan'] = $persembahan->jumlah_persembahan;										
+					$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $data);						
+					
 					return json_encode($respond);
 					// return "berhasil";
 				}catch(Exception $e){				
@@ -1212,7 +1232,7 @@ class OlahDataController extends BaseController {
 		$anggota->kota_lahir = Input::get('kota_lahir');
 		$anggota->tanggal_lahir = Input::get('tanggal_lahir');		
 		// $anggota->id_gereja = Input::get('id_gereja');
-		// $anggota->id_gereja = Auth::user()->anggota->id_gereja;
+		// $anggota->id_gereja = Auth::user()->id_gereja;
 		$anggota->role = Input::get('role');
 		
 		// $anggota->id_atestasi = null;
@@ -1438,7 +1458,7 @@ class OlahDataController extends BaseController {
 			'id_pendeta' => $input->{'id_pendeta'},
 			'tanggal_baptis' => $input->{'tanggal_baptis'},
 			'id_jenis_baptis' => $input->{'id_jenis_baptis'},
-			'id_gereja' => Auth::user()->anggota->id_gereja
+			'id_gereja' => Auth::user()->id_gereja
 		);
 		
 		//validate
@@ -1467,12 +1487,16 @@ class OlahDataController extends BaseController {
 			$baptis->tanggal_baptis = $input->{'tanggal_baptis'};
 			$baptis->id_jenis_baptis = $input->{'id_jenis_baptis'};
 			// $baptis->id_gereja = $input->{'id_gereja'};
-			$baptis->id_gereja = Auth::user()->anggota->id_gereja;
+			$baptis->id_gereja = Auth::user()->id_gereja;
 			$baptis->keterangan = $input->{'keterangan'};
 			try{
 				$baptis->save();
 				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				$data = $baptis->toArray();
+				$anggota = Anggota::find($baptis->id_jemaat);	
+				$data['nama_jemaat'] = $anggota->nama_depan.' '.$anggota->nama_tengah.' '.$anggota->nama_belakang;
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $data);
 				return json_encode($respond);
 				// return "berhasil";
 			}catch(Exception $e){
@@ -1550,7 +1574,11 @@ class OlahDataController extends BaseController {
 			try{
 				$atestasi->save();	
 				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				$data = $atestasi->toArray();
+				$anggota = Anggota::find($atestasi->id_anggota);	
+				$data['nama_anggota'] = $anggota->nama_depan.' '.$anggota->nama_tengah.' '.$anggota->nama_belakang;
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $data);
 				return json_encode($respond);
 			}catch(Exception $e){
 				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
@@ -1600,7 +1628,7 @@ class OlahDataController extends BaseController {
 			$pernikahan->no_pernikahan = $input->{'no_pernikahan'};
 			$pernikahan->tanggal_pernikahan = $input->{'tanggal_pernikahan'};
 			$pernikahan->id_pendeta = $input->{'id_pendeta'};			
-			// $pernikahan->id_gereja = Auth::user()->anggota->id_gereja;
+			// $pernikahan->id_gereja = Auth::user()->id_gereja;
 			$pernikahan->nama_pria = $input->{'nama_pria'};
 			$pernikahan->nama_wanita = $input->{'nama_wanita'};
 			if($input->{'id_jemaat_wanita'} == '')
@@ -1623,7 +1651,7 @@ class OlahDataController extends BaseController {
 			try{
 				$pernikahan->save();
 				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $pernikahan->toArray());
 				return json_encode($respond);
 				// return "berhasil";
 			}catch(Exception $e){
@@ -1646,8 +1674,7 @@ class OlahDataController extends BaseController {
 				
 		//validate
 		if($input->{'tanggal_meninggal'} == '' ||
-			$input->{'no_kedukaan'} == '' ||
-			$input->{'tanggal_meninggal'} == '')
+			$input->{'no_kedukaan'} == '' )
 		{	
 			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
 			return json_encode($respond);
@@ -1678,7 +1705,10 @@ class OlahDataController extends BaseController {
 					try{
 						$anggota->save();
 						
-						$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+						$data = $duka->toArray();
+						$data['tanggal_meninggal'] = $anggota->tanggal_meninggal;
+						
+						$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $data);
 						return json_encode($respond);
 						// return "berhasil";
 					}catch(Exception $e){
@@ -1715,16 +1745,22 @@ class OlahDataController extends BaseController {
 		
 		$id = $input->{'id'};		
 		
-		$data_valid = array(
+		/*$data_valid = array(
 			'no_dkh' => $input->{'no_dkh'},
-			'id_jemaat' => $input->{'id_jemaat'},
+			// 'id_jemaat' => $input->{'id_jemaat'},
 			'keterangan' => $input->{'keterangan'}			
-		);
+		);*/
 		
 		//validate
-		$validator = Validator::make($data = $data_valid, Dkh::$rules);
+		// $validator = Validator::make($data = $data_valid, Dkh::$rules);
 		
-		if($validator->fails())
+		/*if($validator->fails())
+		{
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+			// return "Bagian yang bertanda (*) harus diisi.";
+		}*/
+		if($input->{'no_dkh'} == '' || $input->{'keterangan'} == '')
 		{
 			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
 			return json_encode($respond);
@@ -1742,13 +1778,17 @@ class OlahDataController extends BaseController {
 		else
 		{				
 			$dkh->no_dkh = $input->{'no_dkh'};				
-			$dkh->id_jemaat = $input->{'id_jemaat'};
+			// $dkh->id_jemaat = $input->{'id_jemaat'};
 			$dkh->keterangan = $input->{'keterangan'};			
 			
 			try{
-				$dkh->save();
-				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				$dkh->save();								
+						
+				$data = $dkh->toArray();
+				$anggota = Anggota::find($dkh->id_jemaat);
+				$data['nama_anggota'] = $anggota['nama_depan'].' '.$anggota['nama_tengah'].' '.$anggota['nama_belakang'];
+						
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $data);
 				return json_encode($respond);					
 				// return "berhasil";
 			}catch(Exception $e){
@@ -1946,7 +1986,7 @@ class OlahDataController extends BaseController {
 		try{
 			//set null tanggal_meninggal di table anggota
 			$anggota = Anggota::find($duka->id_jemaat);
-			$anggota->tanggal_meninggal = null;
+			// $anggota->tanggal_meninggal = null;
 			$anggota->save();
 			
 			// $duka->delete();

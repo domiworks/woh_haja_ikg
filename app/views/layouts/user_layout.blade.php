@@ -28,7 +28,23 @@
 		}
 		</script>
 	</head>
-	<body onload="startTime()">
+	<!--<body onload="startTime()">-->
+	<body>
+		<!-- LOADER -->
+		<div class="f_loader_container hidden">
+			<div class="s_tbl">
+				<div class="s_cell">
+					<div class="spinner">
+						<div class="rect1"></div>
+						<div class="rect2"></div>
+						<div class="rect3"></div>
+						<div class="rect4"></div>
+						<div class="rect5"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- <div class="s_orenji_header">
 		</div> -->		
 		<div class="s_top_header">

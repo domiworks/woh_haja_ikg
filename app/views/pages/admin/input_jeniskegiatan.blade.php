@@ -102,9 +102,9 @@
 							<?php $index = 0; ?>
 							@foreach($data_jenis_kegiatan as $kegiatan)
 								<tr>
-									<td>{{$kegiatan->id}}</td>
-									<td>{{$kegiatan->nama_kegiatan}}</td>
-									<td>
+									<td class="tabel_id_jenis_kegiatan<?php echo $index; ?>">{{$kegiatan->id}}</td>
+									<td class="tabel_nama_jenis_kegiatan<?php echo $index; ?>">{{$kegiatan->nama_kegiatan}}</td>
+									<td class="tabel_visible<?php echo $index; ?>">
 										@if($kegiatan->deleted == 0)
 											<span style="color:green;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 										@else											
@@ -114,6 +114,7 @@
 									<td>										
 										<div class="pull-right">
 											<input type="hidden" value="{{$kegiatan->id}}" />
+											<input type="hidden" value="<?php echo $index; ?>" />
 											<button type="button" class="btn btn-warning visibleButton">Ganti Visible</button>
 											<input type="hidden" value="{{$kegiatan->id}}" />
 											<input type="hidden" value="<?php echo $index; ?>" />
@@ -136,16 +137,21 @@
 </div>	
 
 <script>
+	//global variable buat ajax ganti view
+	var temp = '';
+	
 	//click change visible
 	$('body').on('click', '.visibleButton', function(){
-		$id = $(this).prev().val();
 		
+		$id = $(this).prev().prev().val();
+		temp = $(this).prev().val();
+				
 		$data = {
 			'id' : $id
 		};
 		
 		var json_data = JSON.stringify($data);
-				
+						
 		$.ajax({
 			type: 'POST',
 			url: "{{URL('admin/change_visible_jenis_kegiatan')}}",
@@ -153,11 +159,24 @@
 				'json_data' : json_data
 			},
 			success: function(response){
-				result = JSON.parse(response);
+				result = JSON.parse(response);				
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_jenis_kegiatan')}}';
+					
+					// window.location = '{{URL::route('admin_view_input_jenis_kegiatan')}}';
+					
+					//ganti isi row sesuai hasil edit
+					// alert(result.data['deleted']);
+					if(result.data['deleted'] == 0)
+					{						
+						$('.tabel_visible'+temp).html("<span style='color:green;' class='glyphicon glyphicon-ok' aria-hidden='true'></span>");						
+					}
+					else
+					{							
+						$('.tabel_visible'+temp).html("<span style='color:red;' class='glyphicon glyphicon-remove' aria-hidden='true'></span>");
+					}
+					
 				}
 				else
 				{
@@ -168,12 +187,15 @@
 				alert(errorThrown);
 			}
 		},'json');
+		
 	});
 	
 	//click detail/edit button
 	$('body').on('click', '.detailButton', function(){
 		$id = $(this).prev().prev().val();
 		$index = $(this).prev().val();
+		
+		temp = $(this).prev().val();
 		
 		//set value di popup detail/edit
 		$('#f_edit_nama_jenis_kebaktian').val(data_jenis_kegiatan[$index]['nama_kegiatan']);
@@ -210,7 +232,10 @@
 				if(result.code==201)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_jenis_kegiatan')}}';
+					
+					location.reload();
+					
+					// window.location = '{{URL::route('admin_view_input_jenis_kegiatan')}}';
 				}
 				else				
 				{

@@ -265,7 +265,15 @@ $('body').on('click', '#f_edit_post_atestasi', function(){
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('view_olahdata_atestasi')}}';
+					// window.location = '{{URL::route('view_olahdata_atestasi')}}';
+					
+					//ganti isi row sesuai hasil edit_atestasi
+					$('.tabel_no_atestasi'+temp).html(result.data['no_atestasi']);
+					$('.tabel_nama_jemaat'+temp).html(result.data['nama_anggota']);
+					$('.tabel_nama_gereja_lama'+temp).html(result.data['nama_gereja_lama']);
+					$('.tabel_nama_gereja_baru'+temp).html(result.data['nama_gereja_baru']);
+					//ganti isi detail sesuai hasil edit
+					temp_detail[temp] = result.data;					
 				}
 				else
 				{

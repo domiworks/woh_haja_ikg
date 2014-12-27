@@ -162,7 +162,12 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('view_olahdata_baptis')}}';					
+					// window.location = '{{URL::route('view_olahdata_baptis')}}';					
+					//ganti isi row sesuai hasil edit_baptis
+					$('.tabel_no_baptis'+temp).html(result.data['no_baptis']);
+					$('.tabel_nama_jemaat'+temp).html(result.data['nama_jemaat']);
+					//ganti isi detail sesuai hasil edit
+					temp_detail[temp] = result.data;
 				}
 				else
 				{

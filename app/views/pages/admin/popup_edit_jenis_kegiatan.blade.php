@@ -61,7 +61,13 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_jenis_kegiatan')}}';
+					// window.location = '{{URL::route('admin_view_input_jenis_kegiatan')}}';
+					
+					//ganti isi row sesuai hasil edit
+					//tabel id_jenis_kegiatan
+					$('.tabel_nama_jenis_kegiatan'+temp).html(result.data['nama_kegiatan']);				
+					//ganti isi detail sesuai hasil edit
+					data_jenis_kegiatan[temp] = result.data;	
 				}
 				else				
 				{

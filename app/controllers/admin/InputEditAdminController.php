@@ -6,7 +6,9 @@ class InputEditAdminController extends BaseController {
 	
 	public function admin_view_input_auth()
 	{
-		return View::make('pages.admin.input_auth');
+		$list_gereja = $this->getListGereja();
+		$data_auth = $this->getDataAuth();
+		return View::make('pages.admin.input_auth', compact('list_gereja','data_auth'));
 	}
 	
 	public function admin_view_input_gereja()
@@ -23,7 +25,7 @@ class InputEditAdminController extends BaseController {
 		return View::make('pages.admin.input_jenisbaptis', compact('data_jenis_baptis'));
 	}
 	
-	public function admin_view_input_jenis_atesasi()
+	public function admin_view_input_jenis_atestasi()
 	{
 		$data_jenis_atestasi = $this->getDataJenisAtestasi();
 		return View::make('pages.admin.input_jenisatestasi', compact('data_jenis_atestasi'));
@@ -37,9 +39,23 @@ class InputEditAdminController extends BaseController {
 
 /*----------------------------------------GET----------------------------------------*/
 
+	public function getDataAuth()
+	{			
+		$auth = Account::where('role', '=', 0)->get();
+		if(count($auth) == 0)
+		{
+			return null;
+		}
+		else
+		{
+			return $auth;
+		}
+	}
+	
 	public function getDataGereja()
 	{
-		$gereja = Gereja::all();
+		// $gereja = Gereja::all();
+		$gereja = Gereja::paginate(5);
 		if(count($gereja) == 0)
 		{
 			return null;
@@ -52,7 +68,7 @@ class InputEditAdminController extends BaseController {
 	
 	public function getDataJenisAtestasi()
 	{
-		$jenis_atestasi = JenisAtestasi::all();
+		$jenis_atestasi = JenisAtestasi::all();		
 		if(count($jenis_atestasi) == 0)
 		{
 			return null;
@@ -65,7 +81,7 @@ class InputEditAdminController extends BaseController {
 	
 	public function getDataJenisBaptis()
 	{
-		$jenis_baptis = JenisBaptis::all();
+		$jenis_baptis = JenisBaptis::all();		
 		if(count($jenis_baptis) == 0)
 		{
 			return null;
@@ -96,7 +112,39 @@ class InputEditAdminController extends BaseController {
 		$json_data = Input::get('json_data');
 		$input = json_decode($json_data);
 				
-		return null;
+		$username = $input->{'username'};
+		$password = $input->{'password'};
+		$gereja = $input->{'gereja'};
+		
+		$data_valid = array(
+			'username' => $username,
+			'password' => $password
+		);
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, Account::$rules);
+		if($validator->fails())
+		{
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+		}
+		
+		$acc = new Account();		
+		$acc -> username = $username;
+		$acc -> password = Hash::make($password);
+		$acc -> id_gereja = $gereja;		
+		$acc -> role = 0;	//untuk user 
+		
+		try{
+			$acc -> save();
+			
+			$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data akun.');
+			return json_encode($respond);
+		}catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data akun');
+			return json_encode($respond);
+		}
+				
 	}
 	
 	public function admin_postGereja()
@@ -152,6 +200,7 @@ class InputEditAdminController extends BaseController {
 			$gereja->save();
 			
 			$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data gereja.');
+									
 			return json_encode($respond);
 		}catch(Exception $e){
 			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
@@ -342,7 +391,10 @@ class InputEditAdminController extends BaseController {
 			try{
 				$gereja->save();
 				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				// $respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $gereja->toArray());
+				
 				return json_encode($respond);
 			}catch(Exception $e){
 				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
@@ -390,7 +442,10 @@ class InputEditAdminController extends BaseController {
 			try{
 				$jenis_baptis->save();
 				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				// $respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $jenis_baptis->toArray());
+				
 				return json_encode($respond);
 			}Catch(Exception $e){
 				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data jenis baptis');
@@ -399,7 +454,7 @@ class InputEditAdminController extends BaseController {
 		}	
 	}
 	
-	public function admin_edit_jenis_atesasi()
+	public function admin_edit_jenis_atestasi()
 	{
 		$json_data = Input::get('json_data');
 		$input = json_decode($json_data);
@@ -438,7 +493,10 @@ class InputEditAdminController extends BaseController {
 			try{
 				$jenis_atestasi->save();
 				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				// $respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $jenis_atestasi->toArray());
+								
 				return json_encode($respond);
 			}Catch(Exception $e){
 				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data jenis atestasi');
@@ -486,7 +544,10 @@ class InputEditAdminController extends BaseController {
 			try{
 				$jenis_kegiatan->save();
 				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				// $respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $jenis_kegiatan->toArray());
+				
 				return json_encode($respond);
 			}Catch(Exception $e){
 				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data jenis kegiatan');
@@ -523,11 +584,12 @@ class InputEditAdminController extends BaseController {
 			}			
 			
 			try{
-				$gereja->save();
+				$gereja->save();							
 				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
-				return json_encode($respond);
-			}catch(Exception $e){
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $gereja->toArray());
+				
+				return json_encode($respond);				
+			}catch(Exception $e){				
 				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
 				return json_encode($respond);
 			}	
@@ -562,7 +624,10 @@ class InputEditAdminController extends BaseController {
 			try{
 				$jenis_baptis->save();
 				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				// $respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $jenis_baptis->toArray());
+				
 				return json_encode($respond);
 			}catch(Exception $e){
 				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
@@ -599,7 +664,10 @@ class InputEditAdminController extends BaseController {
 			try{
 				$jenis_atestasi->save();
 				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				// $respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $jenis_atestasi->toArray());
+				
 				return json_encode($respond);
 			}catch(Exception $e){
 				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
@@ -636,7 +704,10 @@ class InputEditAdminController extends BaseController {
 			try{
 				$jenis_kegiatan->save();
 				
-				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				// $respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $jenis_kegiatan->toArray());
+				
 				return json_encode($respond);
 			}catch(Exception $e){
 				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');

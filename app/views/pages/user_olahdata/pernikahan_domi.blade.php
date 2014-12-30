@@ -1,8 +1,17 @@
 @extends('layouts.user_layout')
 @section('content')
 
+<script>
+	$(document).ready(function(){				
+	
+		//END LOADER				
+		$('.f_loader_container').addClass('hidden');
+			
+	});
+</script>
+
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_user_olahdata')
 		</div>
@@ -20,7 +29,6 @@
 		</ol>-->
 
 		<div class="s_content">
-
 			<div class="container-fluid">
 				<!--<div class="col-md-3 panel panel-default ">
 					<ul>		
@@ -34,7 +42,7 @@
 					</ul>
 				</div>-->
 				<!--div class="panel panel-default col-md-9"-->
-				<div style="margin-top: 15px;" class="panel panel-default">
+				<div style="margin-top: 15px;" class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							PERNIKAHAN
@@ -44,8 +52,8 @@
 					<div class="panel-body">
 						<form class="form-horizontal">	
 							<div class="form-group">
-								<label class="col-xs-4 control-label">Nomor Pernikahan</label> 
-								<div class="col-xs-5">{{ Form::text('nomor_pernikahan', Input::old('nomor_pernikahan'), array('id' => 'f_nomor_pernikahan', 'class'=>'form-control')) }}</div>
+								<label class="col-xs-4 control-label">Nomor Piagam Pernikahan</label> 
+								<div class="col-xs-4">{{ Form::text('nomor_pernikahan', Input::old('nomor_pernikahan'), array('id' => 'f_nomor_pernikahan', 'class'=>'form-control')) }}</div>
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Antara tanggal </label> 
@@ -54,53 +62,11 @@
 								</div>
 								<div class="col-xs-2">
 									{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
-								</div>
-								<script>
-								jQuery('#f_tanggal_awal').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',					
-									yearStart: '1900'
-								});			
-								jQuery('#f_tanggal_akhir').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',					
-									yearStart: '1900'
-								});	
-								</script>
+								</div>								
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Pendeta yang memberkati</label> 
-								<div class="col-xs-5">
+								<div class="col-xs-4">
 									<?php 
 										$new_list_pendeta = array(
 											'-1' => 'pilih!'
@@ -120,11 +86,11 @@
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Mempelai Wanita</label> 
-								<div class="col-xs-5">{{ Form::text('nama_mempelai_wanita', Input::old('nama_mempelai_wanita'), array('id' => 'f_nama_mempelai_wanita', 'class'=>'form-control')) }}</div>
+								<div class="col-xs-4">{{ Form::text('nama_mempelai_wanita', Input::old('nama_mempelai_wanita'), array('id' => 'f_nama_mempelai_wanita', 'class'=>'form-control')) }}</div>
 							</div>		
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Mempelai Pria</label> 
-								<div class="col-xs-5">{{ Form::text('nama_mempelai_pria', Input::old('nama_mempelai_pria'), array('id' => 'f_nama_mempelai_pria', 'class'=>'form-control')) }}</div>
+								<div class="col-xs-4">{{ Form::text('nama_mempelai_pria', Input::old('nama_mempelai_pria'), array('id' => 'f_nama_mempelai_pria', 'class'=>'form-control')) }}</div>
 							</div>
 							<div class="form-group">
 								<div class="col-xs-5 col-xs-push-4">
@@ -189,13 +155,58 @@
 
 
 <script>
-	//simpen detail 
+	jQuery('#f_tanggal_awal').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});			
+	jQuery('#f_tanggal_akhir').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});	
+	
+	//simpen detail tabel
 	var temp_detail = "";
 
 	//global variable buat ajax ganti view
 	var temp = '';
 	
 	$('body').on('click', '#f_search_pernikahan', function(){
+		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$no_pernikahan = $('#f_nomor_pernikahan').val();		
 		$tanggal_awal = $('#f_tanggal_awal').val();
 		$tanggal_akhir = $('#f_tanggal_akhir').val();
@@ -232,11 +243,11 @@
 					temp_detail = result.messages;
 					// $('#temp_result').html(JSON.stringify(temp_detail));	
 					var result = '';
-					result += '<table class="table table-bordered">';
+					result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
 						result += '<thead>';
 							result += '<tr>';
 								result += '<th>';
-									result += 'No. Pernikahan';
+									result += 'No. Piagam Pernikahan';
 								result += '</th>';
 								result += '<th>';
 									result += 'Mempelai Pria';
@@ -267,12 +278,12 @@
 									result+='<input type="hidden" value='+$i+' />';
 									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
 									result+='<button type="button" class="btn btn-warning detailButton " data-toggle="modal" data-target=".popup_edit_pernikahan">';
-										result+='Edit';
+										result+='Detail/Edit';
 									result+='</button>';
 									result+='<input type="hidden" value='+$i+' />';
 									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-									result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_pernikahan">';
-										result+='delete';
+									result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_pernikahan">';
+										result+='Delete';
 									result+='</button>';
 								result+='</td>';
 							result+='</tr>';					
@@ -281,11 +292,17 @@
 					result += '</table>';
 					// $('#f_result_body_pernikahan').html(result);
 					$('#f_result_pernikahan').html(result);
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
 					$('#f_result_pernikahan').html("<p>Hasil pencarian tidak didapatkan.</p>");
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 					// $('#f_result_body_pernikahan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");							
 				}				
 				/*
@@ -328,7 +345,10 @@
 				*/				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
+				alert("error");
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');		
 	});

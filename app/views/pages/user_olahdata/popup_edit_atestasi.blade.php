@@ -1,6 +1,6 @@
 <script>
-$('body').on('click', '#f_edit_check_gereja_lama', function(){		
-	if($('#f_edit_check_gereja_lama').val() == 0){	
+	$('body').on('click', '#f_edit_check_gereja_lama', function(){		
+		if($('#f_edit_check_gereja_lama').val() == 0){	
 			$('#f_edit_check_gereja_lama').val(1); //pakai pembicara luar jika value f_edit_check_gereja_lama == 1
 			$('#f_edit_nama_gereja_lama').attr('disabled', false);			
 			$('#f_edit_nama_gereja_lama').val("");
@@ -17,8 +17,8 @@ $('body').on('click', '#f_edit_check_gereja_lama', function(){
 		}
 	});
 
-$('body').on('click', '#f_edit_check_gereja_baru', function(){		
-	if($('#f_edit_check_gereja_baru').val() == 0){	
+	$('body').on('click', '#f_edit_check_gereja_baru', function(){		
+		if($('#f_edit_check_gereja_baru').val() == 0){	
 			$('#f_edit_check_gereja_baru').val(1); //pakai pembicara luar jika value f_edit_check_gereja_baru == 1
 			$('#f_edit_nama_gereja_baru').attr('disabled', false);			
 			$('#f_edit_nama_gereja_baru').val("");
@@ -33,6 +33,7 @@ $('body').on('click', '#f_edit_check_gereja_baru', function(){
 			$('#f_edit_list_gereja_baru').attr('disabled', false);				
 		}
 	});
+	
 </script>
 
 <div class="modal fade popup_edit_atestasi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -47,7 +48,7 @@ $('body').on('click', '#f_edit_check_gereja_baru', function(){
 
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
-							Nomor Atestasi
+							Nomor Piagam Atestasi
 						</label>						
 						<div class="col-xs-6">
 							{{ Form::text('nomor_atestasi', Input::old('nomor_atestasi'), array('id' => 'f_edit_nomor_atestasi', 'class'=>'form-control')) }}
@@ -81,28 +82,7 @@ $('body').on('click', '#f_edit_check_gereja_baru', function(){
 						<div class="col-xs-0">
 							*
 						</div>
-						<script>
-						jQuery('#f_edit_tanggal_atestasi').datetimepicker({
-							lang:'en',
-							i18n:{
-								en:{
-									months:[
-									'Januari','Februari','Maret','April',
-									'Mei','Juni','Juli','Agustus',
-									'September','Oktober','November','Desember',
-									],
-									dayOfWeek:[
-									"Ming.", "Sen.", "Sel.", "Rab.", 
-									"Kam.", "Jum.", "Sab.",
-									]
-
-								}
-							},
-							timepicker:false,
-							format:'Y-m-d',
-							yearStart: '1900'
-						});				
-						</script>
+						
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -211,7 +191,32 @@ $('body').on('click', '#f_edit_check_gereja_baru', function(){
 </div>
 
 <script>
+jQuery('#f_edit_tanggal_atestasi').datetimepicker({
+	lang:'en',
+	i18n:{
+		en:{
+			months:[
+			'Januari','Februari','Maret','April',
+			'Mei','Juni','Juli','Agustus',
+			'September','Oktober','November','Desember',
+			],
+			dayOfWeek:[
+			"Ming.", "Sen.", "Sel.", "Rab.", 
+			"Kam.", "Jum.", "Sab.",
+			]
+
+		}
+	},
+	timepicker:false,
+	format:'Y-m-d',
+	yearStart: '1900'
+});	
+
 $('body').on('click', '#f_edit_post_atestasi', function(){		
+
+	//START LOADER				
+	$('.f_loader_container').removeClass('hidden');
+		
 	$no_atestasi = $('#f_edit_nomor_atestasi').val();
 	$id_jemaat = $('#f_edit_jemaat').val();
 	$tanggal_atestasi = $('#f_edit_tanggal_atestasi').val();		
@@ -274,10 +279,15 @@ $('body').on('click', '#f_edit_post_atestasi', function(){
 					$('.tabel_nama_gereja_baru'+temp).html(result.data['nama_gereja_baru']);
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;					
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				/*
 				result = JSON.parse(response);				
@@ -308,6 +318,8 @@ $('body').on('click', '#f_edit_post_atestasi', function(){
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');					
 });

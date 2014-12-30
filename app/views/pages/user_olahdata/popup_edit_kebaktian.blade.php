@@ -210,9 +210,6 @@
 				<h4 class="modal-title" id="myModalLabel">Edit Kebaktian</h4>
 			</div>
 			<div class="modal-body form-horizontal">				
-
-
-
 				<form class="form-horizontal">
 
 					<div class="form-group">

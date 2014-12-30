@@ -596,7 +596,6 @@
 		$id = $(this).prev().val();
 		temp = $(this).prev().prev().val();
 	});
-	
 </script>
 
 @include('pages.user_olahdata.popup_edit_kebaktian')

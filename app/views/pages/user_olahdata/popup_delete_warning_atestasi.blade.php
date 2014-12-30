@@ -19,6 +19,9 @@
 <script>
 	$('body').on('click', '.okDelete', function(){		
 		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$data = {
 			'id' : $id
 		};
@@ -44,7 +47,7 @@
 					
 					//gambar ulang tabel
 					var result = "";					
-					result += '<table class="table table-bordered">';
+					result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
 						result += '<thead>';
 							result += '<tr>';
 								result += '<th>';
@@ -91,7 +94,7 @@
 										result+='</button>';
 										result+='<input type="hidden" value='+$i+' />';
 										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-										result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
+										result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
 											result+='Delete';
 										result+='</button>';
 									result+='</td>';
@@ -104,15 +107,22 @@
 					
 					// $('#f_result_body_atestasi').html(result);
 					$('#f_result_atestasi').html(result);
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');		
 	});

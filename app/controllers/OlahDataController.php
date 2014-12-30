@@ -478,9 +478,10 @@ class OlahDataController extends BaseController {
 			
 		if($nama_jemaat != "")
 		{												
-			$baptis = $baptis->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			// $baptis = $baptis->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			$baptis = $baptis->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama_jemaat.'%');
 		}				
 		if($id_pembaptis != -1)
 		{
@@ -601,9 +602,10 @@ class OlahDataController extends BaseController {
 		
 		if($nama != "")
 		{					
-			$atestasi = $atestasi->where('ang.nama_depan', 'LIKE', '%'.$nama.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama.'%');
+			// $atestasi = $atestasi->where('ang.nama_depan', 'LIKE', '%'.$nama.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama.'%');
+			$atestasi = $atestasi->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama.'%');
 		}		
 		
 		if($no_atestasi != "")
@@ -787,9 +789,10 @@ class OlahDataController extends BaseController {
 		}
 		if($nama_jemaat != "")
 		{			
-			$kedukaan = $kedukaan->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			// $kedukaan = $kedukaan->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			$kedukaan = $kedukaan->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama_jemaat.'%');				
 		}
 		//validation range tanggal
 		if($tanggal_awal != "")
@@ -871,9 +874,10 @@ class OlahDataController extends BaseController {
 		
 		if($nama_jemaat != "")
 		{						
-			$dkh = $dkh->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			// $dkh = $dkh->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			$dkh = $dkh->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama_jemaat.'%');
 		}
 		
 		// $dkh = $dkh->get( array(

@@ -52,10 +52,13 @@
 						result += '<thead>';
 							result += '<tr>';
 								result += '<th>';
-									result += 'No. Baptis';
+									result += 'No. Piagam Baptis';
 								result += '</th>';
 								result += '<th>';
 									result += 'Nama Anggota';
+								result += '</th>';
+								result += '<th>';
+									result += 'Jenis Baptis';
 								result += '</th>';
 								result += '<th>';
 									
@@ -69,11 +72,14 @@
 							{
 								// alert(JSON.stringify(temp_detail[$i]));
 								result+= '<tr class="tabel_row'+$i+'">';
-									result+='<td class="tabel_no_baptis">';
+									result+='<td class="tabel_no_baptis'+$i+'">';
 										result+=temp_detail[$i]['no_baptis'];								
 									result+='</td>';
-									result+='<td class="tabel_nama_jemaat">';
+									result+='<td class="tabel_nama_jemaat'+$i+'">';
 										result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
+									result+='</td>';
+									result+='<td class="tabel_nama_jenis_baptis'+$i+'">';
+										result+=temp_detail[$i]['nama_jenis_baptis'];
 									result+='</td>';
 									result+='<td>';							
 										result+='<input type="hidden" value='+$i+' />';
@@ -83,7 +89,7 @@
 										result+='</button>';
 										result+='<input type="hidden" value='+$i+' />';
 										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-										result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_baptis">';
+										result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_baptis">';
 											result+='Delete';
 										result+='</button>';
 									result+='</td>';

@@ -168,6 +168,7 @@
 					//ganti isi row sesuai hasil edit_baptis
 					$('.tabel_no_baptis'+temp).html(result.data['no_baptis']);
 					$('.tabel_nama_jemaat'+temp).html(result.data['nama_jemaat']);
+					$('.tabel_nama_jenis_baptis'+temp).html(result.data['nama_jenis_baptis']);
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
 					

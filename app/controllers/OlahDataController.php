@@ -527,6 +527,13 @@ class OlahDataController extends BaseController {
 		
 		$baptis = $baptis->get();
 		
+		//add nama_jenis_baptis
+		foreach($baptis as $row)
+		{
+			$nama_jenis_baptis = JenisBaptis::where('id', '=', $row->id_jenis_baptis)->first()->nama_jenis_baptis;
+			$row->nama_jenis_baptis = $nama_jenis_baptis;
+		}
+		
 		// if($id_gereja != "")
 		// {
 			// $baptis = $baptis->where('bap.id_gereja', '=', $id_gereja);			
@@ -1568,6 +1575,7 @@ class OlahDataController extends BaseController {
 				$data = $baptis->toArray();
 				$anggota = Anggota::find($baptis->id_jemaat);	
 				$data['nama_jemaat'] = $anggota->nama_depan.' '.$anggota->nama_tengah.' '.$anggota->nama_belakang;
+				$data['nama_jenis_baptis'] = JenisBaptis::where('id', '=', $baptis->id_jenis_baptis)->first()->nama_jenis_baptis;					
 				
 				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $data);
 				return json_encode($respond);

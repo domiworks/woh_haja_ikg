@@ -264,10 +264,13 @@
 						result += '<thead>';
 							result += '<tr>';
 								result += '<th>';
-									result += 'No. Baptis';
+									result += 'No. Piagam Baptis';
 								result += '</th>';
 								result += '<th>';
 									result += 'Nama Anggota';
+								result += '</th>';
+								result += '<th>';
+									result += 'Jenis Baptis';
 								result += '</th>';
 								result += '<th>';
 									
@@ -285,6 +288,9 @@
 								result+='<td class="tabel_nama_jemaat'+$i+'">';
 									result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
 								result+='</td>';
+								result+='<td class="tabel_nama_jenis_baptis'+$i+'">';
+									result+=temp_detail[$i]['nama_jenis_baptis'];
+								result+='</td>';									
 								result+='<td>';							
 									result+='<input type="hidden" value='+$i+' />';
 									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
@@ -293,7 +299,7 @@
 									result+='</button>';
 									result+='<input type="hidden" value='+$i+' />';
 									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-									result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_baptis">';
+									result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_baptis">';
 										result+='Delete';
 									result+='</button>';
 								result+='</td>';

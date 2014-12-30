@@ -10,6 +10,8 @@
 		<link href="{{ asset('assets/css/all.css') }}" rel="stylesheet"><!-- {{ asset('assets/css/all.css') }} -->		
 		<!-- <link href="{{ asset('assets/css/datepicker.css') }}" rel="stylesheet"> -->
 		
+		<!-- Loader -->
+		<link href="{{ asset('assets/css/loader.css') }}" rel="stylesheet">
 		
 		
 		

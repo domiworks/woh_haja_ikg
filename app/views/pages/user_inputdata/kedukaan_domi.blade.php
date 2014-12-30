@@ -1,7 +1,17 @@
 @extends('layouts.user_layout')
 @section('content')
+
+<script>
+$(document).ready(function(){				
+
+	//END LOADER				
+	$('.f_loader_container').addClass('hidden');
+	
+});
+</script>
+
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_user_inputdata')
 		</div>
@@ -16,9 +26,9 @@
 			<li><a href="#">Input Data</a></li>
 			<li class="active">Kedukaan</li>
 		</ol>-->
-
+		
 		<div class="s_content">
-			<div class="container-fluid">
+			<div class="container-fluid" >
 				<!--<div class="col-md-3 panel panel-default ">
 					<ul>		
 						<li>{{HTML::linkRoute('view_inputdata_kebaktian', 'Input Data Kebaktian')}}</li>
@@ -31,7 +41,7 @@
 					</ul>
 				</div>-->
 				<!--div class="panel panel-default col-md-9"-->
-				<div style="margin-top: 15px;" class="panel panel-default">
+				<div style="margin-top: 15px;" class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							KEDUKAAN
@@ -42,9 +52,9 @@
 
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
-									Nomor Kedukaan
+									Nomor Piagam Kedukaan
 								</label>
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									{{ Form::text('nomor_kedukaan', Input::old('nomor_kedukaan'), array('id' => 'f_nomor_kedukaan', 'class'=>'form-control')) }}
 								</div>
 								<div class="col-xs-0">
@@ -55,40 +65,18 @@
 								<label class="col-xs-4 control-label">
 									Tanggal Meninggal
 								</label>
-								<div class="col-xs-6">
+								<div class="col-xs-2">
 									{{ Form::text('tanggal_meninggal', Input::old('tanggal_meninggal'), array('id' => 'f_tanggal_meninggal', 'class'=>'form-control')) }}
 								</div>
 								<div class="col-xs-0">
 									*
-								</div>
-								<script>
-								jQuery('#f_tanggal_meninggal').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',
-									yearStart: '1900'
-								});				
-								</script>
+								</div>								
 							</div>		
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Jemaat yang meninggal
 								</label>
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									@if($list_anggota == null)
 									<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
 									@else
@@ -109,29 +97,57 @@
 								<div class="col-xs-0">
 									*
 								</div>
-							</div>					
+							</div>	
+							
 							<div class="form-group">	
 								<div class="col-xs-6 col-xs-push-5">
 									@if($list_anggota == null)
 									<input type="button" id="f_post_kedukaan" class="btn btn-success" value="Simpan Data Kedukaan" disabled=true />
 									@else							
-									<input type="button" id="f_post_kedukaan" class="btn btn-success" value="Simpan Data Kedukaan" />
+									<input type="button" id="f_post_kedukaan" class="btn btn-success" value="Simpan Data Kedukaan" data-toggle="modal" data-target=".popup_confirm_warning_kedukaan" />
 									@endif
 								</div>					
 							</div>	
 						</form>	
 					</div>	
+					<div class="panel-footer" style="background-color: white;">
+						(*) wajib diisi
+					</div>
 				</div>	
 			</div>	
-		</div>
+		</div>		
 	</div>
 </div>
 
-	<script>
-			$('body').on('click', '#f_post_kedukaan', function(){		
-				$no_kedukaan = $('#f_nomor_kedukaan').val();
-				$tanggal_meninggal = $('#f_tanggal_meninggal').val();
-				$id_jemaat = $('#f_list_jemaat').val();
+<script>
+	jQuery('#f_tanggal_meninggal').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',
+		yearStart: '1900'
+	});		
+	
+	$('body').on('click', '#f_post_kedukaan', function(){		
+		//SHOW POP UP CONFIRM KEDUKAAN			
+		
+		/*
+		$no_kedukaan = $('#f_nomor_kedukaan').val();
+		$tanggal_meninggal = $('#f_tanggal_meninggal').val();
+		$id_jemaat = $('#f_list_jemaat').val();
 		// $id_gereja = $('#f_list_gereja').val();
 		$keterangan = $('#f_keterangan').val();
 		
@@ -165,24 +181,16 @@
 				{
 					alert(result.messages);
 				}
-				/*
-				if(response == "berhasil")
-				{	
-					alert("Berhasil simpan data kedukaan");
-					// location.reload();
-					window.location = '{{URL::route('view_inputdata_kedukaan')}}';
-				}
-				else
-				{
-					alert(response);
-				}
-				*/
+				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
 		},'json');
+		*/
 	});
 </script>
+
+@include('pages.user_inputdata.popup_confirm_warning_kedukaan')
 
 @stop

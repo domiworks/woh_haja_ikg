@@ -521,7 +521,10 @@
 </div>
 
 <script>
-	$('body').on('click', '#f_edit_post_kebaktian', function(){					
+	$('body').on('click', '#f_edit_post_kebaktian', function(){				
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		if($('#f_edit_check_kebaktian_lain').val() == 1) //pakai nama kebaktian lain
 		{
 			$kebaktian_ke = '';
@@ -617,28 +620,25 @@
 					//ganti isi row sesuai hasil edit_kebaktian
 					$('.tabel_tanggal_mulai'+temp).html(result.data['tanggal_mulai']);
 					$('.tabel_nama_jenis_kegiatan'+temp).html(result.data['nama_jenis_kegiatan']);
+					$('.tabel_nama_pendeta'+temp).html(result.data['nama_pendeta']);
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
-				/*
-				if(response == "berhasil")
-				{	
-					alert("Berhasil simpan perubahan.");
-					// location.reload();
-					window.location = '{{URL::route('view_olahdata_kebaktian')}}';
-				}
-				else
-				{					
-					alert(response);
-				}
-				*/
+				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});

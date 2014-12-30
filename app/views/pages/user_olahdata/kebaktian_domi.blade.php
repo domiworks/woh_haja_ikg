@@ -1,8 +1,22 @@
 @extends('layouts.user_layout')
 @section('content')
 
+<script>
+	$(document).ready(function(){				
+	
+		//END LOADER				
+		$('.f_loader_container').addClass('hidden');
+	
+		$('#f_edit_nama_pengkotbah').attr('disabled', true);		
+		$('#f_edit_pengkotbah').attr('disabled', false);				
+			//set nama pembicara di awal
+			var selected = $('#f_edit_pengkotbah').find(":selected").text();
+			$('#f_edit_nama_pengkotbah').val(selected);	
+	});
+</script>
+
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_user_olahdata')
 		</div>
@@ -19,15 +33,7 @@
 		</ol>-->
 
 		<!-- script buat pop up -->
-		<script>
-			$(document).ready(function(){				
-				$('#f_edit_nama_pengkotbah').attr('disabled', true);		
-				$('#f_edit_pengkotbah').attr('disabled', false);				
-					//set nama pembicara di awal
-					var selected = $('#f_edit_pengkotbah').find(":selected").text();
-					$('#f_edit_nama_pengkotbah').val(selected);	
-			});
-		</script>
+		
 						
 		<div class="s_content">
 			<div class="container-fluid">
@@ -45,7 +51,7 @@
 				</div>-->
 				
 				<!--div class="panel panel-default col-md-9"-->
-				<div style="margin-top: 15px;" class="panel panel-default">
+				<div style="margin-top: 15px;" class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							KEBAKTIAN
@@ -73,78 +79,19 @@
 								</div>								
 								<div class="col-xs-2">
 									{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
-								</div>
-								<script>
-								// $('#f_tanggal_awal').datepicker({
-									// format: 'yyyy-m-d'
-								// });
-								jQuery('#f_tanggal_awal').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',					
-									yearStart: '1900'
-								});			
-								jQuery('#f_tanggal_akhir').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',					
-									yearStart: '1900'
-								});	
-								</script>
+								</div>							
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Antara jam </label> 
-								<div class="col-xs-2">
+								<div class="col-xs-1">
 									{{ Form::text('jam_awal', Input::old('jam_awal'), array('id' => 'f_jam_awal', 'class'=>'form-control')) }}
-								</div>
-								<div class="col-xs-2">
+								</div>								
+								<div class="col-xs-1">
 									{{ Form::text('jam_akhir', Input::old('jam_akhir'), array('id' => 'f_jam_akhir', 'class'=>'form-control')) }}
-								</div>
-								<script>
-								jQuery('#f_jam_awal').datetimepicker({
-									datepicker:false,
-									// allowTimes:[
-									// '12:00', '13:00', '15:00', 
-									// '17:00', '17:05', '17:20', '19:00', '20:00'
-									// ]
-									format:'H:i'
-								});
-								jQuery('#f_jam_akhir').datetimepicker({
-									datepicker:false,
-									format:'H:i'
-								});
-								</script>
+								</div>								
 							</div>			
 							<div class="form-group">
-								<label class="col-xs-4 control-label">Banyak jemaat yang hadir</label> 
+								<label class="col-xs-4 control-label">Banyak jemaat yang hadir antara</label> 
 								<div class="col-xs-2">
 									{{ Form::text('batas_bawah_hadir_jemaat', Input::old('batas_bawah_hadir_jemaat'), array('id' => 'f_batas_bawah_hadir_jemaat', 'class'=>'form-control' ,'onkeypress'=>'return isNumberKey(event)')) }}
 								</div>
@@ -153,7 +100,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-xs-4 control-label">Banyak simpatisan yang hadir</label> 
+								<label class="col-xs-4 control-label">Banyak simpatisan yang hadir antara</label> 
 								<div class="col-xs-2">
 									{{ Form::text('batas_bawah_hadir_simpatisan', Input::old('batas_bawah_hadir_simpatisan'), array('id' => 'f_batas_bawah_hadir_simpatisan', 'class'=>'form-control' ,'onkeypress'=>'return isNumberKey(event)')) }}
 								</div>
@@ -162,7 +109,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-xs-4 control-label">Banyak penatua yang hadir</label> 
+								<label class="col-xs-4 control-label">Banyak penatua yang hadir antara</label> 
 								<div class="col-xs-2">
 									{{ Form::text('batas_bawah_hadir_penatua', Input::old('batas_bawah_hadir_penatua'), array('id' => 'f_batas_bawah_hadir_penatua', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)')) }} 
 
@@ -172,7 +119,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-xs-4 control-label">Banyak pemusik yang hadir</label> 
+								<label class="col-xs-4 control-label">Banyak pemusik yang hadir antara</label> 
 								<div class="col-xs-2">
 									{{ Form::text('batas_bawah_hadir_pemusik', Input::old('batas_bawah_hadir_pemusik'), array('id' => 'f_batas_bawah_hadir_pemusik', 'class'=>'form-control' ,'onkeypress'=>'return isNumberKey(event)')) }} 
 
@@ -182,7 +129,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-xs-4 control-label">Banyak komisi yang hadir</label> 
+								<label class="col-xs-4 control-label">Banyak komisi yang hadir antara</label> 
 								<div class="col-xs-2">
 									{{ Form::text('batas_bawah_hadir_komisi', Input::old('batas_bawah_hadir_komisi'), array('id' => 'f_batas_bawah_hadir_komisi', 'class'=>'form-control' ,'onkeypress'=>'return isNumberKey(event)')) }} 
 
@@ -247,7 +194,63 @@
 	</div>	
 </div>	
 
-<script>					
+<script>
+	// $('#f_tanggal_awal').datepicker({
+		// format: 'yyyy-m-d'
+	// });
+	jQuery('#f_tanggal_awal').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});			
+	jQuery('#f_tanggal_akhir').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});	
+	jQuery('#f_jam_awal').datetimepicker({
+		datepicker:false,
+		// allowTimes:[
+		// '12:00', '13:00', '15:00', 
+		// '17:00', '17:05', '17:20', '19:00', '20:00'
+		// ]
+		format:'H:i'
+	});
+	jQuery('#f_jam_akhir').datetimepicker({
+		datepicker:false,
+		format:'H:i'
+	});
+								
 	function isNumberKey(evt){
 		var charCode = (evt.which) ? evt.which : event.keyCode
 		if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -262,6 +265,10 @@
 	var temp = '';
 	
 	$('body').on('click', '#f_search_kebaktian', function(){		
+		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$nama_kebaktian = $('#f_nama_kebaktian').val();
 		$nama_pendeta = $('#f_nama_pengkotbah').val();			
 		$tanggal_awal = $('#f_tanggal_awal').val();
@@ -337,6 +344,9 @@
 								result += '<th>';
 									result += 'Nama Kebaktian';
 								result += '</th>';
+								result += '<th>';
+									result += 'Nama Pengkotbah';
+								result += '</th>';
 								result += '<th>';										
 								result += '</th>';
 							result += '</tr>';
@@ -353,6 +363,9 @@
 									result+=temp_detail[$i]['nama_jenis_kegiatan'];						
 									// result+=temp_detail[$i]['id'];
 								result+='</td>';
+								result+='<td class="tabel_nama_pendeta'+$i+'">';
+									result+=temp_detail[$i]['nama_pendeta'];
+								result+='</td>';
 								result+='<td>';
 									result+='<input type="hidden" value='+$i+' />';
 									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
@@ -361,7 +374,7 @@
 									result+='</button>';
 									result+='<input type="hidden" value='+$i+' />';
 									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-									result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kebaktian">';
+									result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kebaktian">';
 										result+='Delete';
 									result+='</button>';
 								result+='</td>';
@@ -372,11 +385,18 @@
 					
 					// $('#f_result_body_kebaktian').html(result);		
 					$('#f_result_kebaktian').html(result);		
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
 					$('#f_result_kebaktian').html("<p>Hasil pencarian tidak didapatkan.</p>");		
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
+					
 					// $('#f_result_body_kebaktian').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
 					
 				}
@@ -427,6 +447,8 @@
 			error: function(jqXHR, textStatus, errorThrown){
 				alert("error");
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 				

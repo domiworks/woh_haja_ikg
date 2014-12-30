@@ -12,6 +12,10 @@
 		<!--<link href="{{ asset('assets/js/datepicker/css/datepicker.css') }}" rel="stylesheet">-->
 		<link href="{{ asset('assets/js/datetimepicker/jquery.datetimepicker.css') }}" rel="stylesheet">
 		
+		<!-- Loader -->
+		<link href="{{ asset('assets/css/loader.css') }}" rel="stylesheet">
+		
+		
 		<!--<link rel="icon" type="image/png" href="assets/img/favicon.png">--> <!-- {{ asset('assets/img/favicon.png') }} -->
 		<script src="{{ asset('assets/js/jquery-1.11.1.min.js') }}"></script>
 		<script src="{{ asset('assets/js/jquery-migrate-1.2.1.min.js') }}"></script>

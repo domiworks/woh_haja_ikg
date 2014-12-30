@@ -1,6 +1,15 @@
 @extends('layouts.user_layout')
 @section('content')
 
+<script>
+	$(document).ready(function(){				
+	
+		//END LOADER				
+		$('.f_loader_container').addClass('hidden');
+		
+	});	
+</script>
+
 <div class="s_content_maindiv" style="overflow: hidden;">
 	<div class="s_sidebar_main" style="">
 		<div>

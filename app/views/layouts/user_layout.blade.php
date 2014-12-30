@@ -30,6 +30,7 @@
 	</head>
 	<!--<body onload="startTime()">-->
 	<body>
+	
 		<!-- LOADER -->
 		<div class="f_loader_container hidden">
 			<div class="s_tbl">
@@ -47,16 +48,23 @@
 
 		<!-- <div class="s_orenji_header">
 		</div> -->		
-		<div class="s_top_header">
+		<div class="s_top_header" style="height:110px;">
 			<div class="container-fluid">
-				<div class="row">
-					<div class="col-lg-4">
-						<!-- <img src="" height="50" width="50" style="float: left; margin-right:20px; margin-top: 10px;"/> -->						
-						<h2 style="margin-top: 5px; margin-bottom: 5px;">{{ $header['nama'] }}</h2>
-						<h4>{{ $header['alamat'] }} {{ $header['kota'] }}</h4>						
+				<div class="row" style="background-color:white;">
+					<div class="col-lg-1">
+						<img src="{{URL::to('/assets/logo/logoGKI.jpg')}}" alt="(logo GKI)" style="height: 100px; width: 100px; margin-top:5px;"/>
 					</div>
-					<div class="col-lg-8" style="line-height: 69px; text-align: right;">
-						Selamat datang, {{ Auth::user()->username }} | {{ HTML::linkRoute('logout', 'keluar')}}
+					<div class="col-lg-4">						
+						<strong><h2 style="color:black; margin-top: 5px; margin-bottom: 5px;">{{ $header['nama'] }}</h2></strong>
+						<h4 style="color:black;">
+							{{ $header['alamat'] }} {{ $header['kota'] }}
+						</h4>						
+						<h4 style="color:black;">
+							{{ $header['telp'] }}
+						</h4>
+					</div>
+					<div class="col-lg-7" style="color:black; line-height: 160px; text-align: right;">
+						Selamat datang, {{ Auth::user()->username }} | {{ HTML::linkRoute('logout', 'keluar', '', array('style'=>'color:blue;'))}}
 					</div>	
 					<!--
 					<div class="col-lg-8" style="line-height: 69px; text-align: right;">

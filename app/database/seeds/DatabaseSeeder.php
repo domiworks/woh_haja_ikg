@@ -141,7 +141,7 @@ class DatabaseSeeder extends Seeder {
 		$acc2 -> id_gereja = $gereja->id; //GKI Guntur
 		// $acc2 -> remember_token = ""; //auto generate dari laravel
 		$acc2 -> role = 0;	//untuk user biasa atau operator TU
-		$acc2 -> save();
+		$acc2 -> save();								
 		
 		//---------------------------------- ADMIN ----------------------------------				
 		/*

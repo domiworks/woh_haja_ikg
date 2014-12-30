@@ -116,19 +116,20 @@
 					location.reload();
 					
 					// $(".loader").fadeOut(200, function(){});
-					
-					//END LOADER
-					$('.f_loader_container').addClass('hidden');
+										
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');	
 				}				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
-			}
-		},'json');
-			
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
+			}			
+		},'json');	
 	});
 </script>

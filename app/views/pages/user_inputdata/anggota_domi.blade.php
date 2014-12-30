@@ -56,7 +56,7 @@ $(document).ready(function(){
 									Nomor anggota
 								</label>
 
-								<div class="col-xs-4">
+								<div class="col-xs-3">
 									{{ Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_nomor_anggota', 'class'=>'form-control')) }}
 								</div>
 							</div>	

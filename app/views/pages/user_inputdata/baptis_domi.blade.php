@@ -61,7 +61,19 @@ $(document).ready(function(){
 								<div class="col-xs-0">
 									*
 								</div>						
-							</div>		
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Tanggal Baptis
+								</label>
+
+								<div class="col-xs-2">
+									<input type="text" name="tanggal_baptis" id="f_tanggal_baptis" class="form-control">
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>								
+							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Pembaptis
@@ -111,19 +123,7 @@ $(document).ready(function(){
 								<div class="col-xs-0">
 									*
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-xs-4 control-label">
-									Tanggal Baptis
-								</label>
-
-								<div class="col-xs-2">
-									<input type="text" name="tanggal_baptis" id="f_tanggal_baptis" class="form-control">
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>								
-							</div>
+							</div>							
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Keterangan

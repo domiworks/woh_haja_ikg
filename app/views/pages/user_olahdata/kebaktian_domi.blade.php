@@ -61,14 +61,14 @@
 						<form class="form-horizontal">
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Kebaktian</label> 
-								<div class="col-xs-5">								
+								<div class="col-xs-4">								
 									{{Form::text('nama_kebaktian', Input::old('nama_kebaktian'), array('id'=>'f_nama_kebaktian', 'class'=>'form-control'))}}
 								</div>
 										
 							</div>				
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Pengkotbah</label> 
-								<div class="col-xs-5">
+								<div class="col-xs-4">
 									{{Form::text('nama_pengkotbah', Input::old('nama_pengkotbah') , array('id' => 'f_nama_pengkotbah', 'class'=>'form-control'))}}
 								</div>
 							</div>
@@ -141,7 +141,7 @@
 
 							<div class="form-group">
 								<div class="col-xs-5 col-xs-push-4">
-								<input type="button" id="f_search_kebaktian" class="btn btn-success" value="Cari Data Kebaktian"></input>
+									<input type="button" id="f_search_kebaktian" class="btn btn-success" value="Cari Data Kebaktian"></input>
 								</div>
 							</div>
 						</form>
@@ -186,7 +186,6 @@
 								-->
 							<!--</tbody>
 						</table>-->
-						
 					</div>						
 				</div>
 			</div>

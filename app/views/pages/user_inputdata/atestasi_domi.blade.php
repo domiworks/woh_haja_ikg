@@ -108,7 +108,19 @@
 								<div class="col-xs-0">
 									*
 								</div>
-							</div>				
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Tanggal Atestasi
+								</label>						
+								<div class="col-xs-2">
+									{{ Form::text('tanggal_atestasi', Input::old('tanggal_atestasi'), array('id' => 'f_tanggal_atestasi', 'class'=>'form-control')) }}
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>
+								
+							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Jemaat
@@ -123,19 +135,7 @@
 								<div class="col-xs-0">
 									*
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-xs-4 control-label">
-									Tanggal Atestasi
-								</label>						
-								<div class="col-xs-2">
-									{{ Form::text('tanggal_atestasi', Input::old('tanggal_atestasi'), array('id' => 'f_tanggal_atestasi', 'class'=>'form-control')) }}
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
-								
-							</div>
+							</div>							
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Jenis Atestasi

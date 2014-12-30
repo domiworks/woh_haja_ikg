@@ -19,6 +19,9 @@
 <script>
 	$('body').on('click', '.okDelete', function(){
 		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$data = {
 			'id' : $id
 		};
@@ -45,7 +48,7 @@
 					
 					//gambar ulang tabel
 					var result = '';
-					result += '<table class="table table-bordered">';
+					result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
 						result += '<thead>';
 							result += '<tr>';
 								result += '<th>';
@@ -92,10 +95,15 @@
 					
 					// $('#f_result_body_baptis').html(result);
 					$('#f_result_baptis').html(result);
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				/*
 				if(response == "berhasil")
@@ -112,6 +120,8 @@
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});

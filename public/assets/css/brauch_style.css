@@ -80,12 +80,14 @@ hr {
   float: left;
   overflow-y: scroll;
   overflow-x: hidden;
+  position: absolute;
+  right: 0px;
 }
 
 /* ==========================================================================
    Pop up
    ========================================================================== */
-/* line 111, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 113, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .pop_up_super_c {
   width: 100%;
   height: 100%;
@@ -97,7 +99,7 @@ hr {
   overflow: auto;
 }
 
-/* line 121, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 123, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .pop_up_tbl {
   width: 100%;
   height: 100%;
@@ -107,13 +109,13 @@ hr {
   vertical-align: middle;
 }
 
-/* line 129, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 131, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .pop_up_cell {
   display: table-cell;
   vertical-align: middle;
 }
 
-/* line 133, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 135, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .close_56 {
   background: url("../img/close56.png") no-repeat;
   width: 56px;
@@ -129,7 +131,7 @@ hr {
 /* ==========================================================================
    Admin panel
    ========================================================================== */
-/* line 150, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 152, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_orenji_header {
   background-color: #d75f07;
   display: block;
@@ -137,7 +139,7 @@ hr {
   height: 20px;
 }
 
-/* line 157, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 159, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_top_header {
   display: block;
   width: 100%;
@@ -148,12 +150,12 @@ hr {
   background: linear-gradient(45deg, #50db06 0%, rgba(80, 219, 6, 0) 70%), linear-gradient(135deg, #094ece 10%, rgba(9, 78, 206, 0) 80%), linear-gradient(225deg, #00db9d 10%, rgba(0, 219, 157, 0) 80%), linear-gradient(315deg, #3ff104 100%, rgba(63, 241, 4, 0) 70%);
   border-bottom: 1px #5f767f solid;
 }
-/* line 162, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 164, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_top_header * {
   color: #fff;
 }
 
-/* line 198, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 200, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_nav_header {
   background: #606c88;
   /* Old browsers */
@@ -177,21 +179,21 @@ hr {
   width: 100%;
   height: 20px;
 }
-/* line 214, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 216, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_nav_header * {
   list-style-type: none;
   color: #b9b9b9;
   cursor: pointer;
 }
-/* line 220, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 222, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_nav_header nav > ul {
   padding-left: 0px;
 }
-/* line 223, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 225, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_nav_header nav > ul > li {
   display: inline-block;
 }
-/* line 225, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 227, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_nav_header nav > ul > li > a {
   display: block;
   padding-left: 20px;
@@ -199,15 +201,15 @@ hr {
   line-height: 20px;
   text-align: center;
 }
-/* line 233, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 235, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_nav_header nav > ul > li > ul {
   padding-left: 0px;
 }
-/* line 236, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 238, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_nav_header nav > ul > li > ul > li {
   display: block;
 }
-/* line 238, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 240, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_nav_header nav > ul > li > ul > li > a {
   display: block;
   padding-left: 20px;
@@ -216,20 +218,20 @@ hr {
   text-align: center;
 }
 
-/* line 253, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 255, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_top_nav {
   margin: 0;
   padding: 0;
 }
 
-/* line 257, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 259, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_top_nav li {
   float: left;
   list-style: none;
   font: 12px Tahoma, Arial;
 }
 
-/* line 263, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 265, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_top_nav li a {
   display: block;
   position: relative;
@@ -259,12 +261,12 @@ hr {
   white-space: nowrap;
 }
 
-/* line 286, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 288, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_top_nav li a:hover {
   background: #1A4473;
 }
 
-/* line 289, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 291, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_top_nav li ul {
   margin: 0;
   padding: 0;
@@ -274,13 +276,13 @@ hr {
   position: relative;
 }
 
-/* line 297, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 299, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_top_nav li ul li {
   float: none;
   display: inline;
 }
 
-/* line 302, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 304, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_top_nav li ul li a {
   width: auto;
   background: #9F1B1B;
@@ -288,20 +290,20 @@ hr {
   z-index: 90;
 }
 
-/* line 308, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 310, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_top_nav li ul li a:hover {
   background: #7F1616;
 }
 
-/* line 315, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 317, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_list_container * {
   list-style-type: none;
 }
-/* line 316, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 318, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_list_container li {
   display: inline-block;
 }
-/* line 319, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 321, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .s_list_container li > div {
   display: block;
   float: left;
@@ -310,7 +312,7 @@ hr {
 /* ==========================================================================
    Mod
    ========================================================================== */
-/* line 332, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 334, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
   background-color: #fcf5dd;
 }
@@ -320,7 +322,7 @@ hr {
 
  
 /* --- Style --- */
-/* line 344, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 346, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default {
   border-top: 1px #2d444f solid;
   border-bottom: 1px #2d444f solid;
@@ -347,27 +349,27 @@ hr {
   /* IE6-8 */
   border-radius: 0px;
 }
-/* line 367, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 369, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-brand {
   color: #ecf0f1;
 }
-/* line 369, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 371, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
   color: #ffe6d1;
 }
-/* line 373, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 375, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-nav > li > a {
   padding-top: 0px;
   padding-bottom: 0px;
   line-height: 30px;
   color: #ecf0f1;
 }
-/* line 378, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 380, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
   background-color: #d45400;
   color: #ffe6d1;
 }
-/* line 385, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 387, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-nav .active > a, .navbar-default .navbar-nav .active > a:hover, .navbar-default .navbar-nav .active > a:focus {
   padding-top: 0px;
   padding-bottom: 0px;
@@ -375,7 +377,7 @@ hr {
   color: #ffe6d1;
   background-color: #9f3f00;
 }
-/* line 392, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 394, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-nav .open > a, .navbar-default .navbar-nav .open > a:hover, .navbar-default .navbar-nav .open > a:focus {
   padding-top: 0px;
   padding-bottom: 0px;
@@ -383,58 +385,58 @@ hr {
   color: #ffe6d1;
   background-color: #9f3f00;
 }
-/* line 398, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 400, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-nav .open > a .caret, .navbar-default .navbar-nav .open > a:hover .caret, .navbar-default .navbar-nav .open > a:focus .caret {
   border-top-color: #ffe6d1;
   border-bottom-color: #ffe6d1;
 }
-/* line 402, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 404, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-nav > .dropdown > a {
   padding-top: 0px;
   padding-bottom: 0px;
   line-height: 30px;
 }
-/* line 406, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 408, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-nav > .dropdown > a .caret {
   border-top-color: #ecf0f1;
   border-bottom-color: #ecf0f1;
 }
-/* line 410, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 412, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-nav > .dropdown > a:hover .caret, .navbar-default .navbar-nav > .dropdown > a:focus .caret {
   border-top-color: #ffe6d1;
   border-bottom-color: #ffe6d1;
 }
-/* line 413, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 415, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-toggle {
   border-color: #9f3f00;
 }
-/* line 415, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 417, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
   background-color: #9f3f00;
 }
-/* line 417, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 419, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #ecf0f1;
 }
 
 @media (max-width: 767px) {
-  /* line 420, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+  /* line 422, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #ecf0f1;
   }
-  /* line 422, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+  /* line 424, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
   .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
     color: #ffe6d1;
     background-color: #9f3f00;
   }
 }
-/* line 433, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 435, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 #editor {
   overflow: scroll;
   max-height: 300px;
 }
 
-/* line 435, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
+/* line 437, E:/xampp/htdocs/gki_system/public/assets/css/brauch_style.scss */
 .f_table_suggestion tr td {
   cursor: pointer !important;
 }

@@ -12,6 +12,11 @@
 */
 
 Route::get('/import', ['as' => 'get.import' , 'uses' => 'ExcelController@import']);
+
+Route::get('/import_kegiatan_gki_cianjur', ['as' => 'get.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan_GKI_Cianjur']);
+
+Route::get('/export_kegiatan/{id_jenis_kegiatan?}/{id_gereja?}/{dateF?}/{dateT?}', ['as' => 'get.import_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);
+
 Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export']);
 
 Route::get('/tes', function(){

@@ -118,7 +118,16 @@ class InputEditController extends BaseController {
 			return json_encode($respond);
 			// return "Bagian yang bertanda (*) harus diisi.";
 		}
-				
+		
+		/*
+			VALIDATE DUPLICATE DATA BLOM
+				parameter ? 
+					nama_jenis_kegiatan
+					id_gereja
+					tanggal_mulai
+					tanggal_selesai
+		*/
+		
 		$kebaktian = new Kegiatan();												
 		if($input->{'id_jenis_kegiatan'} == '')
 		{

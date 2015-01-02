@@ -80,30 +80,7 @@
 						</div>
 						<div class="col-xs-0">
 							*
-						</div>
-						<script>
-						jQuery('#f_edit_tanggal_baptis').datetimepicker({
-							lang:'en',
-							i18n:{
-								en:{
-									months:[
-									'Januari','Februari','Maret','April',
-									'Mei','Juni','Juli','Agustus',
-									'September','Oktober','November','Desember',
-									],
-									dayOfWeek:[
-									"Ming.", "Sen.", "Sel.", "Rab.", 
-									"Kam.", "Jum.", "Sab.",
-									]
-
-								}
-							},
-							timepicker:false,
-							format: 'Y-m-d',					
-							yearStart: '1900'
-						});			
-
-						</script>
+						</div>						
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -129,7 +106,32 @@
 </div>
 
 <script>
+	jQuery('#f_edit_tanggal_baptis').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});	
+						
 	$('body').on('click', '#f_edit_post_baptis', function(){
+	
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$nomor_baptis = $('#f_edit_nomor_baptis').val();
 		$pembaptis = $('#f_edit_pembaptis').val();
 		$jemaat = $('#f_edit_jemaat').val();
@@ -166,12 +168,18 @@
 					//ganti isi row sesuai hasil edit_baptis
 					$('.tabel_no_baptis'+temp).html(result.data['no_baptis']);
 					$('.tabel_nama_jemaat'+temp).html(result.data['nama_jemaat']);
+					$('.tabel_nama_jenis_baptis'+temp).html(result.data['nama_jenis_baptis']);
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				/*
 				if(response == "berhasil")
@@ -188,6 +196,8 @@
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});	

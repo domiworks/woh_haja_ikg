@@ -4,6 +4,9 @@
 <script>
 $(document).ready(function(){				
 	
+	//END LOADER				
+	$('.f_loader_container').addClass('hidden');
+				
 	$('#f_nama_kebaktian').attr('disabled', true);		
 	$('#f_kebaktian_ke').attr('disabled', false);				
 
@@ -42,7 +45,7 @@ $(document).ready(function(){
 
 
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="width:200px;">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_user_inputdata')
 		</div>
@@ -74,7 +77,7 @@ $(document).ready(function(){
 				</div>-->
 				
 				<!--div class="panel panel-default col-md-12"-->
-				<div style="margin-top: 15px;" class="panel panel-default">
+				<div style="margin-top: 15px;" class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							KEBAKTIAN
@@ -85,23 +88,30 @@ $(document).ready(function(){
 
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Kebaktian</label>
-								<div class="col-xs-5">
+								<div class="col-xs-4">
 									@if($list_jenis_kegiatan == null)
 										<p class="control-label pull-left">(tidak ada daftar kegiatan)</p>
 									@else
 										{{Form::select('kebaktian_ke', $list_jenis_kegiatan, Input::old('kebaktian_ke'), array('id'=>'f_kebaktian_ke', 'class'=>'form-control', 'disabled' => false))}} 
 									@endif	
+									<!--
 									<div class="checkbox">
 										<label>
 											<input id="f_check_kebaktian_lain" type="checkbox" name="kebaktian_lain" value="0" /> Kebaktian Lain
 										</label>
-									</div>							
-								</div>								
+									</div>
+									-->
+								</div>		
+								<div class="col-xs-0">
+								
+									<input id="f_check_kebaktian_lain" type="checkbox" name="kebaktian_lain" value="0" /> Kebaktian Lain
+									
+								</div>
 							</div>
 							
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Kebaktian</label>
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									{{Form::text('nama_kebaktian', Input::old('nama_kebaktian') , array('id' => 'f_nama_kebaktian', 'disabled' => true , 'class'=>'form-control'))}}
 								</div>
 								<div class="col-xs-0">
@@ -111,23 +121,29 @@ $(document).ready(function(){
 
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Pengkotbah</label>
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									@if($list_pembicara == null)
 										<p class="control-label pull-left">(tidak ada daftar pengkotbah)</p>
 									@else
 										{{Form::select('pengkotbah', $list_pembicara, Input::old('pengkotbah'), array('id'=>'f_pengkotbah','class'=>'form-control', 'disabled' => false))}}	 	
-									@endif							
+									@endif	
+									<!--
 									<div class="checkbox">
 										<label>
 											<input id="f_check_pembicara_luar" type="checkbox" name="pembicara_luar" value="0" /> Pembicara Luar
 										</label>
 									</div>
+									-->
+								</div>
+								<div class="col-xs-0">
+									<input id="f_check_pembicara_luar" type="checkbox" name="pembicara_luar" value="0" /> Pembicara Luar
+									
 								</div>								
 							</div>
 
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Pengkotbah</label>
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									{{Form::text('nama_pengkotbah', Input::old('nama_pengkotbah') , array('id' => 'f_nama_pengkotbah', 'disabled' => true , 'class'=>'form-control'))}} 
 								</div>
 								<div class="col-xs-0">
@@ -153,10 +169,10 @@ $(document).ready(function(){
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Jam Mulai - Jam Selesai</label>
 
-								<div class="col-xs-3">
+								<div class="col-xs-1">
 									{{ Form::text('jam_mulai', Input::old('jam_mulai'), array('id' => 'f_jam_mulai', 'class'=>'form-control')) }} 
-								</div>
-								<div class="col-xs-3">
+								</div>								
+								<div class="col-xs-1">
 									{{ Form::text('jam_selesai', Input::old('jam_selesai'), array('id' => 'f_jam_selesai', 'class'=>'form-control')) }} 
 								</div>
 								<div class="col-xs-0">
@@ -167,16 +183,16 @@ $(document).ready(function(){
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Banyak Jemaat Pria, Banyak Jemaat Wanita</label>
 
-								<div class="col-xs-3">
+								<div class="col-xs-2">
 									{{Form::text('banyak_jemaat_pria', Input::old('banyak_jemaat_pria'), array('id'=>'f_banyak_jemaat_pria', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
-								<div class="col-xs-3">	
+								<div class="col-xs-2">	
 									{{Form::text('banyak_jemaat_wanita', Input::old('banyak_jemaat_wanita'), array('id'=>'f_banyak_jemaat_wanita', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Banyak Seluruh Jemaat</label>
-								<div class="col-xs-6">
+								<div class="col-xs-2">
 									{{Form::text('banyak_jemaat', Input::old('banyak_jemaat'), array('id'=>'f_banyak_jemaat', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
 								<div class="col-xs-0">
@@ -189,10 +205,10 @@ $(document).ready(function(){
 									Banyak Simpatisan Pria dan Wanita
 								</label>
 
-								<div class="col-xs-3">
+								<div class="col-xs-2">
 									{{Form::text('banyak_simpatisan_pria', Input::old('banyak_simpatisan_pria'), array('id'=>'f_banyak_simpatisan_pria', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
-								<div class="col-xs-3">
+								<div class="col-xs-2">
 									{{Form::text('banyak_simpatisan_wanita', Input::old('banyak_simpatisan_wanita'), array('id'=>'f_banyak_simpatisan_wanita', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
 								</div>
 							</div>
@@ -201,7 +217,7 @@ $(document).ready(function(){
 									Banyak Seluruh Simpatisan
 								</label>
 
-								<div class="col-xs-6">
+								<div class="col-xs-2">
 									{{Form::text('banyak_simpatisan', Input::old('banyak_simpatisan'), array('id'=>'f_banyak_simpatisan', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
 								<div class="col-xs-0">
@@ -213,10 +229,10 @@ $(document).ready(function(){
 									Banyak Penatua Pria dan Wanita
 								</label>
 
-								<div class="col-xs-3">
+								<div class="col-xs-2">
 									{{Form::text('banyak_penatua_pria', Input::old('banyak_penatua_pria'), array('id'=>'f_banyak_penatua_pria', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
-								<div class="col-xs-3">
+								<div class="col-xs-2">
 									{{Form::text('banyak_penatua_wanita', Input::old('banyak_penatua_wanita'), array('id'=>'f_banyak_penatua_wanita', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
 								</div>
 							</div>
@@ -225,7 +241,7 @@ $(document).ready(function(){
 									Banyak Seluruh Penatua
 								</label>
 
-								<div class="col-xs-6">
+								<div class="col-xs-2">
 									{{Form::text('banyak_penatua', Input::old('banyak_penatua'), array('id'=>'f_banyak_penatua', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
 								<div class="col-xs-0">
@@ -236,10 +252,10 @@ $(document).ready(function(){
 								<label class="col-xs-4 control-label">
 									Banyak Pemusik Pri dan Wanita
 								</label>
-								<div class="col-xs-3">
+								<div class="col-xs-2">
 									{{Form::text('banyak_pemusik_pria', Input::old('banyak_pemusik_pria'), array('id'=>'f_banyak_pemusik_pria', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
 								</div>
-								<div class="col-xs-3">
+								<div class="col-xs-2">
 									{{Form::text('banyak_pemusik_wanita', Input::old('banyak_pemusik_wanita'), array('id'=>'f_banyak_pemusik_wanita', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
 								</div>
 							</div>
@@ -248,7 +264,7 @@ $(document).ready(function(){
 									Banyak Seluruh Pemusik
 								</label>
 
-								<div class="col-xs-6">
+								<div class="col-xs-2">
 									{{Form::text('banyak_pemusik', Input::old('banyak_pemusik'), array('id'=>'f_banyak_pemusik', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
 								<div class="col-xs-0">
@@ -260,10 +276,10 @@ $(document).ready(function(){
 									Banyak Komisi Pria dan Wanita
 								</label>
 
-								<div class="col-xs-3">
+								<div class="col-xs-2">
 									{{Form::text('banyak_komisi_pria', Input::old('banyak_komisi_pria'), array('id'=>'f_banyak_komisi_pria', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
 								</div>
-								<div class="col-xs-3">
+								<div class="col-xs-2">
 									{{Form::text('banyak_komisi_wanita', Input::old('banyak_komisi_wanita'), array('id'=>'f_banyak_komisi_wanita', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}}
 								</div>
 							</div>
@@ -272,7 +288,7 @@ $(document).ready(function(){
 									Banyak Seluruh Komisi
 								</label>
 
-								<div class="col-xs-6">
+								<div class="col-xs-2">
 									{{Form::text('banyak_komisi', Input::old('banyak_komisi'), array('id'=>'f_banyak_komisi', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
 								<div class="col-xs-0">
@@ -284,7 +300,7 @@ $(document).ready(function(){
 								<label class="col-xs-4 control-label">
 									Jumlah Persembahan
 								</label>
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									{{Form::text('jumlah_persembahan', Input::old('jumlah_persembahan'), array('id'=>'f_jumlah_persembahan', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
 								<div class="col-xs-0">
@@ -304,12 +320,15 @@ $(document).ready(function(){
 									@if($list_jenis_kegiatan == null || $list_pembicara == null)
 										<input type="button" value="Simpan Data Kebaktian" id="f_post_kebaktian" class="btn btn-success" disabled=true />
 									@else
-										<input type="button" value="Simpan Data Kebaktian" id="f_post_kebaktian" class="btn btn-success" data-toggle="modal" data-target=".popup_confirm_warning_kebaktian"/>
+										<input type="button" value="Simpan Data Kebaktian" id="f_post_kebaktian" class="btn btn-success" data-toggle="modal" data-target=".popup_confirm_warning_kebaktian" />
 									@endif 							
 								</div>
 							</div>
 						</form>	
-					</div>	
+					</div>
+					<div class="panel-footer" style="background-color: white;">
+						(*) wajib diisi
+					</div>
 				</div>	
 			</div>	
 		</div>	
@@ -578,6 +597,15 @@ $(document).ready(function(){
 		$('#f_banyak_komisi_wanita').val('');		
 	});
 	
+	//desimal persembahan
+	// $('body').on('change','#f_jumlah_persembahan',function(){
+		// var temp_uang = $('#f_jumlah_persembahan').val();
+		// if(temp_uang.length >= 3)
+		// {
+			// alert('titik');
+		// }
+	// });
+	
 	function isNumberKey(evt){
 		var charCode = (evt.which) ? evt.which : event.keyCode
 		if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -586,10 +614,7 @@ $(document).ready(function(){
 	}
 	
 	$('body').on('click', '#f_post_kebaktian', function(){	  
-		//SHOW POP UP CONFIRM KEBAKTIAN
-	
-		//START LOADER				
-		$('.f_loader_container').removeClass('hidden');
+		//SHOW POP UP CONFIRM KEBAKTIAN			
 		
 		/*
 		if($('#f_check_kebaktian_lain').val() == 1) //pakai nama kebaktian lain

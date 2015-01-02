@@ -1,4 +1,4 @@
-<div class="modal fade popup_delete_warning_dkh" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade popup_confirm_warning_dkh" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -6,10 +6,10 @@
 				<h4 class="modal-title" id="myModalLabel">Alert!</h4>
 			</div>
 			<div class="modal-body"  style="text-align: center;">
-				Apakah Anda yakin ingin menghapus data ini?
+				Apakah Anda yakin data yang dimasukkan sudah benar?
 			</div>
 			<div class="modal-footer" style="text-align: center;">
-				<button type="button" class="btn btn-danger okDelete" data-dismiss="modal">Yes</button>
+				<button type="button" class="btn btn-danger okCOnfirm" data-dismiss="modal">Yes</button>
 				<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
 			</div>
 		</div>
@@ -17,99 +17,52 @@
 </div>
 
 <script>
-	$('body').on('click', '.okDelete', function(){
+	$('body').on('click', '.okCOnfirm', function(){
+	
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
+		$no_dkh = $('#f_nomor_dkh').val();
+		$id_jemaat = $('#f_nama_jemaat').val();
+		$keterangan = $('#f_keterangan').val();
+		
 		$data = {
-			'id' : $id
+			'no_dkh' : $no_dkh,
+			'id_jemaat' : $id_jemaat,
+			'keterangan' : $keterangan
 		};
 		
 		var json_data = JSON.stringify($data);
 		
 		$.ajax({
-			type: 'DELETE',
-			url: "{{URL('user/delete_dkh')}}",
-			data : {
-				'json_data' : json_data
+			type: "POST",
+			url: "{{URL('user/post_dkh')}}",
+			data: {
 				// 'data' : $data
+				'json_data' : json_data
 			},
-			success: function(response){
-				result = JSON.parse(response);				
-				if(result.code==204)
+			success: function(response){				
+				result = JSON.parse(response);
+				if(result.code==201)
 				{
 					alert(result.messages);
-					// window.location = '{{URL::route('view_olahdata_dkh')}}';
-					
-					//remove row
-					temp_detail[temp] = 'remove';
-					
-					//gambar ulang tabel
-					var result = '';				
-					result += '<table class="table table-bordered">';
-						result += '<thead>';
-							result += '<tr>';
-								result += '<th>';
-									result += 'No. Dkh';
-								result += '</th>';
-								result += '<th>';
-									result += 'Nama Anggota';
-								result += '</th>';
-								result += '<th>';
-									
-								result += '</th>';
-							result += '</tr>';
-						result += '</thead>';
-						result += '<tbody id="f_result_body_dkh">';
-						for($i = 0; $i < temp_detail.length; $i++)
-						{
-							if(temp_detail[$i] != 'remove')
-							{
-								//set value di table
-								result+= '<tr class="tabel_row'+$i+'">';
-									result+='<td class="tabel_no_dkh'+$i+'">';
-										result+=temp_detail[$i]['no_dkh'];								
-									result+='</td>';
-									result+='<td class="tabel_nama_anggota'+$i+'">';
-										result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
-									result+='</td>';
-									result+='<td>';
-										result+='<input type="hidden" value='+$i+' />';
-										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-										result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_dkh">';
-											result+='Detail/Edit';
-										result+='</button>';
-										result+='<input type="hidden" value='+$i+' />';
-										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-										result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_dkh">';
-											result+='Delete';
-										result+='</button>';
-									result+='</td>';
-								result+='</tr>';		
-							}
-						}
-						result += '</tbody>';
-					result += '</table>';
-						
-					// $('#f_result_body_dkh').html(result);
-					$('#f_result_dkh').html(result);
+					// window.location = '{{URL::route('view_inputdata_dkh')}}';
+					location.reload();
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');	
 				}
-				/*
-				if(response == "berhasil")
-				{	
-					alert("Berhasil hapus data.");
-					// location.reload();
-					window.location = '{{URL::route('view_olahdata_dkh')}}';					
-				}
-				else
-				{
-					alert(response);
-				}
-				*/
+				// alert(result.code);
+				// alert(result.status);
+			
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');	
 			}
 		},'json');
 	});

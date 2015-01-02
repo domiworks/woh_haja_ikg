@@ -1,6 +1,6 @@
 <script>
-$('body').on('click', '#f_edit_check_jemaat_wanita', function(){		
-	if($('#f_edit_check_jemaat_wanita').val() == 0){	
+	$('body').on('click', '#f_edit_check_jemaat_wanita', function(){		
+		if($('#f_edit_check_jemaat_wanita').val() == 0){	
 			$('#f_edit_check_jemaat_wanita').val(1); //pakai pembicara luar jika value f_edit_check_jemaat_wanita == 1
 			$('#f_edit_nama_mempelai_wanita').attr('disabled', false);			
 			$('#f_edit_nama_mempelai_wanita').val("");
@@ -17,8 +17,8 @@ $('body').on('click', '#f_edit_check_jemaat_wanita', function(){
 		}
 	});
 
-$('body').on('click', '#f_edit_check_jemaat_pria', function(){		
-	if($('#f_edit_check_jemaat_pria').val() == 0){	
+	$('body').on('click', '#f_edit_check_jemaat_pria', function(){		
+		if($('#f_edit_check_jemaat_pria').val() == 0){	
 			$('#f_edit_check_jemaat_pria').val(1); //pakai pembicara luar jika value f_edit_check_jemaat_pria == 1
 			$('#f_edit_nama_mempelai_pria').attr('disabled', false);			
 			$('#f_edit_nama_mempelai_pria').val("");
@@ -47,9 +47,9 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 				<form class="form-horizontal">
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
-							Nomor Pernikahan
+							Nomor Piagam Pernikahan
 						</label>
-						<div class="col-xs-6">
+						<div class="col-xs-4">
 							{{ Form::text('nomor_pernikahan', Input::old('nomor_pernikahan'), array('id' => 'f_edit_nomor_pernikahan', 'class'=>'form-control')) }}
 						</div>
 						<div class="col-xs-0">
@@ -60,40 +60,19 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 						<label class="col-xs-4 control-label">
 							Tanggal Pernikahan
 						</label>
-						<div class="col-xs-6">
+						<div class="col-xs-2">
 							{{ Form::text('tanggal_pernikahan', Input::old('tanggal_pernikahan'), array('id' => 'f_edit_tanggal_pernikahan', 'class'=>'form-control')) }}
 						</div>
 						<div class="col-xs-0">
 							*
 						</div>
-						<script>
-						jQuery('#f_edit_tanggal_pernikahan').datetimepicker({
-							lang:'en',
-							i18n:{
-								en:{
-									months:[
-									'Januari','Februari','Maret','April',
-									'Mei','Juni','Juli','Agustus',
-									'September','Oktober','November','Desember',
-									],
-									dayOfWeek:[
-									"Ming.", "Sen.", "Sel.", "Rab.", 
-									"Kam.", "Jum.", "Sab.",
-									]
-
-								}
-							},
-							timepicker:false,
-							format: 'Y-m-d',
-							yearStart: '1900'
-						});
-						</script>
+						
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Pendeta yang memberkati
 						</label>
-						<div class="col-xs-6">
+						<div class="col-xs-4">
 							@if($list_pendeta == null)
 								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
 							@else
@@ -120,7 +99,7 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 						<label class="col-xs-4 control-label">
 							Jemaat Pria
 						</label>
-						<div class="col-xs-6">
+						<div class="col-xs-4">
 							@if($list_jemaat_pria == null)
 								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
 							@else
@@ -142,7 +121,7 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 						<label class="col-xs-4 control-label">
 							Nama Mempelai Pria
 						</label>
-						<div class="col-xs-6">
+						<div class="col-xs-4">
 							{{ Form::text('nama_mempelai_pria', Input::old('nama_mempelai_pria'), array('id' => 'f_edit_nama_mempelai_pria', 'class'=>'form-control')) }}
 						</div>
 						<div class="col-xs-0">
@@ -154,7 +133,7 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 						<label class="col-xs-4 control-label">
 							Jemaat Wanita
 						</label>
-						<div class="col-xs-6">
+						<div class="col-xs-4">
 							@if($list_jemaat_wanita == null)
 								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
 							@else
@@ -175,7 +154,7 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 						<label class="col-xs-4 control-label">
 							Nama Mempelai Wanita
 						</label>
-						<div class="col-xs-6">
+						<div class="col-xs-4">
 							{{ Form::text('nama_mempelai_wanita', Input::old('nama_mempelai_wanita'), array('id' => 'f_edit_nama_mempelai_wanita', 'class'=>'form-control')) }}
 						</div>
 						<div class="col-xs-0">
@@ -207,7 +186,32 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 </div>
 
 <script>
-	$('body').on('click', '#f_edit_post_pernikahan', function(){					
+	jQuery('#f_edit_tanggal_pernikahan').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',
+		yearStart: '1900'
+	});
+						
+	$('body').on('click', '#f_edit_post_pernikahan', function(){
+		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$no_pernikahan = $('#f_edit_nomor_pernikahan').val();		
 		$tanggal_pernikahan = $('#f_edit_tanggal_pernikahan').val();
 		$id_pendeta = $('#f_edit_id_pendeta').val();
@@ -269,10 +273,15 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 					$('.tabel_nama_wanita'+temp).html(result.data['nama_wanita']);
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				/*
 				if(response == "berhasil")
@@ -290,6 +299,8 @@ $('body').on('click', '#f_edit_check_jemaat_pria', function(){
 			error: function(jqXHR, textStatus, errorThrown){
 				alert('error');
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});

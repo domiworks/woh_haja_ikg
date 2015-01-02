@@ -18,6 +18,10 @@
 
 <script>
 	$('body').on('click', '.okDelete', function(){
+		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$data = {
 			'id' : $id
 		};
@@ -43,11 +47,11 @@
 					
 					//gambar ulang tabel
 					var result = '';
-					result += '<table class="table table-bordered">';
+					result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
 						result += '<thead>';
 							result += '<tr>';
 								result += '<th>';
-									result += 'No. Pernikahan';
+									result += 'No. Piagam Pernikahan';
 								result += '</th>';
 								result += '<th>';
 									result += 'Mempelai Pria';
@@ -80,12 +84,12 @@
 										result+='<input type="hidden" value='+$i+' />';
 										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
 										result+='<button type="button" class="btn btn-warning detailButton " data-toggle="modal" data-target=".popup_edit_pernikahan">';
-											result+='Edit';
+											result+='Detail/Edit';
 										result+='</button>';
 										result+='<input type="hidden" value='+$i+' />';
 										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-										result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_pernikahan">';
-											result+='delete';
+										result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_pernikahan">';
+											result+='Delete';
 										result+='</button>';
 									result+='</td>';
 								result+='</tr>';	
@@ -93,28 +97,25 @@
 						}	
 						result += '</tbody>';
 					result += '</table>';
+					
 					// $('#f_result_body_pernikahan').html(result);
 					$('#f_result_pernikahan').html(result);
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
-				/*
-				if(response == "berhasil")
-				{	
-					alert("Berhasil hapus data.");
-					// location.reload();
-					window.location = '{{URL::route('view_olahdata_pernikahan')}}';					
-				}
-				else
-				{
-					alert(response);
-				}
-				*/
+				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});

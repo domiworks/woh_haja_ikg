@@ -13,7 +13,7 @@
 							Nomor anggota
 						</label>
 
-						<div class="col-xs-6">
+						<div class="col-xs-3">
 							{{ Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_edit_nomor_anggota', 'class'=>'form-control')) }}
 						</div>
 					</div>	
@@ -22,7 +22,7 @@
 							Nama depan
 						</label>
 
-						<div class="col-xs-6">
+						<div class="col-xs-4">
 							{{ Form::text('nama_depan', Input::old('nama_depan'), array('id' => 'f_edit_nama_depan', 'class'=>'form-control')) }} 
 						</div>
 						<div class="col-xs-0">
@@ -37,7 +37,7 @@
 							Nama tengah
 						</label>
 
-						<div class="col-xs-6">
+						<div class="col-xs-4">
 							{{ Form::text('nama_tengah', Input::old('nama_tengah'), array('id' => 'f_edit_nama_tengah', 'class'=>'form-control')) }} 
 						</div>
 													
@@ -47,7 +47,7 @@
 							Nama belakang
 						</label>
 						
-						<div class="col-xs-6">
+						<div class="col-xs-4">
 							{{ Form::text('nama_belakang', Input::old('nama_belakang'), array('id' => 'f_edit_nama_belakang', 'class'=>'form-control')) }} 
 						</div>
 													
@@ -69,7 +69,7 @@
 							Kota
 						</label>
 
-						<div class="col-xs-6">
+						<div class="col-xs-3">
 							{{ Form::text('kota', Input::old('kota'), array('id' => 'f_edit_kota', 'class'=>'form-control')) }} 
 						</div>
 						<div class="col-xs-0">
@@ -81,7 +81,7 @@
 							Kodepos
 						</label>
 
-						<div class="col-xs-6">
+						<div class="col-xs-2">
 							{{ Form::text('kodepos', Input::old('kodepos'), array('id' => 'f_edit_kodepos', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }} 
 						</div>
 													
@@ -91,7 +91,7 @@
 							Telepon
 						</label>
 
-						<div class="col-xs-6">
+						<div class="col-xs-2">
 							{{ Form::text('telp', Input::old('telp'), array('id' => 'f_edit_telp', 'class'=>'form-control', 'onkeypress'=>'return isNumberKey(event)')) }} 
 						</div>
 						<div class="col-xs-0">
@@ -103,36 +103,13 @@
 							Hp
 						</label>
 						<div class="col-xs-6">			
-							<input type="text" id="f_edit_hp1" class="form-control" name="hp1" onkeypress='return isNumberKey(event)'/>			
+							<!--<input type="text" id="f_edit_hp1" class="form-control" name="hp1" onkeypress='return isNumberKey(event)'/>			
 							<div id="edit_addHp"></div>					
-							<a href="javascript:void(0)" onClick="addHp();" id="edit_refHp">tambah nomor hp</a>
-							<script>						
-							// var lastIdx = 2; //variable nya dipindah ke file olah_data-anggota_domi
-							function addHp(){
-								if(lastIdx <=5)
-								{
-									var newRow = "";							
-									newRow +="<input type='text' id='f_edit_hp"+lastIdx+"' class='form-control' name='hp"+lastIdx+"' onkeypress='return isNumberKey(event)'/>";
-									newRow +="<input type='button' value='X' id='delHp"+lastIdx+"' onClick='delHp()' /><br />";
-									$('#delHp'+(lastIdx-1)).hide();
-									$('#edit_addHp').append(newRow);
-									if(lastIdx==5){
-										$('#edit_refHp').hide();									
-									}
-									lastIdx++;							
-								}						
-							}
-							function delHp()
-							{
-								$('#f_edit_hp'+(lastIdx-1)).remove();
-								$('#delHp'+(lastIdx-1)).remove();
-								lastIdx--;							
-								$('#delHp'+(lastIdx-1)).show();
-								if(lastIdx==5){
-									$('#edit_refHp').show();
-								}
-							}
-							</script>
+							<a href="javascript:void(0)" onClick="addHp();" id="edit_refHp">tambah nomor hp</a>-->
+							
+							<input style="width:200px;" type="text" id="f_edit_hp1" class="form-control" name="hp1" onkeypress='return isNumberKey(event)'/>			
+							<div id="edit_addHp" style="margin-top:10px;" ></div>														
+							<a href="javascript:void(0)" onClick="addHp();" id="edit_refHp" >tambah nomor hp</a>									
 						</div>
 					</div>
 					<div class="form-group">		
@@ -140,7 +117,7 @@
 							Jenis kelamin
 						</label>
 
-						<div class="col-xs-6">
+						<div class="col-xs-2">
 							{{ Form::radio('edit_gender', '1', true, array('id'=>'f_edit_jenis_kelamin_1')) }}pria    {{ Form::radio('edit_gender', '0', '', array('id'=>'f_edit_jenis_kelamin_0')) }}wanita 
 						</div>
 						<div class="col-xs-0">
@@ -152,12 +129,12 @@
 							Wilayah
 						</label>
 
-						<div class="col-xs-6">
-							<!--if(list_wilayah == null)-->
+						<div class="col-xs-2">
+							@if($list_wilayah == null)
 								<p class="control-label pull-left">(tidak ada daftar wilayah)</p>
-							<!--else-->				
-								{{-- Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_edit_wilayah', 'class'=>'form-control')) --}}
-							<!--endif-->
+							@else
+								{{ Form::select('wilayah', $list_wilayah, Input::old('wilayah'), array('id' => 'f_edit_wilayah', 'class'=>'form-control')) }}
+							@endif
 						</div>
 													
 					</div>
@@ -166,12 +143,12 @@
 							Golongan darah
 						</label>
 
-						<div class="col-xs-6">
-							<!--if(list_gol_darah == null)-->
+						<div class="col-xs-2">
+							@if($list_gol_darah == null)
 								<p class="control-label pull-left">(tidak ada daftar golongan darah)</p>
-							<!--else-->				
-								{{-- Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_edit_gol_darah', 'class'=>'form-control')) --}}
-							<!--endif-->
+							@else
+								{{ Form::select('gol_darah', $list_gol_darah, Input::old('gol_darah'), array('id' => 'f_edit_gol_darah', 'class'=>'form-control')) }}
+							@endif
 						</div>
 						<div class="col-xs-0">
 							*
@@ -182,12 +159,12 @@
 							Pendidikan 
 						</label>
 
-						<div class="col-xs-6">
-							<!--if(list_pendidikan == null)-->
+						<div class="col-xs-2">
+							@if($list_pendidikan == null)
 								<p class="control-label pull-left">(tidak ada daftar pendidikan)</p>
-							<!--else-->				
-								{{-- Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_edit_pendidikan', 'class'=>'form-control')) --}}
-							<!--endif-->
+							@else
+								{{ Form::select('pendidikan', $list_pendidikan, Input::old('pendidikan'), array('id' => 'f_edit_pendidikan', 'class'=>'form-control')) }}
+							@endif
 						</div>
 					</div>
 					<div class="form-group">
@@ -195,12 +172,12 @@
 							Pekerjaan
 						</label>
 
-						<div class="col-xs-6">
-							<!--if(list_pekerjaan == null)-->
+						<div class="col-xs-2">
+							@if($list_pekerjaan == null)
 								<p class="control-label pull-left">(tidak ada daftar pekerjaan)</p>
-							<!--else-->				
-								{{-- Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_edit_pekerjaan', 'class'=>'form-control')) --}}
-							<!--endif-->
+							@else
+								{{ Form::select('pekerjaan', $list_pekerjaan, Input::old('pekerjaan'), array('id' => 'f_edit_pekerjaan', 'class'=>'form-control')) }}
+							@endif
 						</div>
 						<div class="col-xs-0">
 							*
@@ -211,12 +188,12 @@
 							Etnis
 						</label>
 
-						<div class="col-xs-6">
-							<!--if(list_etnis == null)-->
+						<div class="col-xs-2">
+							@if($list_etnis == null)
 								<p class="control-label pull-left">(tidak ada daftar etnis)</p>
-							<!--else-->			
-								{{-- Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_edit_etnis', 'class'=>'form-control')) --}}
-							<!--endif-->
+							@else
+								{{ Form::select('etnis', $list_etnis, Input::old('etnis'), array('id' => 'f_edit_etnis', 'class'=>'form-control')) }}
+							@endif
 						</div>
 					</div>
 					<div class="form-group">
@@ -224,7 +201,7 @@
 							Kota lahir
 						</label>
 
-						<div class="col-xs-6">
+						<div class="col-xs-3">
 							{{ Form::text('kota_lahir', Input::old('kota_lahir'), array('id' => 'f_edit_kota_lahir', 'class'=>'form-control')) }} 
 						</div>
 						<div class="col-xs-0">
@@ -236,34 +213,13 @@
 							Tanggal lahir
 						</label>
 
-						<div class="col-xs-6">
+						<div class="col-xs-2">
 							{{ Form::text('tanggal_lahir', Input::old('tanggal_lahir'), array('id' => 'f_edit_tanggal_lahir', 'class'=>'form-control')) }}
 						</div>
 						<div class="col-xs-0">
 							*
 						</div>
-						<script>
-						jQuery('#f_edit_tanggal_lahir').datetimepicker({
-							lang:'en',
-							i18n:{
-								en:{
-									months:[
-									'Januari','Februari','Maret','April',
-									'Mei','Juni','Juli','Agustus',
-									'September','Oktober','November','Desember',
-									],
-									dayOfWeek:[
-									"Ming.", "Sen.", "Sel.", "Rab.", 
-									"Kam.", "Jum.", "Sab.",
-									]
-
-								}
-							},
-							timepicker:false,
-							format: 'Y-m-d',
-							yearStart: '1900'
-						});
-						</script>
+						
 					</div>		
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -280,12 +236,12 @@
 							Status
 						</label>
 
-						<div class="col-xs-6">
-							<!--if(list_role == null)-->
+						<div class="col-xs-2">
+							@if($list_role == null)
 								<p class="control-label pull-left">(tidak ada daftar role)</p>
-							<!--else-->
-								{{-- Form::select('status', $list_role, Input::old('status'), array('id' => 'f_edit_status', 'class'=>'form-control')) --}}
-							<!--endif-->
+							@else
+								{{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_edit_status', 'class'=>'form-control')) }}
+							@endif
 						</div>
 						<div class="col-xs-0">
 							*
@@ -294,11 +250,11 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<!--if($list_wilayah == null || $list_gol_darah == null || $list_pendidikan == null || $list_pekerjaan == null || $list_etnis == null || $list_role == null)-->
+				@if($list_wilayah == null || $list_gol_darah == null || $list_pendidikan == null || $list_pekerjaan == null || $list_etnis == null || $list_role == null)
 					<input type="button" id="f_edit_post_anggota" class="btn btn-success" value="Simpan Perubahan" disabled=true />
-				<!--else-->
-					<input type="button" id="f_edit_post_anggota" class="btn btn-success" value="Simpan Perubahan"  />
-				<!--endif-->
+				@else
+					<input type="button" id="f_edit_post_anggota" class="btn btn-success" value="Simpan Perubahan" data-dismiss="modal" />
+				@endif
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
@@ -306,6 +262,53 @@
 </div>
 
 <script>
+// var lastIdx = 2; //variable nya dipindah ke file olah_data-anggota_domi
+	function addHp(){
+		if(lastIdx <=5)
+		{
+			var newRow = "";							
+			newRow +="<input style='width:200px; margin-top:10px;' type='text' id='f_edit_hp"+lastIdx+"' class='form-control' name='hp"+lastIdx+"' onkeypress='return isNumberKey(event)'/>";
+			newRow +="<input type='button' value='X' id='delHp"+lastIdx+"' onClick='delHp()' />";
+			$('#delHp'+(lastIdx-1)).hide();
+			$('#edit_addHp').append(newRow);
+			if(lastIdx==5){
+				$('#edit_refHp').hide();									
+			}
+			lastIdx++;							
+		}						
+	}
+	function delHp()
+	{
+		$('#f_edit_hp'+(lastIdx-1)).remove();
+		$('#delHp'+(lastIdx-1)).remove();
+		lastIdx--;							
+		$('#delHp'+(lastIdx-1)).show();
+		if(lastIdx==5){
+			$('#edit_refHp').show();
+		}
+	}
+	
+	jQuery('#f_edit_tanggal_lahir').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',
+		yearStart: '1900'
+	});
+
 	$('body').on('change','#f_edit_foto',function(){
 		var i = 0, len = this.files.length, img, reader, file;			
 		for ( ; i < len; i++ ) {
@@ -323,7 +326,11 @@
 		}
 	});
 	
-	$('body').on('click', '#f_edit_post_anggota', function(){								
+	$('body').on('click', '#f_edit_post_anggota', function(){	
+
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		var data, xhr;
 		data = new FormData();
 
@@ -352,7 +359,15 @@
 		{
 			arr_hp[arr_hp.length] = $('#f_edit_hp'+$i+'').val();			
 		}
-		data.append('arr_hp', arr_hp);					
+		// data.append('arr_hp', arr_hp);									
+		if(arr_hp.length == 1 && $('#f_edit_hp1').val() == "")
+		{
+			data.append('arr_hp', "kosong");
+		}
+		else
+		{
+			data.append('arr_hp', arr_hp);
+		}
 		$gender = $('input[name="edit_gender"]:checked').val();	
 		data.append('gender', $gender);
 		$wilayah = $('#f_edit_wilayah').val();	
@@ -394,28 +409,48 @@
 				if(result.code==200)
 				{				
 					alert(result.messages);
-					window.location = '{{URL::route('view_olahdata_anggota')}}';
+					alert(JSON.stringify(result.data));
+					// window.location = '{{URL::route('view_olahdata_anggota')}}';
+					
+					//ganti isi row sesuai hasil edit_anggota
+					$('.tabel_no_anggota'+temp).html(result.data['no_anggota']);
+					$('.tabel_nama_anggota'+temp).html(result.data['nama_depan']+' '+result.data['nama_tengah']+' '+result.data['nama_belakang']);
+					//set status
+					if(result.data['role'] == 1)
+					{
+						$('.tabel_status'+temp).html('jemaat');
+					}
+					else if(temp_detail[$i]['role'] == 2)
+					{
+						$('.tabel_status'+temp).html('pendeta');
+					}
+					else if(temp_detail[$i]['role'] == 3)
+					{
+						$('.tabel_status'+temp).html('penatua');
+					}
+					else if(temp_detail[$i]['role'] == 4)
+					{
+						$('.tabel_status'+temp).html('majelis');
+					}
+					
+					//ganti isi detail sesuai hasil edit
+					temp_detail[temp] = result.data;
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
-				/*
-				// alert(response);
-				if(response == "berhasil")
-				{	
-					alert("Berhasil simpan perubahan.");
-					// location.reload();
-					window.location = '{{URL::route('view_olahdata_anggota')}}';
-				}
-				else
-				{
-					alert(response);
-				}
-				*/
+				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 

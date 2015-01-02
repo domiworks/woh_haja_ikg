@@ -1,8 +1,17 @@
 @extends('layouts.user_layout')
 @section('content')
 
+<script>
+	$(document).ready(function(){				
+	
+		//END LOADER				
+		$('.f_loader_container').addClass('hidden');
+	
+	});
+</script>
+
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_user_olahdata')
 		</div>
@@ -32,7 +41,7 @@
 					</ul>
 				</div>-->
 				<!--div class="panel panel-default col-md-9"-->
-				<div style="margin-top: 15px;" class="panel panel-default">
+				<div style="margin-top: 15px;" class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							ATESTASI
@@ -42,12 +51,12 @@
 						<form class="form-horizontal">	
 
 							<div class="form-group">
-								<label class="col-xs-4 control-label">Nomor Atestasi</label>
-								<div class="col-xs-5">{{ Form::text('nomor_atestasi', Input::old('nomor_atestasi'), array('id' => 'f_nomor_atestasi', 'class'=>'form-control')) }}</div>
+								<label class="col-xs-4 control-label">Nomor Piagam Atestasi</label>
+								<div class="col-xs-4">{{ Form::text('nomor_atestasi', Input::old('nomor_atestasi'), array('id' => 'f_nomor_atestasi', 'class'=>'form-control')) }}</div>
 							</div>					
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Jemaat</label>
-								<div class="col-xs-5">{{Form::text('jemaat', Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control'))}}</div>
+								<div class="col-xs-4">{{Form::text('jemaat', Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control'))}}</div>
 							</div>	
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Antara tanggal </label>
@@ -56,53 +65,11 @@
 								</div>
 								<div class="col-xs-2">
 									{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
-								</div>
-								<script>
-								jQuery('#f_tanggal_awal').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-											
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',					
-									yearStart: '1900'
-								});			
-								jQuery('#f_tanggal_akhir').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-											
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',					
-									yearStart: '1900'
-								});	
-								</script>
+								</div>								
 							</div>	
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Jenis Atestasi</label>
-								<div class="col-xs-5">							
+								<div class="col-xs-3">							
 									<?php 
 										$new_list_jenis_atestasi = array(
 											'-1' => 'pilih!'
@@ -121,11 +88,11 @@
 							</div>					
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Gereja Lama</label>
-								<div class="col-xs-5">{{ Form::text('nama_gereja_lama', Input::old('nama_gereja_lama'), array('id' => 'f_nama_gereja_lama', 'class'=>'form-control')) }}</div>
+								<div class="col-xs-4">{{ Form::text('nama_gereja_lama', Input::old('nama_gereja_lama'), array('id' => 'f_nama_gereja_lama', 'class'=>'form-control')) }}</div>
 							</div>			
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Gereja Baru</label>
-								<div class="col-xs-5">{{ Form::text('nama_gereja_baru', Input::old('nama_gereja_baru'), array('id' => 'f_nama_gereja_baru', 'class'=>'form-control')) }}</div>
+								<div class="col-xs-4">{{ Form::text('nama_gereja_baru', Input::old('nama_gereja_baru'), array('id' => 'f_nama_gereja_baru', 'class'=>'form-control')) }}</div>
 							</div>			
 							<div class="form-group">
 								<div class="col-xs-5 col-xs-push-4">
@@ -188,7 +155,47 @@
 </div>	
 
 <script>	
-
+jQuery('#f_tanggal_awal').datetimepicker({
+	lang:'en',
+	i18n:{
+		en:{
+			months:[
+			'Januari','Februari','Maret','April',
+			'Mei','Juni','Juli','Agustus',
+			'September','Oktober','November','Desember',
+			],
+			dayOfWeek:[
+			"Ming.", "Sen.", "Sel.", "Rab.", 
+			"Kam.", "Jum.", "Sab.",
+			]
+			
+		}
+	},
+	timepicker:false,
+	format: 'Y-m-d',					
+	yearStart: '1900'
+});			
+jQuery('#f_tanggal_akhir').datetimepicker({
+	lang:'en',
+	i18n:{
+		en:{
+			months:[
+			'Januari','Februari','Maret','April',
+			'Mei','Juni','Juli','Agustus',
+			'September','Oktober','November','Desember',
+			],
+			dayOfWeek:[
+			"Ming.", "Sen.", "Sel.", "Rab.", 
+			"Kam.", "Jum.", "Sab.",
+			]
+			
+		}
+	},
+	timepicker:false,
+	format: 'Y-m-d',					
+	yearStart: '1900'
+});	
+	
 //simpen detail 
 var temp_detail = "";
 
@@ -196,6 +203,10 @@ var temp_detail = "";
 var temp = '';
 	
 $('body').on('click', '#f_search_atestasi', function(){
+
+	//START LOADER				
+	$('.f_loader_container').removeClass('hidden');
+		
 	$no_atestasi = $('#f_nomor_atestasi').val();			
 	$nama_jemaat = $('#f_jemaat').val();
 	$tanggal_awal = $('#f_tanggal_awal').val();		
@@ -230,13 +241,13 @@ $('body').on('click', '#f_search_atestasi', function(){
 				// alert(result.messages);
 				alert('Data ditemukan.');
 				temp_detail = result.messages;
-				// $('#temp_result').html(JSON.stringify(temp_detail));
+				$('#temp_result').html(JSON.stringify(temp_detail));
 				var result = "";					
-				result += '<table class="table table-bordered">';
+				result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
 					result += '<thead>';
 						result += '<tr>';
 							result += '<th>';
-								result += 'No. Atestasi';
+								result += 'No. Piagam Atestasi';
 							result += '</th>';
 							result += '<th>';
 								result += 'Nama Anggota';
@@ -277,7 +288,7 @@ $('body').on('click', '#f_search_atestasi', function(){
 								result+='</button>';
 								result+='<input type="hidden" value='+$i+' />';
 								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
+								result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
 									result+='Delete';
 								result+='</button>';
 							result+='</td>';
@@ -289,11 +300,18 @@ $('body').on('click', '#f_search_atestasi', function(){
 				
 				// $('#f_result_body_atestasi').html(result);
 				$('#f_result_atestasi').html(result);
+				
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 			else
 			{
 				alert(result.messages);
 				$('#f_result_atestasi').html("<p>Hasil pencarian tidak didapatkan.</p>");
+				
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
+					
 				// $('#f_result_body_atestasi').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
 				
 			}				
@@ -348,6 +366,8 @@ $('body').on('click', '#f_search_atestasi', function(){
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			alert(errorThrown);
+			//END LOADER				
+			$('.f_loader_container').addClass('hidden');
 		}
 	},'json');
 });

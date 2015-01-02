@@ -1,8 +1,17 @@
 @extends('layouts.user_layout')
 @section('content')
 
+<script>
+$(document).ready(function(){				
+
+	//END LOADER				
+	$('.f_loader_container').addClass('hidden');
+	
+});	
+</script>
+
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_user_inputdata')
 		</div>
@@ -32,7 +41,7 @@
 					</ul>
 				</div>-->
 				<!--div class="panel panel-default col-md-9"-->
-				<div style="margin-top: 15px;" class="panel panel-default">
+				<div style="margin-top: 15px;" class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							BAPTIS
@@ -43,22 +52,34 @@
 
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
-									Nomor Baptis
+									Nomor Piagam Baptis
 								</label>
 
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									<input type="text" name="nomor_baptis" id="f_nomor_baptis" class="form-control">
 								</div>	
 								<div class="col-xs-0">
 									*
 								</div>						
-							</div>		
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Tanggal Baptis
+								</label>
+
+								<div class="col-xs-2">
+									<input type="text" name="tanggal_baptis" id="f_tanggal_baptis" class="form-control">
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>								
+							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Pembaptis
 								</label>
 
-								<div class="col-xs-6">							
+								<div class="col-xs-4">							
 									@if($list_pembaptis == null)
 									<p class="control-label pull-left">(tidak ada daftar pembaptis)</p>
 									@else
@@ -74,7 +95,7 @@
 									Jemaat
 								</label>
 
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									<!--<input type="text" name="jemaat" id="f_jemaat" class="form-control">-->
 									@if($list_jemaat == null)
 									<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
@@ -91,7 +112,7 @@
 									Jenis Baptis
 								</label>
 
-								<div class="col-xs-6">
+								<div class="col-xs-3">
 									<!--<input type="text" name="jenis_baptis" id="f_jenis_baptis" class="form-control">-->
 									@if($list_jenis_baptis == null)
 									<p class="control-label pull-left">(tidak ada daftar jenis baptis)</p>
@@ -102,42 +123,7 @@
 								<div class="col-xs-0">
 									*
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-xs-4 control-label">
-									Tanggal Baptis
-								</label>
-
-								<div class="col-xs-6">
-									<input type="text" name="tanggal_baptis" id="f_tanggal_baptis" class="form-control">
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
-								<script>
-								jQuery('#f_tanggal_baptis').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',					
-									yearStart: '1900'
-								});			
-
-								</script>
-							</div>
+							</div>							
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Keterangan
@@ -151,12 +137,15 @@
 									@if($list_jemaat == null || $list_pembaptis == null || $list_jenis_baptis == null)
 									<input type="button" id="f_post_baptis" class="btn btn-success" value="Simpan Data Baptis" disabled=true />
 									@else
-									<input type="button" id="f_post_baptis" class="btn btn-success" value="Simpan Data Baptis" />
+									<input type="button" id="f_post_baptis" class="btn btn-success" value="Simpan Data Baptis" data-toggle="modal" data-target=".popup_confirm_warning_baptis" />
 									@endif							
 								</div>
 							</div>
 						</form>	
 					</div>	
+					<div class="panel-footer" style="background-color: white;">
+						(*) wajib diisi
+					</div>
 				</div>	
 			</div>	
 		</div>	
@@ -164,111 +153,79 @@
 </div>
 		
 <script>
-/*
-var trigger = false;
-$('body').on('keyup','#f_jemaat',function()
-{
-	trigger = false;
-	$('#searchContent').html("");
-	$keyword = $('#f_jemaat').val();
-	$data = "";
-	$.ajax({
-		type: 'GET',
-		url: '{{--URL::route('allAirport')--}}',
-		data: {
-			'keyword' : $keyword
-		},
-		success: function(response){
-			$data = "";
-			$.each(response , function(i,resp)
-			{
-				
-				$data = $data + "<tr id='row_"+resp.id + "' class='search_row' style='border-bottom: 1px solid #000 !important;' data-dismiss='modal'><td><span style='display: block;'>";
-				$data = $data + "<td>"+resp.nama_bandara+" ( "+resp.kode_bandara + " ) - "+ resp.city.nama_kota;
-				$data = $data + "</td><input type='hidden' value='"+resp.id+"' />";
-				$data = $data + "</tr>";
-			});
-			if(trigger == false){
-				$('#searchContent').html($data);
-				//$('#f_table_suggestion_pelanggan').removeClass('hidden');
-				$('#searchContent').removeClass('hidden');
+	jQuery('#f_tanggal_baptis').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
 			}
-		},error: function(xhr, textStatus, errorThrown){
-			alert("readyState: "+xhr.readyState+"\nstatus: "+xhr.status);
-			alert("responseText: "+xhr.responseText);
-		}
-	},'json');
-});
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});		
 
-$('body').on('click','#searchContent > tr > td',function(){
-	//alert($(this).text());
-	//alert($(this).next().val());
-	$('#depart_flight_hotel').val($(this).next().val());
-	$('#departFrom').val($(this).text());
-	trigger = true;
-	//$('#f_table_suggestion_pelanggan ').addClass('hidden');
-	$('#searchContent').addClass('hidden');
-});
-*/
-
-$('body').on('click', '#f_post_baptis', function(){
-	$nomor_baptis = $('#f_nomor_baptis').val();
-	$pembaptis = $('#f_pembaptis').val();
-	$jemaat = $('#f_jemaat').val();
-	$jenis_baptis = $('#f_jenis_baptis').val();		
-	$tanggal_baptis = $('#f_tanggal_baptis').val();
-	// $gereja = $('#f_id_gereja').val();
-	$keterangan = $('#f_keterangan').val();
-	
-	$data = {
-		'no_baptis' : $nomor_baptis,
-		'id_jemaat' : $jemaat,
-		'id_pendeta' : $pembaptis,
-		'tanggal_baptis' : $tanggal_baptis,
-		'id_jenis_baptis' : $jenis_baptis,
-		'keterangan' : $keterangan
-		// 'id_gereja' : $gereja
+	$('body').on('click', '#f_post_baptis', function(){
+		//SHOW POP UP CONFIRM BAPTIS			
 		
-	};
-	
-	var json_data = JSON.stringify($data);
-	
-	$.ajax({
-		type: 'POST',
-		url: "{{URL('user/post_baptis')}}",
-		data : {
-			'json_data' : json_data
-			// 'data' : $data
-		},
-		success: function(response){
-			result = JSON.parse(response);
-			if(result.code==201)
-			{
-				alert(result.messages);
-				window.location = '{{URL::route('view_inputdata_baptis')}}';
+		/*
+		$nomor_baptis = $('#f_nomor_baptis').val();
+		$pembaptis = $('#f_pembaptis').val();
+		$jemaat = $('#f_jemaat').val();
+		$jenis_baptis = $('#f_jenis_baptis').val();		
+		$tanggal_baptis = $('#f_tanggal_baptis').val();
+		// $gereja = $('#f_id_gereja').val();
+		$keterangan = $('#f_keterangan').val();
+		
+		$data = {
+			'no_baptis' : $nomor_baptis,
+			'id_jemaat' : $jemaat,
+			'id_pendeta' : $pembaptis,
+			'tanggal_baptis' : $tanggal_baptis,
+			'id_jenis_baptis' : $jenis_baptis,
+			'keterangan' : $keterangan
+			// 'id_gereja' : $gereja
+			
+		};
+		
+		var json_data = JSON.stringify($data);
+		
+		$.ajax({
+			type: 'POST',
+			url: "{{URL('user/post_baptis')}}",
+			data : {
+				'json_data' : json_data
+				// 'data' : $data
+			},
+			success: function(response){
+				result = JSON.parse(response);
+				if(result.code==201)
+				{
+					alert(result.messages);
+					window.location = '{{URL::route('view_inputdata_baptis')}}';
+				}
+				else
+				{
+					alert(result.messages);
+				}			
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert(errorThrown);
 			}
-			else
-			{
-				alert(result.messages);
-			}
-			/*
-			if(response == "berhasil")
-			{	
-				alert("Berhasil simpan data baptis");
-				// location.reload();
-				window.location = '{{URL::route('view_inputdata_baptis')}}';
-			}
-			else
-			{
-				alert(response);
-			}
-			*/
-		},
-		error: function(jqXHR, textStatus, errorThrown){
-			alert(errorThrown);
-		}
-	},'json');
-});
+		},'json');
+		*/
+	});
 </script>	
+
+@include('pages.user_inputdata.popup_confirm_warning_baptis')
 
 @stop

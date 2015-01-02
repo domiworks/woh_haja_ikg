@@ -11,9 +11,9 @@
 
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
-							Nomor Kedukaan
+							Nomor Piagam Kedukaan
 						</label>
-						<div class="col-xs-6">
+						<div class="col-xs-4">
 							{{ Form::text('nomor_kedukaan', Input::old('nomor_kedukaan'), array('id' => 'f_edit_nomor_kedukaan', 'class'=>'form-control')) }}
 						</div>
 						<div class="col-xs-0">
@@ -24,34 +24,13 @@
 						<label class="col-xs-4 control-label">
 							Tanggal Meninggal
 						</label>
-						<div class="col-xs-6">
+						<div class="col-xs-2">
 							{{ Form::text('tanggal_meninggal', Input::old('tanggal_meninggal'), array('id' => 'f_edit_tanggal_meninggal', 'class'=>'form-control')) }}
 						</div>
 						<div class="col-xs-0">
 							*
 						</div>
-						<script>
-						jQuery('#f_edit_tanggal_meninggal').datetimepicker({
-							lang:'en',
-							i18n:{
-								en:{
-									months:[
-									'Januari','Februari','Maret','April',
-									'Mei','Juni','Juli','Agustus',
-									'September','Oktober','November','Desember',
-									],
-									dayOfWeek:[
-									"Ming.", "Sen.", "Sel.", "Rab.", 
-									"Kam.", "Jum.", "Sab.",
-									]
-
-								}
-							},
-							timepicker:false,
-							format: 'Y-m-d',
-							yearStart: '1900'
-						});				
-						</script>
+						
 					</div>							
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -72,7 +51,31 @@
 </div>
 
 <script>
+	jQuery('#f_edit_tanggal_meninggal').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',
+		yearStart: '1900'
+	});	
+						
 	$('body').on('click', '#f_edit_post_kedukaan', function(){		
+		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$no_kedukaan = $('#f_edit_nomor_kedukaan').val();
 		$tanggal_meninggal = $('#f_edit_tanggal_meninggal').val();
 		$keterangan = $('#f_edit_keterangan').val();
@@ -106,26 +109,22 @@
 					$('.tabel_tanggal_meninggal'+temp).html(result.data['tanggal_meninggal']);
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
-				/*
-				if(response == "berhasil")
-				{	
-					alert("Berhasil simpan data kedukaan");
-					// location.reload();
-					window.location = '{{URL::route('view_olahdata_kedukaan')}}';
-				}
-				else
-				{
-					alert(response);
-				}
-				*/
+				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});

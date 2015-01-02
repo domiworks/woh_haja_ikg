@@ -19,6 +19,9 @@
 <script>
 	$('body').on('click', '.okDelete', function(){		
 		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$data = {
 			'id' : $id
 		};
@@ -54,6 +57,9 @@
 								result += '<th>';
 									result += 'Nama Kebaktian';
 								result += '</th>';
+								result += '<th>';
+									result += 'Nama Pengkotbah';
+								result += '</th>';
 								result += '<th>';										
 								result += '</th>';
 							result += '</tr>';
@@ -62,7 +68,7 @@
 						for($i = 0; $i < temp_detail.length; $i++)
 						{	
 							if(temp_detail[$i] != 'remove')
-							{
+							{								
 								//set value di tabel result
 								result+= '<tr class="tabel_row'+$i+'">';
 									result+='<td class="tabel_tanggal_mulai'+$i+'">';
@@ -72,6 +78,9 @@
 										result+=temp_detail[$i]['nama_jenis_kegiatan'];						
 										// result+=temp_detail[$i]['id'];
 									result+='</td>';
+									result+='<td class="tabel_nama_pendeta'+$i+'">';
+										result+=temp_detail[$i]['nama_pendeta'];
+									result+='</td>';
 									result+='<td>';
 										result+='<input type="hidden" value='+$i+' />';
 										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
@@ -80,7 +89,7 @@
 										result+='</button>';
 										result+='<input type="hidden" value='+$i+' />';
 										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-										result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kebaktian">';
+										result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kebaktian">';
 											result+='Delete';
 										result+='</button>';
 									result+='</td>';
@@ -92,26 +101,22 @@
 					
 					// $('#f_result_body_kebaktian').html(result);		
 					$('#f_result_kebaktian').html(result);		
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
-				/*
-				if(response == "berhasil")
-				{	
-					alert("Berhasil hapus data.");
-					// location.reload();
-					window.location = '{{URL::route('view_olahdata_kebaktian')}}';					
-				}
-				else
-				{
-					alert(response);
-				}
-				*/
+				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');		
 	});

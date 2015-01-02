@@ -141,7 +141,7 @@ class DatabaseSeeder extends Seeder {
 		$acc2 -> id_gereja = $gereja->id; //GKI Guntur
 		// $acc2 -> remember_token = ""; //auto generate dari laravel
 		$acc2 -> role = 0;	//untuk user biasa atau operator TU
-		$acc2 -> save();
+		$acc2 -> save();								
 		
 		//---------------------------------- ADMIN ----------------------------------				
 		/*
@@ -286,7 +286,7 @@ class DatabaseSeeder extends Seeder {
 		$anggota4 -> save();
 		
 			$alamat4 = new Alamat();
-			$alamat4 -> id_anggota = $anggota3->id;
+			$alamat4 -> id_anggota = $anggota4->id;
 			$alamat4 -> jalan = "Jalan Kangkung";
 			$alamat4 -> kota = "Bandung";
 			$alamat4 -> kodepos = "87642";

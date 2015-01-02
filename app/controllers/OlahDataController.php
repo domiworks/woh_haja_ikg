@@ -329,7 +329,7 @@ class OlahDataController extends BaseController {
 		// $anggota = DB::table('alamat AS alm');		
 		// $anggota = $anggota->join('anggota AS ang', 'alm.id_anggota', '=', 'ang.id')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->id_gereja);
 		
-		$anggota = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->id_gereja);
+		$anggota = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->id_gereja);				
 		$anggota = $anggota->join('alamat AS alm', 'ang.id', '=','alm.id_anggota'); //yg ini ngerubah 'id' jadi yg di 'alamat'				
 				
 		
@@ -345,7 +345,7 @@ class OlahDataController extends BaseController {
 		{				
 			$anggota = $anggota->where('alm.kota', 'LIKE', '%'.$kota.'%');
 		}
-		if($gender != "") //pasti terima value 1 atau 0
+		if($gender != "") 
 		{
 			$anggota = $anggota->where('ang.gender', '=', $gender);
 		}
@@ -397,25 +397,28 @@ class OlahDataController extends BaseController {
 		// {
 			// $anggota = $anggota->where('ang.tanggal_lahir', '=', $tanggal_lahir);
 		// }		
-		if($role != "") //pasti terima value 1-...
+		if($role != "") 
 		{
 			$anggota = $anggota->where('ang.role', '=', $role);
 		}
 		if($nama != "")
 		{
-			$anggota = $anggota->where('ang.nama_depan', 'LIKE', '%'.$nama.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama.'%');
+			// $anggota = $anggota->where('ang.nama_depan', 'LIKE', '%'.$nama.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama.'%');
+			// $anggota = $anggota->where('ang.nama_lengkap', 'LIKE', '%'.$nama.'%');
+			$anggota = $anggota->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama.'%');
 		}
+						
+		$anggota = $anggota->orderBy('ang.nama_depan');
 						
 		$anggota = $anggota->get();
 		
 		//add hp		
 		foreach($anggota as $key)
-		{						
-			// $hp = Hp::where('id_anggota', '=', $key->id_anggota)->get();
+		{									
 			
-			$hp = Hp::where('id', '=', $key->id)->get();
+			$hp = Hp::where('id_anggota', '=', $key->id_anggota)->where('deleted', '=', 0)->get();
 			
 			$arr_hp = array();
 			foreach($hp as $each_hp)
@@ -475,9 +478,10 @@ class OlahDataController extends BaseController {
 			
 		if($nama_jemaat != "")
 		{												
-			$baptis = $baptis->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			// $baptis = $baptis->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			$baptis = $baptis->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama_jemaat.'%');
 		}				
 		if($id_pembaptis != -1)
 		{
@@ -523,6 +527,13 @@ class OlahDataController extends BaseController {
 		}
 		
 		$baptis = $baptis->get();
+		
+		//add nama_jenis_baptis
+		foreach($baptis as $row)
+		{
+			$nama_jenis_baptis = JenisBaptis::where('id', '=', $row->id_jenis_baptis)->first()->nama_jenis_baptis;
+			$row->nama_jenis_baptis = $nama_jenis_baptis;
+		}
 		
 		// if($id_gereja != "")
 		// {
@@ -591,9 +602,10 @@ class OlahDataController extends BaseController {
 		
 		if($nama != "")
 		{					
-			$atestasi = $atestasi->where('ang.nama_depan', 'LIKE', '%'.$nama.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama.'%');
+			// $atestasi = $atestasi->where('ang.nama_depan', 'LIKE', '%'.$nama.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama.'%');
+			$atestasi = $atestasi->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama.'%');
 		}		
 		
 		if($no_atestasi != "")
@@ -777,9 +789,10 @@ class OlahDataController extends BaseController {
 		}
 		if($nama_jemaat != "")
 		{			
-			$kedukaan = $kedukaan->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			// $kedukaan = $kedukaan->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			$kedukaan = $kedukaan->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama_jemaat.'%');				
 		}
 		//validation range tanggal
 		if($tanggal_awal != "")
@@ -861,9 +874,10 @@ class OlahDataController extends BaseController {
 		
 		if($nama_jemaat != "")
 		{						
-			$dkh = $dkh->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			// $dkh = $dkh->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			$dkh = $dkh->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama_jemaat.'%');
 		}
 		
 		// $dkh = $dkh->get( array(
@@ -1243,9 +1257,28 @@ class OlahDataController extends BaseController {
 			//save no hp
 			// $ctHp = 0;			
 			$temp_arr_hp = Input::get('arr_hp');
-			if($temp_arr_hp != "") //kalo ada input hp			
+			if($temp_arr_hp == "kosong")
+			{
+				$hp = Hp::where('id_anggota', '=', Input::get('id'))->where('deleted', '=', 0)->get();
+				$length_hp = count($hp);
+				
+				$hp[0]->no_hp = "";								
+				$hp[0]->save();
+				for($i = 1; $i < $length_hp; $i++)
+				{
+					try{						
+						$hp[$i]->deleted = 1;
+						$hp[$i]->save();
+					}catch(Exception $e){
+						$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
+						return json_encode($respond);									
+					}	
+				}
+			}	
+			// if($temp_arr_hp != "") //kalo ada input hp			
+			else
 			{				
-				$hp = Hp::where('id_anggota', '=', Input::get('id'))->get();
+				$hp = Hp::where('id_anggota', '=', Input::get('id'))->where('deleted', '=', 0)->get();
 				$length_hp = count($hp);
 				
 				$arr_hp = explode(",", $temp_arr_hp);
@@ -1327,7 +1360,9 @@ class OlahDataController extends BaseController {
 						// $hp->no_hp = $arr_hp[$i];
 						// $hp->id_anggota = Input::get('id');
 						try{
-							$hp[$i]->delete();						
+							// $hp[$i]->delete();						
+							$hp[$i]->deleted = 1;
+							$hp[$i]->save();
 						}catch(Exception $e){
 							$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
 							return json_encode($respond);
@@ -1339,6 +1374,7 @@ class OlahDataController extends BaseController {
 				}
 								
 			}
+			
 			
 			//save alamat
 					// $alamat = new Alamat();
@@ -1438,7 +1474,55 @@ class OlahDataController extends BaseController {
 			// return "Gagal menyimpan data anggota.";
 		}		
 		
-		$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.');
+		//DATA
+		$data = $anggota->toArray();
+		//add alamat
+			$data['jalan'] = $alamat->jalan;
+			$data['kota'] = $alamat->kota;
+			$data['kodepos'] = $alamat->kodepos;
+			$data['id_anggota'] = $alamat->id_anggota;
+		//add hp									
+			$hp = Hp::where('id_anggota', '=', $anggota->id)->where('deleted', '=', 0)->get();
+			
+			$arr_hp = array();
+			foreach($hp as $each_hp)
+			{
+				$arr_hp[] = $each_hp->no_hp;
+			}			
+			//add to anggota
+			if(count($hp) == 0)
+			{
+				$anggota->arr_hp = "";
+			}
+			else
+			{
+				$anggota->arr_hp = $arr_hp;
+			}
+			$data['arr_hp'] = $arr_hp;
+		
+		/*$anggota = $anggota->join('alamat AS alm', 'ang.id', '=', 'alm.id_anggota');
+		
+		//add hp									
+			$hp = Hp::where('id_anggota', '=', Input::get('id'))->where('deleted', '=', 0)->get();
+			
+			$arr_hp = array();
+			foreach($hp as $each_hp)
+			{
+				$arr_hp[] = $each_hp->no_hp;
+			}			
+			//add to anggota
+			if(count($hp) == 0)
+			{
+				$anggota->arr_hp = "";
+			}
+			else
+			{
+				$anggota->arr_hp = $arr_hp;
+			}	
+			*/
+			
+			
+		$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $data);
 		return json_encode($respond);
 		// return "berhasil";	
 	}
@@ -1495,6 +1579,7 @@ class OlahDataController extends BaseController {
 				$data = $baptis->toArray();
 				$anggota = Anggota::find($baptis->id_jemaat);	
 				$data['nama_jemaat'] = $anggota->nama_depan.' '.$anggota->nama_tengah.' '.$anggota->nama_belakang;
+				$data['nama_jenis_baptis'] = JenisBaptis::where('id', '=', $baptis->id_jenis_baptis)->first()->nama_jenis_baptis;					
 				
 				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $data);
 				return json_encode($respond);

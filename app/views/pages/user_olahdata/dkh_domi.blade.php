@@ -1,8 +1,17 @@
 @extends('layouts.user_layout')
 @section('content')
 
+<script>
+	$(document).ready(function(){				
+	
+		//END LOADER				
+		$('.f_loader_container').addClass('hidden');
+	
+	});
+</script>
+
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_user_olahdata')
 		</div>
@@ -34,7 +43,7 @@
 				</div>-->
 				
 				<!--div class="panel panel-default col-md-9"-->
-				<div style="margin-top: 15px;" class="panel panel-default">
+				<div style="margin-top: 15px;" class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							DKH
@@ -44,11 +53,11 @@
 						<form class="form-horizontal">	
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nomor Dkh</label>
-								<div class="col-xs-5">{{Form::text('nomor_dkh', Input::old('nomor_dkh'), array('id'=>'f_nomor_dkh', 'class'=>'form-control'))}}</div>			
+								<div class="col-xs-4">{{Form::text('nomor_dkh', Input::old('nomor_dkh'), array('id'=>'f_nomor_dkh', 'class'=>'form-control'))}}</div>			
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Jemaat</label>
-								<div class="col-xs-5">{{Form::text('nama_jemaat', Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))}}</div>
+								<div class="col-xs-4">{{Form::text('nama_jemaat', Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))}}</div>
 							</div>				
 							<div class="form-group">
 								<div class="col-xs-5 col-xs-push-4">
@@ -111,6 +120,10 @@ var temp_detail = "";
 var temp = '';
 
 $('body').on('click', '#f_search_dkh', function(){
+	
+	//START LOADER				
+	$('.f_loader_container').removeClass('hidden');
+		
 	$no_dkh = $('#f_nomor_dkh').val();
 	$nama_jemaat = $('#f_nama_jemaat').val();		
 
@@ -136,11 +149,11 @@ $('body').on('click', '#f_search_dkh', function(){
 				temp_detail = result.messages;
 				// $('#temp_result').html(JSON.stringify(temp_detail));
 				var result = '';				
-				result += '<table class="table table-bordered">';
+				result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
 					result += '<thead>';
 						result += '<tr>';
 							result += '<th>';
-								result += 'No. Dkh';
+								result += 'No. Piagam Dkh';
 							result += '</th>';
 							result += '<th>';
 								result += 'Nama Anggota';
@@ -169,7 +182,7 @@ $('body').on('click', '#f_search_dkh', function(){
 								result+='</button>';
 								result+='<input type="hidden" value='+$i+' />';
 								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_dkh">';
+								result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_dkh">';
 									result+='Delete';
 								result+='</button>';
 							result+='</td>';
@@ -180,11 +193,18 @@ $('body').on('click', '#f_search_dkh', function(){
 					
 				// $('#f_result_body_dkh').html(result);
 				$('#f_result_dkh').html(result);
+				
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 			else
 			{
 				alert(result.messages);
 				$('#f_result_dkh').html("<p>Hasil pencarian tidak didapatkan.</p>");
+				
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
+					
 				// $('#f_result_body_dkh').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");			
 			}
 			/*
@@ -229,6 +249,8 @@ $('body').on('click', '#f_search_dkh', function(){
 		error: function(jqXHR, textStatus, errorThrown){
 			alert('error');
 			alert(errorThrown);
+			//END LOADER				
+			$('.f_loader_container').addClass('hidden');
 		}
 		
 	},'json');	

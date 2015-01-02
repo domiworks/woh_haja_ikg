@@ -3,6 +3,10 @@
 
 <script>
 	$(document).ready(function(){						
+	
+		//END LOADER				
+		$('.f_loader_container').addClass('hidden');
+	
 		$('#f_nama_gereja_lama').attr('disabled', true);		
 		$('#f_list_gereja_lama').attr('disabled', false);				
 
@@ -54,7 +58,7 @@
 </script>
 		
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_user_inputdata')
 		</div>
@@ -85,7 +89,7 @@
 				</div>-->
 				
 				<!--div class="panel panel-default col-md-9"-->
-				<div style="margin-top: 15px;" class="panel panel-default">
+				<div style="margin-top: 15px;" class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							ATESTASI
@@ -96,25 +100,10 @@
 
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
-									Nomor Atestasi
+									Nomor Piagam Atestasi
 								</label>						
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									{{ Form::text('nomor_atestasi', Input::old('nomor_atestasi'), array('id' => 'f_nomor_atestasi', 'class'=>'form-control')) }}
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
-							</div>				
-							<div class="form-group">
-								<label class="col-xs-4 control-label">
-									Jemaat
-								</label>						
-								<div class="col-xs-6">
-									@if($list_jemaat == null)
-									<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
-									@else
-									{{Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control'))}}							
-									@endif
 								</div>
 								<div class="col-xs-0">
 									*
@@ -124,40 +113,34 @@
 								<label class="col-xs-4 control-label">
 									Tanggal Atestasi
 								</label>						
-								<div class="col-xs-6">
+								<div class="col-xs-2">
 									{{ Form::text('tanggal_atestasi', Input::old('tanggal_atestasi'), array('id' => 'f_tanggal_atestasi', 'class'=>'form-control')) }}
 								</div>
 								<div class="col-xs-0">
 									*
 								</div>
-								<script>
-								jQuery('#f_tanggal_atestasi').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format:'Y-m-d',
-									yearStart: '1900'
-								});				
-								</script>
+								
 							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Jemaat
+								</label>						
+								<div class="col-xs-4">
+									@if($list_jemaat == null)
+									<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
+									@else
+									{{Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control'))}}							
+									@endif
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>
+							</div>							
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Jenis Atestasi
 								</label>						
-								<div class="col-xs-6">
+								<div class="col-xs-3">
 									@if($list_jenis_atestasi == null)
 									<p class="control-label pull-left">(tidak ada daftar jenis atestasi)</p>
 									@else
@@ -172,7 +155,7 @@
 								<label class="col-xs-4 control-label">
 									Gereja Lama
 								</label>						
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									@if($list_gereja == null)
 									<p class="control-label pull-left">(tidak ada daftar gereja)</p>
 									@else
@@ -183,19 +166,13 @@
 								<div class="col-xs-0">
 									<input id="f_check_gereja_lama" type="checkbox" name="gereja_lama" value="0" /> Gereja Lain
 								</div>							
-								
-								<script>
-								$('body').on('change','#f_list_gereja_lama', function(){
-									var selected = $('#f_list_gereja_lama').find(":selected").text();
-									$('#f_nama_gereja_lama').val(selected);					
-								});
-								</script>
+																
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Nama Gereja Lama
 								</label>		
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									{{ Form::text('nama_gereja_lama', Input::old('nama_gereja_lama'), array('id' => 'f_nama_gereja_lama', 'class'=>'form-control', 'disabled' => true)) }}
 								</div>
 								<div class="col-xs-0">
@@ -207,7 +184,7 @@
 									Gereja Baru
 								</label>
 								
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									@if($list_gereja == null)
 									<p class="control-label pull-left">(tidak ada daftar gereja)</p>
 									@else
@@ -217,19 +194,13 @@
 								
 								<div class="col-xs-0">
 									<input id="f_check_gereja_baru" type="checkbox" name="gereja_baru" value="0" /> Gereja Lain
-								</div>
-								<script>
-								$('body').on('change','#f_list_gereja_baru', function(){
-									var selected = $('#f_list_gereja_baru').find(":selected").text();
-									$('#f_nama_gereja_baru').val(selected);					
-								});
-								</script>
+								</div>								
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Nama Gereja Baru
 								</label>						
-								<div class="col-xs-6">
+								<div class="col-xs-4">
 									{{ Form::text('nama_gereja_baru', Input::old('nama_gereja_baru'), array('id' => 'f_nama_gereja_baru', 'class'=>'form-control', 'disabled' => true)) }}
 								</div>
 								<div class="col-xs-0">
@@ -249,20 +220,57 @@
 									@if($list_gereja == null || $list_jenis_atestasi == null || $list_jemaat == null)
 									<input type="button" id="f_post_atestasi" class="btn btn-success" disabled=true value="Simpan Data Atestasi" />
 									@else
-									<input type="button" id="f_post_atestasi" class="btn btn-success" value="Simpan Data Atestasi" />
+									<input type="button" id="f_post_atestasi" class="btn btn-success" value="Simpan Data Atestasi" data-toggle="modal" data-target=".popup_confirm_warning_atestasi" />
 									@endif						
 								</div>		
 							</div>		
 						</form>	
-					</div>	
+					</div>
+					<div class="panel-footer" style="background-color: white;">
+						(*) wajib diisi
+					</div>
 				</div>	
 			</div>	
 		</div>	
 	</div>
 </div>
 
-<script>		
-	$('body').on('click', '#f_post_atestasi', function(){
+<script>
+	jQuery('#f_tanggal_atestasi').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format:'Y-m-d',
+		yearStart: '1900'
+	});	
+		
+	$('body').on('change','#f_list_gereja_lama', function(){
+		var selected = $('#f_list_gereja_lama').find(":selected").text();
+		$('#f_nama_gereja_lama').val(selected);					
+	});
+	
+	$('body').on('change','#f_list_gereja_baru', function(){
+		var selected = $('#f_list_gereja_baru').find(":selected").text();
+		$('#f_nama_gereja_baru').val(selected);					
+	});
+	
+	$('body').on('click', '#f_post_atestasi', function(){		
+		//SHOW POP UP CONFIRM ATESTASI			
+		
+		/*
 		$no_atestasi = $('#f_nomor_atestasi').val();
 		$id_jemaat = $('#f_jemaat').val();
 		$tanggal_atestasi = $('#f_tanggal_atestasi').val();		
@@ -323,25 +331,16 @@
 				{
 					alert(result.messages);
 				}
-				/*
-				if(response == "berhasil")
-				{	
-					alert("Berhasil simpan data atestasi");
-					// location.reload();
-					window.location = '{{URL::route('view_inputdata_atestasi')}}';
-				}
-				else
-				{
-					alert(response);
-				}
-				*/
+				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
 			}
 		},'json');
-		
+		*/
 	});
 </script>
+
+@include('pages.user_inputdata.popup_confirm_warning_atestasi')
 
 @stop

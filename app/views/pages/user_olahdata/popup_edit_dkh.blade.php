@@ -6,14 +6,12 @@
 				<h4 class="modal-title" id="myModalLabel">Edit DKH</h4>
 			</div>
 			<div class="modal-body form-horizontal">
-
 				<form class="form-horizontal">
-
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
-							Nomor Dkh
+							Nomor Piagam Dkh
 						</label>
-						<div class="col-xs-6">
+						<div class="col-xs-4">
 							{{Form::text('nomor_dkh', Input::old('nomor_dkh'), array('id'=>'f_edit_nomor_dkh', 'class'=>'form-control'))}}
 						</div>	
 						<div class="col-xs-0">	
@@ -63,6 +61,10 @@
 
 <script>
 	$('body').on('click', '#f_edit_post_dkh', function(){
+		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$no_dkh = $('#f_edit_nomor_dkh').val();
 		// $id_jemaat = $('#f_edit_nama_jemaat').val();
 		$keterangan = $('#f_edit_keterangan').val();
@@ -95,10 +97,15 @@
 					$('.tabel_nama_anggota'+temp).html(result.data['nama_anggota']);
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				/*
 				if(response == "berhasil")
@@ -115,6 +122,8 @@
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});

@@ -1,8 +1,17 @@
 @extends('layouts.user_layout')
 @section('content')
 
+<script>
+	$(document).ready(function(){				
+	
+		//END LOADER				
+		$('.f_loader_container').addClass('hidden');
+	
+	});
+</script>
+
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_user_olahdata')
 		</div>
@@ -33,7 +42,7 @@
 					</ul>
 				</div>-->
 				<!--div class="panel panel-default col-md-9"-->
-				<div style="margin-top: 15px;" class="panel panel-default">
+				<div style="margin-top: 15px;" class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							KEDUKAAN
@@ -42,8 +51,8 @@
 					<div class="panel-body">
 						<form class="form-horizontal">	
 							<div class="form-group">
-								<label class="col-xs-4 control-label">Nomor Kedukaan</label> 
-								<div class="col-xs-5">{{ Form::text('nomor_kedukaan', Input::old('nomor_kedukaan'), array('id' => 'f_nomor_kedukaan', 'class'=>'form-control')) }}
+								<label class="col-xs-4 control-label">Nomor Piagam Kedukaan</label> 
+								<div class="col-xs-4">{{ Form::text('nomor_kedukaan', Input::old('nomor_kedukaan'), array('id' => 'f_nomor_kedukaan', 'class'=>'form-control')) }}
 								</div>
 							</div>
 							<div class="form-group">
@@ -55,52 +64,11 @@
 									{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
 
 								</div>
-								<script>
-								jQuery('#f_tanggal_awal').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',					
-									yearStart: '1900'
-								});			
-								jQuery('#f_tanggal_akhir').datetimepicker({
-									lang:'en',
-									i18n:{
-										en:{
-											months:[
-											'Januari','Februari','Maret','April',
-											'Mei','Juni','Juli','Agustus',
-											'September','Oktober','November','Desember',
-											],
-											dayOfWeek:[
-											"Ming.", "Sen.", "Sel.", "Rab.", 
-											"Kam.", "Jum.", "Sab.",
-											]
-
-										}
-									},
-									timepicker:false,
-									format: 'Y-m-d',					
-									yearStart: '1900'
-								});	
-								</script>
+								
 							</div>		
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama jemaat yang meninggal</label> 
-								<div class="col-xs-5">
+								<div class="col-xs-4">
 									{{Form::text('nama_jemaat', Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))}}
 								</div>
 							</div>	
@@ -159,6 +127,47 @@
 </div>		
 
 <script>
+jQuery('#f_tanggal_awal').datetimepicker({
+	lang:'en',
+	i18n:{
+		en:{
+			months:[
+			'Januari','Februari','Maret','April',
+			'Mei','Juni','Juli','Agustus',
+			'September','Oktober','November','Desember',
+			],
+			dayOfWeek:[
+			"Ming.", "Sen.", "Sel.", "Rab.", 
+			"Kam.", "Jum.", "Sab.",
+			]
+
+		}
+	},
+	timepicker:false,
+	format: 'Y-m-d',					
+	yearStart: '1900'
+});			
+jQuery('#f_tanggal_akhir').datetimepicker({
+	lang:'en',
+	i18n:{
+		en:{
+			months:[
+			'Januari','Februari','Maret','April',
+			'Mei','Juni','Juli','Agustus',
+			'September','Oktober','November','Desember',
+			],
+			dayOfWeek:[
+			"Ming.", "Sen.", "Sel.", "Rab.", 
+			"Kam.", "Jum.", "Sab.",
+			]
+
+		}
+	},
+	timepicker:false,
+	format: 'Y-m-d',					
+	yearStart: '1900'
+});	
+								
 //simpen detail 
 var temp_detail = "";
 
@@ -166,6 +175,10 @@ var temp_detail = "";
 var temp = '';
 	
 $('body').on('click', '#f_search_kedukaan', function(){		
+
+	//START LOADER				
+	$('.f_loader_container').removeClass('hidden');
+		
 	$no_kedukaan = $('#f_nomor_kedukaan').val();
 	$tanggal_awal = $('#f_tanggal_awal').val();
 	$tanggal_akhir = $('#f_tanggal_akhir').val();
@@ -197,12 +210,12 @@ $('body').on('click', '#f_search_kedukaan', function(){
 					alert('Data ditemukan.');
 					temp_detail = result.messages;
 					// $('#temp_result').html(JSON.stringify(temp_detail));
-					var result = "";	
+					var result = '';	
 					result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
 						result += '<thead>';
 							result += '<tr>';
 								result += '<th>';
-									result += 'No. Kedukaan';
+									result += 'No. Piagam Kedukaan';
 								result += '</th>';
 								result += '<th>';
 									result += 'Nama Anggota';
@@ -237,7 +250,7 @@ $('body').on('click', '#f_search_kedukaan', function(){
 									result+='</button>';
 									result+='<input type="hidden" value='+$i+' />';
 									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-									result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kedukaan">';
+									result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kedukaan">';
 										result+='Delete';
 									result+='</button>';
 								result+='</td>';
@@ -248,11 +261,18 @@ $('body').on('click', '#f_search_kedukaan', function(){
 					
 					// $('#f_result_body_kedukaan').html(result);
 					$('#f_result_kedukaan').html(result);
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
 					$('#f_result_kedukaan').html("<p>Hasil pencarian tidak didapatkan.</p>");
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
+					
 					// $('#f_result_body_kedukaan').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
 				}
 				/*
@@ -295,6 +315,8 @@ $('body').on('click', '#f_search_kedukaan', function(){
 			error: function(jqXHR, textStatus, errorThrown){
 				alert('error');
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});

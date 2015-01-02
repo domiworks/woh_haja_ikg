@@ -18,6 +18,10 @@
 
 <script>
 	$('body').on('click', '.okDelete', function(){
+	
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$data = {
 			'id' : $id
 		};
@@ -40,15 +44,21 @@
 					location.reload();
 					
 					// window.location = '{{URL::route('admin_view_input_jenis_atestasi')}}';
+					
+					
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});

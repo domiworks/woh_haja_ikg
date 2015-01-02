@@ -12,7 +12,7 @@ class Account extends Eloquent implements UserInterface, RemindableInterface
 
 	public static $rules = 
 				['username' => 'required',
-				'password' => 'required'				
+				'password' => 'required'							
 				];
 	
 	public $fillable = 

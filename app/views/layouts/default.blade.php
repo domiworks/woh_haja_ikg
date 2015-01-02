@@ -30,28 +30,13 @@
 		</script>
 	</head>
 	<!--<body onload="startTime()">-->
-	<body>
+	
+	<body style="">
 		<!-- <div class="s_orenji_header">
 		</div> -->		
-		<div class="s_top_header">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-lg-4">
-						<!-- <img src="" height="50" width="50" style="float: left; margin-right:20px; margin-top: 10px;"/> -->
-						<h2 style="margin-left:20px;">GKI</h2>
-					</div>
-					<!--
-					<div class="col-lg-8" style="line-height: 69px; text-align: right;">
-						log in as admin | <a href="#">log out</a>
-					</div>
-					-->
-				</div>
-			</div>
-		</div>
-			
-		@include('includes.navigation.default')
 		
-		<div id="yield_content" class=""> <!-- s_content_admin -->
+		
+		<div style="height:500px;" id="yield_content" class=""> <!-- s_content_admin -->
 			@yield('content')
 		</div>
 			

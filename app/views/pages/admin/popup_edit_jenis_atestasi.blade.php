@@ -39,6 +39,10 @@
 
 <script>
 	$('body').on('click', '#f_edit_post_jenis_atestasi', function(){
+		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$nama_atestasi = $('#f_edit_nama_jenis_atestasi').val();
 		$keterangan = $('#f_edit_keterangan').val();
 		
@@ -68,14 +72,21 @@
 					$('.tabel_nama_jenis_atestasi'+temp).html(result.data['nama_atestasi']);				
 					//ganti isi detail sesuai hasil edit
 					data_jenis_atestasi[temp] = result.data;	
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else				
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 		

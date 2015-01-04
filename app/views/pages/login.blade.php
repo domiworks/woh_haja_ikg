@@ -1,11 +1,22 @@
 @extends('layouts.default')
 @section('content')	
+
 <div class="container">
-	<div class="row ">
+	<div class="row" style="margin-top:20px;">
 		<div class="col-lg-6 col-lg-push-3">
-			<div class="s_tbl s_set_height_window">
+			<div class="col-lg-3">
+				<img src="{{URL::to('/assets/logo/logoGKI.jpg')}}" alt="(logo GKI)" style="height: 100px; width: 100px; margin-top:5px;"/>			
+			</div>
+			<div class="col-lg-9">
+				<strong><h1>GKI Information System</h1></strong>
+			</div>			
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-6 col-lg-push-3">
+			<div class="s_tbl s_set_height_window">				
 				<div class="s_cl">
-					<div class="panel panel-default">
+					<div class="panel panel-primary">
 						<div class="panel-heading">
 							<h3 class="panel-title">Login</h3>
 						</div>
@@ -47,6 +58,5 @@
 		</div>
 	</div>
 </div>
-
 
 @stop

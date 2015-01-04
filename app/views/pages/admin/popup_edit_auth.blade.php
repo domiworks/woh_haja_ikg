@@ -39,6 +39,10 @@
 
 <script>
 	$('body').on('click', '#f_edit_post_auth', function(){
+		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$username = $('#f_edit_username').val();
 		$password = $('#f_edit_password').val();		
 		
@@ -60,15 +64,29 @@
 				if(result.code==200)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_auth')}}';
+					// window.location = '{{URL::route('admin_view_input_auth')}}';
+					
+					//ganti isi row sesuai hasil edit
+					//...
+					
+					//ganti isi detail sesuai hasil edit
+					/....
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 		

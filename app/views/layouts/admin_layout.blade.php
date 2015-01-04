@@ -30,17 +30,35 @@
 	</head>
 	<!--<body onload="startTime()">-->
 	<body>
+		
+		<!-- LOADER -->
+		<div class="f_loader_container hidden">
+			<div class="s_tbl">
+				<div class="s_cell">
+					<div class="spinner">
+						<div class="rect1"></div>
+						<div class="rect2"></div>
+						<div class="rect3"></div>
+						<div class="rect4"></div>
+						<div class="rect5"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<!-- <div class="s_orenji_header">		
-		</div> -->		
-		<div class="s_top_header">
+		</div> -->				
+		<div class="s_top_header" style="height:110px;">
 			<div class="container-fluid">
-				<div class="row">
-					<div class="col-lg-4">
-						<!-- <img src="" height="50" width="50" style="float: left; margin-right:20px; margin-top: 10px;"/> -->
-						<h2 style="margin-left:20px;">Admin Panel GKI</h2>
-					</div>					
-					<div class="col-lg-8" style="line-height: 69px; text-align: right;">
-						Selamat datang, {{ Auth::user()->username }} | {{ HTML::linkRoute('logout', 'keluar')}}
+				<div class="row" style="background-color:white;">
+					<div class="col-lg-1">
+						<img src="{{URL::to('/assets/logo/logoGKI.jpg')}}" alt="(logo GKI)" style="height: 100px; width: 100px; margin-top:5px;"/>
+					</div>
+					<div class="col-lg-4">						
+						<strong><h2 style="color:black; line-height: 130px;">Admin Panel GKI</h2></strong>						
+					</div>
+					<div class="col-lg-7" style="color:black; line-height: 160px; text-align: right;">
+						Selamat datang, {{ Auth::user()->username }} | {{ HTML::linkRoute('logout', 'keluar', '', array('style'=>'color:blue;'))}}
 					</div>					
 				</div>
 			</div>

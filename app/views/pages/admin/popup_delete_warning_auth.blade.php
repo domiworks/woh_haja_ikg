@@ -18,6 +18,10 @@
 
 <script>
 	$('body').on('click', '.okDelete', function(){
+		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$data = {
 			'id' : $id
 		};
@@ -36,16 +40,24 @@
 				if(result.code==204)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_auth')}}';
+					
+					location.reload();
+					
+					// window.location = '{{URL::route('admin_view_input_auth')}}';
+										
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});

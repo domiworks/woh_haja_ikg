@@ -1,8 +1,37 @@
 @extends('layouts.admin_layout')
 @section('content')
 
+<script>
+	<!-- set variable javascript biar ga usah get detail lagi -->	
+	var data_gereja = new Array();
+	
+	$(document).ready(function(){				
+	
+		//END LOADER				
+		$('.f_loader_container').addClass('hidden');
+		
+		//reset kalau sampai reload page
+		data_gereja = new Array();
+		
+		//insert ke data gereja ke variable javascript
+		<?php
+			foreach($data_gereja as $gereja)
+			{
+		?>	
+				data_gereja[data_gereja.length] = <?php echo $gereja; ?>
+		<?php		
+			}
+		?>
+		
+		// alert(data_gereja[1]['nama']);
+		// var data_gereja = '';
+		// alert(data_gereja[1]);
+		// alert(arr_gereja);
+	});
+</script>
+		
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_admin_inputdata')
 		</div>
@@ -135,30 +164,7 @@
 							</tr>								
 						</thead>
 						<tbody class="tabel_body">
-							<!-- set variable javascript biar ga usah get detail lagi -->
-							<script>
-								var data_gereja = new Array();
-								$(document).ready(function(){
-
-									//reset kalau sampai reload page
-									data_gereja = new Array();
-									
-									//insert ke data gereja ke variable javascript
-									<?php
-										foreach($data_gereja as $gereja)
-										{
-									?>	
-											data_gereja[data_gereja.length] = <?php echo $gereja; ?>
-									<?php		
-										}
-									?>
-									
-									// alert(data_gereja[1]['nama']);
-									// var data_gereja = '';
-									// alert(data_gereja[1]);
-									// alert(arr_gereja);
-								});
-							</script>							
+													
 							<!-- set list gereja -->
 							<?php $index = 0; ?>
 							@foreach($data_gereja as $gereja)
@@ -204,7 +210,10 @@
 	
 	//click change visible
 	$('body').on('click', '.visibleButton', function(){		
-					
+				
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$id = $(this).prev().prev().val();
 		temp = $(this).prev().val();		
 		
@@ -236,15 +245,22 @@
 					else
 					{							
 						$('.tabel_visible'+temp).html("<span style='color:red;' class='glyphicon glyphicon-remove' aria-hidden='true'></span>");
-					}					
+					}	
+
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 		
@@ -290,6 +306,10 @@
 	}
 	
 	$('body').on('click', '#f_post_gereja', function(){
+	
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$nama = $('#f_nama_gereja').val();
 		$alamat = $('#f_alamat').val();
 		$kota = $('#f_kota').val();
@@ -324,16 +344,21 @@
 					
 					location.reload();
 					
+					
 					// window.location = '{{URL::route('admin_view_input_gereja')}}';
 										
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 		

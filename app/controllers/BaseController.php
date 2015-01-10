@@ -238,6 +238,24 @@ class BaseController extends Controller {
 		}
 	}
 	
+	//admin get list pendeta
+	public function admin_getListPendeta()
+	{		
+		$count = Anggota::select('id', DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang) AS nama_lengkap'))
+					->where('deleted', '=', 0)					
+					->where('role', '=', 2) //role pendeta					
+					->orderBy('nama_depan')								
+					->lists('nama_lengkap', 'id');					
+		if(count($count) != 0)
+		{			
+			return $count;
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
 	//get list pendeta
 	public function getListPendeta()
 	{		

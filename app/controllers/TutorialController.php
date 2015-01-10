@@ -6,7 +6,9 @@ class TutorialController extends BaseController {
 
 	public function view_tutorial()
 	{			
-		return View::make('pages.tutorial');	
+		$header = $this->setHeader();
+		return View::make('pages.tutorial',
+				compact('header'));	
 	}	
 		
 }

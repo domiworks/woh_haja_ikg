@@ -78,6 +78,34 @@ class InputEditController extends BaseController {
 			compact('header','list_jemaat'));		
 	}
 
+/*----------------------------------------LIVE SEARCH----------------------------------------*/
+
+	public function user_search_anggota()
+	{			
+		try{
+			$keyword = Input::get('keyword');
+			$anggota = DB::table('anggota')->where(DB::raw('CONCAT(nama_depan, " " ,nama_tengah, " " ,nama_belakang)'), 'LIKE', '%'.$keyword.'%')->get();
+			if(count($anggota) == 0)
+			{
+				//not found
+				$respond = array('code' => '404', 'status' => 'Not Found');			
+				return json_encode($respond);
+			}
+			else
+			{
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => $anggota);			
+				return json_encode($respond);
+			}
+		}catch(Exception $e)
+		{
+			//internal server error
+			$respond = array('code' => '500', 'status' => 'Internal Server Error');			
+			return json_encode($respond);
+		}
+		
+		// return null;
+	}
+	
 /*----------------------------------------POST----------------------------------------*/	
 	
 	//NOTE :			
@@ -90,8 +118,8 @@ class InputEditController extends BaseController {
 		// $input = Input::get('data');							
 		
 		$data_valid = array(			
-			'nama_pendeta' => $input->{'nama_pendeta'},			
-			'nama_jenis_kegiatan' => $input->{'nama_jenis_kegiatan'},
+			'nama_pendeta' => trim($input->{'nama_pendeta'}),			
+			'nama_jenis_kegiatan' => trim($input->{'nama_jenis_kegiatan'}),
 			'tanggal_mulai' => $input->{'tanggal_mulai'},
 			'tanggal_selesai' => $input->{'tanggal_selesai'},
 			'jam_mulai' => $input->{'jam_mulai'},
@@ -120,13 +148,23 @@ class InputEditController extends BaseController {
 		}
 		
 		/*
-			VALIDATE DUPLICATE DATA BLOM
-				parameter ? 
-					nama_jenis_kegiatan
-					id_gereja
-					tanggal_mulai
-					tanggal_selesai
+			VALIDATE DUPLICATE DATA
+				nama_jenis_kegiatan
+				id_gereja
+				tanggal_mulai
+				tanggal_selesai
 		*/
+		$duplicate = Kegiatan::where('deleted', '=', 0)
+					->where('nama_jenis_kegiatan', '=', trim($input->{'nama_jenis_kegiatan'}))
+					->where('tanggal_mulai', '=', $input->{'tanggal_mulai'})
+					->where('tanggal_selesai', '=', $input->{'tanggal_selesai'})
+					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->first();
+		if(count($duplicate))
+		{
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+			return json_encode($respond);
+		}
 		
 		$kebaktian = new Kegiatan();												
 		if($input->{'id_jenis_kegiatan'} == '')
@@ -137,7 +175,7 @@ class InputEditController extends BaseController {
 		{
 			$kebaktian->id_jenis_kegiatan = $input->{'id_jenis_kegiatan'};
 		}
-		$kebaktian->nama_jenis_kegiatan = $input->{'nama_jenis_kegiatan'};
+		$kebaktian->nama_jenis_kegiatan = trim($input->{'nama_jenis_kegiatan'});
 		if($input->{'id_pendeta'} == '')
 		{
 			$kebaktian->id_pendeta = null;
@@ -146,7 +184,7 @@ class InputEditController extends BaseController {
 		{
 			$kebaktian->id_pendeta = $input->{'id_pendeta'};
 		}		
-		$kebaktian->nama_pendeta = $input->{'nama_pendeta'};				
+		$kebaktian->nama_pendeta = trim($input->{'nama_pendeta'});				
 		$kebaktian->tanggal_mulai = $input->{'tanggal_mulai'};
 		$kebaktian->tanggal_selesai = $input->{'tanggal_selesai'};
 		$kebaktian->jam_mulai = $input->{'jam_mulai'};
@@ -231,12 +269,12 @@ class InputEditController extends BaseController {
 		
 		//BEFORE
 		$data_valid = array(
-			'nama_depan' => Input::get('nama_depan'),
+			'nama_depan' => trim(Input::get('nama_depan')),
 			'telp' => Input::get('telp'),
 			'gender' => Input::get('gender'),
 			'gol_darah' => Input::get('gol_darah'),
 			'pekerjaan' => Input::get('pekerjaan'),
-			'kota_lahir' => Input::get('kota_lahir'),
+			'kota_lahir' => trim(Input::get('kota_lahir')),
 			'tanggal_lahir' => Input::get('tanggal_lahir'), 
 			'role' => Input::get('role')
 		);
@@ -252,8 +290,8 @@ class InputEditController extends BaseController {
 		}
 		
 		$data_valid = array(
-			'jalan' => Input::get('jalan'),
-			'kota' => Input::get('kota')			
+			'jalan' => trim(Input::get('jalan')),
+			'kota' => trim(Input::get('kota'))			
 		);
 		
 		//validate alamat
@@ -266,11 +304,47 @@ class InputEditController extends BaseController {
 			// return "Bagian yang bertanda (*) harus diisi.";
 		}
 	
+		/*
+			VALIDATE DUPLICATE DATA				
+				nama_depan
+				nama_tengah
+				nama_belakang
+				id_gereja
+			
+			VALIDATE WITH CASE SENSITIVE
+				Invite::where(DB::raw('BINARY `token`'), $token)->first();	
+		*/		
+		$duplicate = Anggota::where('deleted', '=', 0)
+					->where('nama_depan', '=', trim(Input::get('nama_depan')))
+					->where('nama_tengah', '=', trim(Input::get('nama_tengah')))
+					->where('nama_belakang', '=', trim(Input::get('nama_belakang')))
+					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->first();
+		if(count($duplicate))
+		{
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+			return json_encode($respond);
+		}
+		
+		/*
+			VALIDATE UNIQUE NO_ANGGOTA
+			NOTE: unique di validator laravel bersifat 'NOT CASE SENSITIVE'
+		*/
+		$validator = Validator::make(
+			array('no_anggota' => trim(Input::get('no_anggota'))),
+			array('no_anggota' => array('unique:anggota,no_anggota'))
+		);
+		if($validator->fails())
+		{
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data nomor anggota. Data nomor anggota yang dimasukkan sudah ada.');
+			return json_encode($respond);
+		}
+		
 		$anggota = new Anggota();
-		$anggota->no_anggota = Input::get('no_anggota');
-		$anggota->nama_depan = Input::get('nama_depan');
-		$anggota->nama_tengah = Input::get('nama_tengah');
-		$anggota->nama_belakang = Input::get('nama_belakang');
+		$anggota->no_anggota = trim(Input::get('no_anggota'));
+		$anggota->nama_depan = trim(Input::get('nama_depan'));
+		$anggota->nama_tengah = trim(Input::get('nama_tengah'));
+		$anggota->nama_belakang = trim(Input::get('nama_belakang'));
 		$anggota->telp = Input::get('telp');
 		$anggota->gender = Input::get('gender');
 		$anggota->wilayah = Input::get('wilayah');
@@ -278,7 +352,7 @@ class InputEditController extends BaseController {
 		$anggota->pendidikan = Input::get('pendidikan');
 		$anggota->pekerjaan = Input::get('pekerjaan');
 		$anggota->etnis = Input::get('etnis');
-		$anggota->kota_lahir = Input::get('kota_lahir');
+		$anggota->kota_lahir = trim(Input::get('kota_lahir'));
 		$anggota->tanggal_lahir = Input::get('tanggal_lahir');		
 		// $anggota->id_gereja = Input::get('id_gereja');
 		$anggota->id_gereja = Auth::user()->id_gereja;
@@ -299,21 +373,21 @@ class InputEditController extends BaseController {
 					$hp = new Hp();
 					$hp->no_hp = $key;
 					$hp->id_anggota = $anggota->id;
-					$hp->deleted = 0;
+					// $hp->deleted = 0;
 					try{
 						$hp->save();
 						
 						$ctHp++;					
-					}catch(Exception $e){		
-						//delete anggota
-						$anggota->delete();
-						
+					}catch(Exception $e){								
 						//delete hp sebelumnya
 						for($i = 0; $i < $ctHp ; $i++)
 						{
 							$delHp = DB::table('hp')->orderBy('created_at', 'desc')->first();
 							$delHp->delete();
 						}
+						
+						//delete anggota
+						$anggota->delete();
 						
 						$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data anggota');
 						return json_encode($respond);						
@@ -324,23 +398,23 @@ class InputEditController extends BaseController {
 			
 			//save alamat
 			$alamat = new Alamat();
-			$alamat->jalan = Input::get('jalan');
-			$alamat->kota = Input::get('kota');
+			$alamat->jalan = trim(Input::get('jalan'));
+			$alamat->kota = trim(Input::get('kota'));
 			$alamat->kodepos = Input::get('kodepos');
 			$alamat->id_anggota = $anggota->id;
-			$alamat->deleted = 0;
+			// $alamat->deleted = 0;
 			try{
 				$alamat->save();
 			}catch(Exception $e){
-				//delete anggota
-				$anggota->delete();
-				
 				//delete hp sebelumnya
 				for($i = 0; $i < $ctHp ; $i++)
 				{
 					$delHp = DB::table('hp')->orderBy('created_at', 'desc')->first();
 					$delHp->delete();
 				}
+				
+				//delete anggota
+				$anggota->delete();
 						
 				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data anggota');
 				return json_encode($respond);
@@ -364,10 +438,7 @@ class InputEditController extends BaseController {
 					$anggota->foto = $destinationPath.$fileName;
 					try{
 						$anggota->save();
-					}catch(Exception $e){
-						//delete anggota
-						$anggota->delete();
-						
+					}catch(Exception $e){						
 						//delete hp sebelumnya
 						for($i = 0; $i < $ctHp ; $i++)
 						{
@@ -377,6 +448,9 @@ class InputEditController extends BaseController {
 						
 						//delete alamat
 						$alamat->delete();
+						
+						//delete anggota
+						$anggota->delete();
 						
 						$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data angggota');
 						return json_encode($respond);
@@ -389,10 +463,7 @@ class InputEditController extends BaseController {
 					$anggota->foto = $destinationPath.$fileName;
 					try{
 						$anggota->save();
-					}catch(Exception $e){
-						//delete anggota
-						$anggota->delete();
-						
+					}catch(Exception $e){												
 						//delete hp sebelumnya
 						for($i = 0; $i < $ctHp ; $i++)
 						{
@@ -402,6 +473,9 @@ class InputEditController extends BaseController {
 						
 						//delete alamat
 						$alamat->delete();
+						
+						//delete anggota
+						$anggota->delete();
 						
 						$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data anggota');
 						return json_encode($respond);
@@ -415,7 +489,7 @@ class InputEditController extends BaseController {
 			// return "Gagal menyimpan data anggota.";
 		}		
 		
-		$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data kebaktian.');
+		$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data anggota.');
 		return json_encode($respond);
 		// return "berhasil";		
 	}
@@ -428,7 +502,7 @@ class InputEditController extends BaseController {
 		// $input = Input::get('data');
 		
 		$data_valid = array(
-			'no_baptis' => $input->{'no_baptis'},
+			'no_baptis' => trim($input->{'no_baptis'}),
 			'id_jemaat' => $input->{'id_jemaat'},
 			'id_pendeta' => $input->{'id_pendeta'},
 			'tanggal_baptis' => $input->{'tanggal_baptis'},
@@ -446,8 +520,22 @@ class InputEditController extends BaseController {
 			// return "Bagian yang bertanda (*) harus diisi.";
 		}
 		
+		/*
+			VALIDATE DUPLICATE DATA
+				no_baptis				
+		*/
+		$duplicate = Baptis::where('deleted', '=', 0)
+					->where('no_baptis', '=', trim($input->{'no_baptis'}))
+					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->first();
+		if(count($duplicate))
+		{
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+			return json_encode($respond);
+		}
+		
 		$baptis = new Baptis();
-		$baptis->no_baptis = $input->{'no_baptis'};				
+		$baptis->no_baptis = trim($input->{'no_baptis'});				
 		$baptis->id_jemaat = $input->{'id_jemaat'};
 		$baptis->id_pendeta = $input->{'id_pendeta'};
 		$baptis->tanggal_baptis = $input->{'tanggal_baptis'};
@@ -482,10 +570,10 @@ class InputEditController extends BaseController {
 		// $input = Input::get('data');
 		
 		$data_valid = array(
-			'no_atestasi' => $input->{'no_atestasi'},			
+			'no_atestasi' => trim($input->{'no_atestasi'}),			
 			'tanggal_atestasi' => $input->{'tanggal_atestasi'},			
-			'nama_gereja_lama' => $input->{'nama_gereja_lama'},
-			'nama_gereja_baru' => $input->{'nama_gereja_baru'},
+			'nama_gereja_lama' => trim($input->{'nama_gereja_lama'}),
+			'nama_gereja_baru' => trim($input->{'nama_gereja_baru'}),
 			'id_jenis_atestasi' => $input->{'id_jenis_atestasi'},
 			'id_anggota' => $input->{'id_anggota'}
 		);				
@@ -500,12 +588,26 @@ class InputEditController extends BaseController {
 			// return "Bagian yang bertanda (*) harus diisi.";
 		}	
 		
+		/*
+			VALIDATE DUPLICATE DATA
+				no_atestasi
+		*/
+		$duplicate = Atestasi::where('deleted', '=', 0)
+					->where('no_atestasi', '=', trim($input->{'no_atestasi'}))				
+					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->first();
+		if(count($duplicate))
+		{
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+			return json_encode($respond);
+		}
+		
 		$atestasi = new Atestasi();
-		$atestasi->no_atestasi = $input->{'no_atestasi'};
+		$atestasi->no_atestasi = trim($input->{'no_atestasi'});
 		$atestasi->tanggal_atestasi = $input->{'tanggal_atestasi'};
 		$atestasi->id_jenis_atestasi = $input->{'id_jenis_atestasi'};		
-		$atestasi->nama_gereja_lama = $input->{'nama_gereja_lama'};
-		$atestasi->nama_gereja_baru = $input->{'nama_gereja_baru'};
+		$atestasi->nama_gereja_lama = trim($input->{'nama_gereja_lama'});
+		$atestasi->nama_gereja_baru = trim($input->{'nama_gereja_baru'});
 		$atestasi->id_anggota = $input->{'id_anggota'};		
 		$atestasi->keterangan = $input->{'keterangan'};
 		$atestasi->deleted = 0;
@@ -590,11 +692,11 @@ class InputEditController extends BaseController {
 		// $input = Input::get('data');
 		
 		$data_valid = array(
-			'no_pernikahan' => $input->{'no_pernikahan'},			
+			'no_pernikahan' => trim($input->{'no_pernikahan'}),			
 			'tanggal_pernikahan' => $input->{'tanggal_pernikahan'},
 			'id_pendeta' => $input->{'id_pendeta'},
-			'nama_pria' => $input->{'nama_pria'},
-			'nama_wanita' => $input->{'nama_wanita'}
+			'nama_pria' => trim($input->{'nama_pria'}),
+			'nama_wanita' => trim($input->{'nama_wanita'})
 		);				
 		
 		//validate
@@ -607,13 +709,27 @@ class InputEditController extends BaseController {
 			// return "Bagian yang bertanda (*) harus diisi.";
 		}		
 		
+		/*
+			VALIDATE DUPLICATE DATA
+				no_pernikahan				
+		*/
+		$duplicate = Pernikahan::where('deleted', '=', 0)
+					->where('no_pernikahan', '=', trim($input->{'no_pernikahan'}))					
+					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->first();
+		if(count($duplicate))
+		{
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+			return json_encode($respond);
+		}
+
 		$pernikahan = new Pernikahan();
-		$pernikahan->no_pernikahan = $input->{'no_pernikahan'};
+		$pernikahan->no_pernikahan = trim($input->{'no_pernikahan'});
 		$pernikahan->tanggal_pernikahan = $input->{'tanggal_pernikahan'};
 		$pernikahan->id_pendeta = $input->{'id_pendeta'};			
 		$pernikahan->id_gereja = Auth::user()->id_gereja;
-		$pernikahan->nama_pria = $input->{'nama_pria'};
-		$pernikahan->nama_wanita = $input->{'nama_wanita'};
+		$pernikahan->nama_pria = trim($input->{'nama_pria'});
+		$pernikahan->nama_wanita = trim($input->{'nama_wanita'});
 		$pernikahan->keterangan = $input->{'keterangan'};
 		$pernikahan->deleted = 0;
 		if($input->{'id_jemaat_wanita'} == '')
@@ -653,7 +769,7 @@ class InputEditController extends BaseController {
 		// $input = Input::get('data');
 		
 		$data_valid = array(
-			'no_kedukaan' => $input->{'no_kedukaan'},			
+			'no_kedukaan' => trim($input->{'no_kedukaan'}),			
 			'id_jemaat' => $input->{'id_jemaat'},
 			'keterangan' => $input->{'keterangan'}
 			// 'id_gereja' : $id_gereja,
@@ -676,8 +792,22 @@ class InputEditController extends BaseController {
 			// return "Bagian yang bertanda (*) harus diisi.";
 		}
 		
+		/*
+			VALIDATE DUPLICATE DATA
+				no_kedukaan				
+		*/
+		$duplicate = Kedukaan::where('deleted', '=', 0)
+					->where('no_kedukaan', '=', trim($input->{'no_kedukaan'}))					
+					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->first();
+		if(count($duplicate))
+		{
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+			return json_encode($respond);
+		}
+		
 		$duka = new Kedukaan();
-		$duka->no_kedukaan = $input->{'no_kedukaan'};		
+		$duka->no_kedukaan = trim($input->{'no_kedukaan'});		
 		$duka->id_gereja = Auth::user()->id_gereja;
 		$duka->id_jemaat = $input->{'id_jemaat'};		
 		$duka->keterangan = $input->{'keterangan'};
@@ -727,7 +857,7 @@ class InputEditController extends BaseController {
 		// $input = Input::get('data');	
 		
 		$data_valid = array(
-			'no_dkh' => $input->{'no_dkh'},
+			'no_dkh' => trim($input->{'no_dkh'}),
 			'id_jemaat' => $input->{'id_jemaat'},
 			'keterangan' => $input->{'keterangan'}
 		);
@@ -742,8 +872,22 @@ class InputEditController extends BaseController {
 			// return "Bagian yang bertanda (*) harus diisi.";
 		}
 		
+		/*
+			VALIDATE DUPLICATE DATA
+				no_dkh
+		*/
+		$duplicate = Dkh::where('deleted', '=', 0)
+					->where('no_dkh', '=', trim($input->{'no_dkh'}))					
+					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->first();
+		if(count($duplicate))
+		{
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+			return json_encode($respond);
+		}
+
 		$dkh = new Dkh();
-		$dkh->no_dkh = $input->{'no_dkh'};
+		$dkh->no_dkh = trim($input->{'no_dkh'});
 		$dkh->id_jemaat = $input->{'id_jemaat'};
 		$dkh->keterangan = $input->{'keterangan'};
 		$dkh->deleted = 0;

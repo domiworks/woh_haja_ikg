@@ -1,46 +1,79 @@
-@extends('layouts.admin_layout')
+@extends('layouts.user_layout')
 @section('content')
 
-<!-- css -->
-<style>
+<script>
+	$(document).ready(function(){				
+	
+		//END LOADER				
+		$('.f_loader_container').addClass('hidden');
+	
+	});
+</script>
 
-</style>
-<!-- end css -->
-<ol class="breadcrumb">
-	<li><a href="#">Import Eksport</a></li>
-	<!--<li class="active"></li>-->
-</ol>
+<div class="s_content_maindiv" style="overflow: hidden;">
 
-<!-- olahdata -->
-<!--
-	<ul>
-		<li>{{HTML::linkRoute('view_olahdata_kebaktian', 'Olah Data Kebaktian')}}</li>
-		<li>{{HTML::linkRoute('view_olahdata_anggota', 'Olah Data Anggota')}}</li>
-		<li>{{HTML::linkRoute('view_olahdata_baptis', 'Olah Data Baptis')}}</li>
-		<li>{{HTML::linkRoute('view_olahdata_atestasi', 'Olah Data Atestasi')}}</li>
-		<li>{{HTML::linkRoute('view_olahdata_pernikahan', 'Olah Data Pernikahan')}}</li>
-		<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan')}}</li>
-		<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh')}}</li>
-	</ul>
--->
-<!-- </div> -->
-
-<div class="s_content">
-	<div class="container-fluid">
-
-		<div class="col-md-3 panel panel-default ">			
-			<!--
-			<ul>		
-				<li>Report Kebaktian</li>
-				<li>Report Anggota</li>				
-			</ul>
-			-->
-		</div>
-		
-		<div class="panel panel-default col-md-9">
-			<div class="panel-body">
-				(halaman import eksport)
+	<div class="s_main_side" style="">
+		<div class="s_content">
+			<div class="container-fluid">
+				<div style="margin-top: 15px;" class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							IMPORT / EKSPORT DATA KEBAKTIAN
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-xs-12">
+							<div class="col-xs-3">
+								<input type="button" class="btn btn-success pull-right" id="f_import_kebaktian" value="import data kebaktian" />
+							</div>
+							<div class="col-xs-3">
+								<input type="button" class="btn btn-warning pull-right" id="f_eksport_kebaktian" value="eksport data kebaktian" />
+							</div>
+						</div>
+					</div>
+				</div>	
+				<div style="margin-top: 15px;" class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							IMPORT / EKSPORT DATA ANGGOTA
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-xs-12">
+							<div class="col-xs-3">
+								<input type="button" class="btn btn-success pull-right" id="f_import_anggota" value="import data anggota" />
+							</div>
+							<div class="col-xs-3">
+								<input type="button" class="btn btn-warning pull-right" id="f_eksport_anggota" value="eksport data anggota" />
+							</div>
+						</div>
+					</div>
+				</div>	
 			</div>
-		</div>
+		</div>	
+	</div>	
+</div>	
+
+<script>
+	//import data kebaktian
+	$('body').on('click', '#f_import_kebaktian', function(){
+		
+	});
+	
+	//eksport data kebaktian
+	$('body').on('click', '#f_eksport_kebaktian', function(){
+		
+	});
+	
+	//import data anggota
+	$('body').on('click', '#f_import_anggota', function(){
+		
+	});
+	
+	//eksport data anggota
+	$('body').on('click', '#f_eksport_anggota', function(){
+		
+	});
+</script>
 
 @stop

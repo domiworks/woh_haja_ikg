@@ -8,7 +8,7 @@
 		
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav nav-pills">
-				<li><a href="{{URL::to('/user/inputdata_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:green; margin-right:10px;"></span>Admin</a></li>
+				<li><a href="{{URL::to('/admin/view_gereja')}}"><span class="glyphicon glyphicon-home" style="color:green; margin-right:10px;"></span>Admin</a></li>
 				<li>
 					<div 
 						style="height:40px; 
@@ -18,7 +18,7 @@
 								margin-right: 25px;">								
 					</div>
 				</li>
-				<li><a href="{{URL::to('/user/olahdata_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:orange; margin-right:10px;"></span>User</a></li>
+				<li><a href="{{URL::to('/admin/view_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:orange; margin-right:10px;"></span>User</a></li>
 										
 				
 				<!--

@@ -25,7 +25,20 @@
 						<div class="col-xs-0">
 							*
 						</div>
-					</div>								
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Gereja</label>
+						<div class="col-xs-5">
+							@if($list_gereja == null)
+								<p class="control-label pull-left">(tidak ada daftar gereja)</p>
+							@else
+								{{Form::select('list_gereja', $list_gereja, Input::old('list_gereja'), array('id'=>'f_edit_list_gereja', 'class'=>'form-control'))}}
+							@endif	
+						</div>
+						<div class="col-xs-0">
+							*
+						</div>
+					</div>					
 				</form>
 				
 			</div>
@@ -45,10 +58,13 @@
 		
 		$username = $('#f_edit_username').val();
 		$password = $('#f_edit_password').val();		
+		$gereja = $('#f_edit_list_gereja').val();
 		
 		$data = {
+			'id' : $id,
 			'username' : $username,
-			'password' : $password						
+			'password' : $password,
+			'gereja' : $gereja
 		};				
 		
 		var json_data = JSON.stringify($data);
@@ -67,10 +83,14 @@
 					// window.location = '{{URL::route('admin_view_input_auth')}}';
 					
 					//ganti isi row sesuai hasil edit
-					//...
+					$('.tabel_username'+temp).html(result.data['username']);
+					$('.tabel_nama_gereja'+temp).html(result.data['nama_gereja']);
 					
 					//ganti isi detail sesuai hasil edit
-					/....
+					data_auth[temp] = result.data;
+					
+					//clear password field
+					$('#f_edit_password').val('');
 					
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');

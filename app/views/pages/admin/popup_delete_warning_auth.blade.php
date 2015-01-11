@@ -44,7 +44,12 @@
 					location.reload();
 					
 					// window.location = '{{URL::route('admin_view_input_auth')}}';
-										
+					
+					/*
+					NOTE:
+						akan ada kasus data gereja ga bisa didelete karena tabel lain ada yang
+						reference ke data gereja tersebut
+					*/					
 				}
 				else
 				{

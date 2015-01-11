@@ -115,7 +115,8 @@
 						<thead>
 							<tr class="active">
 								<td class="col-md-2"><strong>ID Akun</strong></td>
-								<td class="col-md-4"><strong>Username</strong></td>								
+								<td class="col-md-4"><strong>Username</strong></td>
+								<td class="col-md-4"><strong>Gereja</strong></td>								
 								<td class="col-md-4"><!-- edit delete --></td>
 							</tr>								
 						</thead>
@@ -125,7 +126,8 @@
 							@foreach($data_auth as $auth)
 								<tr>
 									<td>{{$auth->id}}</td>
-									<td>{{$auth->username}}</td>									
+									<td class="tabel_username<?php echo $index; ?>">{{$auth->username}}</td>			
+									<td class="tabel_nama_gereja<?php echo $index; ?>">{{$auth->nama_gereja}}</td>
 									<td>										
 										<div class="pull-right">
 										
@@ -150,14 +152,20 @@
 	</div>
 </div>	
 
-<script>		
+<script>	
+	//global variable buat ajax ganti view
+	var temp = '';
+	
 	//click detail/edit button
 	$('body').on('click', '.detailButton', function(){
 		$id = $(this).prev().prev().val();
 		$index = $(this).prev().val();
 		
+		temp = $(this).prev().val();				
+		
 		// set value di popup detail/edit
 		$('#f_edit_username').val(data_auth[$index]['username']);		
+		$('#f_edit_list_gereja').val(data_auth[$index]['id_gereja']);
 		
 	});
 	

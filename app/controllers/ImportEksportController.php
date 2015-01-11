@@ -5,8 +5,10 @@ use Carbon\Carbon;
 class ImportEksportController extends BaseController {
 
 	public function view_import_eksport()
-	{			
-		return View::make('pages.importeksport');	
+	{		
+		$header = $this->setHeader();
+		return View::make('pages.importeksport',
+				compact('header'));	
 	}
 	
 	public function import_kegiatan_GKI_Cianjur(){

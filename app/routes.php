@@ -47,12 +47,75 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 
 	Route::get('/', ['as' => 'home_admin', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);			
 	
+	//get list pendeta by gereja
+	Route::get('/get_list_pendeta_by_gereja', ['as' => 'admin_get_list_pendeta_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_pendeta_by_gereja']);
+	//get list anggota by gereja
+	Route::get('/get_list_anggota_by_gereja', ['as' => 'admin_get_list_anggota_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_anggota_by_gereja']);
+	//get list anggota pria by gereja
+	Route::get('/get_list_anggota_pria_by_gereja', ['as' => 'admin_get_list_anggota_pria_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_anggota_pria_by_gereja']);
+	//get list anggota wanita by gereja
+	Route::get('/get_list_anggota_wanita_by_gereja', ['as' => 'admin_get_list_anggota_wanita_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_anggota_wanita_by_gereja']);
+	//get list anggota hidup by gereja
+	Route::get('/get_list_anggota_hidup_by_gereja', ['as' => 'admin_get_list_anggota_hidup_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_anggota_hidup_by_gereja']);
+	
+	//user behavior view
+	Route::get('/view_kebaktian', ['as' => 'admin_view_kebaktian', 'uses' => 'UserBehaviorController@admin_view_kebaktian']);
+	Route::get('/view_anggota', ['as' => 'admin_view_anggota', 'uses' => 'UserBehaviorController@admin_view_anggota']);
+	Route::get('/view_baptis', ['as' => 'admin_view_baptis', 'uses' => 'UserBehaviorController@admin_view_baptis']);
+	Route::get('/view_atestasi', ['as' => 'admin_view_atestasi', 'uses' => 'UserBehaviorController@admin_view_atestasi']);
+	Route::get('/view_pernikahan', ['as' => 'admin_view_pernikahan', 'uses' => 'UserBehaviorController@admin_view_pernikahan']);
+	Route::get('/view_kedukaan', ['as' => 'admin_view_kedukaan', 'uses' => 'UserBehaviorController@admin_view_kedukaan']);
+	Route::get('/view_dkh', ['as' => 'admin_view_dkh', 'uses' => 'UserBehaviorController@admin_view_dkh']);
+	
+	//search 
+	Route::post('/search_kebaktian', ['as' => 'admin_search_kebaktian', 'uses' => 'UserBehaviorController@admin_search_kebaktian']);
+	Route::post('/search_anggota', ['as' => 'admin_search_anggota', 'uses' => 'UserBehaviorController@admin_search_anggota']);
+	Route::post('/search_baptis', ['as' => 'admin_search_baptis', 'uses' => 'UserBehaviorController@admin_search_baptis']);
+	Route::post('/search_atestasi', ['as' => 'admin_search_atestasi', 'uses' => 'UserBehaviorController@admin_search_atestasi']);
+	Route::post('/search_pernikahan', ['as' => 'admin_search_pernikahan', 'uses' => 'UserBehaviorController@admin_search_pernikahan']);
+	Route::post('/search_kedukaan', ['as' => 'admin_search_kedukaan', 'uses' => 'UserBehaviorController@admin_search_kedukaan']);
+	Route::post('/search_dkh', ['as' => 'admin_search_dkh', 'uses' => 'UserBehaviorController@admin_search_dkh']);
+	
+	//change visible
+	Route::post('/change_visible_kebaktian', ['as' => 'change_visible_kebaktian', 'uses' => 'UserBehaviorController@admin_change_visible_kebaktian']);	
+	Route::post('/change_visible_anggota', ['as' => 'change_visible_anggota', 'uses' => 'UserBehaviorController@admin_change_visible_anggota']);		
+	Route::post('/change_visible_baptis', ['as' => 'change_visible_baptis', 'uses' => 'UserBehaviorController@admin_change_visible_baptis']);	
+	Route::post('/change_visible_atestasi', ['as' => 'change_visible_atestasi', 'uses' => 'UserBehaviorController@admin_change_visible_atestasi']);	
+	Route::post('/change_visible_pernikahan', ['as' => 'change_visible_pernikahan', 'uses' => 'UserBehaviorController@admin_change_visible_pernikahan']);	
+	Route::post('/change_visible_kedukaan', ['as' => 'change_visible_kedukaan', 'uses' => 'UserBehaviorController@admin_change_visible_kedukaan']);	
+	Route::post('/change_visible_dkh', ['as' => 'change_visible_dkh', 'uses' => 'UserBehaviorController@admin_change_visible_dkh']);	
+	
+	//edit data
+	Route::post('/edit_kebaktian', ['as' => 'admin_edit_kebaktian', 'uses' => 'UserBehaviorController@admin_edit_kebaktian']);
+	Route::post('/edit_anggota', ['as' => 'admin_edit_anggota', 'uses' => 'UserBehaviorController@admin_edit_anggota']);
+	Route::post('/edit_baptis', ['as' => 'admin_edit_baptis', 'uses' => 'UserBehaviorController@admin_edit_baptis']);
+	Route::post('/edit_atestasi', ['as' => 'admin_edit_atestasi', 'uses' => 'UserBehaviorController@admin_edit_atestasi']);
+	Route::post('/edit_pernikahan', ['as' => 'admin_edit_pernikahan', 'uses' => 'UserBehaviorController@admin_edit_pernikahan']);
+	Route::post('/edit_kedukaan', ['as' => 'admin_edit_kedukaan', 'uses' => 'UserBehaviorController@admin_edit_kedukaan']);
+	Route::post('/edit_dkh', ['as' => 'admin_edit_dkh', 'uses' => 'UserBehaviorController@admin_edit_dkh']);
+	
+	//delete data
+	Route::delete('/delete_kebaktian', ['as' => 'admin_delete_kebaktian', 'uses' => 'UserBehaviorController@admin_delete_kebaktian']);
+	Route::delete('/delete_anggota', ['as' => 'admin_delete_anggota', 'uses' => 'UserBehaviorController@admin_delete_anggota']);
+	Route::delete('/delete_baptis', ['as' => 'admin_delete_baptis', 'uses' => 'UserBehaviorController@admin_delete_baptis']);
+	Route::delete('/delete_atestasi', ['as' => 'admin_delete_atestasi', 'uses' => 'UserBehaviorController@admin_delete_atestasi']);
+	Route::delete('/delete_pernikahan', ['as' => 'admin_delete_pernikahan', 'uses' => 'UserBehaviorController@admin_delete_pernikahan']);
+	Route::delete('/delete_kedukaan', ['as' => 'admin_delete_kedukaan', 'uses' => 'UserBehaviorController@admin_delete_kedukaan']);
+	Route::delete('/delete_dkh', ['as' => 'admin_delete_dkh', 'uses' => 'UserBehaviorController@admin_delete_dkh']);
+	
+	
+	//----------------------------------------
+	
+	//ubah password admin
+	Route::post('/edit_password', ['as' => 'admin_edit_password', 'uses' => 'InputEditAdminController@admin_edit_password']);
+	
 	//input data	
 	Route::get('/view_gereja', ['as' => 'admin_view_input_gereja', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);	
 	Route::get('/view_jenisbaptis', ['as' => 'admin_view_input_jenis_baptis', 'uses' => 'InputEditAdminController@admin_view_input_jenis_baptis']);	
 	Route::get('/view_jenisatestasi', ['as' => 'admin_view_input_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_view_input_jenis_atestasi']);	
 	Route::get('/view_jeniskegiatan', ['as' => 'admin_view_input_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_view_input_jenis_kegiatan']);	
 	Route::get('/view_account', ['as' => 'admin_view_input_auth', 'uses' => 'InputEditAdminController@admin_view_input_auth']);	
+	Route::get('/view_ubah_password', ['as' => 'admin_view_input_ubah_password', 'uses' => 'InputEditAdminController@admin_view_input_ubah_password']);
 	
 	//post data
 	Route::post('/post_gereja', ['as' => 'post_gereja', 'uses' => 'InputEditAdminController@admin_postGereja']);
@@ -93,6 +156,9 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 
 	// Route::get('/', ['as' => 'profile_user', 'uses' => 'UserController@view_profile']);		
 	Route::get('/', ['as' => 'home_user', 'uses' => 'InputEditController@view_kebaktian']);				
+	
+	//get live search anggota
+	Route::get('/live_search_anggota', ['as' => 'user_search_anggota', 'uses' => 'InputEditController@user_search_anggota']);
 	
 	//input data 
 	Route::get('/inputdata_kebaktian', ['as' => 'view_inputdata_kebaktian', 'uses' => 'InputEditController@view_kebaktian']);	

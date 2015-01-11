@@ -1793,6 +1793,7 @@ return array(
     'TutorialController' => $baseDir . '/app/controllers/TutorialController.php',
     'User' => $baseDir . '/app/models/User.php',
     'UserAdminController' => $baseDir . '/app/controllers/admin/UserAdminController.php',
+    'UserBehaviorController' => $baseDir . '/app/controllers/admin/UserBehaviorController.php',
     'UserController' => $baseDir . '/app/controllers/UserController.php',
     'Whoops\\Exception\\ErrorException' => $vendorDir . '/filp/whoops/src/Whoops/Exception/ErrorException.php',
     'Whoops\\Exception\\Frame' => $vendorDir . '/filp/whoops/src/Whoops/Exception/Frame.php',

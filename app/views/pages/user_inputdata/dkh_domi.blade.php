@@ -67,6 +67,8 @@ $(document).ready(function(){
 									Nama Jemaat
 								</label>
 								<div class="col-xs-4">
+									<!--<input type="text" class="form-control" id="f_nama_jemaat"  />-->
+									
 									@if($list_jemaat == null)
 									<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
 									@else								
@@ -76,6 +78,18 @@ $(document).ready(function(){
 								<div class="col-xs-0">
 									*
 								</div>
+								<!-- start search table -->
+								<table class="table table-bordered table-striped">
+									<thead>
+									</thead>
+									<tbody class="f_table_search" id="searchContent">
+										<style>
+										.f_table_search > tr:active > td {
+											background-color: #E8CD02 !important;
+										</style>
+									</tbody>
+								</table>
+								<!-- end search table -->
 							</div>		
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
@@ -109,6 +123,44 @@ $(document).ready(function(){
 </div>
 
 <script>
+	/*
+		COBA LIVE SEARCH ANGGOTA
+	*/
+	$('body').on('keyup','#f_nama_jemaat' function(){
+		$keyword = $('#f_nama_jemaat').val();
+		$.ajax({
+			type: 'GET',
+			url: '{{URL::route('user_search_anggota')}}',
+			data: {
+				'keyword' : $keyword
+			},
+			success: function(response){
+				if(response['code'] == '404) //gagal
+				{
+					$data = "<tr><td> No Result Found </td></tr>";
+					$('#searchContent').html($data);
+				}
+				else //berhasil, maka draw tabel
+				{
+					//berhasil...foreach setiap barang
+					$data = "";
+					$.each(response['messages'], function(i, resp){
+						$data += "<tr id='row_"+resp.id+"' class='search_row' style='border-bottom:1px solid #000 !important;' data-dismiss='modal'>";
+							$data += "<td>";
+								$data += resp.nama_depan+' '+resp.nama_tengah+' '+resp.nama_belakang;
+							$data += "</td>";
+						$data += "</tr>":						
+					});
+					$('#searchContent').html($data);
+				}
+			},
+			error: function(xhr, textStatus, errorThrown){
+				alert('error');
+				
+			}
+		},'json');
+	});
+	
 	$('body').on('click', '#f_post_dkh', function(){
 		//SHOW POP UP CONFIRM KEBAKTIAN			
 		

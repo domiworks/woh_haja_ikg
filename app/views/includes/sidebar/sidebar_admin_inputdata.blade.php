@@ -11,6 +11,6 @@
 	<li>{{HTML::linkRoute('admin_view_input_jenis_atestasi', 'Jenis Atestasi', '' , array('style'=>'color:white;'))}}</li> 
 	<li>{{HTML::linkRoute('admin_view_input_jenis_kegiatan', 'Jenis Kegiatan', '' , array('style'=>'color:white;'))}}</li> 
 	<li>{{HTML::linkRoute('admin_view_input_auth', 'Akun', '' , array('style'=>'color:white;'))}}</li> 	
-	<li>{{HTML::linkRoute('admin_view_input_auth', 'Ubah Password', '' , array('style'=>'color:white;'))}}</li> 	
+	<li>{{HTML::linkRoute('admin_view_input_ubah_password', 'Ubah Password', '' , array('style'=>'color:white;'))}}</li> 	
 	
 </ul>

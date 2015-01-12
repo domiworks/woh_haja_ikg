@@ -36,7 +36,25 @@ class InputEditAdminController extends BaseController {
 		$data_jenis_kegiatan = $this->getDataJenisKegiatan();
 		return View::make('pages.admin.input_jeniskegiatan', compact('data_jenis_kegiatan'));
 	}
+	
+	public function admin_view_input_ubah_password()
+	{
+		return View::make('pages.admin.input_ubah_password');
+	}
 
+/*----------------------------------------LIVE SEARCH----------------------------------------*/
+
+	public function admin_search_anggota()
+	{	
+		/*
+		try{
+		}catch(Exception $e)
+		{
+		}
+		*/
+		return null;
+	}
+	
 /*----------------------------------------GET----------------------------------------*/
 
 	public function getDataAuth()
@@ -48,6 +66,12 @@ class InputEditAdminController extends BaseController {
 		}
 		else
 		{
+			// return $auth;
+			foreach($auth as $row)
+			{
+				$gereja = Gereja::find($row->id_gereja);
+				$row->nama_gereja = $gereja->nama;
+			}
 			return $auth;
 		}
 	}
@@ -126,6 +150,22 @@ class InputEditAdminController extends BaseController {
 		if($validator->fails())
 		{
 			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+		}
+		
+		//validator standar strength password
+			/*The requirements:
+				Must be a minimum of 8 characters
+				Must contain at least 1 number
+				Must contain at least one uppercase character
+				Must contain at least one lowercase character
+			*/
+		$uppercase = preg_match('@[A-Z]@', $password);
+		$lowercase = preg_match('@[a-z]@', $password);
+		$number    = preg_match('@[0-9]@', $password);
+
+		if(!$uppercase || !$lowercase || !$number || strlen(			$password) < 8) {
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data akun. Password tidak memenuhi standar.');
 			return json_encode($respond);
 		}
 		
@@ -325,9 +365,120 @@ class InputEditAdminController extends BaseController {
 	
 /*----------------------------------------EDIT----------------------------------------*/	
 	
+	public function admin_edit_password()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$password_baru = $input->{'password_baru'};
+		$password_baru_confirm = $input->{'password_baru_confirm'};
+		
+		$admin = Account::where('role', '=', 1)->first();		
+		
+		//validator password_baru - password_baru_confirm
+		if($password_baru != $password_baru_confirm)
+		{
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal mengubah password. Password yang diberikan tidak sama.');
+			return json_encode($respond);
+		}
+		
+		//validator standar strength password
+			/*The requirements:
+				Must be a minimum of 8 characters
+				Must contain at least 1 number
+				Must contain at least one uppercase character
+				Must contain at least one lowercase character
+			*/
+		$uppercase = preg_match('@[A-Z]@', $password_baru);
+		$lowercase = preg_match('@[a-z]@', $password_baru);
+		$number    = preg_match('@[0-9]@', $password_baru);
+
+		if(!$uppercase || !$lowercase || !$number || strlen(			$password_baru) < 8) {
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal mengubah password. Password tidak memenuhi standar.');
+			return json_encode($respond);
+		}
+		
+		//change password
+		$admin->password = Hash::make($password_baru_confirm);
+		try{
+			$admin->save();
+			
+			$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil mengubah password.');
+			return json_encode($respond);
+		}catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal mengubah password.');
+			return json_encode($respond);
+		}
+	}
+	
 	public function admin_edit_auth()
-	{		
-		return null;
+	{	
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};
+		
+		$username = $input->{'username'};
+		$password = $input->{'password'};
+		$gereja = $input->{'gereja'};
+		
+		$data_valid = array(
+			'username' => $username,
+			'password' => $password
+		);
+		
+		//validate
+		$validator = Validator::make($data = $data_valid, Account::$rules);
+		if($validator->fails())
+		{
+			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
+			return json_encode($respond);
+		}
+		
+		//validator standar strength password
+			/*The requirements:
+				Must be a minimum of 8 characters
+				Must contain at least 1 number
+				Must contain at least one uppercase character
+				Must contain at least one lowercase character
+			*/
+		$uppercase = preg_match('@[A-Z]@', $password);
+		$lowercase = preg_match('@[a-z]@', $password);
+		$number    = preg_match('@[0-9]@', $password);
+
+		if(!$uppercase || !$lowercase || !$number || strlen(			$password) < 8) {
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data akun. Password tidak memenuhi standar.');
+			return json_encode($respond);
+		}
+		
+		$acc = Account::find($id);
+		
+		if($acc == null)
+		{
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
+			return json_encode($respond);
+		}
+		else
+		{	
+			$acc->username = $username;
+			$acc->password = Hash::make($password);
+			$acc->id_gereja = $gereja;
+			
+			try{
+				$acc->save();
+				
+				//add nama_gereja
+				$gereja = Gereja::find($acc->id_gereja);
+				$acc->nama_gereja = $gereja->nama;
+				
+				$respond = array('code' => '200', 'status' => 'OK', 'messages' => 'Berhasil menyimpan perubahan.', 'data' => $acc->toArray());
+					
+				return json_encode($respond);
+			}catch(Exception $e){
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data gereja');
+				return json_encode($respond);
+			}
+		}	
 	}
 	
 	public function admin_edit_gereja()
@@ -717,6 +868,26 @@ class InputEditAdminController extends BaseController {
 	}
 
 /*----------------------------------------DELETE----------------------------------------*/		
+	
+	public function admin_delete_auth()
+	{
+		$json_data = Input::get('json_data');
+		$input = json_decode($json_data);
+		
+		$id = $input->{'id'};
+		
+		$acc = Account::find($id);
+		
+		try{						
+			$acc->delete();
+			
+			$respond = array('code' => '204', 'status' => 'No Content', 'messages' => 'Berhasil menghapus data.');
+			return json_encode($respond);			
+		}catch(Exception $e){
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menghapus data.');
+			return json_encode($respond);						
+		}
+	}
 	
 	public function admin_delete_gereja()
 	{

@@ -18,6 +18,10 @@
 
 <script>
 	$('body').on('click', '.okDelete', function(){
+		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$data = {
 			'id' : $id
 		};
@@ -41,7 +45,7 @@
 					temp_detail[temp] = 'remove';					
 										
 					//gambar ulang tabel
-					var result = "";	
+					var result = '';	
 					result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
 						result += '<thead>';
 							result += '<tr>';
@@ -83,7 +87,7 @@
 										result+='</button>';
 										result+='<input type="hidden" value='+$i+' />';
 										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-										result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kedukaan">';
+										result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kedukaan">';
 											result+='Delete';
 										result+='</button>';
 									result+='</td>';
@@ -94,11 +98,14 @@
 					result += '</table>';
 										
 					$('#f_result_kedukaan').html(result);								
-										
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');					
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				/*
 				if(response == "berhasil")
@@ -115,6 +122,8 @@
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});

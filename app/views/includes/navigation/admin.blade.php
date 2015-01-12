@@ -1,58 +1,36 @@
 
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <!--<a class="navbar-brand" href="#">Brand</a>-->
-    </div>
+<nav class="navbar navbar-default" role="navigation" 
+	style="border-top:0px;
+			border-bottom:0px;">
+	<div class="container-fluid" style="background-color: white;">		<!--#FFFF19-->
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-		<ul class="nav navbar-nav">
-						
-			<!--<li><a href="{{URL::to('/admin/inputdata_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Input Data</a></li>-->
-			<!--<li><a href="{{URL::to('/user/olahdata_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Olah Data</a></li>-->			
-			
-			<!--
-			<li><a href="{{URL::to('/user/reporting')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Reporting</a></li>
-			<li><a href="{{URL::to('/user/importeksport')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Import/Eksport</a></li>
-			<li><a href="{{URL::to('/user/tutorial')}}"><span class="glyphicon glyphicon-home" style="color:#fff; margin-right:10px;"></span>Tutorial</a></li>
-			-->
-			<!--<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-book" style="color:#fff; margin-right:10px;"></span>Link<span class="caret"></span></a>
-				<ul class="dropdown-menu" role="menu">
-					<li><a href="#">Manage Category</a></li>
-					<li><a href="#">Manage Product</a></li>
-					<li><a href="#">Manage Attribute</a></li>
-					<li><a href="#">Manage Attribute Sets</a></li>
-					<li class="divider"></li>
-					<li><a href="#">Separated link</a></li>
-					<li class="divider"></li>
-					<li><a href="#">One more separated link</a></li>
-				</ul>
-			</li>
-			
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-volume-up" style="color:#fff; margin-right:10px;"></span>Link<span class="caret"></span></a>
-				<ul class="dropdown-menu" role="menu">
-					<li><a href="#">Add New Newsletter</a></li>
-					
-				</ul>
-			</li>
-			<li><a href="#">Other Link</a></li>
-			<li><a href="#">Other Link</a></li>
-			<li><a href="#">Other Link</a></li>
-			-->
-		</ul>
+		<!-- Collect the nav links, forms, and other content for toggling -->
 		
-     
-     <span class="pull-right" id="f_clock" style="margin-right: 10px; line-height: 30px; color: #fff;"></span>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav nav-pills">
+				<li><a href="{{URL::to('/admin/view_gereja')}}"><span class="glyphicon glyphicon-home" style="color:green; margin-right:10px;"></span>Admin</a></li>
+				<li>
+					<div 
+						style="height:40px; 
+								width: 1px; 
+								background-color:#D1D1D1;
+								margin-left: 25px;
+								margin-right: 25px;">								
+					</div>
+				</li>
+				<li><a href="{{URL::to('/admin/view_kebaktian')}}"><span class="glyphicon glyphicon-home" style="color:orange; margin-right:10px;"></span>User</a></li>
+										
+				
+				<!--
+				<li><a href="#">Other Link</a></li>
+				<li><a href="#">Other Link</a></li>
+				<li><a href="#">Other Link</a></li>
+				-->
+			</ul>
+			
+		 
+			<!--<span class="pull-right" id="f_clock" style="margin-right: 10px; line-height: 30px; color: #fff;"></span>
+			-->
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container -->
 </nav>

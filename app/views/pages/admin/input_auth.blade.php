@@ -1,8 +1,38 @@
 @extends('layouts.admin_layout')
 @section('content')
 
+<script>
+	<!-- set variable javascript biar ga usah get detail lagi -->
+	var data_auth = new Array();
+	
+	$(document).ready(function(){				
+	
+		//END LOADER				
+		$('.f_loader_container').addClass('hidden');
+	
+		//reset kalau sampai reload page
+		data_auth = new Array();
+		
+		//insert ke data jenisatestasi ke variable javascript
+		<?php
+			foreach($data_auth as $auth)
+			{
+		?>	
+				data_auth[data_auth.length] = <?php echo $auth; ?>
+		<?php		
+			}
+		?>
+		
+		// alert(data_gereja[1]['nama']);
+		// var data_gereja = '';
+		// alert(data_gereja[1]);
+		// alert(arr_gereja);
+	
+	});
+</script>
+
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_admin_inputdata')
 		</div>
@@ -85,41 +115,19 @@
 						<thead>
 							<tr class="active">
 								<td class="col-md-2"><strong>ID Akun</strong></td>
-								<td class="col-md-4"><strong>Username</strong></td>								
+								<td class="col-md-4"><strong>Username</strong></td>
+								<td class="col-md-4"><strong>Gereja</strong></td>								
 								<td class="col-md-4"><!-- edit delete --></td>
 							</tr>								
 						</thead>
-						<tbody>
-							<!-- set variable javascript biar ga usah get detail lagi -->
-							<script>
-								var data_auth = new Array();
-								$(document).ready(function(){
-
-									//reset kalau sampai reload page
-									data_auth = new Array();
-									
-									//insert ke data jenisatestasi ke variable javascript
-									<?php
-										foreach($data_auth as $auth)
-										{
-									?>	
-											data_auth[data_auth.length] = <?php echo $auth; ?>
-									<?php		
-										}
-									?>
-									
-									// alert(data_gereja[1]['nama']);
-									// var data_gereja = '';
-									// alert(data_gereja[1]);
-									// alert(arr_gereja);
-								});
-							</script>
+						<tbody>							
 							<!-- set list auth -->
 							<?php $index = 0; ?>
 							@foreach($data_auth as $auth)
 								<tr>
 									<td>{{$auth->id}}</td>
-									<td>{{$auth->username}}</td>									
+									<td class="tabel_username<?php echo $index; ?>">{{$auth->username}}</td>			
+									<td class="tabel_nama_gereja<?php echo $index; ?>">{{$auth->nama_gereja}}</td>
 									<td>										
 										<div class="pull-right">
 										
@@ -144,14 +152,20 @@
 	</div>
 </div>	
 
-<script>		
+<script>	
+	//global variable buat ajax ganti view
+	var temp = '';
+	
 	//click detail/edit button
 	$('body').on('click', '.detailButton', function(){
 		$id = $(this).prev().prev().val();
 		$index = $(this).prev().val();
 		
+		temp = $(this).prev().val();				
+		
 		// set value di popup detail/edit
 		$('#f_edit_username').val(data_auth[$index]['username']);		
+		$('#f_edit_list_gereja').val(data_auth[$index]['id_gereja']);
 		
 	});
 	
@@ -163,6 +177,10 @@
 	});
 	
 	$('body').on('click', '#f_post_auth', function(){
+	
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$username = $('#f_username').val();
 		$password = $('#f_password').val();		
 		$gereja = $('#f_list_gereja').val();
@@ -186,15 +204,23 @@
 				if(result.code==201)
 				{
 					alert(result.messages);
-					window.location = '{{URL::route('admin_view_input_auth')}}';
+					
+					location.reload();
+					
+					// window.location = '{{URL::route('admin_view_input_auth')}}';
+					
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 		

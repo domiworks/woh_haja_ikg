@@ -105,7 +105,7 @@ class OlahDataController extends BaseController {
 		$batas_bawah_hadir_komisi = $input->{'batas_bawah_hadir_komisi'};
 		$batas_atas_hadir_komisi = $input->{'batas_atas_hadir_komisi'};		
 		
-		$kebaktian = DB::table('kegiatan AS keg')->where('keg.deleted', '=', 0);		
+		$kebaktian = DB::table('kegiatan AS keg')->where('keg.deleted', '=', 0)->where('id_gereja', '=', Auth::user()->id_gereja);		
 		
 		if($nama_kebaktian != "")
 		{	
@@ -418,7 +418,8 @@ class OlahDataController extends BaseController {
 		foreach($anggota as $key)
 		{									
 			
-			$hp = Hp::where('id_anggota', '=', $key->id_anggota)->where('deleted', '=', 0)->get();
+			// $hp = Hp::where('id_anggota', '=', $key->id_anggota)->where('deleted', '=', 0)->get();
+			$hp = Hp::where('id_anggota', '=', $key->id_anggota)->get();
 			
 			$arr_hp = array();
 			foreach($hp as $each_hp)
@@ -478,9 +479,10 @@ class OlahDataController extends BaseController {
 			
 		if($nama_jemaat != "")
 		{												
-			$baptis = $baptis->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			// $baptis = $baptis->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			$baptis = $baptis->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama_jemaat.'%');
 		}				
 		if($id_pembaptis != -1)
 		{
@@ -601,9 +603,10 @@ class OlahDataController extends BaseController {
 		
 		if($nama != "")
 		{					
-			$atestasi = $atestasi->where('ang.nama_depan', 'LIKE', '%'.$nama.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama.'%');
+			// $atestasi = $atestasi->where('ang.nama_depan', 'LIKE', '%'.$nama.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama.'%');
+			$atestasi = $atestasi->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama.'%');
 		}		
 		
 		if($no_atestasi != "")
@@ -787,9 +790,10 @@ class OlahDataController extends BaseController {
 		}
 		if($nama_jemaat != "")
 		{			
-			$kedukaan = $kedukaan->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			// $kedukaan = $kedukaan->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			$kedukaan = $kedukaan->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama_jemaat.'%');				
 		}
 		//validation range tanggal
 		if($tanggal_awal != "")
@@ -871,9 +875,10 @@ class OlahDataController extends BaseController {
 		
 		if($nama_jemaat != "")
 		{						
-			$dkh = $dkh->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
-								->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			// $dkh = $dkh->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_tengah', 'LIKE', '%'.$nama_jemaat.'%')
+								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
+			$dkh = $dkh->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama_jemaat.'%');
 		}
 		
 		// $dkh = $dkh->get( array(
@@ -906,141 +911,6 @@ class OlahDataController extends BaseController {
 		// return null;
 	}
 	
-	/*--------------------------------DETAIL----------------------------------------*/	
-	
-	public function detail_kebaktian()
-	{	
-		$input = Input::get('data');				
-		
-		$id = $input['id'];
-		// return "wohohohoho";
-		// return $id;
-				
-		$kebaktian = Kegiatan::find($id);
-		
-		if($kebaktian == null)
-		{
-			return "";
-		}
-		else
-		{
-			$persembahan = Persembahan::where('id_kegiatan', '=', $id)->first();
-			
-			$kebaktian->id_persembahan = $persembahan->id; 			
-			$kebaktian->jumlah_persembahan = $persembahan->jumlah_persembahan;			
-			
-			return $kebaktian;
-		}
-	}
-	
-	public function detail_anggota()
-	{
-		return null;
-	}
-	
-	public function detail_baptis()
-	{
-		$input = Input::get('data');				
-		
-		$id = $input['id'];		
-		
-		// return "wohohohoho";
-		// return $id;
-			
-		$baptis = Baptis::find($id);
-		
-		if($baptis == null)
-		{
-			return "";
-		}
-		else
-		{						
-			return $baptis;
-		}				
-	}
-	
-	public function detail_atestasi()
-	{
-		$input = Input::get('data');
-		
-		$id = $input['id'];
-		
-		$atestasi = Atestasi::find($id);
-		
-		if($atestasi == null)
-		{
-			return "";
-		}
-		else
-		{
-			return $atestasi;
-		}
-	}
-	
-	public function detail_pernikahan()
-	{
-		$input = Input::get('data');				
-		
-		$id = $input['id'];
-				
-		$pernikahan = Pernikahan::find($id);
-		
-		if($pernikahan == null)
-		{
-			return "";
-		}
-		else
-		{							
-			return $pernikahan;
-		}
-	}
-	
-	public function detail_kedukaan()
-	{
-		$input = Input::get('data');				
-		
-		$id = $input['id'];
-		
-		// return "wohohohoho";
-		// return $id;
-			
-		$kedukaan = Kedukaan::find($id);
-		
-		if($kedukaan == null)
-		{
-			return "";
-		}
-		else
-		{				
-			$anggota = Anggota::find($kedukaan->id_jemaat);
-						
-			$kedukaan->tanggal_meninggal = $anggota->tanggal_meninggal;
-			
-			return $kedukaan;
-		}
-	}
-	
-	public function detail_dkh()
-	{
-		$input = Input::get('data');				
-		
-		$id = $input['id'];
-		
-		// return "wohohohoho";
-		// return $id;
-			
-		$dkh = Dkh::find($id);
-		
-		if($dkh == null)
-		{
-			return "";
-		}
-		else
-		{						
-			return $dkh;
-		}
-	}
-	
 	/*--------------------------------POST UPDATE----------------------------------------*/	
 	
 	public function edit_kebaktian()
@@ -1054,8 +924,8 @@ class OlahDataController extends BaseController {
 		$id_persembahan = $input->{'id_persembahan'};		
 		
 		$data_valid = array(			
-			'nama_pendeta' => $input->{'nama_pendeta'},			
-			'nama_jenis_kegiatan' => $input->{'nama_jenis_kegiatan'},
+			'nama_pendeta' => trim($input->{'nama_pendeta'}),			
+			'nama_jenis_kegiatan' => trim($input->{'nama_jenis_kegiatan'}),
 			'tanggal_mulai' => $input->{'tanggal_mulai'},
 			'tanggal_selesai' => $input->{'tanggal_selesai'},
 			'jam_mulai' => $input->{'jam_mulai'},
@@ -1106,7 +976,7 @@ class OlahDataController extends BaseController {
 			{
 				$kebaktian->id_jenis_kegiatan = $input->{'id_jenis_kegiatan'};
 			}
-			$kebaktian->nama_jenis_kegiatan = $input->{'nama_jenis_kegiatan'};
+			$kebaktian->nama_jenis_kegiatan = trim($input->{'nama_jenis_kegiatan'});
 			if($input->{'id_pendeta'} == '')
 			{
 				$kebaktian->id_pendeta = null;
@@ -1115,7 +985,7 @@ class OlahDataController extends BaseController {
 			{
 				$kebaktian->id_pendeta = $input->{'id_pendeta'};
 			}		
-			$kebaktian->nama_pendeta = $input->{'nama_pendeta'};				
+			$kebaktian->nama_pendeta = trim($input->{'nama_pendeta'});				
 			$kebaktian->tanggal_mulai = $input->{'tanggal_mulai'};
 			$kebaktian->tanggal_selesai = $input->{'tanggal_selesai'};
 			$kebaktian->jam_mulai = $input->{'jam_mulai'};
@@ -1182,7 +1052,7 @@ class OlahDataController extends BaseController {
 	public function edit_anggota()
 	{
 		$data_valid = array(
-			'nama_depan' => Input::get('nama_depan'),
+			'nama_depan' => trim(Input::get('nama_depan')),
 			'telp' => Input::get('telp'),
 			'gender' => Input::get('gender'),
 			'gol_darah' => Input::get('gol_darah'),
@@ -1203,8 +1073,8 @@ class OlahDataController extends BaseController {
 		}
 		
 		$data_valid = array(
-			'jalan' => Input::get('jalan'),
-			'kota' => Input::get('kota')			
+			'jalan' => trim(Input::get('jalan')),
+			'kota' => trim(Input::get('kota'))			
 		);
 		
 		//validate alamat
@@ -1228,10 +1098,10 @@ class OlahDataController extends BaseController {
 			// return "Gagal menyimpan perubahan.";
 		}		
 		
-		$anggota->no_anggota = Input::get('no_anggota');
-		$anggota->nama_depan = Input::get('nama_depan');
-		$anggota->nama_tengah = Input::get('nama_tengah');
-		$anggota->nama_belakang = Input::get('nama_belakang');
+		$anggota->no_anggota = trim(Input::get('no_anggota'));
+		$anggota->nama_depan = trim(Input::get('nama_depan'));
+		$anggota->nama_tengah = trim(Input::get('nama_tengah'));
+		$anggota->nama_belakang = trim(Input::get('nama_belakang'));
 		$anggota->telp = Input::get('telp');
 		$anggota->gender = Input::get('gender');
 		$anggota->wilayah = Input::get('wilayah');
@@ -1239,7 +1109,7 @@ class OlahDataController extends BaseController {
 		$anggota->pendidikan = Input::get('pendidikan');
 		$anggota->pekerjaan = Input::get('pekerjaan');
 		$anggota->etnis = Input::get('etnis');
-		$anggota->kota_lahir = Input::get('kota_lahir');
+		$anggota->kota_lahir = trim(Input::get('kota_lahir'));
 		$anggota->tanggal_lahir = Input::get('tanggal_lahir');		
 		// $anggota->id_gereja = Input::get('id_gereja');
 		// $anggota->id_gereja = Auth::user()->id_gereja;
@@ -1255,16 +1125,18 @@ class OlahDataController extends BaseController {
 			$temp_arr_hp = Input::get('arr_hp');
 			if($temp_arr_hp == "kosong")
 			{
-				$hp = Hp::where('id_anggota', '=', Input::get('id'))->where('deleted', '=', 0)->get();
+				// $hp = Hp::where('id_anggota', '=', Input::get('id'))->where('deleted', '=', 0)->get();
+				$hp = Hp::where('id_anggota', '=', Input::get('id'))->get();
 				$length_hp = count($hp);
 				
 				$hp[0]->no_hp = "";								
 				$hp[0]->save();
 				for($i = 1; $i < $length_hp; $i++)
 				{
-					try{						
-						$hp[$i]->deleted = 1;
-						$hp[$i]->save();
+					try{												
+						// $hp[$i]->deleted = 1;
+						// $hp[$i]->save();
+						$hp[$i]->delete();
 					}catch(Exception $e){
 						$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
 						return json_encode($respond);									
@@ -1274,7 +1146,8 @@ class OlahDataController extends BaseController {
 			// if($temp_arr_hp != "") //kalo ada input hp			
 			else
 			{				
-				$hp = Hp::where('id_anggota', '=', Input::get('id'))->where('deleted', '=', 0)->get();
+				// $hp = Hp::where('id_anggota', '=', Input::get('id'))->where('deleted', '=', 0)->get();
+				$hp = Hp::where('id_anggota', '=', Input::get('id'))->get();
 				$length_hp = count($hp);
 				
 				$arr_hp = explode(",", $temp_arr_hp);
@@ -1285,7 +1158,7 @@ class OlahDataController extends BaseController {
 					$idx = 0;
 					foreach($hp as $row_hp)
 					{
-						$row_hp->no_hp = $arr_hp[$idx];
+						$row_hp->no_hp = trim($arr_hp[$idx]);
 						try{
 							$row_hp->save();
 						}catch(Exception $e){
@@ -1303,7 +1176,7 @@ class OlahDataController extends BaseController {
 					$idx = 0;
 					foreach($hp as $row_hp)
 					{
-						$row_hp->no_hp = $arr_hp[$idx];						
+						$row_hp->no_hp = trim($arr_hp[$idx]);						
 						try{
 							$row_hp->save();
 						}catch(Exception $e){
@@ -1319,7 +1192,7 @@ class OlahDataController extends BaseController {
 					for($i = $idx; $i < $length_arr_hp; $i++)
 					{
 						$newhp = new Hp();
-						$newhp->no_hp = $arr_hp[$i];
+						$newhp->no_hp = trim($arr_hp[$i]);
 						$newhp->id_anggota = Input::get('id');
 						try{
 							$newhp->save();						
@@ -1337,7 +1210,7 @@ class OlahDataController extends BaseController {
 					$idx = 0;
 					for($j = $idx; $j < $length_arr_hp; $j++)
 					{
-						$hp[$j]->no_hp = $arr_hp[$idx];						
+						$hp[$j]->no_hp = trim($arr_hp[$idx]);						
 						try{
 							$hp[$j]->save();
 						}catch(Exception $e){
@@ -1356,9 +1229,9 @@ class OlahDataController extends BaseController {
 						// $hp->no_hp = $arr_hp[$i];
 						// $hp->id_anggota = Input::get('id');
 						try{
-							// $hp[$i]->delete();						
-							$hp[$i]->deleted = 1;
-							$hp[$i]->save();
+							$hp[$i]->delete();						
+							// $hp[$i]->deleted = 1;
+							// $hp[$i]->save();
 						}catch(Exception $e){
 							$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
 							return json_encode($respond);
@@ -1376,8 +1249,8 @@ class OlahDataController extends BaseController {
 					// $alamat = new Alamat();
 			$alamat = Alamat::where('id_anggota', '=', Input::get('id'))->first();
 			
-			$alamat->jalan = Input::get('jalan');
-			$alamat->kota = Input::get('kota');
+			$alamat->jalan = trim(Input::get('jalan'));
+			$alamat->kota = trim(Input::get('kota'));
 			$alamat->kodepos = Input::get('kodepos');
 			// $alamat->id_anggota = $anggota->id;
 			try{
@@ -1477,8 +1350,9 @@ class OlahDataController extends BaseController {
 			$data['kota'] = $alamat->kota;
 			$data['kodepos'] = $alamat->kodepos;
 			$data['id_anggota'] = $alamat->id_anggota;
-		//add hp									
-			$hp = Hp::where('id_anggota', '=', $anggota->id)->where('deleted', '=', 0)->get();
+		//add hp
+			// $hp = Hp::where('id_anggota', '=', $anggota->id)->where('deleted', '=', 0)->get();
+			$hp = Hp::where('id_anggota', '=', $anggota->id)->get();
 			
 			$arr_hp = array();
 			foreach($hp as $each_hp)
@@ -1533,7 +1407,7 @@ class OlahDataController extends BaseController {
 		$id = $input->{'id'};		
 		
 		$data_valid = array(
-			'no_baptis' => $input->{'no_baptis'},
+			'no_baptis' => trim($input->{'no_baptis'}),
 			'id_jemaat' => $input->{'id_jemaat'},
 			'id_pendeta' => $input->{'id_pendeta'},
 			'tanggal_baptis' => $input->{'tanggal_baptis'},
@@ -1561,7 +1435,7 @@ class OlahDataController extends BaseController {
 		}
 		else
 		{				
-			$baptis->no_baptis = $input->{'no_baptis'};				
+			$baptis->no_baptis = trim($input->{'no_baptis'});				
 			$baptis->id_jemaat = $input->{'id_jemaat'};
 			$baptis->id_pendeta = $input->{'id_pendeta'};
 			$baptis->tanggal_baptis = $input->{'tanggal_baptis'};
@@ -1599,10 +1473,10 @@ class OlahDataController extends BaseController {
 		// $input = Input::get('data');
 		
 		$data_valid = array(
-			'no_atestasi' => $input->{'no_atestasi'},			
+			'no_atestasi' => trim($input->{'no_atestasi'}),			
 			'tanggal_atestasi' => $input->{'tanggal_atestasi'},			
-			'nama_gereja_lama' => $input->{'nama_gereja_lama'},
-			'nama_gereja_baru' => $input->{'nama_gereja_baru'},
+			'nama_gereja_lama' => trim($input->{'nama_gereja_lama'}),
+			'nama_gereja_baru' => trim($input->{'nama_gereja_baru'}),
 			'id_jenis_atestasi' => $input->{'id_jenis_atestasi'},
 			'id_anggota' => $input->{'id_anggota'}
 		);				
@@ -1627,14 +1501,14 @@ class OlahDataController extends BaseController {
 		else
 		{
 				
-			$atestasi->no_atestasi = $input->{'no_atestasi'};
+			$atestasi->no_atestasi = trim($input->{'no_atestasi'});
 			$atestasi->tanggal_atestasi = $input->{'tanggal_atestasi'};
 			$atestasi->id_jenis_atestasi = $input->{'id_jenis_atestasi'};		
-			$atestasi->nama_gereja_lama = $input->{'nama_gereja_lama'};
-			$atestasi->nama_gereja_baru = $input->{'nama_gereja_baru'};
+			$atestasi->nama_gereja_lama = trim($input->{'nama_gereja_lama'});
+			$atestasi->nama_gereja_baru = trim($input->{'nama_gereja_baru'});
 			$atestasi->id_anggota = $input->{'id_anggota'};		
 			$atestasi->keterangan = $input->{'keterangan'};
-			$atestasi->deleted = 0;
+			// $atestasi->deleted = 0;
 			if($input->{'id_gereja_lama'} == '')
 			{
 				$atestasi->id_gereja_lama = null;
@@ -1679,11 +1553,11 @@ class OlahDataController extends BaseController {
 		$id = $input->{'id'};
 		
 		$data_valid = array(
-			'no_pernikahan' => $input->{'no_pernikahan'},			
+			'no_pernikahan' => trim($input->{'no_pernikahan'}),			
 			'tanggal_pernikahan' => $input->{'tanggal_pernikahan'},
 			'id_pendeta' => $input->{'id_pendeta'},
-			'nama_pria' => $input->{'nama_pria'},
-			'nama_wanita' => $input->{'nama_wanita'}
+			'nama_pria' => trim($input->{'nama_pria'}),
+			'nama_wanita' => trim($input->{'nama_wanita'})
 		);				
 		
 		//validate
@@ -1706,12 +1580,12 @@ class OlahDataController extends BaseController {
 		}
 		else
 		{	
-			$pernikahan->no_pernikahan = $input->{'no_pernikahan'};
+			$pernikahan->no_pernikahan = trim($input->{'no_pernikahan'});
 			$pernikahan->tanggal_pernikahan = $input->{'tanggal_pernikahan'};
 			$pernikahan->id_pendeta = $input->{'id_pendeta'};			
 			// $pernikahan->id_gereja = Auth::user()->id_gereja;
-			$pernikahan->nama_pria = $input->{'nama_pria'};
-			$pernikahan->nama_wanita = $input->{'nama_wanita'};
+			$pernikahan->nama_pria = trim($input->{'nama_pria'});
+			$pernikahan->nama_wanita = trim($input->{'nama_wanita'});
 			if($input->{'id_jemaat_wanita'} == '')
 			{
 				$pernikahan->id_jemaat_wanita = null;
@@ -1772,7 +1646,7 @@ class OlahDataController extends BaseController {
 		}
 		else
 		{
-			$duka->no_kedukaan = $input->{'no_kedukaan'};								
+			$duka->no_kedukaan = trim($input->{'no_kedukaan'});								
 			$duka->keterangan = $input->{'keterangan'};
 			
 			try{
@@ -1858,7 +1732,7 @@ class OlahDataController extends BaseController {
 		}
 		else
 		{				
-			$dkh->no_dkh = $input->{'no_dkh'};				
+			$dkh->no_dkh = trim($input->{'no_dkh'});				
 			// $dkh->id_jemaat = $input->{'id_jemaat'};
 			$dkh->keterangan = $input->{'keterangan'};			
 			
@@ -1941,6 +1815,7 @@ class OlahDataController extends BaseController {
 		}				
 		
 		try{
+			/*
 			//delete hp
 			if(count($hp) != 0)
 			{
@@ -1956,6 +1831,7 @@ class OlahDataController extends BaseController {
 			// $alamat->delete();
 			$alamat->deleted = 1;
 			$alamat->save();
+			*/
 			
 			//delete anggota
 			// $anggota->delete();			

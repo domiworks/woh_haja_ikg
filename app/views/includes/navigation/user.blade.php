@@ -28,7 +28,7 @@
 								margin-right: 25px;">								
 					</div>
 				</li>								
-				<li><a href="{{--URL::to('/user/reporting')--}}"><span class="glyphicon glyphicon-file" style="color:#333333; margin-right:10px;"></span>Reporting</a></li>
+				<li><a href="{{URL::to('/user/reporting')}}"><span class="glyphicon glyphicon-file" style="color:#333333; margin-right:10px;"></span>Laporan</a></li>
 				<li>
 					<div 
 						style="height:40px; 
@@ -38,7 +38,7 @@
 								margin-right: 25px;">								
 					</div>
 				</li>
-				<li><a href="{{--URL::to('/user/importeksport')--}}"><span class="glyphicon glyphicon-import" style="color:#2974FF; margin-right:10px;"></span>Import / Eksport <span class="glyphicon glyphicon-export" style="color:#2974FF; margin-right:10px;"></span></a></li>
+				<li><a href="{{URL::to('/user/importeksport')}}"><span class="glyphicon glyphicon-import" style="color:#2974FF; margin-right:10px;"></span>Import / Eksport <span class="glyphicon glyphicon-export" style="color:#2974FF; margin-right:10px;"></span></a></li>
 				<li>
 					<div 
 						style="height:40px; 
@@ -48,7 +48,7 @@
 								margin-right: 25px;">								
 					</div>
 				</li>
-				<li><a href="{{--URL::to('/user/tutorial')--}}"><span class="glyphicon glyphicon-book" style="color:#FF6A00; margin-right:10px;"></span>Tutorial</a></li>
+				<li><a href="{{URL::to('/user/tutorial')}}"><span class="glyphicon glyphicon-book" style="color:#FF6A00; margin-right:10px;"></span>Tutorial</a></li>
 				
 				<!--
 				<li><a href="#">Other Link</a></li>

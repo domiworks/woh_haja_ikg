@@ -300,8 +300,11 @@ $(document).ready(function(){
 								<label class="col-xs-4 control-label">
 									Jumlah Persembahan
 								</label>
-								<div class="col-xs-4">
-									{{Form::text('jumlah_persembahan', Input::old('jumlah_persembahan'), array('id'=>'f_jumlah_persembahan', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
+								<div class="col-xs-3">
+									 <div class="input-group">
+										<span class="input-group-addon">Rp.</span>
+										{{Form::text('jumlah_persembahan', Input::old('jumlah_persembahan'), array('id'=>'f_jumlah_persembahan', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
+									</div>
 								</div>
 								<div class="col-xs-0">
 									*
@@ -336,6 +339,11 @@ $(document).ready(function(){
 </div>	
 
 <script>
+	function numberWithCommas(evt) {
+		$('#f_jumlah_persembahan').val(evt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		// return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
 	$('body').on('change','#f_kebaktian_ke', function(){
 		var selected = $('#f_kebaktian_ke').find(":selected").text();
 		$('#f_nama_kebaktian').val(selected);					
@@ -610,7 +618,7 @@ $(document).ready(function(){
 		var charCode = (evt.which) ? evt.which : event.keyCode
 		if (charCode > 31 && (charCode < 48 || charCode > 57))
 			return false;
-		return true;
+		return true;		
 	}
 	
 	$('body').on('click', '#f_post_kebaktian', function(){	  

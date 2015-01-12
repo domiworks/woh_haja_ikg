@@ -39,6 +39,10 @@
 
 <script>
 	$('body').on('click', '#f_edit_post_jenis_baptis', function(){
+	
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$nama_jenis_baptis = $('#f_edit_nama_jenis_baptis').val();
 		$keterangan = $('#f_edit_keterangan').val();
 		
@@ -68,14 +72,21 @@
 					$('.tabel_nama_jenis_baptis'+temp).html(result.data['nama_jenis_baptis']);				
 					//ganti isi detail sesuai hasil edit
 					data_jenis_baptis[temp] = result.data;	
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else				
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 		

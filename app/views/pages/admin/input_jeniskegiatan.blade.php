@@ -1,8 +1,37 @@
 @extends('layouts.admin_layout')
 @section('content')
 
+<script>
+	<!-- set variable javascript biar ga usah get detail lagi -->
+	var data_jenis_kegiatan = new Array();
+	
+	$(document).ready(function(){				
+	
+		//END LOADER				
+		$('.f_loader_container').addClass('hidden');							
+		//reset kalau sampai reload page
+		data_jenis_kegiatan = new Array();
+		
+		//insert ke data jenisbaptis ke variable javascript
+		<?php
+			foreach($data_jenis_kegiatan as $kegiatan)
+			{
+		?>	
+				data_jenis_kegiatan[data_jenis_kegiatan.length] = <?php echo $kegiatan; ?>
+		<?php		
+			}
+		?>
+		
+		// alert(data_gereja[1]['nama']);
+		// var data_gereja = '';
+		// alert(data_gereja[1]);
+		// alert(arr_gereja);
+							
+	});
+</script>
+
 <div class="s_content_maindiv" style="overflow: hidden;">
-	<div class="s_sidebar_main" style="">
+	<div class="s_sidebar_main" style="width:200px; background-color:white;">
 		<div>
 			@include('includes.sidebar.sidebar_admin_inputdata')
 		</div>
@@ -74,30 +103,7 @@
 							</tr>								
 						</thead>
 						<tbody>
-							<!-- set variable javascript biar ga usah get detail lagi -->
-							<script>
-								var data_jenis_kegiatan = new Array();
-								$(document).ready(function(){
-
-									//reset kalau sampai reload page
-									data_jenis_kegiatan = new Array();
-									
-									//insert ke data jenisbaptis ke variable javascript
-									<?php
-										foreach($data_jenis_kegiatan as $kegiatan)
-										{
-									?>	
-											data_jenis_kegiatan[data_jenis_kegiatan.length] = <?php echo $kegiatan; ?>
-									<?php		
-										}
-									?>
-									
-									// alert(data_gereja[1]['nama']);
-									// var data_gereja = '';
-									// alert(data_gereja[1]);
-									// alert(arr_gereja);
-								});
-							</script>
+							
 							<!-- set list jenis baptis -->
 							<?php $index = 0; ?>
 							@foreach($data_jenis_kegiatan as $kegiatan)
@@ -143,6 +149,9 @@
 	//click change visible
 	$('body').on('click', '.visibleButton', function(){
 		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$id = $(this).prev().prev().val();
 		temp = $(this).prev().val();
 				
@@ -177,14 +186,20 @@
 						$('.tabel_visible'+temp).html("<span style='color:red;' class='glyphicon glyphicon-remove' aria-hidden='true'></span>");
 					}
 					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 		
@@ -211,6 +226,10 @@
 	});
 	
 	$('body').on('click', '#f_post_jenis_kebaktian', function(){
+		
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$nama_kegiatan = $('#f_nama_jenis_kebaktian').val();
 		$keterangan = $('#f_keterangan').val();
 		
@@ -240,10 +259,14 @@
 				else				
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 		

@@ -99,6 +99,10 @@
 
 <script>
 	$('body').on('click', '#f_edit_post_gereja', function(){		
+	
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+		
 		$nama = $('#f_edit_nama_gereja').val();
 		$alamat = $('#f_edit_alamat').val();
 		$kota = $('#f_edit_kota').val();
@@ -140,15 +144,21 @@
 					//ganti isi detail sesuai hasil edit
 					data_gereja[temp] = result.data;				
 					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
 				}
 				
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
 	});

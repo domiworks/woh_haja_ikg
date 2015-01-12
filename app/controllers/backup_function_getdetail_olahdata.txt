@@ -1,0 +1,135 @@
+/*--------------------------------DETAIL----------------------------------------*/	
+	
+	public function detail_kebaktian()
+	{	
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+		// return "wohohohoho";
+		// return $id;
+				
+		$kebaktian = Kegiatan::find($id);
+		
+		if($kebaktian == null)
+		{
+			return "";
+		}
+		else
+		{
+			$persembahan = Persembahan::where('id_kegiatan', '=', $id)->first();
+			
+			$kebaktian->id_persembahan = $persembahan->id; 			
+			$kebaktian->jumlah_persembahan = $persembahan->jumlah_persembahan;			
+			
+			return $kebaktian;
+		}
+	}
+	
+	public function detail_anggota()
+	{
+		return null;
+	}
+	
+	public function detail_baptis()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];		
+		
+		// return "wohohohoho";
+		// return $id;
+			
+		$baptis = Baptis::find($id);
+		
+		if($baptis == null)
+		{
+			return "";
+		}
+		else
+		{						
+			return $baptis;
+		}				
+	}
+	
+	public function detail_atestasi()
+	{
+		$input = Input::get('data');
+		
+		$id = $input['id'];
+		
+		$atestasi = Atestasi::find($id);
+		
+		if($atestasi == null)
+		{
+			return "";
+		}
+		else
+		{
+			return $atestasi;
+		}
+	}
+	
+	public function detail_pernikahan()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+				
+		$pernikahan = Pernikahan::find($id);
+		
+		if($pernikahan == null)
+		{
+			return "";
+		}
+		else
+		{							
+			return $pernikahan;
+		}
+	}
+	
+	public function detail_kedukaan()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+		
+		// return "wohohohoho";
+		// return $id;
+			
+		$kedukaan = Kedukaan::find($id);
+		
+		if($kedukaan == null)
+		{
+			return "";
+		}
+		else
+		{				
+			$anggota = Anggota::find($kedukaan->id_jemaat);
+						
+			$kedukaan->tanggal_meninggal = $anggota->tanggal_meninggal;
+			
+			return $kedukaan;
+		}
+	}
+	
+	public function detail_dkh()
+	{
+		$input = Input::get('data');				
+		
+		$id = $input['id'];
+		
+		// return "wohohohoho";
+		// return $id;
+			
+		$dkh = Dkh::find($id);
+		
+		if($dkh == null)
+		{
+			return "";
+		}
+		else
+		{						
+			return $dkh;
+		}
+	}
+	

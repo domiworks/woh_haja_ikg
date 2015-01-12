@@ -6,7 +6,9 @@ class ReportingController extends BaseController {
 
 	public function view_reporting()
 	{			
-		return View::make('pages.reporting');	
+		$header = $this->setHeader();
+		return View::make('pages.reporting',
+				compact('header'));	
 	}	
 		
 }

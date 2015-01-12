@@ -9,7 +9,44 @@ class ReportingController extends BaseController {
 		$header = $this->setHeader();
 		return View::make('pages.reporting',
 				compact('header'));	
-	}	
+	}
+	
+	public function search_kebaktian($from=0,$to=0,$jenis=-1){
+		$where='';
+		
+		if($from==0){
+			
+		}
+		else{
+			
+		}
+		
+		if($to == 0){
+			
+		}
+		else{
+			
+		}
+		
+		if($jenis!=-1){
+			if($where!=''){
+				$where .= ' and id_jenis_kegiatan = '.$jenis;
+			}
+			else{
+				$where = 'id_jenis_kegiatan = '.$jenis;
+			}
+		}
+		
+		if($where!=''){
+			return Kegiatan::whereRaw($where)->orderBy('tanggal_mulai')->get();
+		}
+		else{
+			return Kegiatan::orderBy('tanggal_mulai')->get();
+		}
+		
+		
+		
+	}
 		
 }
 

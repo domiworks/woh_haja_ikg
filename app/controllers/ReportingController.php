@@ -18,14 +18,19 @@ class ReportingController extends BaseController {
 			
 		}
 		else{
-			
+			$where = 'tanggal_mulai >= '.$from;
 		}
 		
 		if($to == 0){
 			
 		}
 		else{
-			
+			if($where!=''){
+				$where .= ' and tanggal_selesai <= '.$to;
+			}
+			else{
+				$where = 'tanggal_selesai <= '.$to;
+			}
 		}
 		
 		if($jenis!=-1){
@@ -43,8 +48,6 @@ class ReportingController extends BaseController {
 		else{
 			return Kegiatan::orderBy('tanggal_mulai')->get();
 		}
-		
-		
 		
 	}
 		

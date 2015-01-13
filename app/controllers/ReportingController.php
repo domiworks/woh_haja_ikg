@@ -11,25 +11,33 @@ class ReportingController extends BaseController {
 				compact('header'));	
 	}
 	
+	public function get_jenis_kegiatan(){
+		return JenisKegiatan::all();
+	}
+	
+	
 	public function search_kebaktian($from=0,$to=0,$jenis=-1){
 		$where='';
+		
 		
 		if($from==0){
 			
 		}
 		else{
-			$where = 'tanggal_mulai >= '.$from;
+			//$dateFrom = date("Y-m-dd", strtotime($from));
+			$where = 'tanggal_mulai >= "'.$from.'"';
 		}
 		
 		if($to == 0){
 			
 		}
 		else{
+			//$dateTo = date("Y-m-dd", strtotime($to));
 			if($where!=''){
-				$where .= ' and tanggal_selesai <= '.$to;
+				$where .= ' and tanggal_selesai <= "'.$to.'"';
 			}
 			else{
-				$where = 'tanggal_selesai <= '.$to;
+				$where = 'tanggal_selesai <= "'.$to.'"';
 			}
 		}
 		
@@ -40,6 +48,13 @@ class ReportingController extends BaseController {
 			else{
 				$where = 'id_jenis_kegiatan = '.$jenis;
 			}
+		}
+		
+		if($where!=''){
+			$where .=' and deleted = 0';
+		}
+		else{
+			$where ='deleted = 0';
 		}
 		
 		if($where!=''){

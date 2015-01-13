@@ -26,6 +26,8 @@
 		<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>		
 		<script src="{{ asset('assets/js/datetimepicker/jquery.datetimepicker.js') }}"></script>
 		
+		<script src="{{ asset('assets/js/highcharts4/js/highcharts.js') }}"></script>
+		<script src="{{ asset('assets/js/highcharts4/js/modules/exporting.js') }}"></script>
 		<!--<script src="{{ asset('assets/js/bootstrap-datepicker.js') }}"></script>-->
 		
 		

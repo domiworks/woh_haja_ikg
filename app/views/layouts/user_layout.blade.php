@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">	
+	<title>GKI</title>
 	<head>
 		@include('includes.head_user')
 		<script>

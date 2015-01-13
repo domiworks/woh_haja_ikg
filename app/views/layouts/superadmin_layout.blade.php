@@ -2,7 +2,7 @@
 <html lang="en">
 	<title>GKI</title>
 	<head>
-		@include('includes.head_admin')
+		@include('includes.head_superadmin')
 		<script>
 			function startTime() {
 				var m_names = new Array("Januari", "Februari", "Maret", 
@@ -55,14 +55,7 @@
 						<img src="{{URL::to('/assets/logo/logoGKI.jpg')}}" alt="(logo GKI)" style="height: 100px; width: 100px; margin-top:5px;"/>
 					</div>
 					<div class="col-lg-4">						
-						<!--<strong><h2 style="color:black; line-height: 130px;">Admin Panel GKI</h2></strong>-->
-						<strong><h2 style="color:black; margin-top: 5px; margin-bottom: 5px;">{{ $header['nama'] }}</h2></strong>
-						<h4 style="color:black;">
-							{{ $header['alamat'] }} {{ $header['kota'] }}
-						</h4>						
-						<h4 style="color:black;">
-							{{ $header['telp'] }}
-						</h4>
+						<strong><h2 style="color:black; line-height: 130px;">Admin Panel GKI</h2></strong>						
 					</div>
 					<div class="col-lg-7" style="color:black; line-height: 160px; text-align: right;">
 						Selamat datang, {{ Auth::user()->username }} | {{ HTML::linkRoute('logout', 'keluar', '', array('style'=>'color:blue;'))}}
@@ -71,7 +64,7 @@
 			</div>
 		</div>
 			
-		@include('includes.navigation.admin')
+		@include('includes.navigation.superadmin')
 		
 		<div id="yield_content" class=""> <!-- s_content_admin -->
 			@yield('content')

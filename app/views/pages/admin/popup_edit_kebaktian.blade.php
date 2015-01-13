@@ -247,13 +247,13 @@
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Pengkotbah</label>
 						<div class="col-xs-6">
-							<select id='f_edit_pengkotbah' class='form-control' disabled=false>
-							</select>
-							<!--if($list_pembicara == null)
+							<!--<select id='f_edit_pengkotbah' class='form-control' disabled=false>
+							</select>-->
+							@if($list_pembicara == null)
 								<p class="control-label pull-left">(tidak ada daftar pengkotbah)</p>
-							else								
-								{{--Form::select('pengkotbah', $new_list_pembicara, Input::old('pengkotbah'), array('id'=>'f_edit_pengkotbah','class'=>'form-control', 'disabled' => false))--}}	 	
-							endif-->
+							@else								
+								{{Form::select('pengkotbah', $list_pembicara, Input::old('pengkotbah'), array('id'=>'f_edit_pengkotbah','class'=>'form-control', 'disabled' => false))}}	 	
+							@endif
 							<div class="checkbox">
 								<label>
 									<input id="f_edit_check_pembicara_luar" type="checkbox" name="pembicara_luar" value="0" /> Pembicara Luar

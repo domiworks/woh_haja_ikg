@@ -48,19 +48,55 @@ App::after(function($request, $response)
 	// }
 // });
 
+Route::filter('authSuperAdmin', function()
+{
+	if (Auth::guest())
+	{
+		// return Redirect::guest('login');
+		return Redirect::to('/');
+	}
+	else
+	{
+		if(Auth::user()->role == 0 || Auth::user()->role == 1)
+		{
+			$message = "Anda tidak memiliki hak akses untuk halaman ini";
+			return Redirect::to('redirectAdmin')->with('message', $message);
+		}
+	}
+});
+
+Route::filter('authAdmin', function()
+{
+	if (Auth::guest())
+	{
+		// return Redirect::guest('login');
+		return Redirect::to('/');
+	}
+	else
+	{
+		if(Auth::user()->role == 0 || Auth::user()->role == 2)
+		{
+			$message = "Anda tidak memiliki hak akses untuk halaman ini";
+			return Redirect::to('redirectAdmin')->with('message', $message);
+		}
+	}
+});
+
 Route::filter('authUser', function()
 {
 	if (Auth::guest()) 
 	{	
-		return Redirect::guest('login');
+		// return Redirect::guest('login');
+		return Redirect::to('/');
 	}
 	else
 	{
-		if(Auth::user()->role == 1)
+		if(Auth::user()->role == 1 || Auth::user()->role == 2)
 		{
 			$message = "Anda tidak memiliki hak akses untuk halaman ini";
 			return Redirect::to('redirect')->with('message', $message);
 		}
+		
 	}
 	
 });
@@ -79,22 +115,6 @@ Route::filter('checkLogin', function()
 			return Redirect::to('redirect')->with('message', $message);
 		}
 		
-	}
-});
-
-Route::filter('authAdmin', function()
-{
-	if (Auth::guest())
-	{
-		return Redirect::guest('login');
-	}
-	else
-	{
-		if(Auth::user()->role == 0)
-		{
-			$message = "Anda tidak memiliki hak akses untuk halaman ini";
-			return Redirect::to('redirectAdmin')->with('message', $message);
-		}
 	}
 });
 

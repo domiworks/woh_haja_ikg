@@ -91,7 +91,7 @@
 											result+='<button type="button" class="btn btn-warning visibleButton">Ganti Visible</button>';
 											result+='<input type="hidden" value='+$i+' />';
 											result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-											result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kebaktian">';
+											result+='<button style="margin-left:10px;" type="button" class="btn btn-info detailButton" data-toggle="modal" data-target=".popup_edit_kebaktian">';
 												result+='Detail/Edit';
 											result+='</button>';
 											result+='<input type="hidden" value='+$i+' />';

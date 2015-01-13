@@ -60,26 +60,6 @@
 					<div class="panel-body">
 						<form class="form-horizontal">
 							<div class="form-group">
-								<label class="col-xs-4 control-label">Gereja</label> 
-								<div class="col-xs-4">			
-									<?php
-										$new_list_gereja = array(
-											'-1' => 'pilih!'
-										);
-										
-										foreach($list_gereja as $id => $key)
-										{
-											$new_list_gereja[$id] = $key;
-										}
-									?>
-									@if($list_gereja == null)
-										<p class="control-label pull-left">(tidak ada daftar status gereja)</p>
-									@else
-										{{Form::select('list_gereja', $new_list_gereja, Input::old('list_gereja'), array('id'=>'f_list_gereja', 'class'=>'form-control'))}}
-									@endif
-								</div>
-							</div>
-							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Kebaktian</label> 
 								<div class="col-xs-4">								
 									{{Form::text('nama_kebaktian', Input::old('nama_kebaktian'), array('id'=>'f_nama_kebaktian', 'class'=>'form-control'))}}
@@ -288,7 +268,7 @@
 		//START LOADER				
 		$('.f_loader_container').removeClass('hidden');
 		
-		$gereja = $('#f_list_gereja').val();
+		// $gereja = $('#f_list_gereja').val();
 		$nama_kebaktian = $('#f_nama_kebaktian').val();
 		$nama_pendeta = $('#f_nama_pengkotbah').val();			
 		$tanggal_awal = $('#f_tanggal_awal').val();
@@ -319,7 +299,7 @@
 		
 		
 		$data = {
-			'gereja' : $gereja,
+			// 'gereja' : $gereja,
 			'nama_kebaktian' : $nama_kebaktian,			
 			'nama_pendeta' : $nama_pendeta,
 			'tanggal_awal' : $tanggal_awal,
@@ -520,7 +500,7 @@
 				if(result.code==200)
 				{
 					alert(result.messages);					
-					// window.location = '{{URL::route('admin_view_input_gereja')}}';
+					// window.location = '{{--URL::route('admin_view_input_gereja')--}}';
 										
 					//ganti isi row sesuai hasil edit
 					// alert(result.data['deleted']);
@@ -556,8 +536,9 @@
 	$('body').on('click', '.detailButton', function(){
 	
 		//START LOADER				
-		$('.f_loader_container').removeClass('hidden');
+		// $('.f_loader_container').removeClass('hidden');
 				
+		/*		
 		//get list pendeta sesuai gereja
 		$gereja = $('#f_list_gereja').val();	
 		$data = {
@@ -612,6 +593,7 @@
 				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
+		*/
 		
 		$id = $(this).prev().val();		
 		$index = $(this).prev().prev().val();
@@ -634,21 +616,21 @@
 			$('#f_edit_kebaktian_ke').attr('disabled', false);
 		}
 		$('#f_edit_nama_kebaktian').val(temp_detail[$index]['nama_jenis_kegiatan']);			
-		//bagian coding yang f_edit_pengkotbah dipindah ke ajax success		
+		
 		if(temp_detail[$index]['id_pendeta'] == null)
 		{
 			$('#f_edit_check_pembicara_luar').val(1);
 			$('#f_edit_check_pembicara_luar').prop('checked', true);				
 			$('#f_edit_nama_pengkotbah').attr('disabled', false);	
-			// $('#f_edit_pengkotbah').attr('disabled', true);
+			$('#f_edit_pengkotbah').attr('disabled', true);
 		}
 		else
 		{
-			// $('#f_edit_pengkotbah').val(temp_detail[$index]['id_pendeta']);			
+			$('#f_edit_pengkotbah').val(temp_detail[$index]['id_pendeta']);			
 			$('#f_edit_check_pembicara_luar').val(0);
 			$('#f_edit_check_pembicara_luar').prop('checked', false);				
 			$('#f_edit_nama_pengkotbah').attr('disabled', true);	
-			// $('#f_edit_pengkotbah').attr('disabled', false);
+			$('#f_edit_pengkotbah').attr('disabled', false);
 		}		
 		$('#f_edit_nama_pengkotbah').val(temp_detail[$index]['nama_pendeta']);	
 		$('#f_edit_tanggal_mulai').val(temp_detail[$index]['tanggal_mulai']);	

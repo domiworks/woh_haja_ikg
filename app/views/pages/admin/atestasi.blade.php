@@ -48,27 +48,7 @@
 						</h3>
 					</div>
 					<div class="panel-body">
-						<form class="form-horizontal">	
-							<div class="form-group">
-								<label class="col-xs-4 control-label">Gereja</label> 
-								<div class="col-xs-4">			
-									<?php
-										$new_list_gereja = array(
-											'-1' => 'pilih!'
-										);
-										
-										foreach($list_gereja as $id => $key)
-										{
-											$new_list_gereja[$id] = $key;
-										}
-									?>
-									@if($list_gereja == null)
-										<p class="control-label pull-left">(tidak ada daftar status gereja)</p>
-									@else
-										{{Form::select('list_gereja', $new_list_gereja, Input::old('list_gereja'), array('id'=>'f_list_gereja', 'class'=>'form-control'))}}
-									@endif
-								</div>
-							</div>
+						<form class="form-horizontal">								
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nomor Piagam Atestasi</label>
 								<div class="col-xs-4">{{ Form::text('nomor_atestasi', Input::old('nomor_atestasi'), array('id' => 'f_nomor_atestasi', 'class'=>'form-control')) }}</div>
@@ -226,7 +206,7 @@ $('body').on('click', '#f_search_atestasi', function(){
 	//START LOADER				
 	$('.f_loader_container').removeClass('hidden');
 		
-	$gereja = $('#f_list_gereja').val();
+	// $gereja = $('#f_list_gereja').val();
 	$no_atestasi = $('#f_nomor_atestasi').val();			
 	$nama_jemaat = $('#f_jemaat').val();
 	$tanggal_awal = $('#f_tanggal_awal').val();		
@@ -236,7 +216,7 @@ $('body').on('click', '#f_search_atestasi', function(){
 	$nama_gereja_baru = $('#f_nama_gereja_baru').val();		
 
 	$data = {
-		'gereja' : $gereja,
+		// 'gereja' : $gereja,
 		'no_atestasi' : $no_atestasi,
 		'nama_jemaat' : $nama_jemaat,
 		'tanggal_awal' : $tanggal_awal,
@@ -437,7 +417,7 @@ $('body').on('click', '.visibleButton', function(){
 			if(result.code==200)
 			{
 				alert(result.messages);					
-				// window.location = '{{URL::route('admin_view_input_gereja')}}';
+				// window.location = '{{--URL::route('admin_view_input_gereja')--}}';
 									
 				//ganti isi row sesuai hasil edit
 				// alert(result.data['deleted']);
@@ -474,7 +454,8 @@ $('body').on('click', '.detailButton', function(){
 	
 	//START LOADER				
 	$('.f_loader_container').removeClass('hidden');
-		
+	
+	/*	
 	//get list pendeta sesuai gereja
 	$gereja = $('#f_list_gereja').val();	
 	$data = {
@@ -521,6 +502,7 @@ $('body').on('click', '.detailButton', function(){
 			$('.f_loader_container').addClass('hidden');
 		}
 	},'json');
+	*/
 		
 	$id = $(this).prev().val();	
 	$index = $(this).prev().prev().val();

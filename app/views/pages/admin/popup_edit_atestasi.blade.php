@@ -62,13 +62,13 @@
 							Jemaat
 						</label>						
 						<div class="col-xs-6">
-							<select id='f_edit_jemaat' class='form-control'>
-							</select>
-							<!--if($list_jemaat == null)
+							<!--<select id='f_edit_jemaat' class='form-control'>
+							</select>-->
+							@if($list_jemaat == null)
 								<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
-							else
-								{{--Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_edit_jemaat', 'class'=>'form-control'))--}}							
-							endif-->
+							@else
+								{{Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_edit_jemaat', 'class'=>'form-control'))}}							
+							@endif
 						</div>
 						<div class="col-xs-0">
 							*

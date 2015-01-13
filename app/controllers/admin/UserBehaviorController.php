@@ -6,16 +6,18 @@ class UserBehaviorController extends BaseController {
 
 	public function admin_view_kebaktian()
 	{			
+		$header = $this->setHeader();
 		$list_jenis_kegiatan = $this->getListJenisKegiatan();		
-		$list_pembicara = $this->admin_getListPendeta();
+		$list_pembicara = $this->getListPendeta();
 		$list_gereja = $this->getListGereja();		
 		// return View::make('pages.user_olahdata.kebaktian_domi',
 			// compact('header','list_jenis_kegiatan', 'list_pembicara'));		
-		return View::make('pages.admin.kebaktian', compact('list_jenis_kegiatan','list_pembicara','list_gereja'));
+		return View::make('pages.admin.kebaktian', compact('header','list_jenis_kegiatan','list_pembicara','list_gereja'));
 	}		
 
 	public function admin_view_anggota()
 	{		
+		$header = $this->setHeader();
 		$list_gereja = $this->getListGereja();
 		$list_wilayah = $this->getListWilayah();
 		$list_gol_darah = $this->getListGolonganDarah();
@@ -24,53 +26,58 @@ class UserBehaviorController extends BaseController {
 		$list_etnis = $this->getListEtnis();
 		$list_role = $this->getListRoleAnggota();		
 		return View::make('pages.admin.anggota', 
-			compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
+			compact('header','list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
 	}	
 	
 	public function admin_view_baptis()
 	{				
-		$list_pembaptis = $this->admin_getListPendeta();	
+		$header = $this->setHeader();
+		$list_pembaptis = $this->getListPendeta();	
 		$list_jenis_baptis = $this->getListJenisBaptis();
 		$list_gereja = $this->getListGereja();				
 		$list_jemaat = $this->getListAnggota();				
 		return View::make('pages.admin.baptis', 
-			compact('list_pembaptis','list_jenis_baptis','list_gereja','list_jemaat'));
+			compact('header','list_pembaptis','list_jenis_baptis','list_gereja','list_jemaat'));
 	}
 	
 	public function admin_view_atestasi()
 	{				
+		$header = $this->setHeader();
 		$list_jenis_atestasi = $this->getListJenisAtestasi();
 		$list_jemaat = $this->getListAnggota();
 		$list_gereja = $this->getListGereja();		
 		return View::make('pages.admin.atestasi', 
-			compact('list_jenis_atestasi','list_jemaat','list_gereja'));		
+			compact('header','list_jenis_atestasi','list_jemaat','list_gereja'));		
 		// return null;	
 	}
 	
 	public function admin_view_pernikahan()
 	{			
-		$list_pendeta = $this->admin_getListPendeta();		
+		$header = $this->setHeader();
+		$list_pendeta = $this->getListPendeta();		
 		$list_jemaat_pria = $this->getListAnggotaPria();
 		$list_jemaat_wanita = $this->getListAnggotaWanita();
 		$list_gereja = $this->getListGereja();		
 		return View::make('pages.admin.pernikahan', 
-				compact('list_pendeta','list_jemaat_pria','list_jemaat_wanita','list_gereja'));				
+				compact('header','list_pendeta','list_jemaat_pria','list_jemaat_wanita','list_gereja'));				
 	}
 		
 	public function admin_view_kedukaan()
 	{					
+		$header = $this->setHeader();
 		$list_anggota = $this->getListAnggotaHidup();
 		$list_gereja = $this->getListGereja();		
 		return View::make('pages.admin.kedukaan', 
-			compact('list_anggota','list_gereja'));				
+			compact('header','list_anggota','list_gereja'));				
 	}
 	
 	public function admin_view_dkh()
 	{			
+		$header = $this->setHeader();
 		$list_jemaat = $this->getListAnggota();		
 		$list_gereja = $this->getListGereja();		
 		return View::make('pages.admin.dkh', 
-			compact('list_jemaat','list_gereja'));
+			compact('header','list_jemaat','list_gereja'));
 		
 	}
 	
@@ -580,7 +587,7 @@ class UserBehaviorController extends BaseController {
 		$json_data = Input::get('json_data');
 		$input = json_decode($json_data);
 		
-		$gereja = $input->{'gereja'};
+		// $gereja = $input->{'gereja'};
 		// $input = Input::get('data');
 		
 		$nama_kebaktian = $input->{'nama_kebaktian'};		
@@ -601,11 +608,11 @@ class UserBehaviorController extends BaseController {
 		$batas_atas_hadir_komisi = $input->{'batas_atas_hadir_komisi'};		
 		
 		// $kebaktian = DB::table('kegiatan AS keg')->where('keg.deleted', '=', 0)->where('id_gereja', '=', Auth::user()->id_gereja);		
-		$kebaktian = DB::table('kegiatan AS keg');		
-		if($gereja != -1)			
-		{
-			$kebaktian = $kebaktian->where('keg.id_gereja', '=', $gereja);
-		}
+		$kebaktian = DB::table('kegiatan AS keg')->where('id_gereja', '=', Auth::user()->id_gereja);		
+		// if($gereja != -1)			
+		// {
+			// $kebaktian = $kebaktian->where('keg.id_gereja', '=', $gereja);
+		// }
 		
 		if($nama_kebaktian != "")
 		{	
@@ -810,7 +817,7 @@ class UserBehaviorController extends BaseController {
 	
 	public function admin_search_anggota()
 	{			
-		$gereja = Input::get('gereja');
+		// $gereja = Input::get('gereja');
 		
 		$no_anggota = Input::get('no_anggota');		
 		$nama = Input::get('nama');
@@ -832,11 +839,11 @@ class UserBehaviorController extends BaseController {
 		// $anggota = $anggota->join('anggota AS ang', 'alm.id_anggota', '=', 'ang.id')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->id_gereja);
 		
 		// $anggota = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->id_gereja);				
-		$anggota = DB::table('anggota AS ang');
-		if($gereja != -1)			
-		{
-			$anggota = $anggota->where('ang.id_gereja', '=', $gereja);
-		}
+		$anggota = DB::table('anggota AS ang')->where('ang.id_gereja', '=', Auth::user()->id_gereja);
+		// if($gereja != -1)			
+		// {
+			// $anggota = $anggota->where('ang.id_gereja', '=', $gereja);
+		// }
 		
 		$anggota = $anggota->join('alamat AS alm', 'ang.id', '=','alm.id_anggota'); //yg ini ngerubah 'id' jadi yg di 'alamat'				
 				
@@ -967,7 +974,7 @@ class UserBehaviorController extends BaseController {
 		
 		// $input = Input::get('data');
 		
-		$gereja = $input->{'gereja'};
+		// $gereja = $input->{'gereja'};
 		
 		$no_baptis = $input->{'no_baptis'};
 		$nama_jemaat = $input->{'nama_jemaat'};
@@ -983,11 +990,11 @@ class UserBehaviorController extends BaseController {
 		// $baptis = $baptis->join('baptis AS bap', 'ang.id', '=', 'bap.id_jemaat')->where('bap.deleted', '=', 0);		
 		$baptis = $baptis->join('baptis AS bap', 'ang.id', '=', 'bap.id_jemaat');		
 			
-		// $baptis = $baptis->where('bap.id_gereja', '=', Auth::user()->id_gereja);											
-		if($gereja != -1)
-		{
-			$baptis = $baptis->where('bap.id_gereja', '=', $gereja);
-		}
+		$baptis = $baptis->where('bap.id_gereja', '=', Auth::user()->id_gereja);											
+		// if($gereja != -1)
+		// {
+			// $baptis = $baptis->where('bap.id_gereja', '=', $gereja);
+		// }
 		
 		if($no_baptis != "")
 		{
@@ -1095,7 +1102,7 @@ class UserBehaviorController extends BaseController {
 		
 		// $input = Input::get('data');
 		
-		$gereja = $input->{'gereja'};
+		// $gereja = $input->{'gereja'};
 		$no_atestasi = $input->{'no_atestasi'};
 		$nama = $input->{'nama_jemaat'};
 		$tanggal_awal = $input->{'tanggal_awal'};
@@ -1105,12 +1112,12 @@ class UserBehaviorController extends BaseController {
 		$nama_gereja_baru = $input->{'nama_gereja_baru'};
 		
 		// $atestasi = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('ang.id_gereja', '=', Auth::user()->id_gereja);
-		$atestasi = DB::table('anggota AS ang');
+		$atestasi = DB::table('anggota AS ang')->where('ang.id_gereja', '=', Auth::user()->id_gereja);
 		
-		if($gereja != -1)			
-		{
-			$atestasi = $atestasi->where('ang.id_gereja', '=', $gereja);
-		}
+		// if($gereja != -1)			
+		// {
+			// $atestasi = $atestasi->where('ang.id_gereja', '=', $gereja);
+		// }
 		// $atestasi = $atestasi->join('atestasi AS ate', 'ang.id', '=', 'ate.id_anggota')->where('ate.deleted', '=', 0);				
 		$atestasi = $atestasi->join('atestasi AS ate', 'ang.id', '=', 'ate.id_anggota');				
 		
@@ -1213,7 +1220,7 @@ class UserBehaviorController extends BaseController {
 		
 		// $input = Input::get('data');
 		
-		$gereja = $input->{'gereja'};
+		// $gereja = $input->{'gereja'};
 		$no_pernikahan = $input->{'no_pernikahan'};
 		$tanggal_awal = $input->{'tanggal_awal'};
 		$tanggal_akhir = $input->{'tanggal_akhir'};
@@ -1221,12 +1228,12 @@ class UserBehaviorController extends BaseController {
 		$nama_pria = $input->{'nama_pria'};
 		$nama_wanita = $input->{'nama_wanita'};
 		
-		$pernikahan = DB::table('pernikahan AS per');		
+		$pernikahan = DB::table('pernikahan AS per')->where('per.id_gereja', '=', Auth::user()->id_gereja);		
 		
-		if($gereja != -1)			
-		{
-			$pernikahan = $pernikahan->where('per.id_gereja', '=', $gereja);
-		}
+		// if($gereja != -1)			
+		// {
+			// $pernikahan = $pernikahan->where('per.id_gereja', '=', $gereja);
+		// }
 		// $pernikahan = $pernikahan->where('per.id_gereja', '=', Auth::user()->id_gereja)->where('per.deleted', '=', 0);
 		
 		if($no_pernikahan != "")
@@ -1299,22 +1306,22 @@ class UserBehaviorController extends BaseController {
 		
 		// $input = Input::get('data');
 		
-		$gereja = $input->{'gereja'};
+		// $gereja = $input->{'gereja'};
 		$no_kedukaan = $input->{'no_kedukaan'};
 		$nama_jemaat = $input->{'nama_jemaat'};
 		$tanggal_awal = $input->{'tanggal_awal'};
 		$tanggal_akhir = $input->{'tanggal_akhir'};
 		
 		// $kedukaan = DB::table('anggota AS ang')->where('ang.deleted', '=', 0);
-		$kedukaan = DB::table('anggota AS ang');		
+		$kedukaan = DB::table('anggota AS ang');
 		
 		// $kedukaan = $kedukaan->join('kedukaan AS ked', 'ang.id', '=', 'ked.id_jemaat')->where('ked.deleted', '=', 0);
-		$kedukaan = $kedukaan->join('kedukaan AS ked', 'ang.id', '=', 'ked.id_jemaat');
+		$kedukaan = $kedukaan->join('kedukaan AS ked', 'ang.id', '=', 'ked.id_jemaat')->where('ked.id_gereja', '=', Auth::user()->id_gereja);
 		
-		if($gereja != -1)			
-		{
-			$kedukaan = $kedukaan->where('ked.id_gereja', '=', $gereja);
-		}
+		// if($gereja != -1)			
+		// {
+			// $kedukaan = $kedukaan->where('ked.id_gereja', '=', $gereja);
+		// }
 		
 		// $kedukaan = $kedukaan->where('ked.id_gereja', '=', Auth::user()->id_gereja);
 		
@@ -1393,19 +1400,19 @@ class UserBehaviorController extends BaseController {
 		
 		// $input = Input::get('data');
 		
-		$gereja = $input->{'gereja'};
+		// $gereja = $input->{'gereja'};
 		$no_dkh = $input->{'no_dkh'};
 		$nama_jemaat = $input->{'nama_jemaat'};
 		
 		
 		
 		// $dkh = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('id_gereja', '=', Auth::user()->id_gereja)->where('ang.role', '=', 1); //role hanya jemaat
-		$dkh = DB::table('anggota AS ang')->where('ang.role', '=', 1); //role hanya jemaat
+		$dkh = DB::table('anggota AS ang')->where('ang.id_gereja', '=', Auth::user()->id_gereja)->where('ang.role', '=', 1); //role hanya jemaat
 		
-		if($gereja != -1)			
-		{
-			$dkh = $dkh->where('ang.id_gereja', '=', $gereja);
-		}
+		// if($gereja != -1)			
+		// {
+			// $dkh = $dkh->where('ang.id_gereja', '=', $gereja);
+		// }
 		
 		// $dkh = $dkh->join('dkh AS dkh', 'ang.id', '=', 'dkh.id_jemaat')->where('dkh.deleted', '=', 0);
 		$dkh = $dkh->join('dkh AS dkh', 'ang.id', '=', 'dkh.id_jemaat');
@@ -1514,8 +1521,38 @@ class UserBehaviorController extends BaseController {
 			// return "Gagal menyimpan perubahan.";		
 		}
 		else
-		{		
-		
+		{					
+			/*
+				VALIDATE DUPLICATE DATA
+					nama_jenis_kegiatan
+					id_gereja
+					tanggal_mulai
+					tanggal_selesai
+					
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data	
+			*/
+			if($kebaktian->nama_jenis_kegiatan == $input->{'nama_jenis_kegiatan'} &&
+				$kebaktian->tanggal_mulai == $input->{'tanggal_mulai'} &&
+				$kebaktian->tanggal_selesai == $input->{'tanggal_selesai'} &&
+				$kebaktian->id_gereja == Auth::user()->id_gereja)
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Kegiatan::where('deleted', '=', 0)
+					->where('nama_jenis_kegiatan', '=', $input->{'nama_jenis_kegiatan'})
+					->where('tanggal_mulai', '=', $input->{'tanggal_mulai'})
+					->where('tanggal_selesai', '=', $input->{'tanggal_selesai'})
+					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}
+			}			
+			
 			if($input->{'id_jenis_kegiatan'} == '')
 			{
 				$kebaktian->id_jenis_kegiatan = null;
@@ -1644,7 +1681,64 @@ class UserBehaviorController extends BaseController {
 			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
 			return json_encode($respond);
 			// return "Gagal menyimpan perubahan.";
-		}		
+		}
+		
+		/*
+			VALIDATE DUPLICATE DATA				
+				nama_depan
+				nama_tengah
+				nama_belakang
+				id_gereja
+			
+			NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data	
+			
+			VALIDATE WITH CASE SENSITIVE
+				Invite::where(DB::raw('BINARY `token`'), $token)->first();	
+		*/	
+		if($anggota->nama_depan == Input::get('nama_depan') &&
+			$anggota->nama_tengah == Input::get('nama_tengah') &&
+			$anggota->nama_belakang == Input::get('nama_belakang') &&
+			$anggota->id_gereja == Auth::user()->id_gereja)
+		{
+			//ga masuk validate duplicate data
+		}
+		else
+		{
+			$duplicate = Anggota::where('deleted', '=', 0)
+					->where('nama_depan', '=', Input::get('nama_depan'))
+					->where('nama_tengah', '=', Input::get('nama_tengah'))
+					->where('nama_belakang', '=', Input::get('nama_belakang'))
+					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->first();
+			if(count($duplicate))
+			{
+				$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+				return json_encode($respond);
+			}
+		}
+		
+		/*
+			VALIDATE UNIQUE NO_ANGGOTA
+			NOTE: unique di validator laravel bersifat 'NOT CASE SENSITIVE'
+			
+			NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data	
+		*/
+		if($anggota->no_anggota == Input::get('no_anggota'))
+		{
+			//ga masuk validate duplicate data
+		}
+		else
+		{
+			$validator = Validator::make(
+				array('no_anggota' => Input::get('no_anggota')),
+				array('no_anggota' => array('unique:anggota,no_anggota'))
+			);
+			if($validator->fails())
+			{
+				$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data nomor anggota. Data nomor anggota yang dimasukkan sudah ada.');
+				return json_encode($respond);
+			}
+		}
 		
 		$anggota->no_anggota = Input::get('no_anggota');
 		$anggota->nama_depan = Input::get('nama_depan');
@@ -1960,8 +2054,8 @@ class UserBehaviorController extends BaseController {
 			'id_pendeta' => $input->{'id_pendeta'},
 			'tanggal_baptis' => $input->{'tanggal_baptis'},
 			'id_jenis_baptis' => $input->{'id_jenis_baptis'},
-			// 'id_gereja' => Auth::user()->id_gereja
-			'id_gereja' => 0 //validator khusus untuk admin
+			'id_gereja' => Auth::user()->id_gereja
+			// 'id_gereja' => 0 //validator khusus untuk admin
 		);
 		
 		//validate
@@ -1983,7 +2077,31 @@ class UserBehaviorController extends BaseController {
 			// return "Gagal menyimpan perubahan.";
 		}
 		else
-		{				
+		{			
+			/*
+				VALIDATE DUPLICATE DATA
+					no_baptis	
+
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data			
+			*/
+			if($baptis->no_baptis == $input->{'no_baptis'} &&
+				$baptis->id_gereja == Auth::user()->id_gereja)
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Baptis::where('deleted', '=', 0)
+						->where('no_baptis', '=', $input->{'no_baptis'})
+						->where('id_gereja', '=', Auth::user()->id_gereja)
+						->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}
+			}
+			
 			$baptis->no_baptis = $input->{'no_baptis'};				
 			$baptis->id_jemaat = $input->{'id_jemaat'};
 			$baptis->id_pendeta = $input->{'id_pendeta'};
@@ -2049,7 +2167,30 @@ class UserBehaviorController extends BaseController {
 		}
 		else
 		{
-				
+			/*
+				VALIDATE DUPLICATE DATA
+					no_atestasi
+					
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data		
+			*/
+			if($atestasi->no_atestasi == $input->{'no_atestasi'} &&
+				$atestasi->id_gereja == Auth::user()->id_gereja)
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Atestasi::where('deleted', '=', 0)
+						->where('no_atestasi', '=', $input->{'no_atestasi'})				
+						->where('id_gereja', '=', Auth::user()->id_gereja)
+						->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}	
+			}
+			
 			$atestasi->no_atestasi = $input->{'no_atestasi'};
 			$atestasi->tanggal_atestasi = $input->{'tanggal_atestasi'};
 			$atestasi->id_jenis_atestasi = $input->{'id_jenis_atestasi'};		
@@ -2129,6 +2270,30 @@ class UserBehaviorController extends BaseController {
 		}
 		else
 		{	
+			/*
+				VALIDATE DUPLICATE DATA
+					no_pernikahan	
+
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data
+			*/
+			if($pernikahan->no_pernikahan == $input->{'no_pernikahan'} &&
+				$pernikahan->id_gereja == Auth::user()->id_gereja)
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Pernikahan::where('deleted', '=', 0)
+						->where('no_pernikahan', '=', trim($input->{'no_pernikahan'}))					
+						->where('id_gereja', '=', Auth::user()->id_gereja)
+						->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}
+			}
+			
 			$pernikahan->no_pernikahan = $input->{'no_pernikahan'};
 			$pernikahan->tanggal_pernikahan = $input->{'tanggal_pernikahan'};
 			$pernikahan->id_pendeta = $input->{'id_pendeta'};			
@@ -2195,6 +2360,30 @@ class UserBehaviorController extends BaseController {
 		}
 		else
 		{
+			/*
+				VALIDATE DUPLICATE DATA
+					no_kedukaan				
+					
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data	
+			*/
+			if($duka->no_kedukaan == $input->{'no_kedukaan'} &&
+				$duka->id_gereja == Auth::user()->id_gereja)
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Kedukaan::where('deleted', '=', 0)
+						->where('no_kedukaan', '=', $input->{'no_kedukaan'})					
+						->where('id_gereja', '=', Auth::user()->id_gereja)
+						->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}
+			}
+						
 			$duka->no_kedukaan = $input->{'no_kedukaan'};								
 			$duka->keterangan = $input->{'keterangan'};
 			
@@ -2280,7 +2469,31 @@ class UserBehaviorController extends BaseController {
 			// return "Gagal menyimpan perubahan.";
 		}
 		else
-		{				
+		{			
+			/*
+				VALIDATE DUPLICATE DATA
+					no_dkh
+					
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data	
+			*/
+			if($dkh->no_dkh == $input->{'no_dkh'} &&
+				$dkh->id_gereja == Auth::user()->id_gereja)
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Dkh::where('deleted', '=', 0)
+						->where('no_dkh', '=', trim($input->{'no_dkh'}))					
+						->where('id_gereja', '=', Auth::user()->id_gereja)
+						->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}
+			}
+			
 			$dkh->no_dkh = $input->{'no_dkh'};				
 			// $dkh->id_jemaat = $input->{'id_jemaat'};
 			$dkh->keterangan = $input->{'keterangan'};			

@@ -17,6 +17,8 @@ class BaseController extends Controller {
 
 	protected function setHeader()
 	{
+		$id_gereja = $this->get_gereja('id'); //buat keperluan import/eksport
+		
 		$nama_gereja = $this->get_gereja('nama');
 		
 		$alamat_gereja = $this->get_gereja('alamat');
@@ -26,6 +28,7 @@ class BaseController extends Controller {
 		$kota_gereja = $this->get_gereja('kota');
 		
 		$header = array(
+			'id_gereja' => $id_gereja,
 			'nama' => $nama_gereja,
 			'alamat' => $alamat_gereja, 
 			'telp' => $telepon_gereja,

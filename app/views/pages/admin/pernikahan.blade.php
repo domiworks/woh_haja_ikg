@@ -50,27 +50,7 @@
 					</div>
 				
 					<div class="panel-body">
-						<form class="form-horizontal">	
-							<div class="form-group">
-								<label class="col-xs-4 control-label">Gereja</label> 
-								<div class="col-xs-4">			
-									<?php
-										$new_list_gereja = array(
-											'-1' => 'pilih!'
-										);
-										
-										foreach($list_gereja as $id => $key)
-										{
-											$new_list_gereja[$id] = $key;
-										}
-									?>
-									@if($list_gereja == null)
-										<p class="control-label pull-left">(tidak ada daftar status gereja)</p>
-									@else
-										{{Form::select('list_gereja', $new_list_gereja, Input::old('list_gereja'), array('id'=>'f_list_gereja', 'class'=>'form-control'))}}
-									@endif
-								</div>
-							</div>
+						<form class="form-horizontal">								
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nomor Piagam Pernikahan</label> 
 								<div class="col-xs-4">{{ Form::text('nomor_pernikahan', Input::old('nomor_pernikahan'), array('id' => 'f_nomor_pernikahan', 'class'=>'form-control')) }}</div>
@@ -227,7 +207,7 @@
 		//START LOADER				
 		$('.f_loader_container').removeClass('hidden');
 		
-		$gereja = $('#f_list_gereja').val();
+		// $gereja = $('#f_list_gereja').val();
 		$no_pernikahan = $('#f_nomor_pernikahan').val();		
 		$tanggal_awal = $('#f_tanggal_awal').val();
 		$tanggal_akhir = $('#f_tanggal_akhir').val();
@@ -237,7 +217,7 @@
 		$nama_mempelai_pria = $('#f_nama_mempelai_pria').val();		
 		
 		$data = {
-			'gereja' : $gereja,
+			// 'gereja' : $gereja,
 			'no_pernikahan' : $no_pernikahan,
 			'tanggal_awal' : $tanggal_awal,
 			'tanggal_akhir' : $tanggal_akhir,
@@ -419,7 +399,7 @@
 				if(result.code==200)
 				{
 					alert(result.messages);					
-					// window.location = '{{URL::route('admin_view_input_gereja')}}';
+					// window.location = '{{--URL::route('admin_view_input_gereja')--}}';
 										
 					//ganti isi row sesuai hasil edit
 					// alert(result.data['deleted']);
@@ -457,6 +437,7 @@
 		//START LOADER				
 		$('.f_loader_container').removeClass('hidden');
 		
+		/*
 		//get list pendeta sesuai gereja
 		$gereja = $('#f_list_gereja').val();	
 		$data = {
@@ -615,6 +596,7 @@
 				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
+		*/
 		
 		$id = $(this).prev().val();		
 		$index = $(this).prev().prev().val();

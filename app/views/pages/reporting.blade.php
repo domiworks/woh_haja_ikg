@@ -36,7 +36,63 @@
 							</div>
 						</div>
 						<div class="col-xs-12">
-							<p>(generate grafik di sini)</p>
+							<script type="text/javascript">
+							$(function () {
+								$('#container_graph').highcharts({
+									chart: {
+										type: 'area'
+									},
+									title: {
+										text: 'Text Judul silahkan ubah'
+									},
+									subtitle: {
+										text: ''
+									},
+									xAxis: {
+										allowDecimals: false,
+										labels: {
+											formatter: function () {
+												return this.value; 
+											}
+										}
+									},
+									yAxis: {
+										title: {
+											text: 'text axis'
+										},
+										labels: {
+											formatter: function () {
+												return this.value ;
+											}
+										}
+									},
+									tooltip: {
+										pointFormat: 'Tanggal <b>{point.y:,.0f}</b><br/>Pada hari ke-{point.x}'
+									},
+									plotOptions: {
+										area: {
+											pointStart: 1,
+											marker: {
+												enabled: false,
+												symbol: 'circle',
+												radius: 1,
+												states: {
+													hover: {
+														enabled: true
+													}
+												}
+											}
+										}
+									},
+									series: [{
+										name: 'Hari',
+										data: ['8','4','9','10','4','6','7','9']
+									}]
+								});
+							});
+							</script>
+							<div id="container_graph" style="width: 100%; height: 400px; margin: 0 auto"></div>
+
 						</div>
 						<div class="col-xs-12">
 							<div class="col-xs-8">

@@ -64,7 +64,7 @@ class CreateAuth extends Migration {
 		Schema::table('anggota', function (Blueprint $table){
 			$table->create();
 			$table->increments('id');
-			$table->string('no_anggota');	//nomor anggota
+			$table->string('no_anggota')->unique();	//nomor anggota
 			$table->string('nama_depan');
 			$table->string('nama_tengah');
 			$table->string('nama_belakang');
@@ -140,7 +140,8 @@ class CreateAuth extends Migration {
 			$table->increments('id');
 			$table->string('no_hp');
 			$table->integer('id_anggota')->unsigned();
-			$table->tinyInteger('deleted');
+			//ada tidak nya record hp tergantung dari anggota
+			// $table->tinyInteger('deleted'); 
 						
 			$table->foreign('id_anggota')->references('id')->on('anggota');
 			$table->timestamps();
@@ -153,7 +154,8 @@ class CreateAuth extends Migration {
 			$table->string('kota');
 			$table->string('kodepos');
 			$table->integer('id_anggota')->unsigned();
-			$table->tinyInteger('deleted');
+			//ada tidak nya record alamat tergantung dari anggota
+			// $table->tinyInteger('deleted');
 			
 			$table->foreign('id_anggota')->references('id')->on('anggota');
 			$table->timestamps();

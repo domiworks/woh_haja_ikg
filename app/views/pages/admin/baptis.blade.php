@@ -48,27 +48,7 @@
 						</h3>
 					</div>
 					<div class="panel-body">						
-						<form class="form-horizontal">	
-							<div class="form-group">
-								<label class="col-xs-4 control-label">Gereja</label> 
-								<div class="col-xs-4">			
-									<?php
-										$new_list_gereja = array(
-											'-1' => 'pilih!'
-										);
-										
-										foreach($list_gereja as $id => $key)
-										{
-											$new_list_gereja[$id] = $key;
-										}
-									?>
-									@if($list_gereja == null)
-										<p class="control-label pull-left">(tidak ada daftar status gereja)</p>
-									@else
-										{{Form::select('list_gereja', $new_list_gereja, Input::old('list_gereja'), array('id'=>'f_list_gereja', 'class'=>'form-control'))}}
-									@endif
-								</div>
-							</div>
+						<form class="form-horizontal">								
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nomor Piagam Baptis</label> 
 								<div class="col-xs-4">		
@@ -244,7 +224,7 @@
 		//START LOADER				
 		$('.f_loader_container').removeClass('hidden');
 		
-		$gereja = $('#f_list_gereja').val();
+		// $gereja = $('#f_list_gereja').val();
 		$nomor_baptis = $('#f_nomor_baptis').val();
 		$id_pembaptis = $('#f_pembaptis').val();
 		$nama_jemaat = $('#f_jemaat').val();
@@ -255,7 +235,7 @@
 		$tanggal_akhir = $('#f_tanggal_akhir').val();
 	
 		$data = {
-			'gereja' : $gereja,
+			// 'gereja' : $gereja,
 			'no_baptis' : $nomor_baptis,
 			'nama_jemaat' : $nama_jemaat,
 			'id_pembaptis' : $id_pembaptis,
@@ -441,7 +421,7 @@
 				if(result.code==200)
 				{
 					alert(result.messages);					
-					// window.location = '{{URL::route('admin_view_input_gereja')}}';
+					// window.location = '{{--URL::route('admin_view_input_gereja')--}}';
 										
 					//ganti isi row sesuai hasil edit
 					// alert(result.data['deleted']);
@@ -477,8 +457,9 @@
 	$('body').on('click', '.detailButton', function(){
 		
 		// START LOADER				
-		$('.f_loader_container').removeClass('hidden');
+		// $('.f_loader_container').removeClass('hidden');
 	
+		/*
 		//get list anggota sesuai gereja
 		$gereja = $('#f_list_gereja').val();	
 		$data = {
@@ -487,7 +468,7 @@
 		var json_data = JSON.stringify($data);
 		$.ajax({
 			type: 'GET',
-			url: "{{URL('admin/get_list_anggota_by_gereja')}}",
+			url: "{{--URL('admin/get_list_anggota_by_gereja')--}}",
 			data: {
 				'json_data' : json_data
 			},
@@ -525,6 +506,7 @@
 				$('.f_loader_container').addClass('hidden');
 			}
 		},'json');
+		*/
 	
 		$id = $(this).prev().val();				
 		$index = $(this).prev().prev().val();
@@ -533,8 +515,8 @@
 		
 		$('#f_edit_nomor_baptis').val(temp_detail[$index]['no_baptis']);	
 		$('#f_edit_pembaptis').val(temp_detail[$index]['id_pendeta']);	
-		//bagian coding yang f_edit_pengkotbah dipindah ke ajax success		
-		//$('#f_edit_jemaat').val(temp_detail[$index]['id_jemaat']);	
+			
+		$('#f_edit_jemaat').val(temp_detail[$index]['id_jemaat']);	
 		$('#f_edit_jenis_baptis').val(temp_detail[$index]['id_jenis_baptis']);	
 		$('#f_edit_tanggal_baptis').val(temp_detail[$index]['tanggal_baptis']);					
 		$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);

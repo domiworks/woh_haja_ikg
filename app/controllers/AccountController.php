@@ -18,14 +18,24 @@ class AccountController extends BaseController {
 				{
 					return Redirect::to('/user');
 				}			
-				else
+				else if(Auth::user()->role == 1)
 				{
 					return Redirect::to('/admin');
+				}
+				else if(Auth::user()->role == 2)
+				{	
+					return Redirect::to('/superadmin');
+				}
+				else
+				{
+					return Redirect::to('/')->with('message', 'username dan password tidak tepat.');
+					// return Redirect::back()->withErrors(['msg', 'username dan password tidak tepat.']);
 				}
 			}
 			else
 			{
 				return Redirect::to('/')->with('message', 'username dan password tidak tepat.');
+				// return Redirect::back()->withErrors(['msg', 'username dan password tidak tepat.']);
 			}		
 		}
 		else
@@ -36,14 +46,24 @@ class AccountController extends BaseController {
 				{
 					return Redirect::to('/user');
 				}			
-				else
+				else if(Auth::user()->role == 1)
 				{
 					return Redirect::to('/admin');
+				}
+				else if(Auth::user()->role == 2)
+				{	
+					return Redirect::to('/superadmin');
+				}
+				else
+				{
+					return Redirect::to('/')->with('message', 'username dan password tidak tepat.');
+					// return Redirect::back()->withErrors(['msg', 'username dan password tidak tepat.']);
 				}
 			}
 			else
 			{
 				return Redirect::to('/')->with('message', 'username dan password tidak tepat.');
+				// return Redirect::back()->withErrors(['msg', 'username dan password tidak tepat.']);
 			}
 		}
 		

@@ -5,7 +5,7 @@
 		<a href="#">link</a>
 	</li>
 	endfor-->
-		 
+	
 	<li>{{HTML::linkRoute('admin_view_input_gereja', 'Gereja', '' , array('style'=>'color:white;'))}}</li> 
 	<li>{{HTML::linkRoute('admin_view_input_jenis_baptis', 'Jenis Baptis', '' , array('style'=>'color:white;'))}}</li> 
 	<li>{{HTML::linkRoute('admin_view_input_jenis_atestasi', 'Jenis Atestasi', '' , array('style'=>'color:white;'))}}</li> 

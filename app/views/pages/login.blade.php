@@ -12,6 +12,7 @@
 			</div>			
 		</div>
 	</div>
+	
 	<div class="row">
 		<div class="col-lg-6 col-lg-push-3">
 			<div class="s_tbl s_set_height_window">				
@@ -57,6 +58,7 @@
 			</div>
 		</div>
 	</div>
+	
 </div>
 
 @stop

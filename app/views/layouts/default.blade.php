@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-	<title>Project</title>
+	<title>GKI</title>
 	<head>
 		<!-- head.user dipake aj soalnya cuma isi import" jquery dll sama title -->
 		@include('includes.head_user')

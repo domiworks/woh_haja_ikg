@@ -67,13 +67,13 @@ $(document).ready(function(){
 									Nama Jemaat
 								</label>
 								<div class="col-xs-4">
-									<!--<input type="text" class="form-control" id="f_nama_jemaat"  />-->
+									<input type="text" class="form-control" id="f_nama_jemaat"  />
 									
-									@if($list_jemaat == null)
+									<!--if($list_jemaat == null)
 									<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
-									@else								
-									{{Form::select('nama_jemaat', $list_jemaat, Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))}}
-									@endif
+									else								
+									{{--Form::select('nama_jemaat', $list_jemaat, Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))--}}
+									endif-->
 								</div>
 								<div class="col-xs-0">
 									*
@@ -126,39 +126,71 @@ $(document).ready(function(){
 	/*
 		COBA LIVE SEARCH ANGGOTA
 	*/
-	$('body').on('keyup','#f_nama_jemaat' function(){
+	$('body').on('keyup','#f_nama_jemaat', function(){
 		$keyword = $('#f_nama_jemaat').val();
+		$data = {
+			'keyword' : $keyword
+		};
+		var json_data = JSON.stringify($data);
 		$.ajax({
 			type: 'GET',
 			url: '{{URL::route('user_search_anggota')}}',
 			data: {
-				'keyword' : $keyword
+				// 'keyword' : $keyword
+				'json_data' : json_data
 			},
-			success: function(response){
-				if(response['code'] == '404) //gagal
+			success: function(response){	
+				result = JSON.parse(response);
+				if(result.code == 200)
 				{
-					$data = "<tr><td> No Result Found </td></tr>";
-					$('#searchContent').html($data);
+					alert('found');
+				}
+				else if(result.code == 404)
+				{
+					alert('not found');
+				}
+				else
+				{
+					alert('internal error');
+				}
+				/*
+				if(response['code'] == '404') //gagal
+				{
+					alert('not found');
+					// $data = "<tr><td> No Result Found </td></tr>";
+					// $('#searchContent').html($data);
+				}
+				else if(response['code'] == '200')
+				{
+					alert('found');
+					alert(JSON.stringify(response['messages']));
 				}
 				else //berhasil, maka draw tabel
 				{
 					//berhasil...foreach setiap barang
 					$data = "";
-					$.each(response['messages'], function(i, resp){
-						$data += "<tr id='row_"+resp.id+"' class='search_row' style='border-bottom:1px solid #000 !important;' data-dismiss='modal'>";
-							$data += "<td>";
-								$data += resp.nama_depan+' '+resp.nama_tengah+' '+resp.nama_belakang;
-							$data += "</td>";
-						$data += "</tr>":						
-					});
-					$('#searchContent').html($data);
+					alert('internal error');
+					// alert(JSON.stringify(response['code']));
+					// $.each(response['messages'], function(i, resp){
+						// $data += "<tr id='row_"+resp.id+"' class='search_row' style='border-bottom:1px solid #000 !important;' data-dismiss='modal'>";
+							// $data += "<td>";
+								// $data += resp.nama_depan+' '+resp.nama_tengah+' '+resp.nama_belakang;
+							// $data += "</td>";
+						// $data += "</tr>";					
+					// });
+					// $('#searchContent').html($data);
 				}
+				*/
 			},
 			error: function(xhr, textStatus, errorThrown){
-				alert('error');
-				
+				alert("readyState: "+xhr.readyState+"\nstatus: "+xhr.status);
+				alert("responseText: "+xhr.responseText);
 			}
 		},'json');
+	});
+		
+	$('body').on('click','.search_row',function(){
+		
 	});
 	
 	$('body').on('click', '#f_post_dkh', function(){

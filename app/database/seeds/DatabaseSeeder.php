@@ -127,107 +127,256 @@ class DatabaseSeeder extends Seeder {
 		
 		//---------------------------------- AKUN -----------------------------------
 		
+		/*
 		$acc = new Account();		
 		$acc -> username = "admin";
-		$acc -> password = Hash::make("admin");
-		$acc -> id_gereja = $gereja->id; //GKI Guntur
+		$acc -> password = Hash::make("AdminGK1");
+		$acc -> id_gereja = null;
 		// $acc -> remember_token = "";
 		$acc -> role = 1;	//untuk superadmin 
 		$acc -> save();
 		
-		$acc2 = new Account();		
-		$acc2 -> username = "userguntur";
-		$acc2 -> password = Hash::make("userguntur");
-		$acc2 -> id_gereja = $gereja->id; //GKI Guntur
-		// $acc2 -> remember_token = ""; //auto generate dari laravel
-		$acc2 -> role = 0;	//untuk user biasa atau operator TU
-		$acc2 -> save();								
-		
-		//---------------------------------- ADMIN ----------------------------------				
-		/*
-		$anggota = new Anggota();		
-		$anggota -> no_anggota = "Guntur-XX-0001";
-		$anggota -> nama_depan = "admin";
-		$anggota -> nama_tengah = "admin";
-		$anggota -> nama_belakang = "admin";
-		$anggota -> telp = "9871235";
-		$anggota -> gender = 1;
-		$anggota -> wilayah = "I";
-		$anggota -> gol_darah = "A +";
-		$anggota -> pendidikan = "S-1";
-		$anggota -> pekerjaan = "Wirausaha";
-		$anggota -> etnis = "T.Hoa";
-		$anggota -> kota_lahir = "Bandung";
-		$anggota -> tanggal_lahir = "1980-03-03";
-		// $anggota -> tanggal_meninggal = "";
-		$anggota -> role = 4;	//sebagai majelis
-		$anggota -> id_gereja = $gereja->id;
-		// $anggota2 -> id_atestasi = -99;
-		$anggota -> save();
+		$acc1 = new Account();
+		$acc1 -> username = "userayudia1";
+		$acc1 -> password = Hash::make("Userayudia1");
+		$acc1 -> id_gereja = $gereja2->id; //GKI Ayudia
+		$acc1 -> role = 0;
+		$acc1 -> save();
+
+		$acc2 = new Account();
+		$acc2 -> username = "usercianjur1";
+		$acc2 -> password = Hash::make("Usercianjur1");
+		$acc2 -> id_gereja = $gereja3->id; //GKI Cianjur
+		$acc2 -> role = 0;
+		$acc2 -> save();
+
+		$acc3 = new Account();
+		$acc3 -> username = "usercimahi1";
+		$acc3 -> password = Hash::make("Usercimahi1");
+		$acc3 -> id_gereja = $gereja4->id; //GKI Cimahi
+		$acc3 -> role = 0;
+		$acc3 -> save();
+
+		$acc4 = new Account();
+		$acc4 -> username = "usergatotsubroto1";
+		$acc4 -> password = Hash::make("Usergatotsubroto1");
+		$acc4 -> id_gereja = $gereja5->id; //GKI Gatot Subroto
+		$acc4 -> role = 0;
+		$acc4 -> save();
+
+		$acc5 = new Account();
+		$acc5 -> username = "userguntur1";
+		$acc5 -> password = Hash::make("Userguntur1");
+		$acc5 -> id_gereja = $gereja->id; //GKI Guntur
+		$acc5 -> role = 0;
+		$acc5 -> save();
+
+		$acc6 = new Account();
+		$acc6 -> username = "userkebonjati1";
+		$acc6 -> password = Hash::make("Userkebonjati1");
+		$acc6 -> id_gereja = $gereja6->id; //GKI Kebonjati
+		$acc6 -> role = 0;
+		$acc6 -> save();
+
+		$acc7 = new Account();
+		$acc7 -> username = "usermaulanayusuf1";
+		$acc7 -> password = Hash::make("Usermaulanayusuf1");
+		$acc7 -> id_gereja = $gereja7->id; //GKI Maulana Yusuf
+		$acc7 -> role = 0;
+		$acc7 -> save();
+
+		$acc8 = new Account();
+		$acc8 -> username = "userpamanukan1";
+		$acc8 -> password = Hash::make("Userpamanukan1");
+		$acc8 -> id_gereja = $gereja8->id; //GKI Pamanukan
+		$acc8 -> role = 0;
+		$acc8 -> save();
+
+		$acc9 = new Account();
+		$acc9 -> username = "userpasirkaliki1";
+		$acc9 -> password = Hash::make("Userpasirkaliki1");
+		$acc9 -> id_gereja = $gereja9->id; //GKI Pasir Kaliki
+		$acc9 -> role = 0;
+		$acc9 -> save();
+
+		$acc10 = new Account();
+		$acc10 -> username = "userpasirkoja1";
+		$acc10 -> password = Hash::make("Userpasirkoja1");
+		$acc10 -> id_gereja = $gereja10->id; //GKI Pasir Koja
+		$acc10 -> role = 0;
+		$acc10 -> save();
+
+		$acc11 = new Account();
+		$acc11 -> username = "usersudirman1";
+		$acc11 -> password = Hash::make("Usersudirman1");
+		$acc11 -> id_gereja = $gereja11->id; //GKI Sudirman
+		$acc11 -> role = 0;
+		$acc11 -> save();
 		*/
+
 		
-		/*
-		$alamat = new Alamat();
-		$alamat -> id_anggota = $anggota->id;
-		$alamat -> jalan = "Jalan Admin no 1";
-		$alamat -> kota = "Bandung";
-		$alamat -> kodepos = "41235";
-		$alamat -> save();
+		$acc = new Account();		
+		$acc -> username = "superadmin";
+		$acc -> password = Hash::make("superadmin");
+		$acc -> id_gereja = null;
+		// $acc -> remember_token = "";
+		$acc -> role = 2;	//untuk superadmin 
+		$acc -> save();
+			//-----------------------------
+		$acc1 = new Account();
+		$acc1 -> username = "adminayudia";
+		$acc1 -> password = Hash::make("adminayudia");
+		$acc1 -> id_gereja = $gereja2->id; //GKI Ayudia
+		$acc1 -> role = 1;
+		$acc1 -> save();
+
+		$acc2 = new Account();
+		$acc2 -> username = "admincianjur";
+		$acc2 -> password = Hash::make("admincianjur");
+		$acc2 -> id_gereja = $gereja3->id; //GKI Cianjur
+		$acc2 -> role = 1;
+		$acc2 -> save();
+
+		$acc3 = new Account();
+		$acc3 -> username = "admincimahi";
+		$acc3 -> password = Hash::make("admincimahi");
+		$acc3 -> id_gereja = $gereja4->id; //GKI Cimahi
+		$acc3 -> role = 1;
+		$acc3 -> save();
+
+		$acc4 = new Account();
+		$acc4 -> username = "admingatotsubroto";
+		$acc4 -> password = Hash::make("admingatotsubroto");
+		$acc4 -> id_gereja = $gereja5->id; //GKI Gatot Subroto
+		$acc4 -> role = 1;
+		$acc4 -> save();
+
+		$acc5 = new Account();
+		$acc5 -> username = "adminguntur";
+		$acc5 -> password = Hash::make("adminguntur");
+		$acc5 -> id_gereja = $gereja->id; //GKI Guntur
+		$acc5 -> role = 1;
+		$acc5 -> save();
+
+		$acc6 = new Account();
+		$acc6 -> username = "adminkebonjati";
+		$acc6 -> password = Hash::make("adminkebonjati");
+		$acc6 -> id_gereja = $gereja6->id; //GKI Kebonjati
+		$acc6 -> role = 1;
+		$acc6 -> save();
+
+		$acc7 = new Account();
+		$acc7 -> username = "adminmaulanayusuf";
+		$acc7 -> password = Hash::make("adminmaulanayusuf");
+		$acc7 -> id_gereja = $gereja7->id; //GKI Maulana Yusuf
+		$acc7 -> role = 1;
+		$acc7 -> save();
+
+		$acc8 = new Account();
+		$acc8 -> username = "adminpamanukan";
+		$acc8 -> password = Hash::make("adminpamanukan");
+		$acc8 -> id_gereja = $gereja8->id; //GKI Pamanukan
+		$acc8 -> role = 1;
+		$acc8 -> save();
+
+		$acc9 = new Account();
+		$acc9 -> username = "adminpasirkaliki";
+		$acc9 -> password = Hash::make("adminpasirkaliki");
+		$acc9 -> id_gereja = $gereja9->id; //GKI Pasir Kaliki
+		$acc9 -> role = 1;
+		$acc9 -> save();
+
+		$acc10 = new Account();
+		$acc10 -> username = "adminpasirkoja";
+		$acc10 -> password = Hash::make("adminpasirkoja");
+		$acc10 -> id_gereja = $gereja10->id; //GKI Pasir Koja
+		$acc10 -> role = 1;
+		$acc10 -> save();
+
+		$acc11 = new Account();
+		$acc11 -> username = "adminsudirman";
+		$acc11 -> password = Hash::make("adminsudirman");
+		$acc11 -> id_gereja = $gereja11->id; //GKI Sudirman
+		$acc11 -> role = 1;
+		$acc11 -> save();
+			//-----------------------------
+		$acc1 = new Account();
+		$acc1 -> username = "userayudia";
+		$acc1 -> password = Hash::make("userayudia");
+		$acc1 -> id_gereja = $gereja2->id; //GKI Ayudia
+		$acc1 -> role = 0;
+		$acc1 -> save();
+
+		$acc2 = new Account();
+		$acc2 -> username = "usercianjur";
+		$acc2 -> password = Hash::make("usercianjur");
+		$acc2 -> id_gereja = $gereja3->id; //GKI Cianjur
+		$acc2 -> role = 0;
+		$acc2 -> save();
+
+		$acc3 = new Account();
+		$acc3 -> username = "usercimahi";
+		$acc3 -> password = Hash::make("usercimahi");
+		$acc3 -> id_gereja = $gereja4->id; //GKI Cimahi
+		$acc3 -> role = 0;
+		$acc3 -> save();
+
+		$acc4 = new Account();
+		$acc4 -> username = "usergatotsubroto";
+		$acc4 -> password = Hash::make("usergatotsubroto");
+		$acc4 -> id_gereja = $gereja5->id; //GKI Gatot Subroto
+		$acc4 -> role = 0;
+		$acc4 -> save();
+
+		$acc5 = new Account();
+		$acc5 -> username = "userguntur";
+		$acc5 -> password = Hash::make("userguntur");
+		$acc5 -> id_gereja = $gereja->id; //GKI Guntur
+		$acc5 -> role = 0;
+		$acc5 -> save();
+
+		$acc6 = new Account();
+		$acc6 -> username = "userkebonjati";
+		$acc6 -> password = Hash::make("userkebonjati");
+		$acc6 -> id_gereja = $gereja6->id; //GKI Kebonjati
+		$acc6 -> role = 0;
+		$acc6 -> save();
+
+		$acc7 = new Account();
+		$acc7 -> username = "usermaulanayusuf";
+		$acc7 -> password = Hash::make("usermaulanayusuf");
+		$acc7 -> id_gereja = $gereja7->id; //GKI Maulana Yusuf
+		$acc7 -> role = 0;
+		$acc7 -> save();
+
+		$acc8 = new Account();
+		$acc8 -> username = "userpamanukan";
+		$acc8 -> password = Hash::make("userpamanukan");
+		$acc8 -> id_gereja = $gereja8->id; //GKI Pamanukan
+		$acc8 -> role = 0;
+		$acc8 -> save();
+
+		$acc9 = new Account();
+		$acc9 -> username = "userpasirkaliki";
+		$acc9 -> password = Hash::make("userpasirkaliki");
+		$acc9 -> id_gereja = $gereja9->id; //GKI Pasir Kaliki
+		$acc9 -> role = 0;
+		$acc9 -> save();
+
+		$acc10 = new Account();
+		$acc10 -> username = "userpasirkoja";
+		$acc10 -> password = Hash::make("userpasirkoja");
+		$acc10 -> id_gereja = $gereja10->id; //GKI Pasir Koja
+		$acc10 -> role = 0;
+		$acc10 -> save();
+
+		$acc11 = new Account();
+		$acc11 -> username = "usersudirman";
+		$acc11 -> password = Hash::make("usersudirman");
+		$acc11 -> id_gereja = $gereja11->id; //GKI Sudirman
+		$acc11 -> role = 0;
+		$acc11 -> save();			
 		
-		$hp = new Hp();
-		$hp -> id_anggota = $anggota->id; 
-		$hp -> no_hp = "081987123654";
-		$hp -> save();
-		
-		$hp2 = new Hp();
-		$hp2 -> id_anggota = $anggota->id;
-		$hp2 -> no_hp = "081123987456";
-		$hp2 -> save();	
-		*/
-		
-		
-		//---------------------------------- USER ----------------------------------								
-		
-		
-		/*
-		$anggota2 = new Anggota();		
-		$anggota2 -> no_anggota = "Guntur-XX-0002";
-		$anggota2 -> nama_depan = "Bernico";
-		$anggota2 -> nama_tengah = "Wuzzy";
-		$anggota2 -> nama_belakang = "Bear";
-		$anggota2 -> telp = "7654321";
-		$anggota2 -> gender = 1;
-		$anggota2 -> wilayah = "I";
-		$anggota2 -> gol_darah = "A +";
-		$anggota2 -> pendidikan = "S-1";
-		$anggota2 -> pekerjaan = "Wirausaha";
-		$anggota2 -> etnis = "T.Hoa";
-		$anggota2 -> kota_lahir = "Bandung";
-		$anggota2 -> tanggal_lahir = "1992-09-13";
-		$anggota2 -> tanggal_meninggal = null;
-		$anggota2 -> role = 1;	//sebagai jemaat
-		$anggota2 -> id_gereja = $gereja->id;		
-		$anggota2 -> save();
-		*/
-		
-		/*
-		$alamat2 = new Alamat();
-		$alamat2 -> id_anggota = $anggota2->id;
-		$alamat2 -> jalan = "Jalan WuzzyBeruang no 13";
-		$alamat2 -> kota = "Bandung";
-		$alamat2 -> kodepos = "45678";
-		$alamat2 -> save();
-		
-		$hp3 = new Hp();
-		$hp3 -> id_anggota = $anggota2->id; 
-		$hp3 -> no_hp = "081987654321";
-		$hp3 -> save();
-		
-		$hp4 = new Hp();
-		$hp4 -> id_anggota = $anggota2->id;
-		$hp4 -> no_hp = "081123456789";
-		$hp4 -> save();
-		*/
 		
 		//---------------------------------- PENDETA ----------------------------------		
 		$anggota3 = new Anggota();		
@@ -475,11 +624,21 @@ class DatabaseSeeder extends Seeder {
 		$kebaktian->tanggal_mulai = '2014-12-07';
 		$kebaktian->tanggal_selesai = '2014-12-07';
 		$kebaktian->jam_mulai = '07:00';
-		$kebaktian->jam_selesai = '08:30';		
+		$kebaktian->jam_selesai = '08:30';	
+		$kebaktian->banyak_jemaat_pria = 0;
+		$kebaktian->banyak_jemaat_wanita = 0;
 		$kebaktian->banyak_jemaat = 150;		
+		$kebaktian->banyak_simpatisan_pria = 0;
+		$kebaktian->banyak_simpatisan_wanita = 0;
 		$kebaktian->banyak_simpatisan = 10;		
-		$kebaktian->banyak_penatua = 20;		
+		$kebaktian->banyak_penatua_pria = 0;
+		$kebaktian->banyak_penatua_wanita = 0;
+		$kebaktian->banyak_penatua = 20;
+		$kebaktian->banyak_komisi_pria = 0;
+		$kebaktian->banyak_komisi_wanita = 0;
 		$kebaktian->banyak_komisi = 15;		
+		$kebaktian->banyak_pemusik_pria = 0;
+		$kebaktian->banyak_pemusik_wanita = 0;
 		$kebaktian->banyak_pemusik = 5;				
 		$kebaktian->id_gereja = $gereja->id; //id GKI Guntur		
 		$kebaktian->deleted = 0;
@@ -500,11 +659,21 @@ class DatabaseSeeder extends Seeder {
 		$kebaktian2->tanggal_mulai = '2014-12-07';
 		$kebaktian2->tanggal_selesai = '2014-12-07';
 		$kebaktian2->jam_mulai = '09:30';
-		$kebaktian2->jam_selesai = '11:00';		
-		$kebaktian2->banyak_jemaat = 200;		
-		$kebaktian2->banyak_simpatisan = 10;		
-		$kebaktian2->banyak_penatua = 20;		
-		$kebaktian2->banyak_komisi = 15;		
+		$kebaktian2->jam_selesai = '11:00';	
+		$kebaktian2->banyak_jemaat_pria = 0;		
+		$kebaktian2->banyak_jemaat_wanita = 0;
+		$kebaktian2->banyak_jemaat = 200;
+		$kebaktian2->banyak_simpatisan_pria = 0;		
+		$kebaktian2->banyak_simpatisan_wanita = 0;
+		$kebaktian2->banyak_simpatisan = 10;
+		$kebaktian2->banyak_penatua_pria = 0;
+		$kebaktian2->banyak_penatua_wanita = 0;
+		$kebaktian2->banyak_penatua = 20;
+		$kebaktian2->banyak_komisi_pria = 0;
+		$kebaktian2->banyak_komisi_wanita = 0;
+		$kebaktian2->banyak_komisi = 15;
+		$kebaktian2->banyak_pemusik_pria = 0;
+		$kebaktian2->banyak_pemusik_wanita = 0;
 		$kebaktian2->banyak_pemusik = 5;				
 		$kebaktian2->id_gereja = $gereja->id; //id GKI Guntur		
 		$kebaktian2->deleted = 0;
@@ -526,10 +695,20 @@ class DatabaseSeeder extends Seeder {
 		$kebaktian3->tanggal_selesai = '2014-12-07';
 		$kebaktian3->jam_mulai = '17:00';
 		$kebaktian3->jam_selesai = '18:30';		
-		$kebaktian3->banyak_jemaat = 100;		
-		$kebaktian3->banyak_simpatisan = 10;		
+		$kebaktian3->banyak_jemaat_pria = 0;		
+		$kebaktian3->banyak_jemaat_wanita = 0;
+		$kebaktian3->banyak_jemaat = 100;
+		$kebaktian3->banyak_simpatisan_pria = 0;
+		$kebaktian3->banyak_simpatisan_wanita = 0;
+		$kebaktian3->banyak_simpatisan = 10;	
+		$kebaktian3->banyak_penatua_pria = 0;
+		$kebaktian3->banyak_penatua_wanita = 0;
 		$kebaktian3->banyak_penatua = 20;		
-		$kebaktian3->banyak_komisi = 15;		
+		$kebaktian3->banyak_komisi_pria = 0;
+		$kebaktian3->banyak_komisi_wanita = 0;
+		$kebaktian3->banyak_komisi = 15;
+		$kebaktian3->banyak_pemusik_pria = 0;
+		$kebaktian3->banyak_pemusik_wanita = 0;
 		$kebaktian3->banyak_pemusik = 5;				
 		$kebaktian3->id_gereja = $gereja->id; //id GKI Guntur		
 		$kebaktian3->deleted = 0;

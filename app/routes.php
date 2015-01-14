@@ -22,12 +22,19 @@ Route::get('/export_kegiatan/{id_jenis_kegiatan?}/{id_gereja?}/{dateF?}/{dateT?}
 Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export']);
 
 Route::get('/tes', function(){
-	$baptis = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->whereNotIn('ang.role', array(2));
+	// $baptis = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->whereNotIn('ang.role', array(2));
 		
-		$baptis = $baptis->join('baptis AS bap', 'bap.id_jemaat', '=', 'ang.id');
-		$baptis = $baptis->get();
+		// $baptis = $baptis->join('baptis AS bap', 'bap.id_jemaat', '=', 'ang.id');
+		// $baptis = $baptis->get();
 		
-		var_dump($baptis);
+		// var_dump($baptis);
+	// $acc = new Account();		
+		// $acc -> username = "superadmin";
+		// $acc -> password = Hash::make("superadmin");
+		// $acc -> id_gereja = null;
+		//// $acc -> remember_token = "";
+		// $acc -> role = 2;	//untuk superadmin 
+		// $acc -> save();	
 });
 
 
@@ -40,12 +47,57 @@ Route::post('/signin', ['as' => 'signin', 'uses' => 'AccountController@postSignI
 //logout
 Route::get('/logout', ['as' => 'logout' , 'uses' => 'AccountController@postLogout']);					
 
+//super admin ---> berhubungan dengan akun dll 
+Route::group(['prefix' => 'superadmin', 'before' => 'authSuperAdmin'], function () {
+	
+	Route::get('/', ['as' => 'home_superadmin', 'uses' => 'SuperAdminController@superadmin_view_input_gereja']);		
+	
+	//ubah password super admin
+	Route::post('/edit_password', ['as' => 'superadmin_edit_password', 'uses' => 'SuperAdminController@superadmin_edit_password']);
+	
+	//input data	
+	Route::get('/view_gereja', ['as' => 'superadmin_view_input_gereja', 'uses' => 'SuperAdminController@superadmin_view_input_gereja']);	
+	Route::get('/view_jenisbaptis', ['as' => 'superadmin_view_input_jenis_baptis', 'uses' => 'SuperAdminController@superadmin_view_input_jenis_baptis']);	
+	Route::get('/view_jenisatestasi', ['as' => 'superadmin_view_input_jenis_atestasi', 'uses' => 'SuperAdminController@superadmin_view_input_jenis_atestasi']);	
+	Route::get('/view_jeniskegiatan', ['as' => 'superadmin_view_input_jenis_kegiatan', 'uses' => 'SuperAdminController@superadmin_view_input_jenis_kegiatan']);	
+	Route::get('/view_account', ['as' => 'superadmin_view_input_auth', 'uses' => 'SuperAdminController@superadmin_view_input_auth']);	
+	Route::get('/view_ubah_password', ['as' => 'superadmin_view_input_ubah_password', 'uses' => 'SuperAdminController@superadmin_view_input_ubah_password']);
+	
+	//post data
+	Route::post('/post_gereja', ['as' => 'superadmin_post_gereja', 'uses' => 'SuperAdminController@superadmin_postGereja']);
+	Route::post('/post_jenis_baptis', ['as' => 'superadmin_post_jenis_baptis', 'uses' => 'SuperAdminController@superadmin_postJenisBaptis']);
+	Route::post('/post_jenis_atestasi', ['as' => 'superadmin_post_jenis_atestasi', 'uses' => 'SuperAdminController@superadmin_postJenisAtestasi']);
+	Route::post('/post_jenis_kegiatan', ['as' => 'superadmin_post_jenis_kegiatan', 'uses' => 'SuperAdminController@superadmin_postJenisKegiatan']);
+	Route::post('/post_auth', ['as' => 'superadmin_post_auth', 'uses' => 'SuperAdminController@superadmin_postAuth']);
+	
+	//edit data
+	Route::post('/edit_gereja', ['as' => 'superadmin_edit_gereja', 'uses' => 'SuperAdminController@superadmin_edit_gereja']);
+	Route::post('/edit_jenis_baptis', ['as' => 'superadmin_edit_jenis_baptis', 'uses' => 'SuperAdminController@superadmin_edit_jenis_baptis']);
+	Route::post('/edit_jenis_atestasi', ['as' => 'superadmin_edit_jenis_atestasi', 'uses' => 'SuperAdminController@superadmin_edit_jenis_atestasi']);
+	Route::post('/edit_jenis_kegiatan', ['as' => 'superadmin_edit_jenis_kegiatan', 'uses' => 'SuperAdminController@superadmin_edit_jenis_kegiatan']);
+	Route::post('/edit_auth', ['as' => 'superadmin_edit_auth', 'uses' => 'SuperAdminController@superadmin_edit_auth']);
+	
+	//change visible
+	Route::post('/change_visible_gereja', ['as' => 'superadmin_change_visible_gereja', 'uses' => 'SuperAdminController@superadmin_change_visible_gereja']);
+	Route::post('/change_visible_jenis_baptis', ['as' => 'superadmin_change_visible_jenis_baptis', 'uses' => 'SuperAdminController@superadmin_change_visible_jenis_baptis']);
+	Route::post('/change_visible_jenis_atestasi', ['as' => 'superadmin_change_visible_jenis_atestasi', 'uses' => 'SuperAdminController@superadmin_change_visible_jenis_atestasi']);
+	Route::post('/change_visible_jenis_kegiatan', ['as' => 'superadmin_change_visible_jenis_kegiatan', 'uses' => 'SuperAdminController@superadmin_change_visible_jenis_kegiatan']);
+	// Route::post('/change_visible_auth', ['as' => 'superadmin_change_visible_auth', 'uses' => 'SuperAdminController@superadmin_change_visible_auth']);
+	
+	//delete data
+	Route::delete('/delete_gereja', ['as' => 'superadmin_delete_gereja', 'uses' => 'SuperAdminController@superadmin_delete_gereja']);
+	Route::delete('/delete_jenis_baptis', ['as' => 'superadmin_delete_jenis_baptis', 'uses' => 'SuperAdminController@superadmin_delete_jenis_baptis']);
+	Route::delete('/delete_jenis_atestasi', ['as' => 'superadmin_delete_jenis_atestasi', 'uses' => 'SuperAdminController@superadmin_delete_jenis_atestasi']);
+	Route::delete('/delete_jenis_kegiatan', ['as' => 'superadmin_delete_jenis_kegiatan', 'uses' => 'SuperAdminController@superadmin_delete_jenis_kegiatan']);
+	Route::delete('/delete_auth', ['as' => 'superadmin_delete_auth', 'uses' => 'SuperAdminController@superadmin_delete_auth']);
+});
 
 //admin ---> asumsi superuser atau majelis yang bisa lakuin akses apa aj
 Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 // Route::group(['prefix' => 'admin'], function () {
 
-	Route::get('/', ['as' => 'home_admin', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);			
+	// Route::get('/', ['as' => 'home_admin', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);
+	Route::get('/', ['as' => 'home_admin', 'uses' => 'UserBehaviorController@admin_view_kebaktian']);
 	
 	//get list pendeta by gereja
 	Route::get('/get_list_pendeta_by_gereja', ['as' => 'admin_get_list_pendeta_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_pendeta_by_gereja']);
@@ -106,6 +158,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 	
 	//----------------------------------------
 	
+	/*
 	//ubah password admin
 	Route::post('/edit_password', ['as' => 'admin_edit_password', 'uses' => 'InputEditAdminController@admin_edit_password']);
 	
@@ -144,6 +197,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 	Route::delete('/delete_jenis_atestasi', ['as' => 'delete_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_delete_jenis_atestasi']);
 	Route::delete('/delete_jenis_kegiatan', ['as' => 'delete_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_delete_jenis_kegiatan']);
 	Route::delete('/delete_auth', ['as' => 'delete_auth', 'uses' => 'InputEditAdminController@admin_delete_auth']);
+	*/
 	
 });
 

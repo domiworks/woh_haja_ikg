@@ -73,13 +73,13 @@
 							Pendeta yang memberkati
 						</label>
 						<div class="col-xs-4">
-							<select id='f_edit_id_pendeta' class='form-control'>
-							</select>
-							<!--if($list_pendeta == null)
+							<!--<select id='f_edit_id_pendeta' class='form-control'>
+							</select>-->
+							@if($list_pendeta == null)
 								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
-							else
-								{{--Form::select('id_pendeta', $list_pendeta, Input::old('id_pendeta'), array('id'=>'f_edit_id_pendeta', 'class'=>'form-control'))--}}
-							endif-->
+							@else
+								{{Form::select('id_pendeta', $list_pendeta, Input::old('id_pendeta'), array('id'=>'f_edit_id_pendeta', 'class'=>'form-control'))}}
+							@endif
 						</div>
 						<div class="col-xs-0">
 							*
@@ -102,13 +102,13 @@
 							Jemaat Pria
 						</label>
 						<div class="col-xs-4">
-							<select id='f_edit_list_jemaat_pria' class='form-control'>
-							</select>
-							<!--if($list_jemaat_pria == null)
+							<!--<select id='f_edit_list_jemaat_pria' class='form-control'>
+							</select>-->
+							@if($list_jemaat_pria == null)
 								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
-							else
-								{{--Form::select('list_jemaat_pria', $list_jemaat_pria, Input::old('list_jemaat_pria'), array('id'=>'f_edit_list_jemaat_pria', 'class'=>'form-control'))--}}					
-							endif-->
+							@else
+								{{Form::select('list_jemaat_pria', $list_jemaat_pria, Input::old('list_jemaat_pria'), array('id'=>'f_edit_list_jemaat_pria', 'class'=>'form-control'))}}					
+							@endif
 						</div>
 						<div class="col-xs-0">
 							<input id="f_edit_check_jemaat_pria" type="checkbox" name="jemaat_pria" value="0" /> Non-GKI				
@@ -138,13 +138,13 @@
 							Jemaat Wanita
 						</label>
 						<div class="col-xs-4">
-							<select id='f_edit_list_jemaat_wanita' class='form-control'>
-							</select>
-							<!--if($list_jemaat_wanita == null)
+							<!--<select id='f_edit_list_jemaat_wanita' class='form-control'>
+							</select>-->
+							@if($list_jemaat_wanita == null)
 								<p class="control-label pull-left">(tidak ada daftar pendeta)</p>
-							else
-								{{--Form::select('list_jemaat_wanita', $list_jemaat_wanita, Input::old('list_jemaat_wanita'), array('id'=>'f_edit_list_jemaat_wanita', 'class'=>'form-control'))--}}							
-							endif-->
+							@else
+								{{Form::select('list_jemaat_wanita', $list_jemaat_wanita, Input::old('list_jemaat_wanita'), array('id'=>'f_edit_list_jemaat_wanita', 'class'=>'form-control'))}}							
+							@endif
 						</div>
 						<div class="col-xs-0">
 							<input id="f_edit_check_jemaat_wanita" type="checkbox" name="jemaat_wanita" value="0" /> Non-GKI				

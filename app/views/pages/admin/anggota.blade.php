@@ -51,27 +51,7 @@
 						</h3>
 					</div>
 					<div class="panel-body">						
-						<form class="form-horizontal">	
-							<div class="form-group">
-								<label class="col-xs-4 control-label">Gereja</label> 
-								<div class="col-xs-4">			
-									<?php
-										$new_list_gereja = array(
-											'-1' => 'pilih!'
-										);
-										
-										foreach($list_gereja as $id => $key)
-										{
-											$new_list_gereja[$id] = $key;
-										}
-									?>
-									@if($list_gereja == null)
-										<p class="control-label pull-left">(tidak ada daftar status gereja)</p>
-									@else
-										{{Form::select('list_gereja', $new_list_gereja, Input::old('list_gereja'), array('id'=>'f_list_gereja', 'class'=>'form-control'))}}
-									@endif
-								</div>
-							</div>
+						<form class="form-horizontal">								
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nomor anggota</label> 
 								<div class="col-xs-3">
@@ -323,14 +303,14 @@ $('body').on('click', '#f_search_anggota', function(){
 	var data, xhr;
 	data = new FormData();
 	
-	$gereja = $('#f_list_gereja').val();
-	data.append('gereja', $gereja);
+	// $gereja = $('#f_list_gereja').val();
+	// data.append('gereja', $gereja);
 	
 	$nomor_anggota = $('#f_nomor_anggota').val();			
 	data.append('no_anggota', $nomor_anggota);	
 	// alert($nomor_anggota);
 	$nama = $('#f_nama').val();	
-	data.append('nama', $nama);				
+	data.append('nama', $nama);
 	// alert($nama);
 	$kota = $('#f_kota').val();
 	data.append('kota', $kota);		
@@ -368,7 +348,6 @@ $('body').on('click', '#f_search_anggota', function(){
 	$role = $('#f_status').val();
 	data.append('role', $role);	
 	// alert($role);
-	
 		
 	$.ajax({
 		type: 'POST',
@@ -555,7 +534,7 @@ $('body').on('click', '.visibleButton', function(){
 			if(result.code==200)
 			{
 				alert(result.messages);					
-				// window.location = '{{URL::route('admin_view_input_gereja')}}';
+				// window.location = '{{--URL::route('admin_view_input_gereja')--}}';
 									
 				//ganti isi row sesuai hasil edit
 				// alert(result.data['deleted']);

@@ -7944,19 +7944,15 @@ class ImportEksportController extends BaseController {
 			}
 			
 		}
-		
-	
-		
-		/*if($dateF != 0 || $dateT=0){
-			$dateFrom = date("Y-m-dd", strtotime($dateF));
-			$dateTo = date("Y-m-dd", strtotime($dateT));
+
+		if($dateF != 0 || $dateT=0){
 			if($where==''){
-				$where.='tanggal_mulai >= '.$dateFrom.' and tanggal_selesai <= '.$dateTo;
+				$where.='tanggal_mulai >= "'.$dateF.'" and tanggal_selesai <= "'.$dateTo.'"';
 			}
 			else{
-				$where.=' and tanggal_mulai >= '.$dateFrom.' and tanggal_selesai <= '.$dateTo;
+				$where.=' and tanggal_mulai >= "'.$dateF.'" and tanggal_selesai <= "'.$dateTo.'"';
 			}
-		}*/
+		}
 		
 		if($where!=''){
 			$result = $kegiatan->whereRaw($where)->orderBy('tanggal_mulai')->orderBy('id_jenis_kegiatan')->get();
@@ -7980,30 +7976,8 @@ class ImportEksportController extends BaseController {
 			array_push($arr,$row_arr);
 		}
 		
-		//return $arr;
+		// create excel
 		try{
-			/*$header = array('MINGGU TANGGAL','JUMLAH ANGGOTA JEMAAT GEREJA TERDAFTAR','','','JENIS KEBAKTIAN','JUMLAH KEHADIRAN DALAM KEBAKTIAN UMUM','','','','','','','','','','','','','','','TOTAL ANGGOTA DAN SIMPATISAN');
-			
-			$header2 = array('','','','','','Anggota Jemaat','','','Simpatisan **','','','Penatua','','','Pemusik Gerejawi','','','Sub-Total Anggota','','',''); 
-			
-			$header3 = array('','Pria','Wanita','Jumlah','','Pria','Wanita','Jumlah','Pria','Wanita','Jumlah','Pria','Wanita','Jumlah','Pria','Wanita','Jumlah','Pria','Wanita','Jumlah',''); 
-			
-			$datarow1 = array('4-Apr-10',137,184,321,'KU - 1',61,106,167,0,0,0,4,5,9,1,0,1,66,111,177,177);
-			$datarow2 = array('','','','','KU - 2',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-			$datarow3 = array('','','','','KU - 3',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-			$datarow4 = array('','','','','Pos.Jem',18,21,39,0,0,0,1,2,3,2,0,2,21,23,44,44);
-			$datarow5 = array('','','','','Jumlah',79,127,206,0,0,0,5,7,12,3,0,3,87,134,221,221);*/
-			
-			/*$data = array(
-						$header,
-						$header2,
-						$header3,
-						$datarow1,
-						$datarow2,
-						$datarow3,
-						$datarow4,
-						$datarow5
-			);*/
 			
 			$nama_gereja = array('LAPORAN BULANAN LKKJ GKI SW JABAR','','','','','','','','','','','','','','','');
 			$pelayanan_gereja = array('Tahun Pelayanan: 2010-2011','','','','','','','','','','','','','','','');
@@ -8024,13 +7998,6 @@ class ImportEksportController extends BaseController {
 				array_push($data,$key);
 			}
 			
-			//$data = array($arr);
-			
-			//return $data;
-			
-			
-			
-			//simpen di server
 			Excel::create('LKKJTest', function($excel) use($data) {
 
 				$excel->sheet('Keb.Umum', function($sheet) use($data){
@@ -8039,15 +8006,6 @@ class ImportEksportController extends BaseController {
 					$sheet->mergeCells('A1:Q1');
 					$sheet->mergeCells('A2:Q2');
 					$sheet->mergeCells('A3:Q3');
-					/*$sheet->mergeCells('B1:D2');
-					$sheet->mergeCells('E1:E2');
-					$sheet->mergeCells('F1:T1');
-					$sheet->mergeCells('F2:H2');
-					$sheet->mergeCells('I2:K2');
-					$sheet->mergeCells('L2:N2');
-					$sheet->mergeCells('O2:Q2');
-					$sheet->mergeCells('R2:T2');
-					$sheet->mergeCells('U1:U3');*/
 					
 					$sheet->cells('A1:Q1',function($cells){
 						$cells->setFont(array(
@@ -8071,31 +8029,12 @@ class ImportEksportController extends BaseController {
 					});
 					
 					$sheet->setBorder('A5:Q'.(count($data)), 'thin');
-					/*$sheet->setWidth(array(
-						'A'		=>  20,
-						'B'     =>  20,
-						'C'     =>  20,
-						'D'		=>  20,
-						'E'		=>	20,
-						'U'		=> 40
-					));*/
 					$sheet->setAutoSize(true);
 					
 
 				});
-			})->store('xlsx','assets/file_excel');
-			
-			//buat diunduh
-			/*Excel::create('test', function($excel) use($data) {
-
-				$excel->sheet('Test Sheet 1', function($sheet) use($data){
-					
-					//fromArray(datanya,null value,mulai dari mana,0 != null,pakai default header atau ga)
-					$sheet->fromArray($data, null, 'A1', false, false);
-
-				});
-
-			})->export('xls');*/
+			})->export('xlsx');
+			//})->store('xlsx','assets/file_excel');
 			
 			return "Success";
 		}
@@ -8107,97 +8046,120 @@ class ImportEksportController extends BaseController {
 	}
 	
 	public function import_kegiatan($id_gereja){
-		$result = Excel::selectSheets('Keb.Umum')->load('assets/file_excel/LKKJTest.xlsx', function($reader) use($id_gereja){
-			// Getting all results
-			$reader->skip(5);
-			$reader->noHeading();
-			$results = $reader->get();
-			$tanggal = '';
-			//$reader->each(function($row) use($id_gereja){
-			foreach($results as $row){
-				if($row[1] != NULL){
-					//tanggal
-					$tanggal = $row[1];
+		//get uploaded file
+		$destinationPath = 'assets/file_excel/'.$id_gereja.'/';
+		$filename = '';
+		
+		if(Input::hasFile('excel_file')){
+			$file = Input::file('excel_file');
+			$filename = $file->getClientOriginalName();
+			$uploadSuccess = $file->move($destinationPath, $filename);
+		}
+		else{
+			return 'Tidak ada file yang dipilih';
+		}
+		
+		if($uploadSuccess){
+			//return $destinationPath.$filename;
+			$file_path = $destinationPath.$filename;
+			//return $file_path;
+			$result = Excel::selectSheets('Keb.Umum')->load($file_path, function($reader) use($id_gereja){
+				// Getting all results
+				$reader->skip(5);
+				$reader->noHeading();
+				$results = $reader->get();
+				$tanggal = '';
+				//$reader->each(function($row) use($id_gereja){
+				foreach($results as $row){
+					if($row[1] != NULL){
+						//tanggal
+						$tanggal = $row[1];
+					}
+					else{
+						//$tanggal = '';
+					}
+					
+					$nama_kegiatan = $row[2];
+					
+					//select
+					
+					$kegiatan = Kegiatan::where('id_gereja','=',$id_gereja)->where('tanggal_mulai','=',$tanggal)->where('nama_jenis_kegiatan','=',$nama_kegiatan)->get();
+					
+					//if exist
+					if(count($kegiatan) == 1){
+						//update
+						DB::table('kegiatan')->where('id',$kegiatan[0]->id)->update(
+							array(
+								'tanggal_mulai'=>$tanggal,
+								'tanggal_selesai'=>$tanggal,
+								'jam_mulai'=>'00:00:00.000000',
+								'jam_selesai'=>'00:00:00.000000',
+								'banyak_jemaat_pria'=> $row[3],
+								'banyak_jemaat_wanita'=> $row[4],
+								'banyak_jemaat'=>'0',
+								'banyak_simpatisan_pria'=> $row[6],
+								'banyak_simpatisan_wanita'=> $row[7],
+								'banyak_simpatisan'=>'0',
+								'banyak_penatua_pria'=> $row[9],
+								'banyak_penatua_wanita'=>$row[10],
+								'banyak_penatua'=>'0',
+								'banyak_pemusik_pria'=> $row[12],
+								'banyak_pemusik_wanita'=> $row[13],
+								'banyak_pemusik'=>'0',
+								'banyak_komisi_pria'=> $row[15],
+								'banyak_komisi_wanita'=> $row[16],
+								'banyak_komisi'=>'0',
+								'keterangan'=>'',
+								'deleted'=>0,
+								'updated_at'=>Carbon::now()
+							)
+						);
+					}
+					else{
+						$jenis_kegiatan = JenisKegiatan::where('nama_kegiatan','=',$nama_kegiatan)->get()[0]->id;
+						//insert
+						DB::table('kegiatan')->insert(
+							array(
+								'id_jenis_kegiatan'=>$jenis_kegiatan,
+								'nama_jenis_kegiatan'=>$nama_kegiatan,
+								'id_gereja'=>$id_gereja,
+								'tanggal_mulai'=>$tanggal,
+								'tanggal_selesai'=>$tanggal,
+								'jam_mulai'=>'00:00:00.000000',
+								'jam_selesai'=>'00:00:00.000000',
+								'banyak_jemaat_pria'=> $row[3],
+								'banyak_jemaat_wanita'=> $row[4],
+								'banyak_jemaat'=>'0',
+								'banyak_simpatisan_pria'=> $row[6],
+								'banyak_simpatisan_wanita'=> $row[7],
+								'banyak_simpatisan'=>'0',
+								'banyak_penatua_pria'=> $row[9],
+								'banyak_penatua_wanita'=>$row[10],
+								'banyak_penatua'=>'0',
+								'banyak_pemusik_pria'=> $row[12],
+								'banyak_pemusik_wanita'=> $row[13],
+								'banyak_pemusik'=>'0',
+								'banyak_komisi_pria'=> $row[15],
+								'banyak_komisi_wanita'=> $row[16],
+								'banyak_komisi'=>'0',
+								'keterangan'=>'',
+								'deleted'=>0
+							)
+						);
+					}
 				}
-				else{
-					//$tanggal = '';
-				}
-				
-				$nama_kegiatan = $row[2];
-				
-				//select
-				
-				$kegiatan = Kegiatan::where('id_gereja','=',$id_gereja)->where('tanggal_mulai','=',$tanggal)->where('nama_jenis_kegiatan','=',$nama_kegiatan)->get();
-				
-				//if exist
-				if(count($kegiatan) == 1){
-					//update
-					DB::table('kegiatan')->where('id',$kegiatan[0]->id)->update(
-						array(
-							'tanggal_mulai'=>$tanggal,
-							'tanggal_selesai'=>$tanggal,
-							'jam_mulai'=>'00:00:00.000000',
-							'jam_selesai'=>'00:00:00.000000',
-							'banyak_jemaat_pria'=> $row[3],
-							'banyak_jemaat_wanita'=> $row[4],
-							'banyak_jemaat'=>'0',
-							'banyak_simpatisan_pria'=> $row[6],
-							'banyak_simpatisan_wanita'=> $row[7],
-							'banyak_simpatisan'=>'0',
-							'banyak_penatua_pria'=> $row[9],
-							'banyak_penatua_wanita'=>$row[10],
-							'banyak_penatua'=>'0',
-							'banyak_pemusik_pria'=> $row[12],
-							'banyak_pemusik_wanita'=> $row[13],
-							'banyak_pemusik'=>'0',
-							'banyak_komisi_pria'=> $row[15],
-							'banyak_komisi_wanita'=> $row[16],
-							'banyak_komisi'=>'0',
-							'keterangan'=>'',
-							'deleted'=>0,
-							'updated_at'=>Carbon::now()
-						)
-					);
-				}
-				else{
-					$jenis_kegiatan = JenisKegiatan::where('nama_kegiatan','=',$nama_kegiatan)->get()[0]->id;
-					//insert
-					DB::table('kegiatan')->insert(
-						array(
-							'id_jenis_kegiatan'=>$jenis_kegiatan,
-							'nama_jenis_kegiatan'=>$nama_kegiatan,
-							'id_gereja'=>$id_gereja,
-							'tanggal_mulai'=>$tanggal,
-							'tanggal_selesai'=>$tanggal,
-							'jam_mulai'=>'00:00:00.000000',
-							'jam_selesai'=>'00:00:00.000000',
-							'banyak_jemaat_pria'=> $row[3],
-							'banyak_jemaat_wanita'=> $row[4],
-							'banyak_jemaat'=>'0',
-							'banyak_simpatisan_pria'=> $row[6],
-							'banyak_simpatisan_wanita'=> $row[7],
-							'banyak_simpatisan'=>'0',
-							'banyak_penatua_pria'=> $row[9],
-							'banyak_penatua_wanita'=>$row[10],
-							'banyak_penatua'=>'0',
-							'banyak_pemusik_pria'=> $row[12],
-							'banyak_pemusik_wanita'=> $row[13],
-							'banyak_pemusik'=>'0',
-							'banyak_komisi_pria'=> $row[15],
-							'banyak_komisi_wanita'=> $row[16],
-							'banyak_komisi'=>'0',
-							'keterangan'=>'',
-							'deleted'=>0
-						)
-					);
-				}
-			}
+			});
+			
+			return 'Berhasil';
+		}
+		else{
+			return 'Gagal upload file';
+		}
+		
+		//import begin
+		
+		
 
-			// ->all() is a wrapper for ->get() and will work the same
-			//$results = $reader->all();
-		});
-		//return 'success';
-		//return $result;
 	}
 }
 

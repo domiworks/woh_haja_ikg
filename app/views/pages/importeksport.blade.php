@@ -25,6 +25,7 @@
 						<div class="col-xs-12">
 							<div class="col-xs-3">
 								<input type="button" class="btn btn-success pull-right" id="f_import_kebaktian" value="import data kebaktian" />
+								<input type='file' class='hidden' id='excel_import' />
 							</div>
 							<div class="col-xs-3">
 								<input type="button" class="btn btn-warning pull-right" id="f_eksport_kebaktian" value="eksport data kebaktian" />
@@ -57,12 +58,52 @@
 <script>
 	//import data kebaktian
 	$('body').on('click', '#f_import_kebaktian', function(){
+		$('#excel_import').click();
+	});
+	
+	$('body').on('change','#excel_import',function(){
+		$excel = '';
+		//get file
+		var i = 0, len = this.files.length, img, reader, file;
+		for ( ; i < len; i++ ) {
+			file = this.files[i];
+			$excel = file;
+		}
 		
+		
+		//ajax
+		$formData = new FormData();
+		$formData.append('excel_file',$excel);
+		$.ajax({
+			type: 'POST',
+			url: "{{URL('user/import_kegiatan')}}/"+2,
+			data: $formData,
+			processData:false,
+			contentType:false,
+			success: function(response){
+				alert(response);
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error');
+				alert(errorThrown);
+			}
+		});
 	});
 	
 	//eksport data kebaktian
 	$('body').on('click', '#f_eksport_kebaktian', function(){
-		
+		window.open("{{URL('user/export_kegiatan')}}/"+0+'/'+2,'_blank');
+		/*$.ajax({
+			type: 'GET',
+			url: "{{URL('user/export_kegiatan')}}/"+0+'/'+2,
+			success: function(response){
+				//alert(response);
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error');
+				alert(errorThrown);
+			}
+		});*/
 	});
 	
 	//import data anggota

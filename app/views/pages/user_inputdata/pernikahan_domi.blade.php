@@ -164,7 +164,7 @@
 									@endif
 								</div>
 								<div class="col-xs-0">
-									<input id="f_check_jemaat_pria" type="checkbox" name="jemaat_pria" value="0" /> Non-GKI				
+									<input id="f_check_jemaat_pria" type="checkbox" name="jemaat_pria" value="0" /> Non-Jemaat				
 								</div>
 								
 							</div>
@@ -193,7 +193,7 @@
 									@endif
 								</div>
 								<div class="col-xs-0">
-									<input id="f_check_jemaat_wanita" type="checkbox" name="jemaat_wanita" value="0" /> Non-GKI				
+									<input id="f_check_jemaat_wanita" type="checkbox" name="jemaat_wanita" value="0" /> Non-Jemaat				
 								</div>
 								
 							</div>

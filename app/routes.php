@@ -35,6 +35,8 @@ Route::get('/tes', function(){
 		//// $acc -> remember_token = "";
 		// $acc -> role = 2;	//untuk superadmin 
 		// $acc -> save();	
+	$keb = Kegiatan::find(1)->nama_jenis_kegiatan;
+	echo $keb;
 });
 
 

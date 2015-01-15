@@ -15,9 +15,9 @@ Route::get('/import', ['as' => 'get.import' , 'uses' => 'ExcelController@import'
 
 Route::get('/import_kegiatan_gki_cianjur', ['as' => 'get.import_kegiatan_cianjur' , 'uses' => 'ImportEksportController@import_kegiatan_GKI_Cianjur']);
 
-Route::get('/import_kegiatan/{id_gereja}', ['as' => 'get.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan']);
 
-Route::get('/export_kegiatan/{id_jenis_kegiatan?}/{id_gereja?}/{dateF?}/{dateT?}', ['as' => 'get.import_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);
+
+
 
 Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export']);
 
@@ -288,7 +288,12 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::get('/reporting/search_kebaktian/{from?}/{to?}/{jenis?}', ['as' => 'report_kebaktian', 'uses' => 'ReportingController@search_kebaktian']);
 	
 	//import eksport
-	Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@view_import_eksport']);	
+	Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@view_import_eksport']);
+	
+	Route::get('/export_kegiatan/{id_jenis_kegiatan?}/{id_gereja?}/{dateF?}/{dateT?}', ['as' => 'get.import_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);
+	
+	Route::post('/import_kegiatan/{id_gereja}', ['as' => 'post.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan']);
+	
 	
 	//tutorial
 	Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);		

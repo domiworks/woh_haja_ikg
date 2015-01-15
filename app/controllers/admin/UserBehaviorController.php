@@ -2173,16 +2173,14 @@ class UserBehaviorController extends BaseController {
 					
 				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data		
 			*/
-			if($atestasi->no_atestasi == $input->{'no_atestasi'} &&
-				$atestasi->id_gereja == Auth::user()->id_gereja)
+			if($atestasi->no_atestasi == $input->{'no_atestasi'})
 			{
 				//ga masuk validate duplicate data
 			}
 			else
 			{
 				$duplicate = Atestasi::where('deleted', '=', 0)
-						->where('no_atestasi', '=', $input->{'no_atestasi'})				
-						->where('id_gereja', '=', Auth::user()->id_gereja)
+						->where('no_atestasi', '=', $input->{'no_atestasi'})										
 						->first();
 				if(count($duplicate))
 				{
@@ -2476,16 +2474,14 @@ class UserBehaviorController extends BaseController {
 					
 				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data	
 			*/
-			if($dkh->no_dkh == $input->{'no_dkh'} &&
-				$dkh->id_gereja == Auth::user()->id_gereja)
+			if($dkh->no_dkh == $input->{'no_dkh'})				
 			{
 				//ga masuk validate duplicate data
 			}
 			else
 			{
 				$duplicate = Dkh::where('deleted', '=', 0)
-						->where('no_dkh', '=', trim($input->{'no_dkh'}))					
-						->where('id_gereja', '=', Auth::user()->id_gereja)
+						->where('no_dkh', '=', trim($input->{'no_dkh'}))											
 						->first();
 				if(count($duplicate))
 				{

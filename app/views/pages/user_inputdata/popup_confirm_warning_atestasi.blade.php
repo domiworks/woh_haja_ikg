@@ -61,7 +61,7 @@
 		};		
 		
 		var json_data = JSON.stringify($data);
-
+	
 		$.ajax({
 			type: 'POST',
 			url: "{{URL('user/post_atestasi')}}",
@@ -76,7 +76,7 @@
 					// alert("Berhasil simpan data kebaktian");					
 					// location.reload();
 					alert(result.messages);
-					// window.location = '{{URL::route('view_inputdata_atestasi')}}';
+					// window.location = '{{--URL::route('view_inputdata_atestasi')--}}';
 					
 					location.reload();
 				}

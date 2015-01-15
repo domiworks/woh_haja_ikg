@@ -155,6 +155,16 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 	Route::delete('/delete_kedukaan', ['as' => 'admin_delete_kedukaan', 'uses' => 'UserBehaviorController@admin_delete_kedukaan']);
 	Route::delete('/delete_dkh', ['as' => 'admin_delete_dkh', 'uses' => 'UserBehaviorController@admin_delete_dkh']);
 	
+	//reporting
+	Route::get('/reporting', ['as' => 'admin_view_reporting', 'uses' => 'ReportingController@admin_view_reporting']);
+	Route::get('/jenis_kegiatan', ['as' => 'admin_get_jenis_kegiatan', 'uses' => 'ReportingController@get_jenis_kegiatan']);
+	Route::get('/reporting/search_kebaktian/{from?}/{to?}/{jenis?}', ['as' => 'admin_report_kebaktian', 'uses' => 'ReportingController@search_kebaktian']);
+	
+	//import eksport
+	// Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@view_import_eksport']);	
+	
+	//tutorial
+	// Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);	
 	
 	//----------------------------------------
 	
@@ -298,7 +308,7 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 
 
 
-
+/*
 Route::get('/inputdata_kebaktian', function()
 {
 	return View::make('pages.user_inputdata.kebaktian_domi');
@@ -369,3 +379,4 @@ Route::get('/olahdata_pernikahan', function()
 {
 	return View::make('pages.user_olahdata.pernikahan_domi');
 });
+*/

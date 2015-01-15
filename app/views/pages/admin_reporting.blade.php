@@ -1,4 +1,4 @@
-@extends('layouts.user_layout')
+@extends('layouts.admin_layout')
 @section('content')
 
 <script>
@@ -15,12 +15,12 @@
 		$jumlah =[];
 		$.ajax({
 			type: 'GET',
-			url: "{{URL('user/jenis_kegiatan')}}",			
+			url: "{{URL('admin/jenis_kegiatan')}}",			
 			success: function(response){
 				$daftar_jenis_kegiatan = response;
 				$.ajax({
 					type: 'GET',
-					url: "{{URL('user/reporting/search_kebaktian/')}}"+'/'+$from+'/'+$to+'/'+$jenis,			
+					url: "{{URL('admin/reporting/search_kebaktian/')}}"+'/'+$from+'/'+$to+'/'+$jenis,			
 					success: function(response){
 						$arr_kegiatan = [];
 						$jenis_kegiatan = 0;
@@ -127,6 +127,7 @@
 							},
 							series: $arr_kegiatan
 						});
+						
 						//END LOADER				
 						$('.f_loader_container').addClass('hidden');
 					},
@@ -257,12 +258,12 @@
 		
 		$.ajax({
 			type: 'GET',
-			url: "{{URL('user/jenis_kegiatan')}}",			
+			url: "{{URL('admin/jenis_kegiatan')}}",			
 			success: function(response){
 				$daftar_jenis_kegiatan = response;
 				$.ajax({
 					type: 'GET',
-					url: "{{URL('user/reporting/search_kebaktian/')}}"+'/'+$from+'/'+$to+'/'+$jenis,			
+					url: "{{URL('admin/reporting/search_kebaktian/')}}"+'/'+$from+'/'+$to+'/'+$jenis,			
 					success: function(response){
 						$arr_kegiatan = [];
 						$jenis_kegiatan = 0;

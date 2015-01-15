@@ -435,7 +435,7 @@
 	$('body').on('click', '.detailButton', function(){
 	
 		//START LOADER				
-		$('.f_loader_container').removeClass('hidden');
+		// $('.f_loader_container').removeClass('hidden');
 		
 		/*
 		//get list pendeta sesuai gereja

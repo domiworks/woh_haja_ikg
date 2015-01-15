@@ -67,19 +67,19 @@ $(document).ready(function(){
 									Nama Jemaat
 								</label>
 								<div class="col-xs-4">
-									<input type="text" class="form-control" id="f_nama_jemaat"  />
+									<!--<input type="text" class="form-control" id="f_nama_jemaat"  />-->
 									
-									<!--if($list_jemaat == null)
-									<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
-									else								
-									{{--Form::select('nama_jemaat', $list_jemaat, Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))--}}
-									endif-->
+									@if($list_jemaat == null)
+										<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
+									@else								
+										{{Form::select('nama_jemaat', $list_jemaat, Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))}}
+									@endif
 								</div>
 								<div class="col-xs-0">
 									*
 								</div>
 								<!-- start search table -->
-								<table class="table table-bordered table-striped">
+								<!--<table class="table table-bordered table-striped">
 									<thead>
 									</thead>
 									<tbody class="f_table_search" id="searchContent">
@@ -88,7 +88,7 @@ $(document).ready(function(){
 											background-color: #E8CD02 !important;
 										</style>
 									</tbody>
-								</table>
+								</table>-->
 								<!-- end search table -->
 							</div>		
 							<div class="form-group">
@@ -126,6 +126,7 @@ $(document).ready(function(){
 	/*
 		COBA LIVE SEARCH ANGGOTA
 	*/
+	/*
 	$('body').on('keyup','#f_nama_jemaat', function(){
 		$keyword = $('#f_nama_jemaat').val();
 		$data = {
@@ -153,7 +154,7 @@ $(document).ready(function(){
 				{
 					alert('internal error');
 				}
-				/*
+				
 				if(response['code'] == '404') //gagal
 				{
 					alert('not found');
@@ -180,7 +181,7 @@ $(document).ready(function(){
 					// });
 					// $('#searchContent').html($data);
 				}
-				*/
+				
 			},
 			error: function(xhr, textStatus, errorThrown){
 				alert("readyState: "+xhr.readyState+"\nstatus: "+xhr.status);
@@ -188,10 +189,12 @@ $(document).ready(function(){
 			}
 		},'json');
 	});
-		
+	*/
+	/*	
 	$('body').on('click','.search_row',function(){
 		
 	});
+	*/
 	
 	$('body').on('click', '#f_post_dkh', function(){
 		//SHOW POP UP CONFIRM KEBAKTIAN			

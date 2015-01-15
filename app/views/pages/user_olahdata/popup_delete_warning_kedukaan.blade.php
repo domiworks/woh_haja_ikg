@@ -80,16 +80,18 @@
 										result+=temp_detail[$i]['tanggal_meninggal'];
 									result+='</td>';
 									result+='<td>';
-										result+='<input type="hidden" value='+$i+' />';
-										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-										result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kedukaan">';
-											result+='Detail/Edit';
-										result+='</button>';
-										result+='<input type="hidden" value='+$i+' />';
-										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-										result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kedukaan">';
-											result+='Delete';
-										result+='</button>';
+										result+='<div class="pull-right">';
+											result+='<input type="hidden" value='+$i+' />';
+											result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+											result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_kedukaan">';
+												result+='Detail/Edit';
+											result+='</button>';
+											result+='<input type="hidden" value='+$i+' />';
+											result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+											result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_kedukaan">';
+												result+='Delete';
+											result+='</button>';
+										result+='</div>';	
 									result+='</td>';
 								result+='</tr>';	
 							}

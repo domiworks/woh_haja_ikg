@@ -175,16 +175,18 @@ $('body').on('click', '#f_search_dkh', function(){
 								result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
 							result+='</td>';
 							result+='<td>';
-								result+='<input type="hidden" value='+$i+' />';
-								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_dkh">';
-									result+='Detail/Edit';
-								result+='</button>';
-								result+='<input type="hidden" value='+$i+' />';
-								result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-								result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_dkh">';
-									result+='Delete';
-								result+='</button>';
+								result+='<div class="pull-right">';
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+									result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_dkh">';
+										result+='Detail/Edit';
+									result+='</button>';
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+									result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_dkh">';
+										result+='Delete';
+									result+='</button>';
+								result+='</div>';	
 							result+='</td>';
 						result+='</tr>';						
 					}

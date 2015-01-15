@@ -412,17 +412,19 @@ $('body').on('click', '#f_search_anggota', function(){
 								}
 							result+='</td>';
 							result+='<td>';
-								result+='<input type="hidden" value='+$i+' />';
-								result+='<input type="hidden" value='+temp_detail[$i]['id_anggota']+' />';
-								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_anggota">';
-									result+='Detail/Edit';
-								result+='</button>';
-								result+='<input type="hidden" value='+$i+' />';
-								result+='<input type="hidden" value='+temp_detail[$i]['id_anggota']+' />';
-								result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_anggota">';
-									result+='Delete';
-								result+='</button>';
-							result+='</td>';
+								result+='<div class="pull-right">';
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+temp_detail[$i]['id_anggota']+' />';
+									result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_anggota">';
+										result+='Detail/Edit';
+									result+='</button>';
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+temp_detail[$i]['id_anggota']+' />';
+									result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_anggota">';
+										result+='Delete';
+									result+='</button>';
+								result+='</div>';	
+							result+='</td>';							
 						result+='</tr>';							
 					
 					}

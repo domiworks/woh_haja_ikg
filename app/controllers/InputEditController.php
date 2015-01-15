@@ -563,7 +563,8 @@ class InputEditController extends BaseController {
 	}
 		
 	public function postAtestasi()
-	{	
+	{			
+		
 		$json_data = Input::get('json_data');
 		$input = json_decode($json_data);
 		
@@ -591,16 +592,16 @@ class InputEditController extends BaseController {
 		/*
 			VALIDATE DUPLICATE DATA
 				no_atestasi
-		*/
+		*/		
 		$duplicate = Atestasi::where('deleted', '=', 0)
-					->where('no_atestasi', '=', trim($input->{'no_atestasi'}))				
-					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->where('no_atestasi', '=', trim($input->{'no_atestasi'}))					
 					->first();
 		if(count($duplicate))
 		{
 			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
 			return json_encode($respond);
 		}
+		
 		
 		$atestasi = new Atestasi();
 		$atestasi->no_atestasi = trim($input->{'no_atestasi'});
@@ -628,6 +629,8 @@ class InputEditController extends BaseController {
 			$atestasi->id_gereja_baru = $input->{'id_gereja_baru'};
 		}				
 		
+		
+			
 		try{
 			$atestasi->save();	
 			
@@ -677,7 +680,7 @@ class InputEditController extends BaseController {
 			
 			*/
 		}catch(Exception $e){
-			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data kebaktian');
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data atestasi.');
 			return json_encode($respond);
 			// return "Gagal menyimpan data atestasi.";
 		}
@@ -877,8 +880,7 @@ class InputEditController extends BaseController {
 				no_dkh
 		*/
 		$duplicate = Dkh::where('deleted', '=', 0)
-					->where('no_dkh', '=', trim($input->{'no_dkh'}))					
-					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->where('no_dkh', '=', trim($input->{'no_dkh'}))										
 					->first();
 		if(count($duplicate))
 		{

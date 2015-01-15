@@ -453,7 +453,7 @@ $('body').on('click', '.visibleButton', function(){
 $('body').on('click', '.detailButton', function(){
 	
 	//START LOADER				
-	$('.f_loader_container').removeClass('hidden');
+	// $('.f_loader_container').removeClass('hidden');
 	
 	/*	
 	//get list pendeta sesuai gereja
@@ -510,9 +510,8 @@ $('body').on('click', '.detailButton', function(){
 	temp = $(this).prev().prev().val();
 	
 	//set value di table pop up detail
-	$('#f_edit_nomor_atestasi').val(temp_detail[$index]['no_atestasi']);
-	/*f_edit_jemaat dipindah ke ajax success*/
-	// $('#f_edit_jemaat').val(temp_detail[$index]['id_anggota']);
+	$('#f_edit_nomor_atestasi').val(temp_detail[$index]['no_atestasi']);	
+	$('#f_edit_jemaat').val(temp_detail[$index]['id_anggota']);
 	$('#f_edit_tanggal_atestasi').val(temp_detail[$index]['tanggal_atestasi']);
 	$('#f_edit_jenis_atestasi').val(temp_detail[$index]['id_jenis_atestasi']);
 	if(temp_detail[$index]['id_gereja_lama'] == null)

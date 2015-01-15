@@ -1,4 +1,4 @@
-@extends('layouts.user_layout')
+@extends('layouts.admin_layout')
 @section('content')
 
 <script>
@@ -15,12 +15,12 @@
 		$jumlah =[];
 		$.ajax({
 			type: 'GET',
-			url: "{{URL('user/jenis_kegiatan')}}",			
+			url: "{{URL('admin/jenis_kegiatan')}}",			
 			success: function(response){
 				$daftar_jenis_kegiatan = response;
 				$.ajax({
 					type: 'GET',
-					url: "{{URL('user/reporting/search_kebaktian/')}}"+'/'+$from+'/'+$to+'/'+$jenis,			
+					url: "{{URL('admin/reporting/search_kebaktian/')}}"+'/'+$from+'/'+$to+'/'+$jenis,			
 					success: function(response){
 						$arr_kegiatan = [];
 						$jenis_kegiatan = 0;
@@ -127,6 +127,7 @@
 							},
 							series: $arr_kegiatan
 						});
+						
 						//END LOADER				
 						$('.f_loader_container').addClass('hidden');
 					},
@@ -257,12 +258,12 @@
 		
 		$.ajax({
 			type: 'GET',
-			url: "{{URL('user/jenis_kegiatan')}}",			
+			url: "{{URL('admin/jenis_kegiatan')}}",			
 			success: function(response){
 				$daftar_jenis_kegiatan = response;
 				$.ajax({
 					type: 'GET',
-					url: "{{URL('user/reporting/search_kebaktian/')}}"+'/'+$from+'/'+$to+'/'+$jenis,			
+					url: "{{URL('admin/reporting/search_kebaktian/')}}"+'/'+$from+'/'+$to+'/'+$jenis,			
 					success: function(response){
 						$arr_kegiatan = [];
 						$jenis_kegiatan = 0;
@@ -271,7 +272,7 @@
 							$jenis_kegiatan = $(this)[0].id;
 							$.each(response,function(){
 								if($(this)[0].id_jenis_kegiatan == $jenis_kegiatan){
-									$temp.push($(this)[0].banyak_jemaat_pria+$(this)[0].banyak_jemaat_wanita+$(this)[0].banyak_jemaat+$(this)[0].banyak_simpatisan_pria+$(this)[0].banyak_simpatisan_wanita+$(this)[0].banyak_simpatisan+$(this)[0].banyak_penatua_pria+$(this)[0].banyak_penatua_wanita+$(this)[0].banyak_penatua+$(this)[0].banyak_pemusik_pria+$(this)[0].banyak_pemusik_wanita+$(this)[0].banyak_pemusik+$(this)[0].banyak_komisi_pria+$(this)[0].banyak_komisi_wanita)+$(this)[0].banyak_komisi;
+									$temp.push($(this)[0].banyak_jemaat_pria+$(this)[0].banyak_jemaat_wanita+$(this)[0].banyak_simpatisan_pria+$(this)[0].banyak_simpatisan_wanita+$(this)[0].banyak_penatua_pria+$(this)[0].banyak_penatua_wanita+$(this)[0].banyak_pemusik_pria+$(this)[0].banyak_pemusik_wanita+$(this)[0].banyak_komisi_pria+$(this)[0].banyak_komisi_wanita);
 								}
 							});
 							//$arr_kegiatan.push($temp);

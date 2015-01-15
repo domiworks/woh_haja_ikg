@@ -46,7 +46,7 @@
 				if(result.code==201)
 				{
 					alert(result.messages);
-					// window.location = '{{URL::route('view_inputdata_dkh')}}';
+					// window.location = '{{--URL::route('view_inputdata_dkh')--}}';
 					location.reload();
 				}
 				else

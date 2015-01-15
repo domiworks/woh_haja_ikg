@@ -4,6 +4,13 @@ use Carbon\Carbon;
 
 class ReportingController extends BaseController {
 
+	public function admin_view_reporting()
+	{	
+		$header = $this->setHeader();
+		return View::make('pages.admin_reporting',
+				compact('header'));	
+	}
+	
 	public function view_reporting()
 	{			
 		$header = $this->setHeader();

@@ -97,7 +97,6 @@
 					</div>
 					<div class="panel-body">
 						<form class="form-horizontal">
-
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Nomor Piagam Atestasi

@@ -7,6 +7,7 @@ $(document).ready(function(){
 	//END LOADER				
 	$('.f_loader_container').addClass('hidden');
 	
+});	
 </script>				
 
 
@@ -53,7 +54,7 @@ $(document).ready(function(){
 							<div class="form-group">
 
 								<label class="col-xs-4 control-label">
-									Nomor anggota
+									Nomor Anggota
 								</label>
 
 								<div class="col-xs-3">
@@ -62,7 +63,7 @@ $(document).ready(function(){
 							</div>	
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
-									Nama depan
+									Nama Depan
 								</label>
 
 								<div class="col-xs-4">
@@ -77,7 +78,7 @@ $(document).ready(function(){
 							</div>				
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
-									Nama tengah
+									Nama Tengah
 								</label>
 
 								<div class="col-xs-4">
@@ -87,7 +88,7 @@ $(document).ready(function(){
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
-									Nama belakang
+									Nama Belakang
 								</label>
 								
 								<div class="col-xs-4">
@@ -154,7 +155,7 @@ $(document).ready(function(){
 							</div>
 							<div class="form-group">		
 								<label class="col-xs-4 control-label">
-									Jenis kelamin
+									Jenis Kelamin
 								</label>
 								<div class="col-xs-2">
 									{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria 
@@ -181,7 +182,7 @@ $(document).ready(function(){
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
-									Golongan darah
+									Golongan Darah
 								</label>
 
 								<div class="col-xs-2">
@@ -239,7 +240,7 @@ $(document).ready(function(){
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
-									Kota lahir
+									Kota Lahir
 								</label>
 
 								<div class="col-xs-3">
@@ -251,7 +252,7 @@ $(document).ready(function(){
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
-									Tanggal lahir
+									Tanggal Lahir
 								</label>
 
 								<div class="col-xs-2">

@@ -53,7 +53,7 @@
 					<div class="panel-body">						
 						<form class="form-horizontal">	
 							<div class="form-group">
-								<label class="col-xs-4 control-label">Nomor anggota</label> 
+								<label class="col-xs-4 control-label">Nomor Anggota</label> 
 								<div class="col-xs-3">
 									{{ Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_nomor_anggota', 'class'=>'form-control')) }}
 								</div>
@@ -81,7 +81,7 @@
 								</div>						
 							</div>		
 							<div class="form-group">		
-								<label class="col-xs-4 control-label">Jenis kelamin</label> 				
+								<label class="col-xs-4 control-label">Jenis Kelamin</label> 				
 								<div class="col-xs-2">
 									<?php
 										$list_gender = array();
@@ -107,7 +107,7 @@
 								</div>						
 							</div>
 							<div class="form-group">
-								<label class="col-xs-4 control-label">Golongan darah</label> 
+								<label class="col-xs-4 control-label">Golongan Darah</label> 
 								<div class="col-xs-2">
 									<!--<select name="gol_darah" id="f_gol_darah" class="form-control">
 										<option>bla</option>

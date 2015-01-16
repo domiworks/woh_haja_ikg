@@ -72,6 +72,7 @@ class ReportingController extends BaseController {
 		}
 		
 	}
+	
 		
 }
 

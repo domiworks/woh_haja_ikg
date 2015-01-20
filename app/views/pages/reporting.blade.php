@@ -234,6 +234,7 @@
 
 	//lihat grafik / generate grafik 
 	$('body').on('click', '#f_lihat_grafik', function(){
+		$('.f_loader_container').removeClass('hidden');
 		// get tanggal
 		$from = $('#f_tanggal_awal').val();
 		$to = $('#f_tanggal_akhir').val();
@@ -259,11 +260,13 @@
 			type: 'GET',
 			url: "{{URL('user/jenis_kegiatan')}}",			
 			success: function(response){
+				$('.f_loader_container').addClass('hidden');
 				$daftar_jenis_kegiatan = response;
 				$.ajax({
 					type: 'GET',
 					url: "{{URL('user/reporting/search_kebaktian/')}}"+'/'+$from+'/'+$to+'/'+$jenis,			
 					success: function(response){
+						
 						$arr_kegiatan = [];
 						$jenis_kegiatan = 0;
 						$temp = [];
@@ -336,6 +339,10 @@
 							}
 							$arr_tanggal[$i] = $arr[2]+'<br/>'+$arr[1]+'<br/>'+$arr[0];
 						}
+						
+						
+						
+						
 						$('#container_graph').highcharts({
 							title: {
 								text: 'Laporan Kehadiran Gereja',
@@ -370,6 +377,8 @@
 							},
 							series: $arr_kegiatan
 						});
+						
+						
 					},
 					error: function(jqXHR, textStatus, errorThrown){
 						alert('error');

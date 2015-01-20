@@ -62,6 +62,7 @@
 	});
 	
 	$('body').on('change','#excel_import',function(){
+		$('.f_loader_container').removeClass('hidden');
 		$excel = '';
 		//get file
 		var i = 0, len = this.files.length, img, reader, file;
@@ -76,12 +77,13 @@
 		$formData.append('excel_file',$excel);
 		$.ajax({
 			type: 'POST',
-			url: "{{URL('user/import_kegiatan')}}/"+2,
+			url: "{{URL('user/import_kegiatan')}}/"+{{$header['id_gereja']}},
 			data: $formData,
 			processData:false,
 			contentType:false,
 			success: function(response){
 				alert(response);
+				$('.f_loader_container').addClass('hidden');
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert('error');

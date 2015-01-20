@@ -42,7 +42,7 @@
 					alert(result.messages);					
 										
 					//remove row
-					temp_detail[temp] = 'remove';					
+					temp_detail[temp] = 'remove';										
 										
 					//gambar ulang tabel
 					var result = '';	
@@ -67,8 +67,8 @@
 						//set value di tabel result
 						for($i = 0; $i < temp_detail.length; $i++)
 						{
-							if(temp_detail[temp] != 'remove')
-							{
+							if(temp_detail[$i] != 'remove')							
+							{								
 								result+= '<tr class="tabel_row'+$i+'">';
 									result+='<td class="tabel_no_kedukaan'+$i+'">';
 										result+=temp_detail[$i]['no_kedukaan'];								
@@ -99,7 +99,8 @@
 						result += '</tbody>';
 					result += '</table>';
 										
-					$('#f_result_kedukaan').html(result);								
+					$('#f_result_kedukaan').html(result);
+					
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');					
 				}

@@ -967,7 +967,37 @@ class OlahDataController extends BaseController {
 		}
 		else
 		{		
-		
+			/*
+				VALIDATE DUPLICATE DATA
+					nama_jenis_kegiatan
+					id_gereja
+					tanggal_mulai
+					tanggal_selesai
+					
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data	
+			*/
+			if($kebaktian->nama_jenis_kegiatan == $input->{'nama_jenis_kegiatan'} &&
+				$kebaktian->tanggal_mulai == $input->{'tanggal_mulai'} &&
+				$kebaktian->tanggal_selesai == $input->{'tanggal_selesai'} &&
+				$kebaktian->id_gereja == Auth::user()->id_gereja)
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Kegiatan::where('deleted', '=', 0)
+					->where('nama_jenis_kegiatan', '=', $input->{'nama_jenis_kegiatan'})
+					->where('tanggal_mulai', '=', $input->{'tanggal_mulai'})
+					->where('tanggal_selesai', '=', $input->{'tanggal_selesai'})
+					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}
+			}
+			
 			if($input->{'id_jenis_kegiatan'} == '')
 			{
 				$kebaktian->id_jenis_kegiatan = null;
@@ -1096,7 +1126,64 @@ class OlahDataController extends BaseController {
 			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan perubahan.');
 			return json_encode($respond);
 			// return "Gagal menyimpan perubahan.";
-		}		
+		}	
+
+		/*
+			VALIDATE DUPLICATE DATA				
+				nama_depan
+				nama_tengah
+				nama_belakang
+				id_gereja
+			
+			NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data	
+			
+			VALIDATE WITH CASE SENSITIVE
+				Invite::where(DB::raw('BINARY `token`'), $token)->first();	
+		*/	
+		if($anggota->nama_depan == Input::get('nama_depan') &&
+			$anggota->nama_tengah == Input::get('nama_tengah') &&
+			$anggota->nama_belakang == Input::get('nama_belakang') &&
+			$anggota->id_gereja == Auth::user()->id_gereja)
+		{
+			//ga masuk validate duplicate data
+		}
+		else
+		{
+			$duplicate = Anggota::where('deleted', '=', 0)
+					->where('nama_depan', '=', Input::get('nama_depan'))
+					->where('nama_tengah', '=', Input::get('nama_tengah'))
+					->where('nama_belakang', '=', Input::get('nama_belakang'))
+					->where('id_gereja', '=', Auth::user()->id_gereja)
+					->first();
+			if(count($duplicate))
+			{
+				$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+				return json_encode($respond);
+			}
+		}
+		
+		/*
+			VALIDATE UNIQUE NO_ANGGOTA
+			NOTE: unique di validator laravel bersifat 'NOT CASE SENSITIVE'
+			
+			NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data	
+		*/
+		if($anggota->no_anggota == Input::get('no_anggota'))
+		{
+			//ga masuk validate duplicate data
+		}
+		else
+		{
+			$validator = Validator::make(
+				array('no_anggota' => Input::get('no_anggota')),
+				array('no_anggota' => array('unique:anggota,no_anggota'))
+			);
+			if($validator->fails())
+			{
+				$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data nomor anggota. Data nomor anggota yang dimasukkan sudah ada.');
+				return json_encode($respond);
+			}
+		}
 		
 		$anggota->no_anggota = trim(Input::get('no_anggota'));
 		$anggota->nama_depan = trim(Input::get('nama_depan'));
@@ -1434,7 +1521,31 @@ class OlahDataController extends BaseController {
 			// return "Gagal menyimpan perubahan.";
 		}
 		else
-		{				
+		{		
+			/*
+				VALIDATE DUPLICATE DATA
+					no_baptis	
+
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data			
+			*/
+			if($baptis->no_baptis == $input->{'no_baptis'} &&
+				$baptis->id_gereja == Auth::user()->id_gereja)
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Baptis::where('deleted', '=', 0)
+						->where('no_baptis', '=', $input->{'no_baptis'})
+						->where('id_gereja', '=', Auth::user()->id_gereja)
+						->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}
+			}
+			
 			$baptis->no_baptis = trim($input->{'no_baptis'});				
 			$baptis->id_jemaat = $input->{'id_jemaat'};
 			$baptis->id_pendeta = $input->{'id_pendeta'};
@@ -1500,6 +1611,27 @@ class OlahDataController extends BaseController {
 		}
 		else
 		{
+			/*
+				VALIDATE DUPLICATE DATA
+					no_atestasi
+					
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data		
+			*/
+			if($atestasi->no_atestasi == $input->{'no_atestasi'})
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Atestasi::where('deleted', '=', 0)
+						->where('no_atestasi', '=', $input->{'no_atestasi'})										
+						->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}	
+			}
 				
 			$atestasi->no_atestasi = trim($input->{'no_atestasi'});
 			$atestasi->tanggal_atestasi = $input->{'tanggal_atestasi'};
@@ -1580,6 +1712,30 @@ class OlahDataController extends BaseController {
 		}
 		else
 		{	
+			/*
+				VALIDATE DUPLICATE DATA
+					no_pernikahan	
+
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data
+			*/
+			if($pernikahan->no_pernikahan == $input->{'no_pernikahan'} &&
+				$pernikahan->id_gereja == Auth::user()->id_gereja)
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Pernikahan::where('deleted', '=', 0)
+						->where('no_pernikahan', '=', trim($input->{'no_pernikahan'}))					
+						->where('id_gereja', '=', Auth::user()->id_gereja)
+						->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}
+			}
+			
 			$pernikahan->no_pernikahan = trim($input->{'no_pernikahan'});
 			$pernikahan->tanggal_pernikahan = $input->{'tanggal_pernikahan'};
 			$pernikahan->id_pendeta = $input->{'id_pendeta'};			
@@ -1646,6 +1802,30 @@ class OlahDataController extends BaseController {
 		}
 		else
 		{
+			/*
+				VALIDATE DUPLICATE DATA
+					no_kedukaan				
+					
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data	
+			*/
+			if($duka->no_kedukaan == $input->{'no_kedukaan'} &&
+				$duka->id_gereja == Auth::user()->id_gereja)
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Kedukaan::where('deleted', '=', 0)
+						->where('no_kedukaan', '=', $input->{'no_kedukaan'})					
+						->where('id_gereja', '=', Auth::user()->id_gereja)
+						->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}
+			}
+			
 			$duka->no_kedukaan = trim($input->{'no_kedukaan'});								
 			$duka->keterangan = $input->{'keterangan'};
 			
@@ -1731,7 +1911,29 @@ class OlahDataController extends BaseController {
 			// return "Gagal menyimpan perubahan.";
 		}
 		else
-		{				
+		{			
+			/*
+				VALIDATE DUPLICATE DATA
+					no_dkh
+					
+				NOTE: cek dulu data field" nya kalau sama dengan data sebelum diedit maka ga masuk validate duplicate data	
+			*/
+			if($dkh->no_dkh == $input->{'no_dkh'})				
+			{
+				//ga masuk validate duplicate data
+			}
+			else
+			{
+				$duplicate = Dkh::where('deleted', '=', 0)
+						->where('no_dkh', '=', trim($input->{'no_dkh'}))											
+						->first();
+				if(count($duplicate))
+				{
+					$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
+					return json_encode($respond);
+				}
+			}
+			
 			$dkh->no_dkh = trim($input->{'no_dkh'});				
 			// $dkh->id_jemaat = $input->{'id_jemaat'};
 			$dkh->keterangan = $input->{'keterangan'};			

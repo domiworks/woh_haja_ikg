@@ -342,7 +342,7 @@ $('body').on('click', '#f_search_kedukaan', function(){
 		
 		$.ajax({
 			type: 'GET',
-			url: "{{URL('user/detail_kedukaan')}}",
+			url: "{{--URL('user/detail_kedukaan')--}}",
 			data : {
 				'data' : $data
 			},

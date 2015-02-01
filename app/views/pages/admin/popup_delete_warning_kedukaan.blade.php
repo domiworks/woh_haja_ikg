@@ -70,7 +70,7 @@
 						//set value di tabel result
 						for($i = 0; $i < temp_detail.length; $i++)
 						{
-							if(temp_detail[temp] != 'remove')
+							if(temp_detail[$i] != 'remove')
 							{
 								result+= '<tr class="tabel_row'+$i+'">';
 									result+='<td class="tabel_no_kedukaan'+$i+'">';

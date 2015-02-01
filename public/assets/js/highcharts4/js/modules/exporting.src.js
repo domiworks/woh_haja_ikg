@@ -381,7 +381,7 @@ extend(Chart.prototype, {
 		}
 
 		chart.isPrinting = true;
-
+	
 		// hide all body content
 		each(childNodes, function (node, i) {
 			if (node.nodeType === 1) {
@@ -409,9 +409,9 @@ extend(Chart.prototype, {
 					node.style.display = origDisplay[i];
 				}
 			});
-
 			chart.isPrinting = false;
-
+			$(window).resize();
+			
 		}, 1000);
 
 	},
@@ -679,6 +679,8 @@ extend(Chart.prototype, {
 			// Destroy the div by moving to garbage bin
 			discardElement(elem);
 		}
+		
+		
 	}
 });
 

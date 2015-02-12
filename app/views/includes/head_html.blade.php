@@ -24,5 +24,5 @@
 
 		
 		<script src="{{ asset('assets/js/highcharts4/js/highcharts.js') }}"></script>
-		<script src="{{ asset('assets/js/highcharts4/js/modules/exporting.js') }}"></script>
+		<script src="{{ asset('assets/js/highcharts4/js/modules/exporting.src.js') }}"></script>
 		

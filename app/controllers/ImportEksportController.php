@@ -7927,11 +7927,11 @@ class ImportEksportController extends BaseController {
 		
 	}
 	
-	public function export_kegiatan($id_jenis_kegiatan=0,$id_gereja=0,$dateF=0,$dateT=0){
+	public function export_kegiatan($id_jenis_kegiatan=0,$id_gereja=0){
 	
 		$kegiatan = new Kegiatan();
 		
-		$where ='';
+		/*$where ='';
 		if($id_jenis_kegiatan != 0){
 			$where.='id_jenis_kegiatan = '.$id_jenis_kegiatan;
 		}
@@ -7944,23 +7944,25 @@ class ImportEksportController extends BaseController {
 				$where.=' and id_gereja = '.$id_gereja;
 			}
 			
-		}
+		}*/
 
-		if($dateF != 0 || $dateT=0){
+		/*if($dateF != 0 || $dateT=0){
 			if($where==''){
 				$where.='tanggal_mulai >= "'.$dateF.'" and tanggal_selesai <= "'.$dateTo.'"';
 			}
 			else{
 				$where.=' and tanggal_mulai >= "'.$dateF.'" and tanggal_selesai <= "'.$dateTo.'"';
 			}
-		}
+		}*/
 		
-		if($where!=''){
+		/*if($where!=''){
 			$result = $kegiatan->whereRaw($where)->orderBy('tanggal_mulai')->orderBy('id_jenis_kegiatan')->get();
 		}
 		else{
-			$result = $kegiatan->all();
-		}
+			$result = $kegiatan->where('id_gereja','=',$id_gereja)->all();
+		}*/
+		
+		$result = $kegiatan->where('id_gereja','=',$id_gereja)->get();
 		
 		$arr = array();
 		
@@ -7979,36 +7981,296 @@ class ImportEksportController extends BaseController {
 		
 		// create excel
 		try{
+			//inisialisasi
+			$data = array();
+			$tahun_pelayanan = '2010-2011';
+			$alamat = 'GKI Ayudia 10, Bandung';
 			
-			$nama_gereja = array('LAPORAN BULANAN LKKJ GKI SW JABAR','','','','','','','','','','','','','','','');
-			$pelayanan_gereja = array('Tahun Pelayanan: 2010-2011','','','','','','','','','','','','','','','');
-			$alamat_gereja = array('Jl. HOS. Cokroaminoto 55 Cianjur','','','','','','','','','','','','','','','');
-			$blank = array('','','','','','','','','','','','','','','','');
+			//setting header
+			$nama_gereja = array('LAPORAN BULANAN LKKJ GKI SW JABAR','','','','','','','','','','','','','','','','','','','','Form:A');
+			$pelayanan_gereja = array('Tahun Pelayanan: '.$tahun_pelayanan,'','','','','','','','','','','','','','','','','','','','');
+			$alamat_gereja = array('Jemaat GKI: '.$alamat,'','','','','','','','','','','','','','','','','','','','');
+			$blank = array('','','','','','','','','','','','','','','','','','','','','');
 			
-			$header = array('Tanggal','Nama Kegiatan','Jemaat Pria','Jemaat Wanita','Total Jemaat','Simpatisan Pria','Simpatisan Wanita','Total Simpatisan','Penatua Pria','Penatua Wanita','Total Penatua','Pemusik Pria','Pemusik Wanita','Total Pemusik','Komisi Pria','Komisi Wanita','Total Komisi');
-			$data = array(
-				$nama_gereja,
-				$pelayanan_gereja,
-				$alamat_gereja,
-				$blank,
-				$header
+			$bulan = 1;
+			
+			$tahun = 2015;
+			
+			//setting header table
+			$header1 = array('Minggu Tanggal','Jumlah Anggota Jemaat Dewasa Terdaftar','','','Jenis Kebaktian','JUMLAH KEHADIRAN DALAM KEBAKTIAN MINGGU','','','','','','','','','','','','','','','TOTAL Angg + Simp');
+			$header2 = array('','','','','','Anggota Jemaat','','','Simpatisan **','','','Penatua','','','Pemusik Gerejawi','','','Sub-Total Anggota','','','');
+			$header3 = array('','Pria','Wnt','Jml','','Pria','Wnt','Jml','Pria','Wnt','Jml','Pria','Wnt','Jml','Pria','Wnt','Jml','Pria','Wnt','Jml','');
+			
+			//footer
+			
+			$footer1 = array('','','','','','','','','','','','','','','','','','','','','');
+			$footer2 = array('Catatan:','','','','','','','','','','','','','','','','','','','','');
+			$footer3 = array('Pos Jem* : Total kehadiran di semua Pos. Jemaat yang ada ','','','','','','','','','','Diperiksa Oleh,','','','','','a.n. MJ '.$alamat,'','','','','');
+			$footer4 = array('','','','','','','','','','','','','','','','','','','','','');
+			$footer5 = array('','','','','','','','','','','','','','','','','','','','','');
+			$footer6 = array('','','','','','','','','','','','','','','','','','','','','');
+			$footer7 = array('','','','','','','','','','','.....................................','','','','.....................................','','','','','.....................................','');
+			$footer8 = array('','','','','','','','','','','PIC LKKJ','','','','Ketua Umum','','','','','Sek. Umum','');
+			$footer9 = array('','','','','','','','','','','','','','','','','','','','','');
+			$footer10 = array('','','','','','','','','','','','','','','','','','','','','');
+			
+			//array for styling
+			$array_header = array();
+			$array_data = array();
+			
+			
+			$counter_bulan = 0;
+			$counter_data = 0;
+			for($i = 0; $i<10;$i++){
+				$counter_bulan++;
+				array_push($array_header,$counter_bulan);
 				
-			);
-			
-			foreach($arr as $key){
-				array_push($data,$key);
+				$counter_bulan+=8;
+				
+				
+				
+				$title = array('1. Data Kehadiran Kebaktian Minggu.','','','','','','','','','','','','','','','','','',$this->getMonthFromNumber($bulan),'',$tahun);
+				
+				//generate table data
+				for($j=0;$j<5;$j++){
+					$counter_bulan++;
+					$counter_data++;
+				}
+				array_push($array_data,$counter_data);
+				
+				$counter_data = 0;
+				$counter_bulan+=10;
+				
+				$bulan++;
+				$tahun++;
+				array_push($data,$nama_gereja);
+				array_push($data,$pelayanan_gereja);
+				array_push($data,$alamat_gereja);
+				array_push($data,$blank);
+				array_push($data,$title);
+				array_push($data,$blank);
+				array_push($data,$header1);
+				array_push($data,$header2);
+				array_push($data,$header3);
+				
+				//input data start
+				//random data
+				array_push($data,$blank);
+				array_push($data,$blank);
+				array_push($data,$blank);
+				array_push($data,$blank);
+				array_push($data,$blank);
+				//end of random data
+				//input data end
+				array_push($data,$footer1);
+				array_push($data,$footer2);
+				array_push($data,$footer3);
+				array_push($data,$footer4);
+				array_push($data,$footer5);
+				array_push($data,$footer6);
+				array_push($data,$footer7);
+				array_push($data,$footer8);
+				array_push($data,$footer9);
+				array_push($data,$footer10);
+				
 			}
 			
-			Excel::create('LKKJTest', function($excel) use($data) {
+			/*foreach($arr as $key){
+				array_push($data,$key);
+			}*/
+			
+			Excel::create('LKKJTest', function($excel) use($data,$array_header,$array_data) {
 
-				$excel->sheet('Keb.Umum', function($sheet) use($data){
+				$excel->sheet('Keb.Umum', function($sheet) use($data,$array_header,$array_data){
 					
 					$sheet->fromArray($data, null, 'A1', true, false);
-					$sheet->mergeCells('A1:Q1');
-					$sheet->mergeCells('A2:Q2');
-					$sheet->mergeCells('A3:Q3');
+					$sheet->setAutoSize(true);
+					$counter = 0;
+					foreach($array_header as $key){
+						$jumlah_data = $array_data[$counter];
+						$counter++;
+						//header
+						$sheet->mergeCells('A'.($key).':T'.($key));
+						$sheet->setBorder('U'.$key, 'thick');
+						$sheet->cells('A'.($key).':T'.($key),function($cells){
+							$cells->setFont(array(
+								'family'     => 'Book Antiqua',
+								'size'       => '14',
+								'bold'       =>  true
+							));
+							$cells->setAlignment('center');
+						});
+						
+						$sheet->cells('U'.($key),function($cells){
+							$cells->setFont(array(
+								'family'     => 'Book Antiqua',
+								'size'       => '10',
+								'bold'       =>  true
+							));
+							$cells->setAlignment('center');
+						});
+						
+						
+						
+						
+						$sheet->mergeCells('A'.($key+1).':U'.($key+1));
+						$sheet->cells('A'.($key+1).':U'.($key+1),function($cells){
+							$cells->setFont(array(
+								'family'     => 'Book Antiqua',
+								'size'       => '12',
+								'bold'       =>  true
+							));
+							$cells->setAlignment('center');
+						});
+						$sheet->mergeCells('A'.($key+2).':U'.($key+2));
+						$sheet->cells('A'.($key+2).':U'.($key+2),function($cells){
+							$cells->setFont(array(
+								'family'     => 'Book Antiqua',
+								'size'       => '12',
+								'bold'       =>  true
+							));
+							$cells->setAlignment('center');
+						});
+						
+						//blank
+						$sheet->mergeCells('A'.($key+3).':U'.($key+3));
+						
+						//title
+						$sheet->mergeCells('A'.($key+4).':R'.($key+4));
+						
+						$sheet->cells('A'.($key+4).':R'.($key+4),function($cells){
+							$cells->setFont(array(
+								'family'     => 'Book Antiqua',
+								'size'       => '12',
+								'bold'       =>  true
+							));
+						});
+						
+						$sheet->mergeCells('S'.($key+4).':T'.($key+4));
+						
+						$sheet->setBorder('S'.($key+4).':U'.($key+4), 'thick');
+						
+						$sheet->cells('S'.($key+4).':U'.($key+4),function($cells) {
+							$cells->setAlignment('center');
+						});
+						
+						
+						//blank
+						$sheet->mergeCells('A'.($key+5).':U'.($key+5));
 					
-					$sheet->cells('A1:Q1',function($cells){
+						//table header start
+						
+						//minggu tanggal
+						$sheet->mergeCells('A'.($key+6).':A'.($key+8));
+						
+						//jumlah anggota
+						
+						$sheet->mergeCells('B'.($key+6).':D'.($key+7));
+						
+						//jenis kebaktian
+						$sheet->mergeCells('E'.($key+6).':E'.($key+8));
+						
+						//jumlah kehadiran
+						$sheet->mergeCells('F'.($key+6).':T'.($key+6));
+						//anggota jemaat
+						$sheet->mergeCells('F'.($key+7).':H'.($key+7));
+						//Simpatisan
+						$sheet->mergeCells('I'.($key+7).':K'.($key+7));
+						//penatua
+						$sheet->mergeCells('L'.($key+7).':N'.($key+7));
+						//pemusik
+						$sheet->mergeCells('O'.($key+7).':Q'.($key+7));
+						//Sub-Total
+						$sheet->mergeCells('R'.($key+7).':T'.($key+7));
+						
+						//total angg+simp
+						$sheet->mergeCells('U'.($key+6).':U'.($key+8));
+						
+						
+						
+						$sheet->cells('A'.($key+6).':U'.($key+8),function($cells) {
+							$cells->setFont(array(
+								'family'     => 'Book Antiqua',
+								'size'       => '9',
+								'bold'       =>  true
+							));
+							$cells->setAlignment('center');
+							$cells->setValignment('center');
+						});
+						
+						$sheet->setBorder('A'.($key+6).':U'.($key+8), 'thin');
+						
+						$sheet->setWidth(array(
+							'A'     =>  15,
+							'B'     =>  7.2,
+							'C'     =>  7.2,
+							'D'     =>  7.2,
+							'E'     =>  17,
+							'F'     =>  7.2,
+							'G'     =>  7.2,
+							'H'     =>  7.2,
+							'I'     =>  7.2,
+							'J'     =>  7.2,
+							'K'     =>  7.2,
+							'L'     =>  7.2,
+							'M'     =>  7.2,
+							'N'     =>  7.2,
+							'O'     =>  7.2,
+							'P'     =>  7.2,
+							'Q'     =>  7.2,
+							'R'     =>  7.2,
+							'S'     =>  7.,
+							'T'     =>  7.2,
+							'U'     =>  20.14
+						));
+						
+						
+						//data
+						
+						$sheet->setBorder('A'.($key+9).':U'.($key+9+$jumlah_data-1), 'thin');
+						
+						
+						//footer
+						//catatan
+						$sheet->mergeCells('A'.($key+9+$jumlah_data+2).':E'.($key+9+$jumlah_data+2));
+						
+						$sheet->mergeCells('K'.($key+9+$jumlah_data+2).':M'.($key+9+$jumlah_data+2));
+						
+						$sheet->mergeCells('P'.($key+9+$jumlah_data+2).':U'.($key+9+$jumlah_data+2));
+						
+						$sheet->cells('P'.($key+9+$jumlah_data+2).':U'.($key+9+$jumlah_data+2),function($cells) {
+							$cells->setAlignment('right');
+						});
+						
+						//tanda tangan
+						
+						$sheet->mergeCells('K'.($key+9+$jumlah_data+6).':M'.($key+9+$jumlah_data+6));
+						
+						$sheet->mergeCells('O'.($key+9+$jumlah_data+6).':R'.($key+9+$jumlah_data+6));
+						
+						$sheet->mergeCells('T'.($key+9+$jumlah_data+6).':U'.($key+9+$jumlah_data+6));
+						
+						$sheet->mergeCells('K'.($key+9+$jumlah_data+7).':M'.($key+9+$jumlah_data+7));
+						
+						$sheet->mergeCells('O'.($key+9+$jumlah_data+7).':R'.($key+9+$jumlah_data+7));
+						
+						$sheet->mergeCells('T'.($key+9+$jumlah_data+7).':U'.($key+9+$jumlah_data+7));
+						
+						$sheet->cells('K'.($key+9+$jumlah_data+6).':U'.($key+9+$jumlah_data+7),function($cells) {
+							$cells->setAlignment('center');
+						});
+						
+						$sheet->cells('K'.($key+9+$jumlah_data+6).':U'.($key+9+$jumlah_data+6),function($cells) {
+							$cells->setFont(array(
+								'underline' => true
+							));
+						});
+						
+						
+					}
+					
+					
+					/*$sheet->cells('A1:Q1',function($cells){
 						$cells->setFont(array(
 							'family'     => 'Calibri',
 							'size'       => '16',
@@ -8029,10 +8291,7 @@ class ImportEksportController extends BaseController {
 						$cells->setValignment('middle');
 					});
 					
-					$sheet->setBorder('A5:Q'.(count($data)), 'thin');
-					$sheet->setAutoSize(true);
-					
-
+					$sheet->setBorder('A5:Q'.(count($data)), 'thin');*/
 				});
 			})->export('xlsx');
 			//})->store('xlsx','assets/file_excel');
@@ -8368,10 +8627,25 @@ class ImportEksportController extends BaseController {
 		else{
 			return 'Gagal upload file';
 		}
-				
-		
-		
+	}
+	
+	private function getMonthFromNumber($month){
 
+		switch ($month) :
+			case  1: return 'Januari';
+			case  2: return 'Februari';
+			case  3: return 'Maret';
+			case  4: return 'April';
+			case  5: return 'Mei';
+			case  6: return 'Juni';
+			case  7: return 'Juli';
+			case  8: return 'Agustus';
+			case  9: return 'September';
+			case 10: return 'Oktober';
+			case 11: return 'November';
+			case 12: return 'Desember';
+				
+		endswitch;
 	}
 }
 

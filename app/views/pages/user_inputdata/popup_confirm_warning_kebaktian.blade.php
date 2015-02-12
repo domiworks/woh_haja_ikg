@@ -121,6 +121,10 @@
 				else
 				{
 					alert(result.messages);
+					
+					//show val_message
+					$('.val_message').removeClass('hidden');
+					
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');	
 				}				

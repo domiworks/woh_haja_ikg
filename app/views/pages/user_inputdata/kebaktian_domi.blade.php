@@ -116,8 +116,8 @@ $(document).ready(function(){
 									{{Form::text('nama_kebaktian', Input::old('nama_kebaktian') , array('id' => 'f_nama_kebaktian', 'disabled' => true , 'class'=>'form-control'))}}
 								</div>
 								<div class="col-xs-0">
-									*
-								</div>
+									* <span class="val_message hidden"><font color="red">Isi bagian ini !</font> </span>  
+								</div>								
 							</div>
 
 							<div class="form-group">
@@ -148,7 +148,7 @@ $(document).ready(function(){
 									{{Form::text('nama_pengkotbah', Input::old('nama_pengkotbah') , array('id' => 'f_nama_pengkotbah', 'disabled' => true , 'class'=>'form-control'))}} 
 								</div>
 								<div class="col-xs-0">
-									*
+									* <span class="val_message hidden"><font color="red">Isi bagian ini !</font> </span> 
 								</div>
 							</div>
 
@@ -162,7 +162,7 @@ $(document).ready(function(){
 									{{ Form::text('tanggal_selesai', Input::old('tanggal_selesai'), array('id' => 'f_tanggal_selesai', 'class'=>'form-control')) }} 
 								</div>
 								<div class="col-xs-0">
-									*
+									* <span class="val_message hidden"><font color="red">Isi bagian ini !</font> </span> 
 								</div>
 								
 							</div>
@@ -177,7 +177,7 @@ $(document).ready(function(){
 									{{ Form::text('jam_selesai', Input::old('jam_selesai'), array('id' => 'f_jam_selesai', 'class'=>'form-control')) }} 
 								</div>
 								<div class="col-xs-0">
-									*
+									* <span class="val_message hidden"><font color="red">Isi bagian ini !</font> </span> 
 								</div>
 							</div>	
 								
@@ -197,7 +197,7 @@ $(document).ready(function(){
 									{{Form::text('banyak_jemaat', Input::old('banyak_jemaat'), array('id'=>'f_banyak_jemaat', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
 								<div class="col-xs-0">
-									*
+									* <span class="val_message hidden"><font color="red">Isi bagian ini !</font> </span> 
 								</div>
 							</div>
 
@@ -222,7 +222,7 @@ $(document).ready(function(){
 									{{Form::text('banyak_simpatisan', Input::old('banyak_simpatisan'), array('id'=>'f_banyak_simpatisan', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
 								<div class="col-xs-0">
-									*
+									* <span class="val_message hidden"><font color="red">Isi bagian ini !</font> </span> 
 								</div>
 							</div>
 							<div class="form-group">
@@ -243,10 +243,10 @@ $(document).ready(function(){
 								</label>
 
 								<div class="col-xs-2">
-									{{Form::text('banyak_penatua', Input::old('banyak_penatua'), array('id'=>'f_banyak_penatua', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
+									{{Form::text('banyak_penatua', Input::old('banyak_penatua'), array('id'=>'f_banyak_penatua', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 									
 								</div>
 								<div class="col-xs-0">
-									*
+									* <span class="val_message hidden"><font color="red">Isi bagian ini !</font> </span> 
 								</div>
 							</div>
 							<div class="form-group">
@@ -269,7 +269,7 @@ $(document).ready(function(){
 									{{Form::text('banyak_pemusik', Input::old('banyak_pemusik'), array('id'=>'f_banyak_pemusik', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
 								<div class="col-xs-0">
-									*
+									* <span class="val_message hidden"><font color="red">Isi bagian ini !</font> </span> 
 								</div>
 							</div>
 							<div class="form-group">
@@ -293,7 +293,7 @@ $(document).ready(function(){
 									{{Form::text('banyak_komisi', Input::old('banyak_komisi'), array('id'=>'f_banyak_komisi', 'class'=>'form-control','onkeypress'=>'return isNumberKey(event)'))}} 
 								</div>
 								<div class="col-xs-0">
-									*
+									* <span class="val_message hidden"><font color="red">Isi bagian ini !</font> </span> 
 								</div>
 							</div>	
 
@@ -308,8 +308,8 @@ $(document).ready(function(){
 									</div>
 								</div>
 								<div class="col-xs-0">
-									*
-								</div>
+									* <span class="val_message hidden"><font color="red">Isi bagian ini !</font> </span> 
+								</div>								
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">

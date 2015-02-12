@@ -6,18 +6,18 @@ class InputEditController extends BaseController {
 	
 	public function view_kebaktian()
 	{		
-		$header = $this->setHeader();
+		// $header = $this->setHeader();
 		$list_jenis_kegiatan = $this->getListJenisKegiatan();		
 		$list_pembicara = $this->getListPendeta();
 		// $list_gereja = $this->getListGereja();		
 		return View::make('pages.user_inputdata.kebaktian_domi', 
-			compact('header','list_jenis_kegiatan','list_pembicara' )
+			compact('list_jenis_kegiatan','list_pembicara' )
 		);					
 	}
 	
 	public function view_anggota()
 	{		
-		$header = $this->setHeader();
+		// $header = $this->setHeader();
 		// $list_gereja = $this->getListGereja();
 		$list_wilayah = $this->getListWilayah();
 		$list_gol_darah = $this->getListGolonganDarah();
@@ -26,56 +26,56 @@ class InputEditController extends BaseController {
 		$list_etnis = $this->getListEtnis();
 		$list_role = $this->getListRoleAnggota();				
 		return View::make('pages.user_inputdata.anggota_domi', 
-			compact('header','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));		
+			compact('list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));		
 	}
 	
 	public function view_baptis()
 	{
-		$header = $this->setHeader();
+		// $header = $this->setHeader();
 		// $list_gereja = $this->getListGereja();
 		$list_pembaptis = $this->getListPendeta();
 		$list_jenis_baptis = $this->getListJenisBaptis();
 		$list_jemaat = $this->getListJemaat();		
 		return View::make('pages.user_inputdata.baptis_domi', 
-			compact('header','list_pembaptis','list_jenis_baptis','list_jemaat'));		
+			compact('list_pembaptis','list_jenis_baptis','list_jemaat'));		
 	}	
 	
 	public function view_atestasi()
 	{
-		$header = $this->setHeader();
+		// $header = $this->setHeader();
 		$list_jenis_atestasi = $this->getListJenisAtestasi();
 		$list_jemaat = $this->getListAnggota();
 		$list_gereja = $this->getListGereja();		
 		return View::make('pages.user_inputdata.atestasi_domi', 
-			compact('header','list_jenis_atestasi','list_jemaat','list_gereja'));		
+			compact('list_jenis_atestasi','list_jemaat','list_gereja'));		
 	}
 	
 	public function view_pernikahan()
 	{
-		$header = $this->setHeader();
+		// $header = $this->setHeader();
 		$list_jemaat_pria = $this->getListAnggotaPria();
 		$list_jemaat_wanita = $this->getListAnggotaWanita();
 		$list_gereja = $this->getListGereja();
 		$list_pendeta = $this->getListPendeta();		
 		return View::make('pages.user_inputdata.pernikahan_domi', 
-			compact('header','list_jemaat_pria','list_jemaat_wanita','list_gereja','list_pendeta'));
+			compact('list_jemaat_pria','list_jemaat_wanita','list_gereja','list_pendeta'));
 	}
 	
 	public function view_kedukaan()
 	{
-		$header = $this->setHeader();
+		// $header = $this->setHeader();
 		$list_gereja = $this->getListGereja();
 		$list_anggota = $this->getListAnggotaHidup();		
 		return View::make('pages.user_inputdata.kedukaan_domi', 
-			compact('header','list_gereja','list_anggota'));
+			compact('list_gereja','list_anggota'));
 	}
 	
 	public function view_dkh()
 	{
-		$header = $this->setHeader();
+		// $header = $this->setHeader();
 		$list_jemaat = $this->getListAnggota();		
 		return View::make('pages.user_inputdata.dkh_domi', 
-			compact('header','list_jemaat'));		
+			compact('list_jemaat'));		
 	}
 
 /*----------------------------------------LIVE SEARCH----------------------------------------*/

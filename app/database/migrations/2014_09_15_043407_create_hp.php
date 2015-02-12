@@ -12,7 +12,16 @@ class CreateHp extends Migration {
 	 */
 	public function up()
 	{
-		//
+		Schema::table('hp', function (Blueprint $table){
+			$table->create();
+			$table->increments('id');
+			$table->string('no_hp');
+			$table->integer('id_anggota')->unsigned();
+			//ada tidak nya record hp tergantung dari anggota
+			// $table->tinyInteger('deleted'); 
+									
+			$table->timestamps();
+		});	
 	}
 
 	/**

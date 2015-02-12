@@ -12,7 +12,20 @@ class CreateBaptis extends Migration {
 	 */
 	public function up()
 	{
-		//
+		Schema::table('baptis', function (Blueprint $table){
+			$table->create();
+			$table->increments('id');
+			$table->string('no_baptis');
+			$table->integer('id_jemaat')->unsigned();			
+			$table->integer('id_pendeta')->unsigned();			
+			$table->date('tanggal_baptis');			
+			$table->integer('id_jenis_baptis')->unsigned();
+			$table->integer('id_gereja')->unsigned();
+			$table->string('keterangan');			
+			$table->tinyInteger('deleted');
+										
+			$table->timestamps();
+		});
 	}
 
 	/**

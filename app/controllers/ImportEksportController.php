@@ -6,9 +6,10 @@ class ImportEksportController extends BaseController {
 
 	public function view_import_eksport()
 	{		
-		$header = $this->setHeader();
-		return View::make('pages.importeksport',
-				compact('header'));	
+		// $header = $this->setHeader();
+		// return View::make('pages.importeksport',
+				// compact('header'));	
+		return View::make('pages.importeksport');	
 	}
 	
 	public function import_kegiatan_GKI_Cianjur(){
@@ -8046,8 +8047,11 @@ class ImportEksportController extends BaseController {
 	}
 	
 	public function import_kegiatan($id_gereja){
+		// $nama_gereja = Session::get('nama');
+	
 		//get uploaded file
-		$destinationPath = 'assets/file_excel/'.$id_gereja.'/';
+		$destinationPath = 'assets/file_excel/kebaktian/'.$id_gereja.'/';
+		// $destinationPath = 'assets/file_excel/kebaktian/'.$nama_gereja.'/';		
 		$filename = '';
 		
 		if(Input::hasFile('excel_file')){
@@ -8083,6 +8087,8 @@ class ImportEksportController extends BaseController {
 					
 					//select
 					
+					//PREVENTION :
+					// supaya tidak ada record kebaktian yang double, pada gereja tertentu, tanggal tertentu, jenis kegiatan tertentu
 					$kegiatan = Kegiatan::where('id_gereja','=',$id_gereja)->where('tanggal_mulai','=',$tanggal)->where('nama_jenis_kegiatan','=',$nama_kegiatan)->get();
 					
 					//if exist
@@ -8157,6 +8163,158 @@ class ImportEksportController extends BaseController {
 		}
 		
 		//import begin
+		
+		
+
+	}
+	
+	
+	public function import_anggota($id_gereja){
+		// $nama_gereja = Session::get('nama');
+	
+		//get uploaded file
+		$destinationPath = 'assets/file_excel/anggota/'.$id_gereja.'/';
+		// $destinationPath = 'assets/file_excel/kebaktian/'.$nama_gereja.'/';		
+		$filename = '';
+		
+		if(Input::hasFile('excel_file')){
+			$file = Input::file('excel_file');
+			$filename = $file->getClientOriginalName();
+			$uploadSuccess = $file->move($destinationPath, $filename);
+		}
+		else{
+			return 'Tidak ada file yang dipilih';
+		}
+		$message = 'no success';
+		if($uploadSuccess){
+			$message = "Berhasil";
+			//return $destinationPath.$filename;
+			$file_path = $destinationPath.$filename;
+			//return $file_path;
+			$result = Excel::selectSheets('Anggota')->load($file_path, function($reader) use($id_gereja){				
+				// Getting all results
+				$reader->skip(5);
+				$reader->noHeading();
+				$results = $reader->get();				
+				//$reader->each(function($row) use($id_gereja){				
+				foreach($results as $row){			//select
+							
+					
+					if($row[1] != NULL){
+						//tanggal
+						$no_anggota = $row[1];
+					}
+					else{
+						//$tanggal = '';
+					}
+					
+					$anggota = Anggota::where('id_gereja','=',$id_gereja)->where('no_anggota','=',$no_anggota)->get();
+										
+					//if exist
+					if(count($anggota) == 1){
+											
+						//update
+						DB::table('anggota')->where('id', '=', $anggota->id)->update(
+							array(
+								// 'no_anggota'=>$row[1],
+								'nama_depan'=>$row[2],
+								'nama_tengah'=>"",
+								'nama_belakang'=>"",		
+								'telp'=>$row[5],
+								'gender'=>$row[8],
+								'wilayah'=>$row[7],
+								'gol_darah'=>$row[9],
+								'pendidikan'=>$row[10],
+								'pekerjaan'=>$row[11],
+								'etnis'=>"",
+								'kota_lahir'=>$row[13],
+								'tanggal_lahir'=>$row[12],
+								'tanggal_meninggal'=>null,
+								'role'=>1,		
+								'foto'=>null,
+								'id_gereja'=>$id_gereja,
+								// 'deleted'=>0,														
+								// 'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);						
+						DB::table('alamat')->where('id_anggota', '=', $anggota->id)->update(
+							array(
+								'jalan'=>$row[3],
+								'kota'=>$row[4],								
+								// 'kodepos'=>"",
+								// 'id_anggota'=>$anggota->id,								
+								// 'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);
+						DB::table('hp')->where('id_anggota', '=', $anggota->id)->update(
+							array(
+								'no_hp'=>$row[6],
+								// 'id_anggota'=>$anggota->id,
+								// 'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);					
+					}
+					else
+					{	
+									
+						//insert
+						DB::table('anggota')->insert(
+							array(
+								'no_anggota'=>$row[1],
+								'nama_depan'=>$row[2],
+								'nama_tengah'=>"",
+								'nama_belakang'=>"",		
+								'telp'=>$row[5],
+								'gender'=>$row[8],
+								'wilayah'=>$row[7],
+								'gol_darah'=>$row[9],
+								'pendidikan'=>$row[10],
+								'pekerjaan'=>$row[11],
+								'etnis'=>"",
+								'kota_lahir'=>$row[13],
+								'tanggal_lahir'=>$row[12],
+								'tanggal_meninggal'=>null,
+								'role'=>1,		
+								'foto'=>null,
+								'id_gereja'=>$id_gereja,
+								'deleted'=>0,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);								
+						$id_anggota = DB::table('anggota')->orderBy('id', 'desc')->first();						
+						DB::table('alamat')->insert(
+							array(
+								'jalan'=>$row[3],
+								'kota'=>$row[4],								
+								'kodepos'=>"",
+								'id_anggota'=>$id_anggota->id,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);
+						DB::table('hp')->insert(
+							array(
+								'no_hp'=>$row[6],
+								'id_anggota'=>$id_anggota->id,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);
+					}						
+				}
+			});
+			
+			// return 'Berhasil';
+			return $message;
+		}
+		else{
+			return 'Gagal upload file';
+		}
+				
 		
 		
 

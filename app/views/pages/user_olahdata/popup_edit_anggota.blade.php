@@ -409,7 +409,7 @@
 				if(result.code==200)
 				{				
 					alert(result.messages);
-					alert(JSON.stringify(result.data));
+					// alert(JSON.stringify(result.data));
 					// window.location = '{{URL::route('view_olahdata_anggota')}}';
 					
 					//ganti isi row sesuai hasil edit_anggota

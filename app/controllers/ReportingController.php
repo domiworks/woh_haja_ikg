@@ -6,16 +6,18 @@ class ReportingController extends BaseController {
 
 	public function admin_view_reporting()
 	{	
-		$header = $this->setHeader();
-		return View::make('pages.admin_reporting',
-				compact('header'));	
+		// $header = $this->setHeader();
+		// return View::make('pages.admin_reporting',
+				// compact('header'));	
+		return View::make('pages.admin_reporting');	
 	}
 	
 	public function view_reporting()
 	{			
-		$header = $this->setHeader();
-		return View::make('pages.reporting',
-				compact('header'));	
+		// $header = $this->setHeader();
+		// return View::make('pages.reporting',
+				// compact('header'));	
+		return View::make('pages.reporting');	
 	}
 	
 	public function get_jenis_kegiatan(){

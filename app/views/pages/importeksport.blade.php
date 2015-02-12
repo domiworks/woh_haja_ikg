@@ -25,7 +25,7 @@
 						<div class="col-xs-12">
 							<div class="col-xs-3">
 								<input type="button" class="btn btn-success pull-right" id="f_import_kebaktian" value="import data kebaktian" />
-								<input type='file' class='hidden' id='excel_import' />
+								<input type='file' class='hidden' id='excel_import_kebaktian' />
 							</div>
 							<div class="col-xs-3">
 								<input type="button" class="btn btn-warning pull-right" id="f_eksport_kebaktian" value="eksport data kebaktian" />
@@ -43,6 +43,7 @@
 						<div class="col-xs-12">
 							<div class="col-xs-3">
 								<input type="button" class="btn btn-success pull-right" id="f_import_anggota" value="import data anggota" />
+								<input type='file' class='hidden' id='excel_import_anggota' />
 							</div>
 							<div class="col-xs-3">
 								<input type="button" class="btn btn-warning pull-right" id="f_eksport_anggota" value="eksport data anggota" />
@@ -58,10 +59,10 @@
 <script>
 	//import data kebaktian
 	$('body').on('click', '#f_import_kebaktian', function(){
-		$('#excel_import').click();
+		$('#excel_import_kebaktian').click();
 	});
 	
-	$('body').on('change','#excel_import',function(){
+	$('body').on('change','#excel_import_kebaktian',function(){
 		$('.f_loader_container').removeClass('hidden');
 		$excel = '';
 		//get file
@@ -77,7 +78,8 @@
 		$formData.append('excel_file',$excel);
 		$.ajax({
 			type: 'POST',
-			url: "{{URL('user/import_kegiatan')}}/"+{{$header['id_gereja']}},
+			// url: "{{--URL('user/import_kegiatan')--}}/"+{{--$header['id_gereja']--}},
+			url: "{{URL('user/import_kegiatan')}}/"+{{Session::get('id_gereja')}},
 			data: $formData,
 			processData:false,
 			contentType:false,
@@ -88,6 +90,7 @@
 			error: function(jqXHR, textStatus, errorThrown){
 				alert('error');
 				alert(errorThrown);
+				$('.f_loader_container').addClass('hidden');
 			}
 		});
 	});
@@ -110,7 +113,40 @@
 	
 	//import data anggota
 	$('body').on('click', '#f_import_anggota', function(){
+		$('#excel_import_anggota').click();
+	});		
+	
+	$('body').on('change','#excel_import_anggota',function(){
+		$('.f_loader_container').removeClass('hidden');
+		$excel = '';
+		//get file
+		var i = 0, len = this.files.length, img, reader, file;
+		for ( ; i < len; i++ ) {
+			file = this.files[i];
+			$excel = file;
+		}
 		
+		
+		//ajax
+		$formData = new FormData();
+		$formData.append('excel_file',$excel);
+		$.ajax({
+			type: 'POST',
+			// url: "{{--URL('user/import_kegiatan')--}}/"+{{--$header['id_gereja']--}},
+			url: "{{URL('user/import_anggota')}}/"+{{Session::get('id_gereja')}},
+			data: $formData,
+			processData:false,
+			contentType:false,
+			success: function(response){
+				alert(response);
+				$('.f_loader_container').addClass('hidden');
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error');
+				alert(errorThrown);
+				$('.f_loader_container').addClass('hidden');
+			}
+		});
 	});
 	
 	//eksport data anggota

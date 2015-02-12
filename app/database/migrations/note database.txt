@@ -1,0 +1,36 @@
+//--------------------------------------------------------REVISI DATABASE--------------------------------------------------------	
+	
+	
+REVISI TABLE-TABLE DI DATABASE (8 DES 2015) :
+		
+- jadi pakai tumbstone di setiap tabel kecuali di tabel 'auth'		
+		
+- tambah id_anggota di tabel atestasi		
+		
+- hapus id_atestasi di tabel anggota
+		
+- hapus id_atestasi_baru di tabel atestasi
+		
+- tambah keterangan di tabel baptis
+		
+- tambah keterangan di tabel pernikahan
+		
+- kolom jenis di table persembahan -> tinyInteger jadi integer
+		
+- kolom status di table gereja -> tinyInteger jadi integer
+		
+- kolom role di table anggota -> tinyInteger jadi integer
+		
+- kolom role di table auth -> tinyInteger jadi integer 		
+	
+
+REVISI TABLE-TABLE DI DATABASE (19 DES 2015) :
+		
+- auth ga jadi referensi ke anggota karena ga bisa langsung liat
+		
+	profile pribadi, 
+			
+	JADI id_anggota diganti id_gereja,
+			
+	reference ke gereja
+	

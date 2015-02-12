@@ -11,7 +11,6 @@ class Hp extends Eloquent
 	
 	public $fillable = 
 				['no_hp',
-				'id_anggota',
-				'deleted'];	
+				'id_anggota'];	
 		
 }

@@ -12,7 +12,14 @@ class CreateJenisAtestasi extends Migration {
 	 */
 	public function up()
 	{
-		//
+		Schema::table('jenis_atestasi', function (Blueprint $table){
+			$table->create();
+			$table->increments('id');
+			$table->string('nama_atestasi');
+			$table->string('keterangan');
+			$table->tinyInteger('deleted');
+			$table->timestamps();
+		});
 	}
 
 	/**

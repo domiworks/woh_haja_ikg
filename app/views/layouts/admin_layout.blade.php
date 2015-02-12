@@ -56,12 +56,12 @@
 					</div>
 					<div class="col-lg-4">						
 						<!--<strong><h2 style="color:black; line-height: 130px;">Admin Panel GKI</h2></strong>-->
-						<strong><h2 style="color:black; margin-top: 5px; margin-bottom: 5px;">{{ $header['nama'] }}</h2></strong>
+						<strong><h2 style="color:black; margin-top: 5px; margin-bottom: 5px;">{{ Session::get('nama') }}</h2></strong>
 						<h4 style="color:black;">
-							{{ $header['alamat'] }} {{ $header['kota'] }}
+							{{ Session::get('alamat') }} {{ Session::get('kota') }}
 						</h4>						
 						<h4 style="color:black;">
-							{{ $header['telp'] }}
+							{{ Session::get('telp') }}
 						</h4>
 					</div>
 					<div class="col-lg-7" style="color:black; line-height: 160px; text-align: right;">

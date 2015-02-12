@@ -12,7 +12,14 @@ class CreateJenisBaptis extends Migration {
 	 */
 	public function up()
 	{
-		//
+		Schema::table('jenis_baptis', function (Blueprint $table){
+			$table->create();
+			$table->increments('id');
+			$table->string('nama_jenis_baptis');
+			$table->string('keterangan');
+			$table->tinyInteger('deleted');
+			$table->timestamps();
+		});
 	}
 
 	/**

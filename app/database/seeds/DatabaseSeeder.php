@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder {
 		// $this->call('UserTableSeeder');			
 		
 		//---------------------------------- DAFTAR GEREJA KLASSIS ----------------------------------		
+		//SUMBER : http://sinodegki.org/
 		// GKI Ayudia
 		$gereja2 = new Gereja();		
 		$gereja2 -> status = 3;
@@ -125,101 +126,11 @@ class DatabaseSeeder extends Seeder {
 		//$gereja11 -> id_parent_gereja = -99;		
 		$gereja11 -> save();
 		
-		//---------------------------------- AKUN -----------------------------------
-		
-		/*
-		$acc = new Account();		
-		$acc -> username = "admin";
-		$acc -> password = Hash::make("AdminGK1");
-		$acc -> id_gereja = null;
-		// $acc -> remember_token = "";
-		$acc -> role = 1;	//untuk superadmin 
-		$acc -> save();
-		
-		$acc1 = new Account();
-		$acc1 -> username = "userayudia1";
-		$acc1 -> password = Hash::make("Userayudia1");
-		$acc1 -> id_gereja = $gereja2->id; //GKI Ayudia
-		$acc1 -> role = 0;
-		$acc1 -> save();
-
-		$acc2 = new Account();
-		$acc2 -> username = "usercianjur1";
-		$acc2 -> password = Hash::make("Usercianjur1");
-		$acc2 -> id_gereja = $gereja3->id; //GKI Cianjur
-		$acc2 -> role = 0;
-		$acc2 -> save();
-
-		$acc3 = new Account();
-		$acc3 -> username = "usercimahi1";
-		$acc3 -> password = Hash::make("Usercimahi1");
-		$acc3 -> id_gereja = $gereja4->id; //GKI Cimahi
-		$acc3 -> role = 0;
-		$acc3 -> save();
-
-		$acc4 = new Account();
-		$acc4 -> username = "usergatotsubroto1";
-		$acc4 -> password = Hash::make("Usergatotsubroto1");
-		$acc4 -> id_gereja = $gereja5->id; //GKI Gatot Subroto
-		$acc4 -> role = 0;
-		$acc4 -> save();
-
-		$acc5 = new Account();
-		$acc5 -> username = "userguntur1";
-		$acc5 -> password = Hash::make("Userguntur1");
-		$acc5 -> id_gereja = $gereja->id; //GKI Guntur
-		$acc5 -> role = 0;
-		$acc5 -> save();
-
-		$acc6 = new Account();
-		$acc6 -> username = "userkebonjati1";
-		$acc6 -> password = Hash::make("Userkebonjati1");
-		$acc6 -> id_gereja = $gereja6->id; //GKI Kebonjati
-		$acc6 -> role = 0;
-		$acc6 -> save();
-
-		$acc7 = new Account();
-		$acc7 -> username = "usermaulanayusuf1";
-		$acc7 -> password = Hash::make("Usermaulanayusuf1");
-		$acc7 -> id_gereja = $gereja7->id; //GKI Maulana Yusuf
-		$acc7 -> role = 0;
-		$acc7 -> save();
-
-		$acc8 = new Account();
-		$acc8 -> username = "userpamanukan1";
-		$acc8 -> password = Hash::make("Userpamanukan1");
-		$acc8 -> id_gereja = $gereja8->id; //GKI Pamanukan
-		$acc8 -> role = 0;
-		$acc8 -> save();
-
-		$acc9 = new Account();
-		$acc9 -> username = "userpasirkaliki1";
-		$acc9 -> password = Hash::make("Userpasirkaliki1");
-		$acc9 -> id_gereja = $gereja9->id; //GKI Pasir Kaliki
-		$acc9 -> role = 0;
-		$acc9 -> save();
-
-		$acc10 = new Account();
-		$acc10 -> username = "userpasirkoja1";
-		$acc10 -> password = Hash::make("Userpasirkoja1");
-		$acc10 -> id_gereja = $gereja10->id; //GKI Pasir Koja
-		$acc10 -> role = 0;
-		$acc10 -> save();
-
-		$acc11 = new Account();
-		$acc11 -> username = "usersudirman1";
-		$acc11 -> password = Hash::make("Usersudirman1");
-		$acc11 -> id_gereja = $gereja11->id; //GKI Sudirman
-		$acc11 -> role = 0;
-		$acc11 -> save();
-		*/
-
-		
+		//---------------------------------- AKUN -----------------------------------				
 		$acc = new Account();		
 		$acc -> username = "superadmin";
 		$acc -> password = Hash::make("superadmin");
-		$acc -> id_gereja = null;
-		// $acc -> remember_token = "";
+		$acc -> id_gereja = null;		
 		$acc -> role = 2;	//untuk superadmin 
 		$acc -> save();
 			//-----------------------------
@@ -380,7 +291,7 @@ class DatabaseSeeder extends Seeder {
 		
 		//---------------------------------- PENDETA ----------------------------------		
 		$anggota3 = new Anggota();		
-		$anggota3 -> no_anggota = "Guntur-XX-0003";
+		$anggota3 -> no_anggota = "Guntur-XX-0001";
 		$anggota3 -> nama_depan = "Eddo";
 		$anggota3 -> nama_tengah = "Ega";
 		$anggota3 -> nama_belakang = "Wirakusuma";
@@ -416,7 +327,7 @@ class DatabaseSeeder extends Seeder {
 			$hp3 -> save();
 			
 		$anggota4 = new Anggota();		
-		$anggota4 -> no_anggota = "Guntur-XX-0004";
+		$anggota4 -> no_anggota = "Guntur-XX-0002";
 		$anggota4 -> nama_depan = "Iwan";
 		$anggota4 -> nama_tengah = "";
 		$anggota4 -> nama_belakang = "Santoso";
@@ -453,7 +364,7 @@ class DatabaseSeeder extends Seeder {
 			
 		
 		//---------------------------------- USER COWO/CEWE ----------------------------------			
-		$idx = 11;
+		$idx = 3;
 		//insert cowo
 		for($i = 1; $i <= 10; $i++)
 		{		
@@ -611,11 +522,9 @@ class DatabaseSeeder extends Seeder {
 		$jenisbaptis3 -> nama_jenis_baptis = "baptis dewasa";
 		$jenisbaptis3 -> keterangan = "pembaptisan untuk dewasa";
 		$jenisbaptis3 -> save();		
+					
 		
-				
-		
-		//---------------------------------- DATA KEGIATAN/KEBAKTIAN ----------------------------------
-		
+		//---------------------------------- DATA KEGIATAN/KEBAKTIAN ----------------------------------		
 		$kebaktian = new Kegiatan();			
 		$kebaktian->id_jenis_kegiatan = 1;
 		$kebaktian->nama_jenis_kegiatan = 'kebaktian umum 1';

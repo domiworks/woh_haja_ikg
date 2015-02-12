@@ -14,12 +14,20 @@ class AccountController extends BaseController {
 		{
 			if(Auth::attempt($data, $remember_me))		
 			{
+				//add session
+				$gereja = Gereja::find(Auth::user()->id_gereja);					
+				Session::put('nama', $gereja->nama);					
+				Session::put('alamat', $gereja->alamat);					
+				Session::put('telp', $gereja->telp);					
+				Session::put('kota', $gereja->kota);
+				Session::put('id_gereja', Auth::user()->id_gereja);
+					
 				if(Auth::user()->role == 0)			
-				{
+				{				
 					return Redirect::to('/user');
 				}			
 				else if(Auth::user()->role == 1)
-				{
+				{				
 					return Redirect::to('/admin');
 				}
 				else if(Auth::user()->role == 2)
@@ -42,12 +50,20 @@ class AccountController extends BaseController {
 		{
 			if(Auth::attempt($data, false))		
 			{
+				//add session
+				$gereja = Gereja::find(Auth::user()->id_gereja);					
+				Session::put('nama', $gereja->nama);					
+				Session::put('alamat', $gereja->alamat);					
+				Session::put('telp', $gereja->telp);					
+				Session::put('kota', $gereja->kota);
+				Session::put('id_gereja', Auth::user()->id_gereja);
+				
 				if(Auth::user()->role == 0)			
-				{
+				{					
 					return Redirect::to('/user');
 				}			
 				else if(Auth::user()->role == 1)
-				{
+				{								
 					return Redirect::to('/admin');
 				}
 				else if(Auth::user()->role == 2)

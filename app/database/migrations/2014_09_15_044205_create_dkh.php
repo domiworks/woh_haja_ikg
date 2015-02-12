@@ -12,7 +12,17 @@ class CreateDkh extends Migration {
 	 */
 	public function up()
 	{
-		//
+		//DKH masih ga jelas gunanya buat apa
+		Schema::table('dkh', function (Blueprint $table){
+			$table->create();
+			$table->increments('id');
+			$table->string('no_dkh');
+			$table->integer('id_jemaat')->unsigned();
+			$table->string('keterangan');
+			$table->tinyInteger('deleted');
+									
+			$table->timestamps();
+		});
 	}
 
 	/**

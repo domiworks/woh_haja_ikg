@@ -13,7 +13,6 @@ class Alamat extends Eloquent
 				['jalan',
 				'kota',
 				'kodepos',
-				'id_anggota',
-				'deleted'];	
+				'id_anggota'];	
 				
 }

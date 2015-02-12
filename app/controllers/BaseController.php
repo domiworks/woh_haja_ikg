@@ -17,15 +17,18 @@ class BaseController extends Controller {
 
 	protected function setHeader()
 	{
+		return;
+		/*
 		$id_gereja = $this->get_gereja('id'); //buat keperluan import/eksport
 		
 		$nama_gereja = $this->get_gereja('nama');
 		
-		$alamat_gereja = $this->get_gereja('alamat');
+		$alamat_gereja = Session::get('alamat');
 		
-		$telepon_gereja = $this->get_gereja('telp');				
+		$telepon_gereja = Session::get('telp');				
 		
-		$kota_gereja = $this->get_gereja('kota');
+		$kota_gereja = Session::get('kota');
+		
 		
 		$header = array(
 			'id_gereja' => $id_gereja,
@@ -36,13 +39,19 @@ class BaseController extends Controller {
 		);
 		
 		return $header;
+		*/
 	}
 	
 	private function get_gereja($kembalian)
 	{
-		// $gereja = Gereja::find(Auth::user()->id_gereja);
+		return;
+		/*
 		$gereja = Gereja::find(Auth::user()->id_gereja);
 		return $gereja->$kembalian;
+		*/
+		
+		// $gereja = Gereja::find(Auth::user()->id_gereja);
+		
 		/*
 		//get gereja status:jemaat yang pertama di get di database
 		$count = Gereja::where('status','=', '3')->first();		

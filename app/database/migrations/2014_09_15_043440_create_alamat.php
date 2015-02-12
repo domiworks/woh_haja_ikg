@@ -12,7 +12,18 @@ class CreateAlamat extends Migration {
 	 */
 	public function up()
 	{
-		//
+		Schema::table('alamat', function (Blueprint $table){
+			$table->create();
+			$table->increments('id');			
+			$table->string('jalan');
+			$table->string('kota');
+			$table->string('kodepos');
+			$table->integer('id_anggota')->unsigned();
+			//ada tidak nya record alamat tergantung dari anggota
+			// $table->tinyInteger('deleted');
+						
+			$table->timestamps();
+		});
 	}
 
 	/**

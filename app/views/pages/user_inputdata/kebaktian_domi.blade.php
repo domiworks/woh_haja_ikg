@@ -1,6 +1,7 @@
 @extends('layouts.user_layout')
 @section('content')
 
+
 <script>
 $(document).ready(function(){				
 	

@@ -11,15 +11,13 @@
 |
 */
 
+//example
 Route::get('/import', ['as' => 'get.import' , 'uses' => 'ExcelController@import']);
-
 Route::get('/import_kegiatan_gki_cianjur', ['as' => 'get.import_kegiatan_cianjur' , 'uses' => 'ImportEksportController@import_kegiatan_GKI_Cianjur']);
-
-
-
-
-
 Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export']);
+
+
+
 
 Route::get('/tes', function(){
 	// $baptis = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->whereNotIn('ang.role', array(2));
@@ -35,13 +33,36 @@ Route::get('/tes', function(){
 		//// $acc -> remember_token = "";
 		// $acc -> role = 2;	//untuk superadmin 
 		// $acc -> save();	
-	$keb = Kegiatan::find(1)->nama_jenis_kegiatan;
-	echo $keb;
+	// $keb = Kegiatan::find(1)->nama_jenis_kegiatan;
+	// echo $keb;
+	/*
+	//nomor cabang
+			// $cabang->kode = Input::get('kode_cabang');
+			$max = 0;
+			$rows = Kegiatan::all();
+			if(count($rows))
+			{
+				foreach($rows as $key)
+				{
+					if($key->banyak_jemaat > $max)
+					{
+						$max = $key->banyak_jemaat;
+					}
+				}
+				// $cabang->kode = $max+1; //nomor cabang paling terakhir di + 1
+				echo $max+1;
+			}
+			else
+			{
+				// $cabang->kode = 1;
+				echo "1";
+			}
+			*/
 });
 
 
 //view
-Route::get('/', ['as' => 'home', 'uses' => 'HomeController@view_index']); //langsung login view aja	
+Route::get('/', ['as' => 'home', 'uses' => 'HomeController@view_index']); //langsung login view 
 
 //post route
 Route::post('/signin', ['as' => 'signin', 'uses' => 'AccountController@postSignIn']);
@@ -96,23 +117,16 @@ Route::group(['prefix' => 'superadmin', 'before' => 'authSuperAdmin'], function 
 
 //admin ---> asumsi superuser atau majelis yang bisa lakuin akses apa aj
 Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
-// Route::group(['prefix' => 'admin'], function () {
-
-	// Route::get('/', ['as' => 'home_admin', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);
-	Route::get('/', ['as' => 'home_admin', 'uses' => 'UserBehaviorController@admin_view_kebaktian']);
 	
-	//get list pendeta by gereja
+	Route::get('/', ['as' => 'home_admin', 'uses' => 'UserBehaviorController@admin_view_kebaktian']);
+		
 	Route::get('/get_list_pendeta_by_gereja', ['as' => 'admin_get_list_pendeta_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_pendeta_by_gereja']);
-	//get list anggota by gereja
-	Route::get('/get_list_anggota_by_gereja', ['as' => 'admin_get_list_anggota_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_anggota_by_gereja']);
-	//get list anggota pria by gereja
-	Route::get('/get_list_anggota_pria_by_gereja', ['as' => 'admin_get_list_anggota_pria_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_anggota_pria_by_gereja']);
-	//get list anggota wanita by gereja
-	Route::get('/get_list_anggota_wanita_by_gereja', ['as' => 'admin_get_list_anggota_wanita_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_anggota_wanita_by_gereja']);
-	//get list anggota hidup by gereja
+	Route::get('/get_list_anggota_by_gereja', ['as' => 'admin_get_list_anggota_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_anggota_by_gereja']);	
+	Route::get('/get_list_anggota_pria_by_gereja', ['as' => 'admin_get_list_anggota_pria_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_anggota_pria_by_gereja']);	
+	Route::get('/get_list_anggota_wanita_by_gereja', ['as' => 'admin_get_list_anggota_wanita_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_anggota_wanita_by_gereja']);	
 	Route::get('/get_list_anggota_hidup_by_gereja', ['as' => 'admin_get_list_anggota_hidup_by_gereja', 'uses' => 'UserBehaviorController@admin_get_list_anggota_hidup_by_gereja']);
 	
-	//user behavior view
+	//view
 	Route::get('/view_kebaktian', ['as' => 'admin_view_kebaktian', 'uses' => 'UserBehaviorController@admin_view_kebaktian']);
 	Route::get('/view_anggota', ['as' => 'admin_view_anggota', 'uses' => 'UserBehaviorController@admin_view_anggota']);
 	Route::get('/view_baptis', ['as' => 'admin_view_baptis', 'uses' => 'UserBehaviorController@admin_view_baptis']);
@@ -167,66 +181,20 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 	
 	//tutorial
 	// Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);	
-	
-	//----------------------------------------
-	
-	/*
-	//ubah password admin
-	Route::post('/edit_password', ['as' => 'admin_edit_password', 'uses' => 'InputEditAdminController@admin_edit_password']);
-	
-	//input data	
-	Route::get('/view_gereja', ['as' => 'admin_view_input_gereja', 'uses' => 'InputEditAdminController@admin_view_input_gereja']);	
-	Route::get('/view_jenisbaptis', ['as' => 'admin_view_input_jenis_baptis', 'uses' => 'InputEditAdminController@admin_view_input_jenis_baptis']);	
-	Route::get('/view_jenisatestasi', ['as' => 'admin_view_input_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_view_input_jenis_atestasi']);	
-	Route::get('/view_jeniskegiatan', ['as' => 'admin_view_input_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_view_input_jenis_kegiatan']);	
-	Route::get('/view_account', ['as' => 'admin_view_input_auth', 'uses' => 'InputEditAdminController@admin_view_input_auth']);	
-	Route::get('/view_ubah_password', ['as' => 'admin_view_input_ubah_password', 'uses' => 'InputEditAdminController@admin_view_input_ubah_password']);
-	
-	//post data
-	Route::post('/post_gereja', ['as' => 'post_gereja', 'uses' => 'InputEditAdminController@admin_postGereja']);
-	Route::post('/post_jenis_baptis', ['as' => 'post_jenis_baptis', 'uses' => 'InputEditAdminController@admin_postJenisBaptis']);
-	Route::post('/post_jenis_atestasi', ['as' => 'post_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_postJenisAtestasi']);
-	Route::post('/post_jenis_kegiatan', ['as' => 'post_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_postJenisKegiatan']);
-	Route::post('/post_auth', ['as' => 'post_auth', 'uses' => 'InputEditAdminController@admin_postAuth']);
-	
-	//edit data
-	Route::post('/edit_gereja', ['as' => 'edit_gereja', 'uses' => 'InputEditAdminController@admin_edit_gereja']);
-	Route::post('/edit_jenis_baptis', ['as' => 'edit_jenis_baptis', 'uses' => 'InputEditAdminController@admin_edit_jenis_baptis']);
-	Route::post('/edit_jenis_atestasi', ['as' => 'edit_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_edit_jenis_atestasi']);
-	Route::post('/edit_jenis_kegiatan', ['as' => 'edit_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_edit_jenis_kegiatan']);
-	Route::post('/edit_auth', ['as' => 'edit_auth', 'uses' => 'InputEditAdminController@admin_edit_auth']);
-	
-	//change visible
-	Route::post('/change_visible_gereja', ['as' => 'change_visible_gereja', 'uses' => 'InputEditAdminController@admin_change_visible_gereja']);
-	Route::post('/change_visible_jenis_baptis', ['as' => 'change_visible_jenis_baptis', 'uses' => 'InputEditAdminController@admin_change_visible_jenis_baptis']);
-	Route::post('/change_visible_jenis_atestasi', ['as' => 'change_visible_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_change_visible_jenis_atestasi']);
-	Route::post('/change_visible_jenis_kegiatan', ['as' => 'change_visible_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_change_visible_jenis_kegiatan']);
-	// Route::post('/change_visible_auth', ['as' => 'change_visible_auth', 'uses' => 'InputEditAdminController@admin_change_visible_auth']);
-	
-	//delete data
-	Route::delete('/delete_gereja', ['as' => 'delete_gereja', 'uses' => 'InputEditAdminController@admin_delete_gereja']);
-	Route::delete('/delete_jenis_baptis', ['as' => 'delete_jenis_baptis', 'uses' => 'InputEditAdminController@admin_delete_jenis_baptis']);
-	Route::delete('/delete_jenis_atestasi', ['as' => 'delete_jenis_atestasi', 'uses' => 'InputEditAdminController@admin_delete_jenis_atestasi']);
-	Route::delete('/delete_jenis_kegiatan', ['as' => 'delete_jenis_kegiatan', 'uses' => 'InputEditAdminController@admin_delete_jenis_kegiatan']);
-	Route::delete('/delete_auth', ['as' => 'delete_auth', 'uses' => 'InputEditAdminController@admin_delete_auth']);
-	*/
+		
 	
 });
 
 
-
-
 //user ---> asumsi orang TU yang jadi user bisa ngapain aja di sini
 Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
-// Route::group(['prefix' => 'user'], function() {	
-
-	// Route::get('/', ['as' => 'profile_user', 'uses' => 'UserController@view_profile']);		
+	
 	Route::get('/', ['as' => 'home_user', 'uses' => 'InputEditController@view_kebaktian']);				
 	
 	//get live search anggota
-	Route::get('/live_search_anggota', ['as' => 'user_search_anggota', 'uses' => 'InputEditController@user_search_anggota']);
+	// Route::get('/live_search_anggota', ['as' => 'user_search_anggota', 'uses' => 'InputEditController@user_search_anggota']);
 	
-	//input data 
+	//view inputdata
 	Route::get('/inputdata_kebaktian', ['as' => 'view_inputdata_kebaktian', 'uses' => 'InputEditController@view_kebaktian']);	
 	Route::get('/inputdata_anggota', ['as' => 'view_inputdata_anggota', 'uses' => 'InputEditController@view_anggota']);	
 	Route::get('/inputdata_baptis', ['as' => 'view_inputdata_baptis', 'uses' => 'InputEditController@view_baptis']);	
@@ -235,19 +203,16 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::get('/inputdata_kedukaan', ['as' => 'view_inputdata_kedukaan', 'uses' => 'InputEditController@view_kedukaan']);	
 	Route::get('/inputdata_dkh', ['as' => 'view_inputdata_dkh', 'uses' => 'InputEditController@view_dkh']);	
 		
+	//post data
 	Route::post('/post_kebaktian', ['as' => 'post_kebaktian', 'uses' => 'InputEditController@postKebaktian']);	
 	Route::post('/post_anggota', ['as' => 'post_anggota', 'uses' => 'InputEditController@postAnggota']);
 	Route::post('/post_baptis', ['as' => 'post_baptis', 'uses' => 'InputEditController@postBaptis']);
 	Route::post('/post_atestasi', ['as' => 'post_atestasi', 'uses' => 'InputEditController@postAtestasi']);	
 	Route::post('/post_pernikahan', ['as' => 'post_pernikahan', 'uses' => 'InputEditController@postPernikahan']);	
 	Route::post('/post_kedukaan', ['as' => 'post_kedukaan', 'uses' => 'InputEditController@postKedukaan']);	
-	Route::post('/post_dkh', ['as' => 'post_dkh', 'uses' => 'InputEditController@postDkh']);
+	Route::post('/post_dkh', ['as' => 'post_dkh', 'uses' => 'InputEditController@postDkh']);		
 	
-	// Route::get('/tes', function(){
-		// return View::make('pages.user_olahdata.kedukaan_domi');
-	// });
-	
-	//olah data
+	//view olahdata
 	Route::get('/olahdata_kebaktian', ['as' => 'view_olahdata_kebaktian', 'uses' => 'OlahDataController@view_kebaktian']);
 	Route::get('/olahdata_anggota', ['as' => 'view_olahdata_anggota', 'uses' => 'OlahDataController@view_anggota']);
 	Route::get('/olahdata_baptis', ['as' => 'view_olahdata_baptis', 'uses' => 'OlahDataController@view_baptis']);
@@ -302,15 +267,15 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	//import eksport
 	Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@view_import_eksport']);
 	
-	Route::get('/export_kegiatan/{id_jenis_kegiatan?}/{id_gereja?}/{dateF?}/{dateT?}', ['as' => 'get.import_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);
-	
 	Route::post('/import_kegiatan/{id_gereja}', ['as' => 'post.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan']);
+	Route::post('/import_anggota/{id_gereja}', ['as' => 'post.import_anggota' , 'uses' => 'ImportEksportController@import_anggota']);
 	
-	
+	Route::get('/export_kegiatan/{id_jenis_kegiatan?}/{id_gereja?}/{dateF?}/{dateT?}', ['as' => 'get.import_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);		
+	// Route::get('/export_anggota/{id_jenis_kegiatan?}/{id_gereja?}/{dateF?}/{dateT?}', ['as' => 'get.import_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);		
+		
 	//tutorial
 	Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);		
-	
-	
+		
 });
 
 

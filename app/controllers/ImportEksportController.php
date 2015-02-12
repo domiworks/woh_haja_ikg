@@ -8168,6 +8168,46 @@ class ImportEksportController extends BaseController {
 
 	}
 	
+	/*
+	public function tes_date()
+	{
+		//get uploaded file
+		$destinationPath = 'assets/file_excel/anggota/'.$id_gereja.'/';
+		// $destinationPath = 'assets/file_excel/kebaktian/'.$nama_gereja.'/';		
+		$filename = '';
+		
+		if(Input::hasFile('excel_file')){
+			$file = Input::file('excel_file');
+			$filename = $file->getClientOriginalName();
+			$uploadSuccess = $file->move($destinationPath, $filename);
+		}
+		else{
+			return 'Tidak ada file yang dipilih';
+		}
+		$message = 'no success';
+		if($uploadSuccess){
+			$message = "Berhasil";
+			//return $destinationPath.$filename;
+			$file_path = $destinationPath.$filename;
+			//return $file_path;
+			$result = Excel::selectSheets('Anggota')->load($file_path, function($reader) use($id_gereja){				
+															
+				// Getting all results
+				$reader->skip(7); //skrng di row 8
+				$reader->noHeading();
+				$results = $reader->get();	
+				
+				$message = $results[8][20];
+								
+			});
+			
+			// return 'Berhasil';
+			return $message;
+		}
+		
+		return $message;
+	}
+	*/
 	
 	public function import_anggota($id_gereja){
 		// $nama_gereja = Session::get('nama');
@@ -8192,45 +8232,57 @@ class ImportEksportController extends BaseController {
 			$file_path = $destinationPath.$filename;
 			//return $file_path;
 			$result = Excel::selectSheets('Anggota')->load($file_path, function($reader) use($id_gereja){				
+															
 				// Getting all results
-				$reader->skip(5);
+				$reader->skip(7); //skrng di row 8
 				$reader->noHeading();
-				$results = $reader->get();				
+				$results = $reader->get();	
+				
 				//$reader->each(function($row) use($id_gereja){				
 				foreach($results as $row){			//select
 							
 					
-					if($row[1] != NULL){
-						//tanggal
-						$no_anggota = $row[1];
+					if($row[27] != NULL){ //no_anggota
+						$no_anggota = $row[27];
 					}
 					else{
-						//$tanggal = '';
+						//do nothing
 					}
 					
 					$anggota = Anggota::where('id_gereja','=',$id_gereja)->where('no_anggota','=',$no_anggota)->get();
-										
+							
+					//gender
+					if($row[14] == "P")
+					{
+						$gender = 1;
+					}
+					else
+					{
+						$gender = 0;
+					}
+							
 					//if exist
 					if(count($anggota) == 1){
 											
 						//update
+							
 						DB::table('anggota')->where('id', '=', $anggota->id)->update(
 							array(
-								// 'no_anggota'=>$row[1],
-								'nama_depan'=>$row[2],
+								'no_anggota'=>$row[27], 
+								'nama_depan'=>$row[4], //asumsi : sementara masukin nama ke nama_depan
 								'nama_tengah'=>"",
 								'nama_belakang'=>"",		
-								'telp'=>$row[5],
-								'gender'=>$row[8],
-								'wilayah'=>$row[7],
-								'gol_darah'=>$row[9],
-								'pendidikan'=>$row[10],
-								'pekerjaan'=>$row[11],
-								'etnis'=>"",
-								'kota_lahir'=>$row[13],
-								'tanggal_lahir'=>$row[12],
-								'tanggal_meninggal'=>null,
-								'role'=>1,		
+								'telp'=>$row[7],
+								'gender'=>$gender,
+								//'wilayah'=>, //masih ga jelas
+								//'gol_darah'=>, //di ayudia ga ada golongan darah, jadi bingung
+								'pendidikan'=>$row[17],
+								'pekerjaan'=>$row[18],
+								'etnis'=>$row[19],
+								//'kota_lahir'=>, //di ayudia ga ada kota lahir, jadi bingung
+								'tanggal_lahir'=>$row[20], //format di excelnya dd/mm/yyyy
+								//'tanggal_meninggal'=>null,
+								'role'=>1,		//di data anggota ga tau role, sementara masukin jadi 1 = jemaat semua
 								'foto'=>null,
 								'id_gereja'=>$id_gereja,
 								// 'deleted'=>0,														
@@ -8240,22 +8292,24 @@ class ImportEksportController extends BaseController {
 						);						
 						DB::table('alamat')->where('id_anggota', '=', $anggota->id)->update(
 							array(
-								'jalan'=>$row[3],
-								'kota'=>$row[4],								
-								// 'kodepos'=>"",
+								'jalan'=>$row[6],
+								'kota'=>$row[9],								
+								'kodepos'=>$row[8],
 								// 'id_anggota'=>$anggota->id,								
 								// 'created_at'=>Carbon::now(),
 								'updated_at'=>Carbon::now()
 							)
-						);
+						);						
 						DB::table('hp')->where('id_anggota', '=', $anggota->id)->update(
 							array(
-								'no_hp'=>$row[6],
+								//asumsi : 
+								//no_hp 1 orang cuma ada 1, dan disamain aja dengan telp yang ada di anggota
+								'no_hp'=>$row[7], //di ayudia no_hp digabung dengan telp, jadi bingung
 								// 'id_anggota'=>$anggota->id,
 								// 'created_at'=>Carbon::now(),
 								'updated_at'=>Carbon::now()
 							)
-						);					
+						);						
 					}
 					else
 					{	
@@ -8263,42 +8317,42 @@ class ImportEksportController extends BaseController {
 						//insert
 						DB::table('anggota')->insert(
 							array(
-								'no_anggota'=>$row[1],
-								'nama_depan'=>$row[2],
+								'no_anggota'=>$row[27], 
+								'nama_depan'=>$row[4], //asumsi : sementara masukin nama ke nama_depan
 								'nama_tengah'=>"",
 								'nama_belakang'=>"",		
-								'telp'=>$row[5],
-								'gender'=>$row[8],
-								'wilayah'=>$row[7],
-								'gol_darah'=>$row[9],
-								'pendidikan'=>$row[10],
-								'pekerjaan'=>$row[11],
-								'etnis'=>"",
-								'kota_lahir'=>$row[13],
-								'tanggal_lahir'=>$row[12],
-								'tanggal_meninggal'=>null,
-								'role'=>1,		
+								'telp'=>$row[7],
+								'gender'=>$gender,
+								//'wilayah'=>, //masih ga jelas
+								//'gol_darah'=>, //di ayudia ga ada golongan darah, jadi bingung
+								'pendidikan'=>$row[17],
+								'pekerjaan'=>$row[18],
+								'etnis'=>$row[19],
+								//'kota_lahir'=>, //di ayudia ga ada kota lahir, jadi bingung
+								'tanggal_lahir'=>$row[20], //format di excelnya dd/mm/yyyy
+								//'tanggal_meninggal'=>null,
+								'role'=>1,		//di data anggota ga tau role, sementara masukin jadi 1 = jemaat semua		
 								'foto'=>null,
 								'id_gereja'=>$id_gereja,
-								'deleted'=>0,
+								'deleted'=>0,														
 								'created_at'=>Carbon::now(),
-								'updated_at'=>Carbon::now()
+								'updated_at'=>Carbon::now()																
 							)
 						);								
 						$id_anggota = DB::table('anggota')->orderBy('id', 'desc')->first();						
 						DB::table('alamat')->insert(
 							array(
-								'jalan'=>$row[3],
-								'kota'=>$row[4],								
-								'kodepos'=>"",
-								'id_anggota'=>$id_anggota->id,
+								'jalan'=>$row[6],
+								'kota'=>$row[9],								
+								'kodepos'=>$row[8],
+								'id_anggota'=>$anggota->id,								
 								'created_at'=>Carbon::now(),
 								'updated_at'=>Carbon::now()
 							)
 						);
 						DB::table('hp')->insert(
 							array(
-								'no_hp'=>$row[6],
+								'no_hp'=>$row[7],
 								'id_anggota'=>$id_anggota->id,
 								'created_at'=>Carbon::now(),
 								'updated_at'=>Carbon::now()

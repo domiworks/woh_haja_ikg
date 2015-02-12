@@ -20,6 +20,28 @@ Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export'
 
 
 Route::get('/tes', function(){
+
+	$message = "Berhasil";	
+	
+	$file_path = 'assets/file_excel/anggota/1/GKI Ayudia DBAJ.xls';
+	//return $file_path;
+	$results = Excel::selectSheets('DATABASEANGGOTA')->load($file_path,function($reader) {				
+						
+		return "masuk";
+		
+		// Getting all results
+		$reader->skip(7); //skrng di row 8
+		$reader->setDateFormat('yyyy-mm-dd');
+		$reader->noHeading();
+		$results = $reader->get();	
+		
+		// $message = $results[8][22];		
+		// $message = $results[10][20];						
+						
+	});
+		
+	return $results;
+
 	// $baptis = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->whereNotIn('ang.role', array(2));
 		
 		// $baptis = $baptis->join('baptis AS bap', 'bap.id_jemaat', '=', 'ang.id');

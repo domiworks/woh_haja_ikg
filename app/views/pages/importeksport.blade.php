@@ -142,6 +142,7 @@
 				$('.f_loader_container').addClass('hidden');
 			},
 			error: function(jqXHR, textStatus, errorThrown){
+				alert(textStatus);
 				alert('error');
 				alert(errorThrown);
 				$('.f_loader_container').addClass('hidden');
@@ -151,7 +152,7 @@
 	
 	//eksport data anggota
 	$('body').on('click', '#f_eksport_anggota', function(){
-		
+		window.open("{{URL('user/export_anggota')}}/"+{{Session::get('id_gereja')}},'_blank');
 	});
 </script>
 

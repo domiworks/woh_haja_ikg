@@ -509,19 +509,19 @@ class DatabaseSeeder extends Seeder {
 				
 		//---------------------------------- JENIS BAPTIS ----------------------------------
 		$jenisbaptis1 = new JenisBaptis();
-		$jenisbaptis1 -> nama_jenis_baptis = "baptis anak";
-		$jenisbaptis1 -> keterangan = "pembaptisan untuk anak";
+		$jenisbaptis1 -> nama_jenis_baptis = "baptis";
+		$jenisbaptis1 -> keterangan = "baptis";
 		$jenisbaptis1 -> save();
 		
 		$jenisbaptis2 = new JenisBaptis();
-		$jenisbaptis2 -> nama_jenis_baptis = "baptis sidi";
-		$jenisbaptis2 -> keterangan = "pembaptisan secara sidi";
+		$jenisbaptis2 -> nama_jenis_baptis = "sidi";
+		$jenisbaptis2 -> keterangan = "sidi";
 		$jenisbaptis2 -> save();
 		
-		$jenisbaptis3 = new JenisBaptis();
-		$jenisbaptis3 -> nama_jenis_baptis = "baptis dewasa";
-		$jenisbaptis3 -> keterangan = "pembaptisan untuk dewasa";
-		$jenisbaptis3 -> save();		
+		// $jenisbaptis3 = new JenisBaptis();
+		// $jenisbaptis3 -> nama_jenis_baptis = "baptis dewasa";
+		// $jenisbaptis3 -> keterangan = "pembaptisan untuk dewasa";
+		// $jenisbaptis3 -> save();		
 					
 		
 		//---------------------------------- DATA KEGIATAN/KEBAKTIAN ----------------------------------		

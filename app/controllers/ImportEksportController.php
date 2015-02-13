@@ -7927,6 +7927,181 @@ class ImportEksportController extends BaseController {
 		
 	}
 	
+	public function export_anggota($id_gereja)
+	{
+		$data = DB::table('anggota')->where('id_gereja', '=', $id_gereja)->get();
+		
+		$gereja = Gereja::find($id_gereja);
+		$title_table = 'DATA ANGGOTA JEMAAT '.$gereja->nama.' - BANDUNG';
+		
+		//setting header		
+		$nama_gereja = array(
+			$title_table,'','','','','','','','',''
+			,'','','','','','','','','',''
+			,'','','','','','','','','',''
+		);		
+		$tanggal = array(
+			'','','','','','','','','',''
+			,'','','','','','','','','Tanggal :', (string)Carbon::now()
+			,'','','','','','','','','',''
+		);
+		$blank = array(
+			'','','','','','','','','',''
+			,'','','','','','','','','',''
+			,'','','','','','','','','',''
+		);		
+		$header_table_1 = array(
+			'No.','No.','No.','Nama','','Alamat','Telp.','Kodepos','Kota','Rayon'
+			,'Wilayah','Kecamatan','Kelurahan','Gender','Status','Umur','Pendidikan','Pekerjaan','Kelompok','Tgl'
+			,'Tgl','Tgl','Atestasi','','Meninggal','Nama Ayah','No.Anggota','Nama Ibu','No.Anggota','Keterangan'
+		);
+		$header_table_2 = array(
+			'','Reg.','Induk','','','','','','',''
+			,'','','','','Anggota','','','','Etnis','Lahir'
+			,'Baptis','Sidi','A.Masuk','A.Keluar','','','','','',''
+		);		
+		
+		try{
+			//START INSERT TO ROW
+			Excel::create('Export Data Anggota', function($excel) use ($data,$nama_gereja,$tanggal,$blank,$header_table_1,$header_table_2){
+
+				$excel->sheet('DATA BASE ANGGOTA', function($sheet) use ($data,$nama_gereja,$tanggal,$blank,$header_table_1,$header_table_2){																		
+					//row 2 - nama gereja
+					$sheet->row(2, $nama_gereja);
+					
+					//row 3 - tanggal
+					$sheet->row(3, $tanggal);
+					
+					//row 5 - header table 1
+					$sheet->row(5, $header_table_1);
+					
+					//row 6 - header table 2
+					$sheet->row(6, $header_table_2);
+					
+					//start data di row 8
+					$row_num  = 8;					
+					$no = 1;
+					foreach($data as $row_data)
+					{
+						$alamat = Alamat::where('id_anggota', '=', $row_data->id)->first();
+						
+						if($row_data->gender == 1){
+							$gender = "P";
+						}else{
+							$gender = "W";
+						}
+						
+						$each_data = array(
+							$no, //1 no
+							'', //2 no reg
+							$row_data->no_anggota, //3 no induk = no anggota
+							$row_data->nama_depan, //4 nama
+							'Jl.', //5 jl
+							$alamat->jalan, //6 alamat = jalan
+							$row_data->telp, //7 telp 
+							$alamat->kodepos, //8 kodepos
+							$alamat->kota, //9 kota
+							'', //10 rayon
+							$row_data->wilayah, //11 wilayah
+							'', //12 kecamatan
+							'', //13 kelurahan
+							$gender, //14 gender
+							'', //15 status anggota														
+							date_diff(date_create($row_data->tanggal_lahir), date_create(Carbon::now()))->y, //16 umur
+							$row_data->pendidikan, //17 pendidikan
+							$row_data->pekerjaan, //18 pekerjaan
+							$row_data->etnis, //19 kelompok etnis
+							$row_data->tanggal_lahir, //20 tanggal lahir
+							'', //21 tanggal baptis
+							'', //22 tanggal sidi
+							'', //23 tanggal atestasi masuk
+							'', //24 tanggal atestasi keluar
+							'', //25 tanggal meninggal
+							'', //26 nama ayah
+							'', //27 no anggota ayah
+							'', //28 nama ibu
+							'', //29 no anggota ibu
+							'' //30 keterangan
+						);
+						
+						$sheet->row($row_num, $each_data);
+						
+						$row_num++; //counter insert row
+						$no++; //counter no row
+					}
+					
+					//start styling
+						$sheet->setAutoSize(true);
+						
+						$sheet->mergeCells('W5:X5');//merge atestasi												
+						
+						$sheet->setWidth('A', 5);
+						
+						$sheet->cells('A2', function($cells) {						
+							$cells->setFont(array(
+								'family'     => 'Arial',
+								'size'       => '14',
+								'bold'       =>  true
+							));
+						});
+						
+						$sheet->cells('A5:AD6', function($cells) {						
+							$cells->setFont(array(
+								'family'     => 'Arial',
+								'size'       => '10',
+								'bold'       =>  true
+							));
+							$cells->setAlignment('center');
+						});						
+						
+						$last_row = $row_num - 1;												
+																												
+						$sheet->setBorder('A8:D'.$last_row, 'thin'); //kiri alamat
+						$sheet->setBorder('G8:AD'.$last_row, 'thin'); //kanan alamat
+						$sheet->cells('E8:F'.$last_row, function($cells) {						
+							$cells->setBorder('thin', 'none', 'thin', 'none');
+						});//tengah alamat
+								
+						$sheet->cells('A5:AD6', function($cells) {						
+							$cells->setBorder('none', 'solid', 'none', 'solid');
+						});		//header table (kiri kanan)						
+						$sheet->cells('A5:AD5', function($cells) {						
+							$cells->setBorder('thin', 'none', 'none', 'none');
+						});		//header table (atas)
+						$sheet->cells('A6:AD6', function($cells) {						
+							$cells->setBorder('none', 'none', 'thin', 'none');
+						});		//header table (bawah)						
+						$sheet->cells('W6:X6', function($cells) {						
+							$cells->setBorder('thin', 'none', 'none', 'none');
+						});	//atas atestasi masuk keluar
+						
+						$sheet->cells('A5:AD6', function($cells) {							
+							$cells->setBackground('#66FFCC');
+						}); //background color header table
+						
+						$sheet->cells('S3', function($cells) {						
+							$cells->setBorder('thin', 'none', 'thin', 'thin');
+						});	//tanggalkiri
+						$sheet->cells('T3', function($cells) {						
+							$cells->setBorder('thin', 'thin', 'none', 'thin');
+						});	//tanggalkanan
+						
+						$sheet->cells('S3:T3', function($cells) {							
+							$cells->setBackground('#66FF99');
+						}); //background color tanggal
+						
+					//end styling
+					
+				});
+
+			})->export('xlsx');
+			
+			return "Berhasil";
+		}catch(Exception $e){
+			return $e;
+		}		
+	}
+	
 	public function export_kegiatan($id_jenis_kegiatan=0,$id_gereja=0){
 	
 		$kegiatan = new Kegiatan();
@@ -8484,47 +8659,170 @@ class ImportEksportController extends BaseController {
 		else{
 			return 'Tidak ada file yang dipilih';
 		}
-		$message = 'no success';
+		
 		if($uploadSuccess){
-			$message = "Berhasil";
+			
 			//return $destinationPath.$filename;
 			$file_path = $destinationPath.$filename;
-			//return $file_path;
-			$result = Excel::selectSheets('Anggota')->load($file_path, function($reader) use($id_gereja){				
+			//return $file_path;								
+					
+			$result = Excel::selectSheets('DATA BASE ANGGOTA')->load($file_path, function($reader) use($id_gereja){				
 															
 				// Getting all results
-				$reader->skip(7); //skrng di row 8
+				$reader->skip(7); //maka skrng di row 8
 				$reader->noHeading();
 				$results = $reader->get();	
 				
 				//$reader->each(function($row) use($id_gereja){				
-				foreach($results as $row){			//select
-							
-					
-					if($row[27] != NULL){ //no_anggota
-						$no_anggota = $row[27];
+				// $count = DB::table('anggota')->orderBy('id', 'desc')->first()->id; //sementara no_anggota = id row di table				
+				$last_no_anggota = DB::table('anggota')->where('id_gereja', '=', $id_gereja)->get();
+				$last_number = count($last_no_anggota) + 1;
+				
+				foreach($results as $row)
+				{													
+										
+					//no_anggota					
+					// if($row[3] == null){
+						// $no_anggota = $count; //harusnya generate pake format no_anggota, sementara pake id row table
+						// $count++;						
+					// }else{					
+						// $no_anggota = $row[3];
+						// $count++;
+					// }					
+					//nama_depan
+					if($row[4] == null){
+						$nama_depan = "";
+					}else{
+						$nama_depan = $row[4];
 					}
-					else{
-						//do nothing
+					//alamat
+					if($row[6] == null){
+						$jalan = "";
+					}else{
+						$jalan = $row[6];
 					}
-					
-					$anggota = Anggota::where('id_gereja','=',$id_gereja)->where('no_anggota','=',$no_anggota)->get();
-							
+					//telp
+					if($row[7] == null){
+						$telp = "";
+					}else{
+						$telp = $row[7];
+					}
+					//kodepos
+					if($row[8] == null){
+						$kodepos = "";
+					}else{
+						$kodepos = $row[8];
+					}					
+					//kota
+					if($row[9] == null){
+						$kota = "";
+					}else{
+						$kota = $row[9];
+					}
 					//gender
-					if($row[14] == "P")
-					{
+					if($row[14] == null){
+						$gender = -1;
+					}else if($row[14] == "P" || $row[14] == "p"){
 						$gender = 1;
-					}
-					else
-					{
+					}else{	//W = w
 						$gender = 0;
 					}
-							
+					//pendidikan
+					if($row[17] == null){
+						$pendidikan = "";
+					}else{
+						$pendidikan = $row[17];
+					}
+					//pekerjaan
+					if($row[18] == null){
+						$pekerjaan = "";
+					}else{
+						$pekerjaan = $row[18];
+					}
+					//etnis
+					if($row[19] == null){
+						$etnis = "";
+					}else{
+						$etnis = $row[19];
+					}
+					//tanggal_lahir
+					if($row[20] == null){
+						$tanggal_lahir = "";
+					}else{
+						$tanggal_lahir = $row[20];
+					}																									
+					
+					//NOTE : KALO CELL DI EXCELNYA NULL BAKAL ERROR																		
+					
+					//GENERATE NO_ANGGOTA BY SYSTEM
+					$no_anggota = $id_gereja."-".$last_number;
+					$last_number++;
+					
+					//PREVENTION KALO ORANG SAMPE IMPORT 2X SHEET YANG SAMA
+					//kombinasi nama_depan dan tanggal_lahir
+					$exist = DB::table('anggota')->where('nama_depan', '=', $nama_depan)->where('tanggal_lahir', '=', $tanggal_lahir)->get();
+					if(count($exits) >= 1)
+					{
+						//duplicate data, not inserted
+					}
+					else //new data
+					{	
+						//START INSERT
+						DB::table('anggota')->insert(
+							array(							
+								//IT WILL ERROR IF NO_ANGGOTA NOT UNIQUE
+								'no_anggota'=>$no_anggota, 							
+								'nama_depan'=>$nama_depan, //asumsi : sementara masukin nama ke nama_depan
+								'nama_tengah'=>"",
+								'nama_belakang'=>"",		
+								'telp'=>$telp,
+								'gender'=>$gender,
+								'wilayah'=>"", //masih ga jelas, diisi rayon, ato nama wilayah, ato apa 
+								'gol_darah'=>"", //di ayudia ga ada golongan darah, jadi bingung
+								'pendidikan'=>$pendidikan,
+								'pekerjaan'=>$pekerjaan,
+								'etnis'=>$etnis,
+								'kota_lahir'=>"", //di ayudia ga ada kota lahir, jadi bingung
+								'tanggal_lahir'=>$tanggal_lahir, //format di excelnya dd/mm/yyyy
+								// 'tanggal_meninggal'=>null,
+								'role'=>1,		//di data anggota ga tau role, sementara masukin jadi 1 = jemaat semua		
+								'foto'=>null,
+								'id_gereja'=>$id_gereja,
+								'deleted'=>0,														
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()																
+							)
+						);							
+						$new_anggota = DB::table('anggota')->orderBy('id', 'desc')->first();											
+						DB::table('alamat')->insert(
+							array(
+								'jalan'=>$jalan,
+								'kota'=>$kota,								
+								'kodepos'=>$kodepos,
+								'id_anggota'=>$new_anggota->id,								
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);
+						//ANGGEP GA USAH MASUK KE TABLE HP DULU, KARNA KONTAK NOMOR CUMA 1 KOLOM DI EXCEL, MASUKNYA KE TELP DI TABLE ANGGOTA
+						// DB::table('hp')->insert(
+							// array(
+								// 'no_hp'=>$,
+								// 'id_anggota'=>$new_anggota->id,
+								// 'created_at'=>Carbon::now(),
+								// 'updated_at'=>Carbon::now()
+							// )
+						// );
+						//END INSERT
+					}
+															
+					
+					/*		
+					// $anggota = Anggota::where('id_gereja','=',$id_gereja)->where('no_anggota','=',$no_anggota)->get();
+					
 					//if exist
-					if(count($anggota) == 1){
-											
-						//update
-							
+					if(count($anggota) == 1){						
+						//update						
 						DB::table('anggota')->where('id', '=', $anggota->id)->update(
 							array(
 								'no_anggota'=>$row[27], 
@@ -8533,12 +8831,12 @@ class ImportEksportController extends BaseController {
 								'nama_belakang'=>"",		
 								'telp'=>$row[7],
 								'gender'=>$gender,
-								//'wilayah'=>, //masih ga jelas
-								//'gol_darah'=>, //di ayudia ga ada golongan darah, jadi bingung
+								// 'wilayah'=>, //masih ga jelas
+								'gol_darah'=>"", //di ayudia ga ada golongan darah, jadi bingung
 								'pendidikan'=>$row[17],
 								'pekerjaan'=>$row[18],
 								'etnis'=>$row[19],
-								//'kota_lahir'=>, //di ayudia ga ada kota lahir, jadi bingung
+								'kota_lahir'=>"", //di ayudia ga ada kota lahir, jadi bingung
 								'tanggal_lahir'=>$row[20], //format di excelnya dd/mm/yyyy
 								//'tanggal_meninggal'=>null,
 								'role'=>1,		//di data anggota ga tau role, sementara masukin jadi 1 = jemaat semua
@@ -8568,7 +8866,8 @@ class ImportEksportController extends BaseController {
 								// 'created_at'=>Carbon::now(),
 								'updated_at'=>Carbon::now()
 							)
-						);						
+						);	
+												
 					}
 					else
 					{	
@@ -8616,13 +8915,14 @@ class ImportEksportController extends BaseController {
 								'created_at'=>Carbon::now(),
 								'updated_at'=>Carbon::now()
 							)
-						);
-					}						
+						);				
+					}
+					*/					
 				}
 			});
 			
-			// return 'Berhasil';
-			return $message;
+			return 'Berhasil';
+			// return $message;
 		}
 		else{
 			return 'Gagal upload file';

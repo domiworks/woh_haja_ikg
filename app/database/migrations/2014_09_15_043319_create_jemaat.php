@@ -20,7 +20,8 @@ class CreateJemaat extends Migration {
 			$table->string('nama_tengah');
 			$table->string('nama_belakang');
 			$table->string('telp');
-			$table->tinyInteger('gender'); //pria, wanita
+			$table->tinyInteger('gender'); //1=pria, 0=wanita
+			$table->tinyInteger('status_anggota'); //1=B=Baptis, 2=S=Sidi
 			$table->string('wilayah');
 			$table->string('gol_darah');
 			$table->string('pendidikan');

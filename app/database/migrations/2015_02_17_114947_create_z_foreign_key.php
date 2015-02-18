@@ -81,6 +81,7 @@ class CreateZForeignKey extends Migration {
 		Schema::table('dkh', function($table)
 		{
 		    $table->foreign('id_jemaat')->references('id')->on('anggota');
+			$table->foreign('id_jenis_dkh')->references('id')->on('jenis_dkh');
 		});
 		
 		Schema::table('auth', function($table)

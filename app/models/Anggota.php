@@ -7,24 +7,25 @@ class Anggota extends Eloquent
 
 	public static $rules = 
 				[
-						// 'no_anggota' => 'required',
+						// 'no_anggota' => 'required', //digenerate system
 				'nama_depan' => 'required',
 						// 'nama_tengah' => 'required',
 						// 'nama_belakang' => 'required',
-				'telp' => 'required',
+						// 'telp' => 'required',
 				'gender' => 'required',
+						// 'status_anggota' => 'required',
 						// 'wilayah' => 'required',
-				'gol_darah' => 'required',
+						// 'gol_darah' => 'required',
 						// 'pendidikan' => 'required',
-				'pekerjaan' => 'required',
+						// 'pekerjaan' => 'required',
 						// 'etnis' => 'required',
-				'kota_lahir' => 'required',
+						// 'kota_lahir' => 'required',
 				'tanggal_lahir' => 'required',
 						// 'tanggal_meninggal' => 'required',
 				'role' => 'required',
 						// 'foto' => 'required',
 						// 'id_atestasi' => 'required',
-						// 'id_gereja' => 'required'						
+				'id_gereja' => 'required'						
 				];	
 	
 	public $fillable = 
@@ -34,6 +35,7 @@ class Anggota extends Eloquent
 				'nama_belakang',
 				'telp',
 				'gender',
+				'status_anggota',
 				'wilayah',
 				'gol_darah',
 				'pendidikan',

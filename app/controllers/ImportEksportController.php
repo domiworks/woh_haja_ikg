@@ -8062,32 +8062,25 @@ class ImportEksportController extends BaseController {
 							$cells->setBorder('thin', 'none', 'thin', 'none');
 						});//tengah alamat
 								
-						$sheet->cells('A5:AD6', function($cells) {						
-							$cells->setBorder('none', 'solid', 'none', 'solid');
-						});		//header table (kiri kanan)						
-						$sheet->cells('A5:AD5', function($cells) {						
-							$cells->setBorder('thin', 'none', 'none', 'none');
-						});		//header table (atas)
-						$sheet->cells('A6:AD6', function($cells) {						
-							$cells->setBorder('none', 'none', 'thin', 'none');
-						});		//header table (bawah)						
-						$sheet->cells('W6:X6', function($cells) {						
-							$cells->setBorder('thin', 'none', 'none', 'none');
-						});	//atas atestasi masuk keluar
+						// $sheet->cells('A5:AD6', function($cells) {						
+							// $cells->setBorder('none', 'solid', 'none', 'solid');
+						// });		//header table (kiri kanan)						
+						// $sheet->cells('A5:AD5', function($cells) {						
+							// $cells->setBorder('solid', 'none', 'none', 'none');
+						// });		//header table (atas)
+						// $sheet->cells('A6:AD6', function($cells) {						
+							// $cells->setBorder('none', 'none', 'solid', 'none');
+						// });		//header table (bawah)						
+						// $sheet->cells('W6:X6', function($cells) {						
+							// $cells->setBorder('solid', 'none', 'none', 'none');
+						// });	//atas atestasi masuk keluar
 						
 						$sheet->cells('A5:AD6', function($cells) {							
 							$cells->setBackground('#66FFCC');
-						}); //background color header table
-						
-						$sheet->cells('S3', function($cells) {						
-							$cells->setBorder('thin', 'none', 'thin', 'thin');
-						});	//tanggalkiri
-						$sheet->cells('T3', function($cells) {						
-							$cells->setBorder('thin', 'thin', 'none', 'thin');
-						});	//tanggalkanan
+						}); //background color header table												
 						
 						$sheet->cells('S3:T3', function($cells) {							
-							$cells->setBackground('#66FF99');
+							$cells->setBackground('#66FF99');							
 						}); //background color tanggal
 						
 					//end styling
@@ -8254,7 +8247,7 @@ class ImportEksportController extends BaseController {
 				array_push($data,$key);
 			}*/
 			
-			Excel::create('LKKJTest', function($excel) use($data,$array_header,$array_data) {
+			Excel::create('Export Data Kebaktian', function($excel) use($data,$array_header,$array_data) {
 
 				$excel->sheet('Keb.Umum', function($sheet) use($data,$array_header,$array_data){
 					
@@ -8760,13 +8753,13 @@ class ImportEksportController extends BaseController {
 					
 					//PREVENTION KALO ORANG SAMPE IMPORT 2X SHEET YANG SAMA
 					//kombinasi nama_depan dan tanggal_lahir
-					$exist = DB::table('anggota')->where('nama_depan', '=', $nama_depan)->where('tanggal_lahir', '=', $tanggal_lahir)->get();
-					if(count($exits) >= 1)
-					{
-						//duplicate data, not inserted
-					}
-					else //new data
-					{	
+					// $exist = DB::table('anggota')->where('nama_depan', '=', $nama_depan)->where('tanggal_lahir', '=', $tanggal_lahir)->get();
+					// if(count($exits) >= 1)
+					// {
+						// duplicate data, not inserted
+					// }
+					// else //new data
+					// {	
 						//START INSERT
 						DB::table('anggota')->insert(
 							array(							
@@ -8814,7 +8807,7 @@ class ImportEksportController extends BaseController {
 							// )
 						// );
 						//END INSERT
-					}
+					// }
 															
 					
 					/*		

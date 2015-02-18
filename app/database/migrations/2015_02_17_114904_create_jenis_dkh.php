@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDkh extends Migration {
+class CreateJenisDkh extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,16 +12,12 @@ class CreateDkh extends Migration {
 	 */
 	public function up()
 	{
-		//DKH masih ga jelas gunanya buat apa
-		Schema::table('dkh', function (Blueprint $table){
+		Schema::table('jenis_dkh', function (Blueprint $table){
 			$table->create();
 			$table->increments('id');
-			$table->string('no_dkh');
-			$table->integer('id_jemaat')->unsigned();
-			$table->integer('id_jenis_dkh')->unsigned();
+			$table->string('nama_dkh');
 			$table->string('keterangan');
 			$table->tinyInteger('deleted');
-									
 			$table->timestamps();
 		});
 	}
@@ -33,7 +29,7 @@ class CreateDkh extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('dkh', function (Blueprint $table){
+		Schema::table('jenis_dkh', function (Blueprint $table){
 			$table->drop();
 		});
 	}

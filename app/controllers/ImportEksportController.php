@@ -4,6 +4,593 @@ use Carbon\Carbon;
 
 class ImportEksportController extends BaseController {
 
+	//START FUNGSI BUAT IMPORT REAL DATA, ADA BEBERAPA FUNGSI KARENA TEMPLATE TIAP GEREJA BEDA-BEDA
+	public function import_data_dbaj_gki_ayudia()
+	{			
+		//NOTE KOLOM YANG TIDAK DIPROSES:
+		//RAYON, WILAYAH, KECAMATAN, KELURAHAN, UMUR
+
+		$id_gereja = 1; //id_gereja = 1 = gki ayudia
+
+		/*
+		$destinationPath = 'assets/file_excel/anggota/'.$id_gereja.'/';
+		$filename = '';
+		
+		if(Input::hasFile('excel_file')){
+			$file = Input::file('excel_file');
+			$filename = $file->getClientOriginalName();
+			$uploadSuccess = $file->move($destinationPath, $filename);
+		}
+		else{
+			return 'Tidak ada file yang dipilih';
+		}
+		*/
+
+		//if($uploadSuccess){						
+		if(true){
+			//$file_path = $destinationPath.$filename;			
+			$file_path = 'assets/file_excel/anggota/'.$id_gereja.'/GKI Ayudia DBAJ (imported).xlsx';
+					
+			$result = Excel::selectSheets('DATA BASE ANGGOTA')->load($file_path, function($reader) use($id_gereja){				
+															
+				// Getting all results
+				$reader->skip(7); //maka skrng di row 8
+				$reader->noHeading();
+				$results = $reader->get();	
+								
+				//								
+				$last_no_anggota = DB::table('anggota')->where('id_gereja', '=', $id_gereja)->get();
+				$last_number = count($last_no_anggota) + 1;
+				
+				foreach($results as $row)
+				{			
+					//break
+					if($row[1] == null)
+					{
+						break;
+					}
+
+					//nama_depan
+					if($row[4] == null){
+						$nama_depan = "";
+					}else{
+						$nama_depan = $row[4];
+					}
+					//alamat
+					if($row[6] == null){
+						$jalan = "";
+					}else{
+						$jalan = $row[6];
+					}
+					//telp
+					if($row[7] == null){
+						$telp = "";
+					}else{
+						$telp = $row[7];
+					}
+					//kodepos
+					if($row[8] == null){
+						$kodepos = "";
+					}else{
+						$kodepos = $row[8];
+					}					
+					//kota
+					if($row[9] == null){
+						$kota = "";
+					}else{
+						$kota = $row[9];
+					}
+					//gender
+					if($row[14] == null){
+						$gender = -1;
+					}else if($row[14] == "P" || $row[14] == "p"){
+						$gender = 1;
+					}else{	//W = w
+						$gender = 0;
+					}
+					//status_anggota
+					if($row[15] == null){
+						$status_anggota = -1;
+					}else if($row[15] == "B" || $row[15] == "b"){
+						$status_anggota = 1;
+					}else{	//S = s
+						$status_anggota = 2;
+					}				
+					//pendidikan
+					if($row[17] == null){
+						$pendidikan = "";
+					}else{
+						$pendidikan = $row[17];
+					}
+					//pekerjaan
+					if($row[18] == null){
+						$pekerjaan = "";
+					}else{
+						$pekerjaan = $row[18];
+					}
+					//etnis
+					if($row[19] == null){
+						$etnis = "";
+					}else{
+						$etnis = $row[19];
+					}
+					//tanggal_lahir
+					if($row[20] == null){
+						$tanggal_lahir = "";
+					}else{
+						$tanggal_lahir = $row[20];
+					}																									
+					//tanggal_baptis
+					if($row[21] == null){
+						$tanggal_baptis = "";
+					}else{
+						$tanggal_baptis = $row[21];
+					}																									
+					//tanggal_sidi
+					if($row[22] == null){
+						$tanggal_sidi = "";
+					}else{
+						$tanggal_sidi = $row[22];
+					}	
+					//tanggal_atestasi_masuk
+					if($row[23] == null){
+						$tanggal_atestasi_masuk = "";
+					}else{
+						$tanggal_atestasi_masuk = $row[23];
+					}																									
+
+					//NOTE : KALO CELL DI EXCELNYA NULL BAKAL ERROR																							
+					//NOTE : DB INSERT TABLE GA AKAN KENA VALIDATION YANG ADA DI MODEL								
+					//GENERATE NO_ANGGOTA BY SYSTEM
+					$no_anggota = $id_gereja."-".$last_number;
+					$last_number++;	//generate lastnumber baru untuk looping setelahnya ini / berikutnya
+										
+					//START INSERT
+					DB::table('anggota')->insert(
+						array(							
+							//IT WILL ERROR IF NO_ANGGOTA NOT UNIQUE
+							'no_anggota'=>$no_anggota, 							
+							'nama_depan'=>$nama_depan, //asumsi : sementara masukin nama ke nama_depan								
+							'nama_tengah'=>"",
+							'nama_belakang'=>"",		
+							'telp'=>$telp,
+							'gender'=>$gender,
+							'status_anggota'=>$status_anggota,
+							'wilayah'=>"", 
+							'gol_darah'=>"", 
+							'pendidikan'=>$pendidikan,
+							'pekerjaan'=>$pekerjaan,
+							'etnis'=>$etnis,
+							'kota_lahir'=>"", 
+							'tanggal_lahir'=>$tanggal_lahir, //format di excelnya dd/mm/yyyy
+							// 'tanggal_meninggal'=>null,
+							'role'=>1,		//di data anggota ga tau role, sementara masukin jadi 1 = jemaat semua		
+							'foto'=>null,
+							'id_gereja'=>$id_gereja,
+							'deleted'=>0,														
+							'created_at'=>Carbon::now(),
+							'updated_at'=>Carbon::now()																
+						)
+					);							
+					$new_anggota = DB::table('anggota')->orderBy('id', 'desc')->first();											
+					DB::table('alamat')->insert(
+						array(
+							'jalan'=>$jalan,
+							'kota'=>$kota,								
+							'kodepos'=>$kodepos,
+							'id_anggota'=>$new_anggota->id,								
+							'created_at'=>Carbon::now(),
+							'updated_at'=>Carbon::now()
+						)
+					);
+					if($tanggal_baptis != "")
+					{
+						DB::table('baptis')->insert(
+							array(
+								//'no_baptis'=>"",
+								'id_jemaat'=>$new_anggota->id,
+								//'id_pendeta'=>1, //id anggota Pdt. GKI Ayudia
+								'tanggal_baptis'=>$tanggal_baptis,
+								'id_jenis_baptis'=>1, //= id_jenis_baptis untuk baptis
+								'id_gereja'=>$id_gereja,
+								'keterangan'=>"",
+								'deleted'=>0,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);
+					}
+					if($tanggal_sidi != "")
+					{
+						DB::table('baptis')->insert(
+							array(
+								//'no_baptis'=>"",
+								'id_jemaat'=>$new_anggota->id,
+								//'id_pendeta'=>1, //id anggota Pdt. GKI Ayudia
+								'tanggal_baptis'=>$tanggal_baptis,
+								'id_jenis_baptis'=>2, //= id_jenis_baptis untuk baptis
+								'id_gereja'=>$id_gereja,
+								'keterangan'=>"",
+								'deleted'=>0,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);
+					}
+					if($tanggal_atestasi_masuk != "")
+					{	
+						DB::table('atestasi')->insert(
+							array(
+								//'no_atestasi'=>"",
+								'tanggal_atestasi'=>$tanggal_atestasi_masuk,
+								//'id_gereja_lama'=>,
+								'id_gereja_baru'=>1,
+								//'nama_gereja_lama'=>"",
+								'nama_gereja_baru'=>"GKI Ayudia",
+								//'id_jenis_atestasi'=>, //atestasi keluar yang mana?
+								'id_anggota'=>$new_anggota->id,
+								'keterangan'=>"",
+								'deleted'=>0,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);						
+					}					
+					if($tanggal_atestasi_keluar != "")
+					{							
+						DB::table('atestasi')->insert(
+							array(
+								//'no_atestasi'=>"",
+								'tanggal_atestasi'=>$tanggal_atestasi_keluar,
+								'id_gereja_lama'=>1,
+								//'id_gereja_baru'=>,
+								'nama_gereja_lama'=>"GKI Ayudia",
+								//'nama_gereja_baru'=>"",
+								//'id_jenis_atestasi'=>, //atestasi keluar yang mana?
+								'id_anggota'=>$new_anggota->id,
+								'keterangan'=>"",
+								'deleted'=>0,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);																	
+					}																											
+				}
+			});
+			
+			return 'Berhasil';			
+		}
+		else{
+			return 'Gagal';
+		}
+	}
+	public function import_data_dbaj_gki_cianjur()
+	{
+		//NOTE KOLOM YANG TIDAK DIPROSES:
+		//RAYON, WILAYAH, KECAMATAN, KELURAHAN, UMUR
+
+		$id_gereja = 2; //id_gereja = 2 = gki cianjur
+
+		/*
+		$destinationPath = 'assets/file_excel/anggota/'.$id_gereja.'/';
+		$filename = '';
+		
+		if(Input::hasFile('excel_file')){
+			$file = Input::file('excel_file');
+			$filename = $file->getClientOriginalName();
+			$uploadSuccess = $file->move($destinationPath, $filename);
+		}
+		else{
+			return 'Tidak ada file yang dipilih';
+		}
+		*/
+
+		//if($uploadSuccess){						
+		if(true){
+			//$file_path = $destinationPath.$filename;			
+			$file_path = 'assets/file_excel/anggota/'.$id_gereja.'/GKI Cianjur DBAJ (imported).xlsx';
+					
+			$result = Excel::selectSheets('DATA BASE ANGGOTA')->load($file_path, function($reader) use($id_gereja){				
+															
+				// Getting all results
+				$reader->skip(6); //maka skrng di row 7
+				$reader->noHeading();
+				$results = $reader->get();	
+								
+				//								
+				$last_no_anggota = DB::table('anggota')->where('id_gereja', '=', $id_gereja)->get();
+				$last_number = count($last_no_anggota) + 1;
+				
+				foreach($results as $row)
+				{			
+					//break
+					if($row[1] == null)
+					{
+						break;
+					}
+
+					//nama_depan
+					if($row[3] == null){
+						$nama_depan = "";
+					}else{
+						$nama_depan = $row[3];
+					}
+					//alamat
+					if($row[4] == null){
+						$jalan = "";
+					}else{
+						$jalan = $row[4];
+					}
+					//telp
+					if($row[5] == null){
+						$telp = "";
+					}else{
+						$telp = $row[5];
+					}
+					//wilayah
+					if($row[6] == null){
+						$wilayah = "";
+					}else{
+						$wilayah = $row[6];
+					}
+					//kodepos
+					//if($row[8] == null){
+					//	$kodepos = "";
+					//}else{
+					//  $kodepos = $row[8];
+					//}					
+					//kota
+					//if($row[9] == null){
+					//	$kota = "";
+					//}else{
+					//	$kota = $row[9];
+					//}
+					//gender
+					if($row[7] == null){
+						$gender = -1;
+					}else if($row[7] == "P" || $row[7] == "p"){
+						$gender = 1;
+					}else{	//W = w
+						$gender = 0;
+					}
+					//status_anggota
+					if($row[8] == null){
+						$status_anggota = -1;
+					}else if($row[8] == "B" || $row[8] == "b"){
+						$status_anggota = 1;
+					}else{	//S = s
+						$status_anggota = 2;
+					}				
+					//pendidikan
+					if($row[10] == null){
+						$pendidikan = "";
+					}else{
+						$pendidikan = $row[10];
+					}
+					//pekerjaan
+					if($row[11] == null){
+						$pekerjaan = "";
+					}else{
+						$pekerjaan = $row[11];
+					}
+					//etnis
+					if($row[12] == null){
+						$etnis = "";
+					}else{
+						$etnis = $row[12];
+					}
+					//tanggal_lahir
+					if($row[13] == null){
+						$tanggal_lahir = "";
+					}else{
+						$tanggal_lahir = $row[13];
+					}																									
+					//tanggal_baptis
+					if($row[14] == null){
+						$tanggal_baptis = "";
+					}else{
+						$tanggal_baptis = $row[14];
+					}																									
+					//tanggal_sidi
+					if($row[15] == null){
+						$tanggal_sidi = "";
+					}else{
+						$tanggal_sidi = $row[15];
+					}	
+					//tanggal_atestasi_masuk
+					if($row[16] == null){
+						$tanggal_atestasi_masuk = "";
+					}else{
+						$tanggal_atestasi_masuk = $row[16];
+					}																									
+					//tanggal_atestasi_keluar
+					if($row[17] == null){
+						$tanggal_atestasi_keluar = "";
+					}else{
+						$tanggal_atestasi_keluar = $row[17];
+					}
+					//tanggal_meninggal
+					if($row[18] == null){
+						$tanggal_meninggal = "";
+					}else{
+						$tanggal_meninggal = $row[18];
+					}
+					//tanggal_dkh
+					if($row[19] == null){
+						$tanggal_dkh = "";
+					}else{
+						$tanggal_dkh = $row[19];
+					}
+					//tanggal_ex_dkh
+					if($row[20] == null){
+						$tanggal_ex_dkh = "";
+					}else{
+						$tanggal_ex_dkh = $row[20];
+					}
+					//tanggal_ex_dkh4
+					if($row[21] == null){
+						$tanggal_ex_dkh4 = "";
+					}else{
+						$tanggal_ex_dkh4 = $row[21];
+					}
+					//alasan 1 mutasi
+					if($row[22] == null){
+						$alasan_1_mutasi = "";
+					}else{
+						$alasan_1_mutasi = $row[22];
+					}
+					//alasan 2 mutasi
+					if($row[23] == null){
+						$alasan_2_mutasi = "";
+					}else{
+						$alasan_2_mutasi = $row[23];
+					}
+
+					//NOTE : KALO CELL DI EXCELNYA NULL BAKAL ERROR																							
+					//NOTE : DB INSERT TABLE GA AKAN KENA VALIDATION YANG ADA DI MODEL								
+					//GENERATE NO_ANGGOTA BY SYSTEM
+					$no_anggota = $id_gereja."-".$last_number;
+					$last_number++;	//generate lastnumber baru untuk looping setelahnya ini / berikutnya
+										
+					//START INSERT
+					DB::table('anggota')->insert(
+						array(							
+							//IT WILL ERROR IF NO_ANGGOTA NOT UNIQUE
+							'no_anggota'=>$no_anggota, 							
+							'nama_depan'=>$nama_depan, //asumsi : sementara masukin nama ke nama_depan								
+							'nama_tengah'=>"",
+							'nama_belakang'=>"",		
+							'telp'=>$telp,
+							'gender'=>$gender,
+							'status_anggota'=>$status_anggota,
+							'wilayah'=>$wilayah, 
+							'gol_darah'=>"", 
+							'pendidikan'=>$pendidikan,
+							'pekerjaan'=>$pekerjaan,
+							'etnis'=>$etnis,
+							'kota_lahir'=>"", 
+							'tanggal_lahir'=>$tanggal_lahir, //format di excelnya dd/mm/yyyy
+							// 'tanggal_meninggal'=>null,
+							'role'=>1,		//di data anggota ga tau role, sementara masukin jadi 1 = jemaat semua		
+							'foto'=>null,
+							'id_gereja'=>$id_gereja,
+							'deleted'=>0,														
+							'created_at'=>Carbon::now(),
+							'updated_at'=>Carbon::now()																
+						)
+					);							
+					$new_anggota = DB::table('anggota')->orderBy('id', 'desc')->first();											
+					DB::table('alamat')->insert(
+						array(
+							'jalan'=>$jalan,
+							'kota'=>"Cianjur",								
+							'kodepos'=>"",
+							'id_anggota'=>$new_anggota->id,								
+							'created_at'=>Carbon::now(),
+							'updated_at'=>Carbon::now()
+						)
+					);
+					if($tanggal_baptis != "")
+					{
+						DB::table('baptis')->insert(
+							array(
+								//'no_baptis'=>"",
+								'id_jemaat'=>$new_anggota->id,
+								//'id_pendeta'=>1, //id anggota Pdt. GKI Ayudia
+								'tanggal_baptis'=>$tanggal_baptis,
+								'id_jenis_baptis'=>1, //= id_jenis_baptis untuk baptis
+								'id_gereja'=>$id_gereja,
+								'keterangan'=>"",
+								'deleted'=>0,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);
+					}
+					if($tanggal_sidi != "")
+					{
+						DB::table('baptis')->insert(
+							array(
+								//'no_baptis'=>"",
+								'id_jemaat'=>$new_anggota->id,
+								//'id_pendeta'=>1, //id anggota Pdt. GKI Ayudia
+								'tanggal_baptis'=>$tanggal_baptis,
+								'id_jenis_baptis'=>2, //= id_jenis_baptis untuk baptis
+								'id_gereja'=>$id_gereja,
+								'keterangan'=>"",
+								'deleted'=>0,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);
+					}					
+					if($tanggal_atestasi_masuk != "")
+					{	
+						DB::table('atestasi')->insert(
+							array(
+								//'no_atestasi'=>"",
+								'tanggal_atestasi'=>$tanggal_atestasi_masuk,
+								//'id_gereja_lama'=>,
+								'id_gereja_baru'=>2,
+								//'nama_gereja_lama'=>"GKI Cianjur",
+								'nama_gereja_baru'=>"GKI Cianjur",
+								//'id_jenis_atestasi'=>, //atestasi keluar yang mana?
+								'id_anggota'=>$new_anggota->id,
+								'keterangan'=>"",
+								'deleted'=>0,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);						
+					}					
+					if($tanggal_atestasi_keluar != "")
+					{							
+						DB::table('atestasi')->insert(
+							array(
+								//'no_atestasi'=>"",
+								'tanggal_atestasi'=>$tanggal_atestasi_keluar,
+								'id_gereja_lama'=>2,
+								//'id_gereja_baru'=>,
+								'nama_gereja_lama'=>"GKI Cianjur",
+								//'nama_gereja_baru'=>"",
+								//'id_jenis_atestasi'=>, //atestasi keluar yang mana?
+								'id_anggota'=>$new_anggota->id,
+								'keterangan'=>"",
+								'deleted'=>0,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);																	
+					}
+					if($tanggal_meninggal != "")
+					{
+						DB::table('kedukaan')->insert(
+							array(
+								'no_kedukaan'=>"",
+								'id_gereja'=>$id_gereja,
+								'id_jemaat'=>$new_anggota->id,
+								'keterangan'=>"",
+								'deleted'=>0,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+							)
+						);
+						DB::table('anggota')
+				            ->where('id', $new_anggota->id)
+				            ->update(array('tanggal_meninggal' => $tanggal_meninggal));
+					}																										
+				}
+			});
+			
+			return 'Berhasil';			
+		}
+		else{
+			return 'Gagal';
+		}
+	}
+	//END FUNGSI IMPORT REAL DATA
+
+
 	public function view_import_eksport()
 	{		
 		// $header = $this->setHeader();

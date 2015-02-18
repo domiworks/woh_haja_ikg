@@ -644,7 +644,7 @@ class DatabaseSeeder extends Seeder {
 			$hp11 -> save();
 		
 		//---------------------------------- USER COWO/CEWE ----------------------------------			
-				
+		/*		
 		//insert cowo guntur
 		$idx = 2;	
 		$date = date_create('2016-01-03');
@@ -733,7 +733,7 @@ class DatabaseSeeder extends Seeder {
 			//date_add($date, date_interval_create_from_date_string('7 days'));	
 			date_add($date, date_interval_create_from_date_string($count));	
 		}				
-
+		*/
 		//---------------------------------- JENIS KEGIATAN ----------------------------------		
 		// note 'nama_kegiatan' :
 				// - kebaktian umum 1
@@ -924,7 +924,7 @@ class DatabaseSeeder extends Seeder {
 		//---------------------------------- DATA KEGIATAN/KEBAKTIAN ----------------------------------				
 		
 		//dummy data for demo -> GKI GUNTUR
-		
+		/*
 		$date = date_create('2016-01-03');
 		for($i = 1 ; $i <= 100 ; $i++)
 		{			
@@ -1082,8 +1082,8 @@ class DatabaseSeeder extends Seeder {
 			//add date to next week
 			date_add($date, date_interval_create_from_date_string('7 days'));	
 		}	
-			
-
+		*/		
+	
 	}
 
 }

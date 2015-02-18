@@ -12,15 +12,18 @@
 */
 
 //example
-Route::get('/import', ['as' => 'get.import' , 'uses' => 'ExcelController@import']);
-Route::get('/import_kegiatan_gki_cianjur', ['as' => 'get.import_kegiatan_cianjur' , 'uses' => 'ImportEksportController@import_kegiatan_GKI_Cianjur']);
-Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export']);
+//Route::get('/import', ['as' => 'get.import' , 'uses' => 'ExcelController@import']);
+//Route::get('/import_kegiatan_gki_cianjur', ['as' => 'get.import_kegiatan_cianjur' , 'uses' => 'ImportEksportController@import_kegiatan_GKI_Cianjur']);
+//Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export']);
 
-
+//START SEED REAL DATA
+Route::get('/import_data_dbaj_gki_ayudia', ['as' => 'import_data_dbaj_gki_ayudia', 'uses' => 'ImportEksportController@import_data_dbaj_gki_ayudia']);
+Route::get('/import_data_dbaj_gki_cianjur', ['as' => 'import_data_dbaj_gki_cianjur', 'uses' => 'ImportEksportController@import_data_dbaj_gki_cianjur']);
+//END SEED REAL DATA
 
 
 Route::get('/tes', function(){
-
+	/*
 	$message = "Berhasil";	
 	
 	$file_path = 'assets/file_excel/anggota/1/GKI Ayudia DBAJ.xls';
@@ -41,6 +44,7 @@ Route::get('/tes', function(){
 	});
 		
 	return $results;
+	*/
 
 	// $baptis = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->whereNotIn('ang.role', array(2));
 		

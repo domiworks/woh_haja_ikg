@@ -290,7 +290,7 @@ class DatabaseSeeder extends Seeder {
 		
 		
 		//---------------------------------- PENDETA ----------------------------------		
-
+		
 		$anggota1 = new Anggota();		
 		$anggota1 -> no_anggota = $gereja1->id."-1";
 		$anggota1 -> nama_depan = "Pdt. ".$gereja1->nama; //required
@@ -850,6 +850,11 @@ class DatabaseSeeder extends Seeder {
 		$jenisatestasi14 -> keterangan = "Atestasi Masuk Anak";
 		$jenisatestasi14 -> save();
 
+		$jenisatestasi15 = new JenisAtestasi();
+		$jenisatestasi15 -> nama_atestasi = "APA";
+		$jenisatestasi15 -> keterangan = "Anak Potensial Anggota";
+		$jenisatestasi15 -> save();
+
 				
 		//---------------------------------- JENIS BAPTIS ----------------------------------
 
@@ -865,68 +870,79 @@ class DatabaseSeeder extends Seeder {
 
 		//---------------------------------- JENIS DKH ----------------------------------	
 
-		$jenisdkh = new JenisDkh();
-		$jenisdkh -> nama_dkh = "DKH-1";
-		$jenisdkh -> keterangan = "Alamat tidak diketahui, luar kota, luar negeri";
-		$jenisdkh -> save();
+		$jenisdkh1 = new JenisDkh();
+		$jenisdkh1 -> nama_dkh = "DKH";
+		$jenisdkh1 -> keterangan = "(jenis dkh)";
+		$jenisdkh1 -> save();
 
-		$jenisdkh = new JenisDkh();
-		$jenisdkh -> nama_dkh = "DKH-2";
-		$jenisdkh -> keterangan = "Pindah Agama";
-		$jenisdkh -> save();
+		$jenisdkh2 = new JenisDkh();
+		$jenisdkh2 -> nama_dkh = "DKH-1";
+		$jenisdkh2 -> keterangan = "Alamat tidak diketahui, luar kota, luar negeri";
+		$jenisdkh2 -> save();
 
-		$jenisdkh = new JenisDkh();
-		$jenisdkh -> nama_dkh = "DKH-3";
-		$jenisdkh -> keterangan = "Pindah tanpa Atestasi";
-		$jenisdkh -> save();
+		$jenisdkh3 = new JenisDkh();
+		$jenisdkh3 -> nama_dkh = "DKH-2";
+		$jenisdkh3 -> keterangan = "Pindah Agama";
+		$jenisdkh3 -> save();
 
-		$jenisdkh = new JenisDkh();
-		$jenisdkh -> nama_dkh = "DKH-4";
-		$jenisdkh -> keterangan = "Anggota Baptis Anak masuk DKH";
-		$jenisdkh -> save();
+		$jenisdkh4 = new JenisDkh();
+		$jenisdkh4 -> nama_dkh = "DKH-3";
+		$jenisdkh4 -> keterangan = "Pindah tanpa Atestasi";
+		$jenisdkh4 -> save();
 
-		$jenisdkh = new JenisDkh();
-		$jenisdkh -> nama_dkh = "AKM";
-		$jenisdkh -> keterangan = "Angka pengurangan, karena jemaat meninggal";
-		$jenisdkh -> save();
+		$jenisdkh5 = new JenisDkh();
+		$jenisdkh5 -> nama_dkh = "DKH-4";
+		$jenisdkh5 -> keterangan = "Anggota Baptis Anak masuk DKH";
+		$jenisdkh5 -> save();
 
-		$jenisdkh = new JenisDkh();
-		$jenisdkh -> nama_dkh = "AKM-1";
-		$jenisdkh -> keterangan = "( Anggota Dewasa Meninggal )";
-		$jenisdkh -> save();
+		$jenisdkh6 = new JenisDkh();
+		$jenisdkh6 -> nama_dkh = "AKM";
+		$jenisdkh6 -> keterangan = "Angka pengurangan, karena jemaat meninggal";
+		$jenisdkh6 -> save();
 
-		$jenisdkh = new JenisDkh();
-		$jenisdkh -> nama_dkh = "AKM-2";
-		$jenisdkh -> keterangan = "( Anggota Anak Meninggal  )";
-		$jenisdkh -> save();
+		$jenisdkh7 = new JenisDkh();
+		$jenisdkh7 -> nama_dkh = "AKM-1";
+		$jenisdkh7 -> keterangan = "( Anggota Dewasa Meninggal )";
+		$jenisdkh7 -> save();
 
-		$jenisdkh = new JenisDkh();
-		$jenisdkh -> nama_dkh = "Ex.DKH-1";
-		$jenisdkh -> keterangan = "Anggota DKH-1 (S) yg aktif kembali";
-		$jenisdkh -> save();
+		$jenisdkh8 = new JenisDkh();
+		$jenisdkh8 -> nama_dkh = "AKM-2";
+		$jenisdkh8 -> keterangan = "( Anggota Anak Meninggal  )";
+		$jenisdkh8 -> save();	
 
-		$jenisdkh = new JenisDkh();
-		$jenisdkh -> nama_dkh = "Ex.DKH-2";
-		$jenisdkh -> keterangan = "Anggota DKH-2 (S) yg aktif kembali";
-		$jenisdkh -> save();
+		$jenisdkh9 = new JenisDkh();
+		$jenisdkh9 -> nama_dkh = "Ex.DKH";
+		$jenisdkh9 -> keterangan = "Anggota DKH (S) yg aktif kembali";
+		$jenisdkh9 -> save();
 
-		$jenisdkh = new JenisDkh();
-		$jenisdkh -> nama_dkh = "Ex.DKH-3";
-		$jenisdkh -> keterangan = "Anggota DKH-3 (S) yg aktif kembali";
-		$jenisdkh -> save();
+		$jenisdkh10 = new JenisDkh();
+		$jenisdkh10 -> nama_dkh = "Ex.DKH-1";
+		$jenisdkh10 -> keterangan = "Anggota DKH-1 (S) yg aktif kembali";
+		$jenisdkh10 -> save();
 
-		$jenisdkh = new JenisDkh();
-		$jenisdkh -> nama_dkh = "Ex.DKH-4";
-		$jenisdkh -> keterangan = "Anggota DKH-4 (B) yg aktif kembali";
-		$jenisdkh -> save();
+		$jenisdkh11 = new JenisDkh();
+		$jenisdkh11 -> nama_dkh = "Ex.DKH-2";
+		$jenisdkh11 -> keterangan = "Anggota DKH-2 (S) yg aktif kembali";
+		$jenisdkh11 -> save();
+
+		$jenisdkh12 = new JenisDkh();
+		$jenisdkh12 -> nama_dkh = "Ex.DKH-3";
+		$jenisdkh12 -> keterangan = "Anggota DKH-3 (S) yg aktif kembali";
+		$jenisdkh12 -> save();
+
+		$jenisdkh13 = new JenisDkh();
+		$jenisdkh13 -> nama_dkh = "Ex.DKH-4";
+		$jenisdkh13 -> keterangan = "Anggota DKH-4 (B) yg aktif kembali";
+		$jenisdkh13 -> save();
 
 		
 		//---------------------------------- DATA KEGIATAN/KEBAKTIAN ----------------------------------				
 		
 		//dummy data for demo -> GKI GUNTUR
-		/*
+		
 		$date = date_create('2016-01-03');
-		for($i = 1 ; $i <= 100 ; $i++)
+		//for($i = 1 ; $i <= 100 ; $i++)
+		for($i = 1 ; $i <= 50 ; $i++)
 		{			
 			//kebaktian 1		
 			$kebaktian = new Kegiatan();			
@@ -1082,7 +1098,7 @@ class DatabaseSeeder extends Seeder {
 			//add date to next week
 			date_add($date, date_interval_create_from_date_string('7 days'));	
 		}	
-		*/		
+			
 	
 	}
 

@@ -148,43 +148,137 @@
 	});
 </script>
 
-<div class="s_content_maindiv" style="overflow: hidden;">
 
-	<div class="s_main_side" style="">
+<div class="s_content_maindiv" style="overflow: hidden;">
+	<div class="s_main_side" style="">	
 		<div class="s_content">
 			<div class="container-fluid">				
-				<div style="margin-top: 15px;" class="panel panel-primary">
-					<div class="panel-heading">
-						<h3 class="panel-title">
-							LAPORAN KEBAKTIAN
-						</h3>
-					</div>
-					<div class="panel-body">
-						<div class="col-xs-12">
-							<div class="col-xs-4">
-								<label>dari tanggal : </label>
-								<input type="text" id="f_tanggal_awal" placeholder="(dari tanggal)"/>								
-							</div>
-							<div class="col-xs-4">
-								<label>sampai tanggal : </label>
-								<input type="text" id="f_tanggal_akhir" placeholder="(sampai tanggal)"/>
-							</div>
-							<div class="col-xs-4">
-								<input type="button" class="btn btn-success" id="f_lihat_grafik" value="Update Grafik" />
-							</div>
-						</div>
-						<div class="col-xs-12">
-							
-							<div id="container_graph" class='col-xs-12' style="display:block;width: 100%; height: 400px; margin: 0 auto"></div>
 
-						</div>
-						<!--<div class="col-xs-12">
-							<div class="col-xs-8">
-								<input type="button" class="btn btn-info pull-right" id="f_print_pdf" value="cetak grafik" />
-							</div>							
-						</div>-->
-					</div>
+				<!--newcode-->
+				<ul class="nav nav-tabs" role="tablist" id="myTab" style="margin-top:15px;">
+				  	<li role="presentation" class="active"><a href="#tab_kebaktian" aria-controls="tab_kebaktian" role="tab" data-toggle="tab">Kebaktian</a></li>
+				  	<li role="presentation"><a href="#tab_persembahan" aria-controls="tab_persembahan" role="tab" data-toggle="tab">Persembahan</a></li>
+				  	<li role="presentation"><a href="#tab_anggota" aria-controls="tab_anggota" role="tab" data-toggle="tab">Anggota</a></li>				  	
+				</ul>
+
+				<div class="tab-content">
+				  	<div role="tabpanel" class="tab-pane fade in active" id="tab_kebaktian">
+				  		<!-- 	
+				  			NOTE : 
+				  				- pas load pertama spertinya lebih enak grafiknya kosong dulu, takut loadnya kebanyakan
+				  			 	- range tanggal maksimal yang boleh paling besar 1 tahun
+				  				- yang ada di bagian kanan grafik, pengelompokannya bukan ambil dari tabel jenis kebaktian, 
+				  					tapi ambil dari tabel kegiatan -> nama_jenis_kegiatan
+						-->
+				  		<div style="margin-top: 15px;" class="panel panel-primary">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									LAPORAN KEBAKTIAN
+								</h3>
+							</div>
+							<div class="panel-body">
+								<div class="col-xs-12">
+									<div class="col-xs-3">
+										<label>dari tanggal : </label>
+										<input class="form-control" type="text" id="f_tanggal_awal" placeholder="(dari tanggal)" style="width:150px;display:inline;"/>								
+									</div>
+									<div class="col-xs-3">
+										<label>sampai tanggal : </label>
+										<input class="form-control" type="text" id="f_tanggal_akhir" placeholder="(sampai tanggal)" style="width:150px;display:inline;"/>
+									</div>
+									<div class="col-xs-6">
+										<div class="pull-right">
+											<input type="button" class="btn btn-success" id="f_lihat_grafik" value="Update Grafik" />
+										</div>										
+									</div>
+								</div>
+								<div class="col-xs-12">							
+									<div id="container_graph" class='col-xs-12' style="display:block;width: 100%; height: 400px; margin: 0 auto"></div>
+								</div>						
+							</div>
+						</div>	
+				  	</div>
+				  	<div role="tabpanel" class="tab-pane fade" id="tab_persembahan">
+				  		<!-- isi grafik laporan persembahan di sini-->
+				  		<!-- 
+				  			NOTE : 
+				  				- range tanggal maksimal yang boleh paling besar 1 tahun				  				
+				  		-->
+						<div style="margin-top: 15px;" class="panel panel-primary">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									LAPORAN PERSEMBAHAN
+								</h3>
+							</div>
+							<div class="panel-body">
+								<div class="col-xs-12">
+									<div class="col-xs-3">
+										<label>dari tanggal : </label>
+										<input class="form-control" type="text" id="f_tanggal_awal_persembahan" placeholder="(dari tanggal)" style="width:150px;display:inline;"/>								
+									</div>
+									<div class="col-xs-3">
+										<label>sampai tanggal : </label>
+										<input class="form-control" type="text" id="f_tanggal_akhir_persembahan" placeholder="(sampai tanggal)" style="width:150px;display:inline;"/>
+									</div>
+									<div class="col-xs-6">
+										<div class="pull-right">
+											<input type="button" class="btn btn-success" id="f_lihat_grafik_persembahan" value="Update Grafik" />
+										</div>										
+									</div>
+								</div>
+								<div class="col-xs-12">							
+									<!--<div id="container_graph" class='col-xs-12' style="display:block;width: 100%; height: 400px; margin: 0 auto"></div>-->
+								</div>						
+							</div>
+						</div>					  		
+				  	</div>
+				  	<div role="tabpanel" class="tab-pane fade" id="tab_anggota">
+				  		<!-- isi grafik laporan pertumbuhan anggota di sini-->
+				  		<!-- 
+				  			NOTE : 
+				  				- tampilkan grafik pertumbuhan total jemaat per tahun
+				  				- range tanggal maksimal yang boleh paling besar 1 tahun				  				
+				  		-->
+				  		<div style="margin-top: 15px;" class="panel panel-primary">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									LAPORAN PERTUMBUHAN ANGGOTA
+								</h3>
+							</div>
+							<div class="panel-body">
+								<div class="col-xs-12">
+									<div class="col-xs-3">
+										<label>dari tanggal : </label>
+										<input class="form-control" type="text" id="f_tanggal_awal_anggota" placeholder="(dari tanggal)" style="width:150px;display:inline;"/>								
+									</div>
+									<div class="col-xs-3">
+										<label>sampai tanggal : </label>
+										<input class="form-control" type="text" id="f_tanggal_akhir_anggota" placeholder="(sampai tanggal)" style="width:150px;display:inline;" />
+									</div>
+									<div class="col-xs-2">										
+										<label>satuan : </label>
+										<select class="form-control" id="f_satuan_anggota" style="width:100px;display:inline;">
+											<option value="">(pilih)</option> <!-- defaultnya kayanya mending pake per bulan aj-->
+											<option value="bulan">bulan</option>
+											<option value="tahun">tahun</option>
+										</select>																
+									</div>
+									<div class="col-xs-4">
+										<div class="pull-right">
+											<input type="button" class="btn btn-success" id="f_lihat_grafik_anggota" value="Update Grafik" />
+										</div>										
+									</div>
+								</div>
+								<div class="col-xs-12">							
+									<!--<div id="container_graph" class='col-xs-12' style="display:block;width: 100%; height: 400px; margin: 0 auto"></div>-->
+								</div>						
+							</div>
+						</div>	
+				  	</div>				  	
 				</div>				
+				<!--newcode-->
+
+							
 			</div>
 		</div>	
 	</div>	
@@ -392,11 +486,7 @@
 			}
 		});
 	});
-	
-	//print pdf
-	$('body').on('click', '#f_print_pdf', function(){
 		
-	});
 </script>
 
 @stop

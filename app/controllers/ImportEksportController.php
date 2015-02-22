@@ -9010,64 +9010,190 @@ class ImportEksportController extends BaseController {
 		}		
 	}
 	
-	public function export_kegiatan($id_jenis_kegiatan=0,$id_gereja=0){
+	public function export_kegiatan($id_gereja=0){
 	
 		$kegiatan = new Kegiatan();
 		
-		/*$where ='';
-		if($id_jenis_kegiatan != 0){
-			$where.='id_jenis_kegiatan = '.$id_jenis_kegiatan;
-		}
+		$gereja = Gereja::find($id_gereja);
 		
-		if($id_gereja !=0){
-			if($where==''){
-				$where.='id_gereja = '.$id_gereja;
-			}
-			else{
-				$where.=' and id_gereja = '.$id_gereja;
-			}
-			
-		}*/
-
-		/*if($dateF != 0 || $dateT=0){
-			if($where==''){
-				$where.='tanggal_mulai >= "'.$dateF.'" and tanggal_selesai <= "'.$dateTo.'"';
-			}
-			else{
-				$where.=' and tanggal_mulai >= "'.$dateF.'" and tanggal_selesai <= "'.$dateTo.'"';
-			}
-		}*/
+		$result = $kegiatan->where('id_gereja','=',$id_gereja)->orderBy('tanggal_mulai')->orderBy('id_jenis_kegiatan')->get();
 		
-		/*if($where!=''){
-			$result = $kegiatan->whereRaw($where)->orderBy('tanggal_mulai')->orderBy('id_jenis_kegiatan')->get();
-		}
-		else{
-			$result = $kegiatan->where('id_gereja','=',$id_gereja)->all();
-		}*/
+		$arr_total = array();
 		
-		$result = $kegiatan->where('id_gereja','=',$id_gereja)->get();
-		
-		$arr = array();
+		$arr_month = array();
 		
 		$temp_tanggal = "";
 		
+		$temp_bulan = explode('-',$result[0]->tanggal_mulai)[1];
+		
+		$jumlah_anggota_dewasa_pria = 0;
+		$jumlah_anggota_dewasa_wanita = 0;
+		
+		$jumlah_anggota_pria_t = 0;
+		$jumlah_anggota_wanita_t = 0;
+		$jumlah_simpatisan_pria_t = 0;
+		$jumlah_simpatisan_wanita_t = 0;
+		$jumlah_penatua_pria_t = 0;
+		$jumlah_penatua_wanita_t = 0;
+		$jumlah_pemusik_pria_t = 0;
+		$jumlah_pemusik_wanita_t = 0;
+		
+		$jumlah_anggota_pria_b = 0;
+		$jumlah_anggota_wanita_b = 0;
+		$jumlah_simpatisan_pria_b = 0;
+		$jumlah_simpatisan_wanita_b = 0;
+		$jumlah_penatua_pria_b = 0;
+		$jumlah_penatua_wanita_b = 0;
+		$jumlah_pemusik_pria_b = 0;
+		$jumlah_pemusik_wanita_b = 0;
+		
+		
+		//->where('id_jenis_kegiatan','=',1)
+		
+		//process data
+		$counter = 0;
+		$counter_minggu = 0;
 		foreach($result as $key){
-			if($temp_tanggal!=$key->tanggal_mulai){
-				$row_arr = array($key->tanggal_mulai,$key->nama_jenis_kegiatan,$key->banyak_jemaat_pria,$key->banyak_jemaat_wanita,$key->banyak_jemaat_pria+$key->banyak_jemaat_wanita,$key->banyak_simpatisan_pria,$key->banyak_simpatisan_wanita,$key->banyak_simpatisan_pria+$key->banyak_simpatisan_wanita,$key->banyak_penatua_pria,$key->banyak_penatua_wanita,$key->banyak_penatua_pria+$key->banyak_penatua_wanita,$key->banyak_pemusik_pria,$key->banyak_pemusik_wanita,$key->banyak_pemusik_pria+$key->banyak_pemusik_wanita,$key->banyak_komisi_pria,$key->banyak_komisi_wanita,$key->banyak_komisi_pria+$key->banyak_komisi_wanita);
+			
+			$now = $key->tanggal_mulai;
+
+			$arr_now =  explode('-',$now);
+			
+			$current_month = $arr_now[1];
+			
+			$current_year = $arr_now[0];
+			
+			$anggota_pria = count(Anggota::where('id_gereja','=',$id_gereja)->where('created_at','>',($now.' 00:00:00.000000'))->where('gender','=',1)->get());
+			$anggota_wanita = count(Anggota::where('id_gereja','=',$id_gereja)->where('created_at','>',($now.' 00:00:00.000000'))->where('gender','=',0)->get());
+			
+			//sama bulan?
+			if($temp_bulan == $current_month){
+				//tanggal
+				if($temp_tanggal!=$key->tanggal_mulai){
+					if($counter == 0){
+						$counter+=1;
+					}
+					else{
+						//jumlah mingguan
+						$row_arr = array('','','','','Jumlah',$jumlah_anggota_pria_t,$jumlah_anggota_wanita_t,$jumlah_anggota_pria_t+$jumlah_anggota_wanita_t,$jumlah_simpatisan_pria_t,$jumlah_simpatisan_wanita_t,$jumlah_simpatisan_pria_t+$jumlah_simpatisan_wanita_t,$jumlah_penatua_pria_t,$jumlah_penatua_wanita_t,$jumlah_penatua_pria_t+$jumlah_penatua_wanita_t,$jumlah_pemusik_pria_t,$jumlah_pemusik_wanita_t,$jumlah_pemusik_pria_t+$jumlah_pemusik_wanita_t,$jumlah_anggota_pria_t+$jumlah_penatua_pria_t+$jumlah_pemusik_pria_t,$jumlah_anggota_wanita_t+$jumlah_penatua_wanita_t+$jumlah_pemusik_wanita_t,$jumlah_anggota_pria_t+$jumlah_penatua_pria_t+$jumlah_pemusik_pria_t+$jumlah_anggota_wanita_t+$jumlah_penatua_wanita_t+$jumlah_pemusik_wanita_t,$jumlah_anggota_pria_t+$jumlah_penatua_pria_t+$jumlah_pemusik_pria_t+$jumlah_anggota_wanita_t+$jumlah_penatua_wanita_t+$jumlah_pemusik_wanita_t+$jumlah_simpatisan_pria_t+$jumlah_simpatisan_wanita_t);
+						
+						array_push($arr_month,$row_arr);
+						
+						$jumlah_anggota_pria_b += $jumlah_anggota_pria_t;
+						$jumlah_anggota_wanita_b += $jumlah_anggota_wanita_t;
+						$jumlah_simpatisan_pria_b += $jumlah_simpatisan_pria_t;
+						$jumlah_simpatisan_wanita_b += $jumlah_simpatisan_wanita_t;
+						$jumlah_penatua_pria_b += $jumlah_penatua_pria_t;
+						$jumlah_penatua_wanita_b += $jumlah_penatua_wanita_t;
+						$jumlah_pemusik_pria_b += $jumlah_pemusik_pria_t;
+						$jumlah_pemusik_wanita_b += $jumlah_pemusik_wanita_t;
+						
+						$jumlah_anggota_pria_t = 0;
+						$jumlah_anggota_wanita_t = 0;
+						$jumlah_simpatisan_pria_t = 0;
+						$jumlah_simpatisan_wanita_t = 0;
+						$jumlah_penatua_pria_t = 0;
+						$jumlah_penatua_wanita_t = 0;
+						$jumlah_pemusik_pria_t = 0;
+						$jumlah_pemusik_wanita_t = 0;
+					}
+					$row_arr = array($this->dateConverter($key->tanggal_mulai),$anggota_pria,$anggota_wanita,($anggota_pria+$anggota_wanita),$key->nama_jenis_kegiatan,$key->banyak_jemaat_pria,$key->banyak_jemaat_wanita,$key->banyak_jemaat_pria+$key->banyak_jemaat_wanita,$key->banyak_simpatisan_pria,$key->banyak_simpatisan_wanita,$key->banyak_simpatisan_pria+$key->banyak_simpatisan_wanita,$key->banyak_penatua_pria,$key->banyak_penatua_wanita,$key->banyak_penatua_pria+$key->banyak_penatua_wanita,$key->banyak_pemusik_pria,$key->banyak_pemusik_wanita,$key->banyak_pemusik_pria+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria,$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria+$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria+$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita+$key->banyak_simpatisan_pria+$key->banyak_simpatisan_wanita);
+					
+					$jumlah_anggota_dewasa_pria += $anggota_pria;
+					$jumlah_anggota_dewasa_wanita += $anggota_wanita;
+					
+					$counter_minggu++;
+				}
+				else{
+					$row_arr = array('','','','',$key->nama_jenis_kegiatan,$key->banyak_jemaat_pria,$key->banyak_jemaat_wanita,$key->banyak_jemaat_pria+$key->banyak_jemaat_wanita,$key->banyak_simpatisan_pria,$key->banyak_simpatisan_wanita,$key->banyak_simpatisan_pria+$key->banyak_simpatisan_wanita,$key->banyak_penatua_pria,$key->banyak_penatua_wanita,$key->banyak_penatua_pria+$key->banyak_penatua_wanita,$key->banyak_pemusik_pria,$key->banyak_pemusik_wanita,$key->banyak_pemusik_pria+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria,$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria+$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria+$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita+$key->banyak_simpatisan_pria+$key->banyak_simpatisan_wanita);
+				}
+				$temp_tanggal=$key->tanggal_mulai;
+				array_push($arr_month,$row_arr);
+				
+				$jumlah_anggota_pria_t += $key->banyak_jemaat_pria;
+				$jumlah_anggota_wanita_t += $key->banyak_jemaat_wanita;
+				$jumlah_simpatisan_pria_t += $key->banyak_simpatisan_pria;
+				$jumlah_simpatisan_wanita_t += $key->banyak_simpatisan_wanita;
+				$jumlah_penatua_pria_t += $key->banyak_penatua_pria;
+				$jumlah_penatua_wanita_t += $key->banyak_penatua_wanita;
+				$jumlah_pemusik_pria_t += $key->banyak_pemusik_pria;
+				$jumlah_pemusik_wanita_t += $key->banyak_pemusik_wanita;
 			}
 			else{
-				$row_arr = array('',$key->nama_jenis_kegiatan,$key->banyak_jemaat_pria,$key->banyak_jemaat_wanita,$key->banyak_jemaat_pria+$key->banyak_jemaat_wanita,$key->banyak_simpatisan_pria,$key->banyak_simpatisan_wanita,$key->banyak_simpatisan_pria+$key->banyak_simpatisan_wanita,$key->banyak_penatua_pria,$key->banyak_penatua_wanita,$key->banyak_penatua_pria+$key->banyak_penatua_wanita,$key->banyak_pemusik_pria,$key->banyak_pemusik_wanita,$key->banyak_pemusik_pria+$key->banyak_pemusik_wanita,$key->banyak_komisi_pria,$key->banyak_komisi_wanita,$key->banyak_komisi_pria+$key->banyak_komisi_wanita);
+				
+				//jumlah mingguan ganti bulan
+				$row_arr = array('','','','','Jumlah',$jumlah_anggota_pria_t,$jumlah_anggota_wanita_t,$jumlah_anggota_pria_t+$jumlah_anggota_wanita_t,$jumlah_simpatisan_pria_t,$jumlah_simpatisan_wanita_t,$jumlah_simpatisan_pria_t+$jumlah_simpatisan_wanita_t,$jumlah_penatua_pria_t,$jumlah_penatua_wanita_t,$jumlah_penatua_pria_t+$jumlah_penatua_wanita_t,$jumlah_pemusik_pria_t,$jumlah_pemusik_wanita_t,$jumlah_pemusik_pria_t+$jumlah_pemusik_wanita_t,$jumlah_anggota_pria_t+$jumlah_penatua_pria_t+$jumlah_pemusik_pria_t,$jumlah_anggota_wanita_t+$jumlah_penatua_wanita_t+$jumlah_pemusik_wanita_t,$jumlah_anggota_pria_t+$jumlah_penatua_pria_t+$jumlah_pemusik_pria_t+$jumlah_anggota_wanita_t+$jumlah_penatua_wanita_t+$jumlah_pemusik_wanita_t,$jumlah_anggota_pria_t+$jumlah_penatua_pria_t+$jumlah_pemusik_pria_t+$jumlah_anggota_wanita_t+$jumlah_penatua_wanita_t+$jumlah_pemusik_wanita_t+$jumlah_simpatisan_pria_t+$jumlah_simpatisan_wanita_t);
+						
+				array_push($arr_month,$row_arr);
+						
+				$jumlah_anggota_pria_b += $jumlah_anggota_pria_t;
+				$jumlah_anggota_wanita_b += $jumlah_anggota_wanita_t;
+				$jumlah_simpatisan_pria_b += $jumlah_simpatisan_pria_t;
+				$jumlah_simpatisan_wanita_b += $jumlah_simpatisan_wanita_t;
+				$jumlah_penatua_pria_b += $jumlah_penatua_pria_t;
+				$jumlah_penatua_wanita_b += $jumlah_penatua_wanita_t;
+				$jumlah_pemusik_pria_b += $jumlah_pemusik_pria_t;
+				$jumlah_pemusik_wanita_b += $jumlah_pemusik_wanita_t;
+						
+				$jumlah_anggota_pria_t = 0;
+				$jumlah_anggota_wanita_t = 0;
+				$jumlah_simpatisan_pria_t = 0;
+				$jumlah_simpatisan_wanita_t = 0;
+				$jumlah_penatua_pria_t = 0;
+				$jumlah_penatua_wanita_t = 0;
+				$jumlah_pemusik_pria_t = 0;
+				$jumlah_pemusik_wanita_t = 0;
+				
+				//jumlah bulanan
+				$row_arr = array('',$jumlah_anggota_dewasa_pria,$jumlah_anggota_dewasa_wanita,$jumlah_anggota_dewasa_pria+$jumlah_anggota_dewasa_wanita,'Total',$jumlah_anggota_pria_b,$jumlah_anggota_wanita_b,$jumlah_anggota_pria_b+$jumlah_anggota_wanita_b,$jumlah_simpatisan_pria_b,$jumlah_simpatisan_wanita_b,$jumlah_simpatisan_pria_b+$jumlah_simpatisan_wanita_b,$jumlah_penatua_pria_b,$jumlah_penatua_wanita_b,$jumlah_penatua_pria_b+$jumlah_penatua_wanita_b,$jumlah_pemusik_pria_b,$jumlah_pemusik_wanita_b,$jumlah_pemusik_pria_b+$jumlah_pemusik_wanita_b,$jumlah_anggota_pria_b+$jumlah_penatua_pria_b+$jumlah_pemusik_pria_b,$jumlah_anggota_wanita_b+$jumlah_penatua_wanita_b+$jumlah_pemusik_wanita_b,$jumlah_anggota_pria_b+$jumlah_penatua_pria_b+$jumlah_pemusik_pria_b+$jumlah_anggota_wanita_b+$jumlah_penatua_wanita_b+$jumlah_pemusik_wanita_b,$jumlah_anggota_pria_b+$jumlah_penatua_pria_b+$jumlah_pemusik_pria_b+$jumlah_anggota_wanita_b+$jumlah_penatua_wanita_b+$jumlah_pemusik_wanita_b+$jumlah_simpatisan_pria_b+$jumlah_simpatisan_wanita_b);
+						
+				array_push($arr_month,$row_arr);
+				
+				//rata2
+				
+				$row_arr = array(($this->getMonthFromNumber((int)$current_month-1).' '.$current_year),$jumlah_anggota_dewasa_pria/$counter_minggu,$jumlah_anggota_dewasa_wanita/$counter_minggu,($jumlah_anggota_dewasa_pria+$jumlah_anggota_dewasa_wanita)/$counter_minggu,'Rata-rata',$jumlah_anggota_pria_b/$counter_minggu,$jumlah_anggota_wanita_b/$counter_minggu,($jumlah_anggota_pria_b+$jumlah_anggota_wanita_b)/$counter_minggu,$jumlah_simpatisan_pria_b/$counter_minggu,$jumlah_simpatisan_wanita_b/$counter_minggu,($jumlah_simpatisan_pria_b+$jumlah_simpatisan_wanita_b)/$counter_minggu,$jumlah_penatua_pria_b/$counter_minggu,$jumlah_penatua_wanita_b/$counter_minggu,($jumlah_penatua_pria_b+$jumlah_penatua_wanita_b)/$counter_minggu,$jumlah_pemusik_pria_b/$counter_minggu,$jumlah_pemusik_wanita_b/$counter_minggu,($jumlah_pemusik_pria_b+$jumlah_pemusik_wanita_b)/$counter_minggu,($jumlah_anggota_pria_b+$jumlah_penatua_pria_b+$jumlah_pemusik_pria_b)/$counter_minggu,($jumlah_anggota_wanita_b+$jumlah_penatua_wanita_b+$jumlah_pemusik_wanita_b)/$counter_minggu,($jumlah_anggota_pria_b+$jumlah_penatua_pria_b+$jumlah_pemusik_pria_b+$jumlah_anggota_wanita_b+$jumlah_penatua_wanita_b+$jumlah_pemusik_wanita_b)/$counter_minggu,($jumlah_anggota_pria_b+$jumlah_penatua_pria_b+$jumlah_pemusik_pria_b+$jumlah_anggota_wanita_b+$jumlah_penatua_wanita_b+$jumlah_pemusik_wanita_b+$jumlah_simpatisan_pria_b+$jumlah_simpatisan_wanita_b)/$counter_minggu);
+				
+				array_push($arr_month,$row_arr);
+				
+				$counter_minggu = 0;
+				
+				$jumlah_anggota_pria_b = 0;
+				$jumlah_anggota_wanita_b = 0;
+				$jumlah_simpatisan_pria_b = 0;
+				$jumlah_simpatisan_wanita_b = 0;
+				$jumlah_penatua_pria_b = 0;
+				$jumlah_penatua_wanita_b = 0;
+				$jumlah_pemusik_pria_b = 0;
+				$jumlah_pemusik_wanita_b = 0;
+				
+				array_push($arr_total,$arr_month);
+				
+				$arr_month = array();
+				if($temp_tanggal!=$key->tanggal_mulai){
+					$row_arr = array($this->dateConverter($key->tanggal_mulai),$anggota_pria,$anggota_wanita,($anggota_pria+$anggota_wanita),$key->nama_jenis_kegiatan,$key->banyak_jemaat_pria,$key->banyak_jemaat_wanita,$key->banyak_jemaat_pria+$key->banyak_jemaat_wanita,$key->banyak_simpatisan_pria,$key->banyak_simpatisan_wanita,$key->banyak_simpatisan_pria+$key->banyak_simpatisan_wanita,$key->banyak_penatua_pria,$key->banyak_penatua_wanita,$key->banyak_penatua_pria+$key->banyak_penatua_wanita,$key->banyak_pemusik_pria,$key->banyak_pemusik_wanita,$key->banyak_pemusik_pria+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria,$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria+$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria+$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita+$key->banyak_simpatisan_pria+$key->banyak_simpatisan_wanita);
+				}
+				else{
+					$row_arr = array('',$anggota_pria,$anggota_wanita,($anggota_pria+$anggota_wanita),$key->nama_jenis_kegiatan,$key->banyak_jemaat_pria,$key->banyak_jemaat_wanita,$key->banyak_jemaat_pria+$key->banyak_jemaat_wanita,$key->banyak_simpatisan_pria,$key->banyak_simpatisan_wanita,$key->banyak_simpatisan_pria+$key->banyak_simpatisan_wanita,$key->banyak_penatua_pria,$key->banyak_penatua_wanita,$key->banyak_penatua_pria+$key->banyak_penatua_wanita,$key->banyak_pemusik_pria,$key->banyak_pemusik_wanita,$key->banyak_pemusik_pria+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria,$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria+$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita,$key->banyak_jemaat_pria+$key->banyak_penatua_pria+$key->banyak_pemusik_pria+$key->banyak_jemaat_wanita+$key->banyak_penatua_wanita+$key->banyak_pemusik_wanita+$key->banyak_simpatisan_pria+$key->banyak_simpatisan_wanita);
+				}
+				$temp_tanggal=$key->tanggal_mulai;
+				array_push($arr_month,$row_arr);
 			}
-			$temp_tanggal=$key->tanggal_mulai;
-			array_push($arr,$row_arr);
+			$temp_bulan = $current_month;
+			
 		}
+		
+		//return $arr_total;
+		
+		
+		//end process data
+		
 		
 		// create excel
 		try{
 			//inisialisasi
 			$data = array();
 			$tahun_pelayanan = '2010-2011';
-			$alamat = 'GKI Ayudia 10, Bandung';
+			$alamat = $gereja->nama.' '.$gereja->alamat;
 			
 			//setting header
 			$nama_gereja = array('LAPORAN BULANAN LKKJ GKI SW JABAR','','','','','','','','','','','','','','','','','','','','Form:A');
@@ -9075,9 +9201,7 @@ class ImportEksportController extends BaseController {
 			$alamat_gereja = array('Jemaat GKI: '.$alamat,'','','','','','','','','','','','','','','','','','','','');
 			$blank = array('','','','','','','','','','','','','','','','','','','','','');
 			
-			$bulan = 1;
 			
-			$tahun = 2015;
 			
 			//setting header table
 			$header1 = array('Minggu Tanggal','Jumlah Anggota Jemaat Dewasa Terdaftar','','','Jenis Kebaktian','JUMLAH KEHADIRAN DALAM KEBAKTIAN MINGGU','','','','','','','','','','','','','','','TOTAL Angg + Simp');
@@ -9101,10 +9225,21 @@ class ImportEksportController extends BaseController {
 			$array_header = array();
 			$array_data = array();
 			
+			$array_warna_jumlah = array();
+			
+			$first_date = $arr_total[0][0][0];
+			
+			$arr_f_date = explode(' ',$first_date);
+			
+			//return $arr_f_date[1];
+			
+			$bulan = $this->getNumberFromMonth($arr_f_date[1]);
+			
+			$tahun = $arr_f_date[2];
 			
 			$counter_bulan = 0;
 			$counter_data = 0;
-			for($i = 0; $i<10;$i++){
+			for($i = 0; $i<count($arr_total);$i++){
 				$counter_bulan++;
 				array_push($array_header,$counter_bulan);
 				
@@ -9114,18 +9249,6 @@ class ImportEksportController extends BaseController {
 				
 				$title = array('1. Data Kehadiran Kebaktian Minggu.','','','','','','','','','','','','','','','','','',$this->getMonthFromNumber($bulan),'',$tahun);
 				
-				//generate table data
-				for($j=0;$j<5;$j++){
-					$counter_bulan++;
-					$counter_data++;
-				}
-				array_push($array_data,$counter_data);
-				
-				$counter_data = 0;
-				$counter_bulan+=10;
-				
-				$bulan++;
-				$tahun++;
 				array_push($data,$nama_gereja);
 				array_push($data,$pelayanan_gereja);
 				array_push($data,$alamat_gereja);
@@ -9136,13 +9259,33 @@ class ImportEksportController extends BaseController {
 				array_push($data,$header2);
 				array_push($data,$header3);
 				
+				//generate table data
+				for($j=0;$j<count($arr_total[$i]);$j++){
+					array_push($data,$arr_total[$i][$j]);
+					$current_row = $arr_total[$i][$j];
+					$counter_bulan++;
+					$counter_data++;
+				}
+				array_push($array_data,$counter_data);
+				
+				$counter_data = 0;
+				$counter_bulan+=10;
+				
+				
+				if($bulan%12 == 0){
+					$tahun++;
+				}
+				$bulan++;
+				
+				
+				
 				//input data start
 				//random data
+				/*array_push($data,$blank);
 				array_push($data,$blank);
 				array_push($data,$blank);
 				array_push($data,$blank);
-				array_push($data,$blank);
-				array_push($data,$blank);
+				array_push($data,$blank);*/
 				//end of random data
 				//input data end
 				array_push($data,$footer1);
@@ -9231,6 +9374,14 @@ class ImportEksportController extends BaseController {
 						
 						$sheet->mergeCells('S'.($key+4).':T'.($key+4));
 						
+						$sheet->cells('S'.($key+4).':T'.($key+4),function($cells){
+							$cells->setBackground('#CCFFFF');
+						});
+						
+						$sheet->cells('U'.($key+4),function($cells){
+							$cells->setBackground('#FFFF00');
+						});
+						
 						$sheet->setBorder('S'.($key+4).':U'.($key+4), 'thick');
 						
 						$sheet->cells('S'.($key+4).':U'.($key+4),function($cells) {
@@ -9249,6 +9400,8 @@ class ImportEksportController extends BaseController {
 						//jumlah anggota
 						
 						$sheet->mergeCells('B'.($key+6).':D'.($key+7));
+						
+						
 						
 						//jenis kebaktian
 						$sheet->mergeCells('E'.($key+6).':E'.($key+8));
@@ -9277,8 +9430,11 @@ class ImportEksportController extends BaseController {
 								'size'       => '9',
 								'bold'       =>  true
 							));
+							
 							$cells->setAlignment('center');
 							$cells->setValignment('center');
+							
+							$cells->setBackground('#CDFFCD');
 						});
 						
 						$sheet->setBorder('A'.($key+6).':U'.($key+8), 'thin');
@@ -9351,30 +9507,6 @@ class ImportEksportController extends BaseController {
 						
 						
 					}
-					
-					
-					/*$sheet->cells('A1:Q1',function($cells){
-						$cells->setFont(array(
-							'family'     => 'Calibri',
-							'size'       => '16',
-							'bold'       =>  true
-						));
-					});
-					
-					$sheet->cells('A3:Q3',function($cells){
-						$cells->setFont(array(
-							'family'     => 'Calibri',
-							'size'       => '12',
-							'bold'       =>  true
-						));
-					});
-					
-					$sheet->cells('A1:Q'.(count($data)),function($cells) {
-						$cells->setAlignment('center');
-						$cells->setValignment('middle');
-					});
-					
-					$sheet->setBorder('A5:Q'.(count($data)), 'thin');*/
 				});
 			})->export('xlsx');
 			//})->store('xlsx','assets/file_excel');
@@ -10213,7 +10345,7 @@ class ImportEksportController extends BaseController {
 	}
 	
 	private function getMonthFromNumber($month){
-
+		$month = $month%12;
 		switch ($month) :
 			case  1: return 'Januari';
 			case  2: return 'Februari';
@@ -10226,9 +10358,36 @@ class ImportEksportController extends BaseController {
 			case  9: return 'September';
 			case 10: return 'Oktober';
 			case 11: return 'November';
-			case 12: return 'Desember';
+			case 0: return 'Desember';
 				
 		endswitch;
+	}
+	
+	private function getNumberFromMonth($month){
+
+		switch ($month) :
+			case  'Januari': return 1;
+			case  'Februari': return 2;
+			case  'Maret': return 3;
+			case  'April': return 4;
+			case  'Mei': return 5;
+			case  'Juni': return 6;
+			case  'Juli': return 7;
+			case  'Agustus': return 8;
+			case  'September': return 9;
+			case 'Oktober': return 10;
+			case 'November': return 11;
+			case 'Desember': return 12;
+				
+		endswitch;
+	}
+	
+	private function dateConverter($date){
+		
+		$arr_date = explode('-',$date);
+		
+		return ((int)$arr_date[2]).' '.$this->getMonthFromNumber((int)$arr_date[1]).' '.$arr_date[0];
+		
 	}
 }
 

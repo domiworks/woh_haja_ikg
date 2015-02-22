@@ -939,9 +939,9 @@ class DatabaseSeeder extends Seeder {
 		//---------------------------------- DATA KEGIATAN/KEBAKTIAN ----------------------------------				
 		
 		//dummy data for demo -> GKI GUNTUR
-		
+		/*
 		$date = date_create('2016-01-03');
-		//for($i = 1 ; $i <= 100 ; $i++)
+		//for($i = 1 ; $i <= 100 ; $i++)		
 		for($i = 1 ; $i <= 50 ; $i++)
 		{			
 			//kebaktian 1		
@@ -1098,7 +1098,7 @@ class DatabaseSeeder extends Seeder {
 			//add date to next week
 			date_add($date, date_interval_create_from_date_string('7 days'));	
 		}	
-			
+		*/		
 	
 	}
 

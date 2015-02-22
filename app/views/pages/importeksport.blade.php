@@ -97,7 +97,7 @@
 	
 	//eksport data kebaktian
 	$('body').on('click', '#f_eksport_kebaktian', function(){
-		window.open("{{URL('user/export_kegiatan')}}/"+2,'_blank');
+		window.open("{{URL('user/export_kegiatan')}}/"+{{Session::get('id_gereja')}},'_blank');
 	});
 	
 	//import data anggota

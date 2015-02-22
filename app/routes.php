@@ -296,7 +296,7 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::post('/import_kegiatan/{id_gereja}', ['as' => 'post.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan']);	
 	Route::post('/import_anggota/{id_gereja}', ['as' => 'post.import_anggota' , 'uses' => 'ImportEksportController@import_anggota']);	
 	
-	Route::get('/export_kegiatan/{id_jenis_kegiatan?}/{id_gereja?}/{dateF?}/{dateT?}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);		
+	Route::get('/export_kegiatan/{id_gereja?}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);		
 	Route::get('/export_anggota/{id_gereja}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']);
  
 	// Route::get('/export_anggota/{id_jenis_kegiatan?}/{id_gereja?}/{dateF?}/{dateT?}', ['as' => 'get.import_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);		

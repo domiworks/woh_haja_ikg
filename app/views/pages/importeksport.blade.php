@@ -97,18 +97,7 @@
 	
 	//eksport data kebaktian
 	$('body').on('click', '#f_eksport_kebaktian', function(){
-		window.open("{{URL('user/export_kegiatan')}}/"+0+'/'+2,'_blank');
-		/*$.ajax({
-			type: 'GET',
-			url: "{{URL('user/export_kegiatan')}}/"+0+'/'+2,
-			success: function(response){
-				//alert(response);
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				alert('error');
-				alert(errorThrown);
-			}
-		});*/
+		window.open("{{URL('user/export_kegiatan')}}/"+2,'_blank');
 	});
 	
 	//import data anggota

@@ -90,7 +90,7 @@ class ImportEksportController extends BaseController {
 					}
 					//status_anggota
 					if($row[15] == null){
-						$status_anggota = 0;
+						$status_anggota = -1;
 					}else if($row[15] == "B" || $row[15] == "b"){
 						$status_anggota = 1;
 					}else{	//S = s
@@ -337,7 +337,7 @@ class ImportEksportController extends BaseController {
 					}
 					//status_anggota
 					if($row[8] == null){
-						$status_anggota = 0;
+						$status_anggota = -1;
 					}else if($row[8] == "B" || $row[8] == "b"){
 						$status_anggota = 1;
 					}else{	//S = s
@@ -8737,34 +8737,36 @@ class ImportEksportController extends BaseController {
 	{
 		$data = DB::table('anggota')->where('id_gereja', '=', $id_gereja)->get();
 		
-		$gereja = Gereja::find($id_gereja);
-		$title_table = 'DATA ANGGOTA JEMAAT '.$gereja->nama.' - BANDUNG';
+		//$gereja = Gereja::find($id_gereja);
+		$title_table = 'DATA ANGGOTA JEMAAT '.Session::get('nama').' - BANDUNG'; //nama gereja
 		
-		//setting header		
+		//ada 29 kolom
+		//setting header di row 2	
 		$nama_gereja = array(
 			$title_table,'','','','','','','','',''
 			,'','','','','','','','','',''
-			,'','','','','','','','','',''
+			,'','','','','','','','',''
 		);		
-		$tanggal = array(
+		//tanggal di row 3
+		$tanggal = array(	
 			'','','','','','','','','',''
-			,'','','','','','','','','Tanggal :', (string)Carbon::now()
-			,'','','','','','','','','',''
+			,'','','Tanggal : ',(string)Carbon::now(),'','','','','',''
+			,'','','','','','','','',''
 		);
 		$blank = array(
 			'','','','','','','','','',''
 			,'','','','','','','','','',''
-			,'','','','','','','','','',''
+			,'','','','','','','','',''
 		);		
 		$header_table_1 = array(
-			'No.','No.','No.','Nama','','Alamat','Telp.','Kodepos','Kota','Rayon'
-			,'Wilayah','Kecamatan','Kelurahan','Gender','Status','Umur','Pendidikan','Pekerjaan','Kelompok','Tgl'
-			,'Tgl','Tgl','Atestasi','','Meninggal','Nama Ayah','No.Anggota','Nama Ibu','No.Anggota','Keterangan'
+			'No.','No.','Nama Depan','Nama Tengah','Nama Belakang','Alamat','Kota','Kodepos','No.Telp.','Hp.'
+			,'Gender','Status','Wilayah','Pendidikan','Pekerjaan','Kelompok','Golongan','Kota','Tanggal','Tanggal'
+			,'Tanggal','Tanggal','Tanggal','Tanggal','Tanggal','Tanggal','Tanggal','Alasan','Alasan 2'
 		);
 		$header_table_2 = array(
-			'','Reg.','Induk','','','','','','',''
-			,'','','','','Anggota','','','','Etnis','Lahir'
-			,'Baptis','Sidi','A.Masuk','A.Keluar','','','','','',''
+			'','Anggota','Induk','','','','','','',''
+			,'','Anggota','','','','Etnis','Darah','Lahir','Lahir','Baptis'
+			,'Sidi','Atestasi Masuk','Atestasi Keluar','Meninggal','DKH','Ex.DKH','Ex.DKH-4','Mutasi','Mutasi'
 		);		
 		
 		try{
@@ -8784,50 +8786,157 @@ class ImportEksportController extends BaseController {
 					//row 6 - header table 2
 					$sheet->row(6, $header_table_2);
 					
-					//start data di row 8
-					$row_num  = 8;					
+					//start data di row 7
+					$row_num  = 7;					
 					$no = 1;
 					foreach($data as $row_data)
 					{
 						$alamat = Alamat::where('id_anggota', '=', $row_data->id)->first();
+						$hp = Hp::where('id_anggota', '=', $row_data->id)->first();
 						
+						//gender
 						if($row_data->gender == 1){
 							$gender = "P";
 						}else{
 							$gender = "W";
 						}
 						
+						//status_anggota
+						if($row_data->status_anggota == 1){							
+							$status_anggota = "B"; //baptis
+						}else if($row_data->status_anggota == 2){
+							$status_anggota = "S"; //sidi
+						}else{ // = -1
+							$status_anggota = ""; //blom diisi
+						}				
+
+						//tanggal baptis
+						$baptis = Baptis::where('id_gereja', '=', $id_gereja)
+										->where('id_jemaat', '=', $row_data->id)
+										->where('id_jenis_baptis', '=', 1)->first();
+						if(count($baptis) != 0){
+							$tanggal_baptis = $baptis->tanggal_baptis;
+						}else{
+							$tanggal_baptis = "";
+						}
+
+						//tanggal sidi
+						$sidi = Baptis::where('id_gereja', '=', $id_gereja)
+										->where('id_jemaat', '=', $row_data->id)
+										->where('id_jenis_baptis', '=', 2)->first();
+						if(count($sidi) != 0){
+							$tanggal_sidi = $sidi->tanggal_baptis;
+						}else{
+							$tanggal_sidi = "";
+						}
+
+						//tanggal atestasi masuk, alasan mutasi 
+						$atestasi_masuk = Atestasi::where('id_anggota', '=', $row_data->id)
+											->where('id_jenis_atestasi', '>=', 5) //atestasi masuk
+											->where('id_jenis_atestasi', '<=', 15)
+											->orderBy('id', 'desc')
+											->first();
+						if(count($atestasi_masuk) != 0){
+							$tanggal_atestasi_masuk = $atestasi_masuk->tanggal_atestasi;							
+						}else{
+							$tanggal_atestasi_masuk = "";							
+						}
+
+						//tanggal atestasi keluar, alasan mutasi
+						$atestasi_keluar = Atestasi::where('id_anggota', '=', $row_data->id)
+											->where('id_jenis_atestasi', '>=', 1) //atestasi keluar
+											->where('id_jenis_atestasi', '<=', 4)
+											->orderBy('id', 'desc')
+											->first();
+						if(count($atestasi_keluar) != 0){
+							$tanggal_atestasi_keluar = $atestasi_keluar->tanggal_atestasi;														
+						}else{
+							$tanggal_atestasi_keluar = "";													
+						}					
+
+						//tanggal dkh
+						$dkh = Dkh::Where('id_jemaat', '=', $row_data->id)
+									->where('id_jenis_dkh', '<=', 5) //dkh sampe dkh4
+									->orderBy('id', 'desc')
+									->first();
+						if(count($dkh) != 0){
+							$tanggal_dkh = $dkh->tanggal_dkh;
+						}else{
+							$tanggal_dkh = "";
+						}
+
+						//tanggal ex.dkh
+						$ex_dkh = Dkh::Where('id_jemaat', '=', $row_data->id)
+									->where('id_jenis_dkh', '>=', 9) //exdkh
+									->where('id_jenis_dkh', '<=', 12) //sampe exdkh3
+									->orderBy('id', 'desc')
+									->first();
+						if(count($ex_dkh) != 0){
+							$tanggal_ex_dkh = $ex_dkh->tanggal_dkh;
+						}else{
+							$tanggal_ex_dkh = "";
+						}
+
+						//tanggal ex.dkh-4		
+						$ex_dkh4 = Dkh::Where('id_jemaat', '=', $row_data->id)
+									->where('id_jenis_dkh', '=', 13) //exdkh4
+									->orderBy('id', 'desc')
+									->first();
+						if(count($ex_dkh4) != 0){
+							$tanggal_ex_dkh4 = $ex_dkh4->tanggal_dkh;
+						}else{
+							$tanggal_ex_dkh4 = "";
+						}
+
+						//alasan 1 mutasi
+						$mutasi1 = Atestasi::where('id_anggota', '=', $row_data->id)
+										orderBy('id', 'desc')->first();
+						if(count($mutasi1) != 0){
+							$alasan_1_mutasi = JenisAtestasi::where('id', '=', $mutasi1->id_jenis_atestasi)->first()->nama_atestasi;
+						}else{
+							$alasan_1_mutasi = "";
+						}			
+
+						//alasan 2 mutasi
+						$mutasi2 = Dkh::where('id_jemaat', '=', $row_data->id)
+										orderBy('id', 'desc')->first();
+						if(count($mutasi2) != 0){
+							$alasan_2_mutasi = JenisDkh::where('id', '=', $mutasi2->id_jenis_dkh)->first()->nama_dkh;
+						}else{
+							$alasan_2_mutasi = "";
+						}			
+
 						$each_data = array(
 							$no, //1 no
-							'', //2 no reg
-							$row_data->no_anggota, //3 no induk = no anggota
-							$row_data->nama_depan, //4 nama
-							'Jl.', //5 jl
+							$row_data->no_anggota, //2 no_anggota
+							$row_data->nama_depan, //3 nama_depan
+							$row_data->nama_tengah, //4 nama_tengah
+							$row_data->nama_belakang, //5 nama_belakang
 							$alamat->jalan, //6 alamat = jalan
-							$row_data->telp, //7 telp 
+							$alamat->kota, //7 kota
 							$alamat->kodepos, //8 kodepos
-							$alamat->kota, //9 kota
-							'', //10 rayon
-							$row_data->wilayah, //11 wilayah
-							'', //12 kecamatan
-							'', //13 kelurahan
-							$gender, //14 gender
-							'', //15 status anggota														
-							date_diff(date_create($row_data->tanggal_lahir), date_create(Carbon::now()))->y, //16 umur
-							$row_data->pendidikan, //17 pendidikan
-							$row_data->pekerjaan, //18 pekerjaan
-							$row_data->etnis, //19 kelompok etnis
-							$row_data->tanggal_lahir, //20 tanggal lahir
-							'', //21 tanggal baptis
-							'', //22 tanggal sidi
-							'', //23 tanggal atestasi masuk
-							'', //24 tanggal atestasi keluar
-							'', //25 tanggal meninggal
-							'', //26 nama ayah
-							'', //27 no anggota ayah
-							'', //28 nama ibu
-							'', //29 no anggota ibu
-							'' //30 keterangan
+							$row_data->telp, //9 telp
+							$hp->no_hp, //10 hp
+							$gender, //11 gender
+							$status_anggota, //12 status anggota
+							$row_data->wilayah, //13 wilayah
+							$row_data->pendidikan, //14 pendidikan
+							$row_data->pekerjaan, //15 pekerjaan
+							//date_diff(date_create($row_data->tanggal_lahir), date_create(Carbon::now()))->y, //umur
+							$row_data->etnis, //16 kelompok etnis
+							$row_data->gol_darah, //17 golongan darah
+							$row_data->kota_lahir, //18 kota lahir
+							$row_data->tanggal_lahir, //19 tanggal lahir							
+							$tanggal_baptis, //20 tanggal baptis
+							$tanggal_sidi, //21 tanggal sidi
+							$tanggal_atestasi_masuk, //22 tanggal atestasi masuk
+							$tanggal_atestasi_keluar, //23 tanggal atestasi keluar
+							$row_data->tanggal_meninggal, //24 tanggal meninggal
+							$tanggal_dkh, //25 tanggal dkh
+							$tanggal_ex_dkh,//26 tanggal ex.dkh
+							$tanggal_ex_dkh4, //27 tanggal ex.dkh-4
+							$alasan_1_mutasi, //28 alasan mutasi
+							$alasan_2_mutasi //29 alasan 2 mutasi							
 						);
 						
 						$sheet->row($row_num, $each_data);
@@ -9447,6 +9556,9 @@ class ImportEksportController extends BaseController {
 	//KOLOM NOMOR ANGGOTA HARUS DIBIARKAN KOSONG AJA, KALAU KEISI PUN HARUS HASIL DARI EXPORT DATABASE
 	//SKEMA GA NORMAL :
 	//IMPORT DATA DENGAN NOMOR ANGGOTA KOSONG BERKALI-KALI
+	//NOTE : 
+	//alasan 1 mutasi dipakai untuk atestasi yang terakhir
+	//alasan 2 mutasi dipakai untuk dkh yang terakhir
 	public function import_anggota($id_gereja){
 		// $nama_gereja = Session::get('nama');
 	
@@ -9464,17 +9576,14 @@ class ImportEksportController extends BaseController {
 			return 'Tidak ada file yang dipilih';
 		}
 		
-		//inisialisasi
+		//inisialisasi REPORT DUPLICATE ROW
 		$arr_report = array();			
 
 		if($uploadSuccess){
 			
 			//return $destinationPath.$filename;
 			$file_path = $destinationPath.$filename;
-			//return $file_path;								
-					
-			//REPORT DUPLICATE ROW
-			$arr_report = array();			
+			//return $file_path;																		
 
 			$result = Excel::selectSheets('DATA BASE ANGGOTA')->load($file_path, function($reader) use($id_gereja){				
 															
@@ -9496,8 +9605,7 @@ class ImportEksportController extends BaseController {
 					}				
 					//KOLOM NOMOR ANGGOTA DIBIARKAN KOSONG AJA, KALAU KEISI PUN HARUS HASIL DARI EXPORT									
 					$new_no_anggota = ""; 	//reset					
-					$no_anggota = "";		//reset
-					$new_no_anggota = $id_gereja."-".$last_number;
+					$no_anggota = "";		//reset					
 					if($row[2] == null){
 						//GENERATE NOMOR ANGGOTA BARU
 						$last_no_anggota = DB::table('anggota')->where('id_gereja', '=', $id_gereja)->get();
@@ -9564,7 +9672,7 @@ class ImportEksportController extends BaseController {
 					}
 					//status_anggota
 					if($row[12] == null){
-						$status_anggota = 0;
+						$status_anggota = -1;
 					}else if($row[12] == "B" || $row[12] == "b"){
 						$status_anggota = 1;
 					}else{	//S = s
@@ -9685,7 +9793,7 @@ class ImportEksportController extends BaseController {
 													->where('nama_belakang', '=', $nama_belakang)
 													->where('tanggal_lahir', '=', $tanggal_lahir)
 													->first();							
-					if(count($exist_no_anggota) != 0) //nomor anggota hasil generate dari export database
+					if($no_anggota != "" && count($exist_no_anggota) != 0) //nomor anggota hasil generate dari export database
 					{						
 						//report duplicate
 						$report = $exist_no_anggota->no_anggota." - ".
@@ -9716,6 +9824,7 @@ class ImportEksportController extends BaseController {
 								'nama_belakang'=>$nama_belakang,		
 								'telp'=>$telp,
 								'gender'=>$gender,
+								'status_anggota'=>$status_anggota,
 								'wilayah'=>$wilayah,
 								'gol_darah'=>$gol_darah, 
 								'pendidikan'=>$pendidikan,
@@ -9743,121 +9852,355 @@ class ImportEksportController extends BaseController {
 								'updated_at'=>Carbon::now()
 							)
 						);
-						
-					}
-						//ANGGEP GA USAH MASUK KE TABLE HP DULU, KARNA KONTAK NOMOR CUMA 1 KOLOM DI EXCEL, MASUKNYA KE TELP DI TABLE ANGGOTA
-						// DB::table('hp')->insert(
-							// array(
-								// 'no_hp'=>$,
-								// 'id_anggota'=>$new_anggota->id,
-								// 'created_at'=>Carbon::now(),
-								// 'updated_at'=>Carbon::now()
-							// )
-						// );
-						//END INSERT
-					// }
-															
-					
-					/*		
-					// $anggota = Anggota::where('id_gereja','=',$id_gereja)->where('no_anggota','=',$no_anggota)->get();
-					
-					//if exist
-					if(count($anggota) == 1){						
-						//update						
-						DB::table('anggota')->where('id', '=', $anggota->id)->update(
-							array(
-								'no_anggota'=>$row[27], 
-								'nama_depan'=>$row[4], //asumsi : sementara masukin nama ke nama_depan
-								'nama_tengah'=>"",
-								'nama_belakang'=>"",		
-								'telp'=>$row[7],
-								'gender'=>$gender,
-								// 'wilayah'=>, //masih ga jelas
-								'gol_darah'=>"", //di ayudia ga ada golongan darah, jadi bingung
-								'pendidikan'=>$row[17],
-								'pekerjaan'=>$row[18],
-								'etnis'=>$row[19],
-								'kota_lahir'=>"", //di ayudia ga ada kota lahir, jadi bingung
-								'tanggal_lahir'=>$row[20], //format di excelnya dd/mm/yyyy
-								//'tanggal_meninggal'=>null,
-								'role'=>1,		//di data anggota ga tau role, sementara masukin jadi 1 = jemaat semua
-								'foto'=>null,
-								'id_gereja'=>$id_gereja,
-								// 'deleted'=>0,														
-								// 'created_at'=>Carbon::now(),
-								'updated_at'=>Carbon::now()
-							)
-						);						
-						DB::table('alamat')->where('id_anggota', '=', $anggota->id)->update(
-							array(
-								'jalan'=>$row[6],
-								'kota'=>$row[9],								
-								'kodepos'=>$row[8],
-								// 'id_anggota'=>$anggota->id,								
-								// 'created_at'=>Carbon::now(),
-								'updated_at'=>Carbon::now()
-							)
-						);						
-						DB::table('hp')->where('id_anggota', '=', $anggota->id)->update(
-							array(
-								//asumsi : 
-								//no_hp 1 orang cuma ada 1, dan disamain aja dengan telp yang ada di anggota
-								'no_hp'=>$row[7], //di ayudia no_hp digabung dengan telp, jadi bingung
-								// 'id_anggota'=>$anggota->id,
-								// 'created_at'=>Carbon::now(),
-								'updated_at'=>Carbon::now()
-							)
-						);	
-												
-					}
-					else
-					{	
-									
-						//insert
-						DB::table('anggota')->insert(
-							array(
-								'no_anggota'=>$row[27], 
-								'nama_depan'=>$row[4], //asumsi : sementara masukin nama ke nama_depan
-								'nama_tengah'=>"",
-								'nama_belakang'=>"",		
-								'telp'=>$row[7],
-								'gender'=>$gender,
-								//'wilayah'=>, //masih ga jelas
-								//'gol_darah'=>, //di ayudia ga ada golongan darah, jadi bingung
-								'pendidikan'=>$row[17],
-								'pekerjaan'=>$row[18],
-								'etnis'=>$row[19],
-								//'kota_lahir'=>, //di ayudia ga ada kota lahir, jadi bingung
-								'tanggal_lahir'=>$row[20], //format di excelnya dd/mm/yyyy
-								//'tanggal_meninggal'=>null,
-								'role'=>1,		//di data anggota ga tau role, sementara masukin jadi 1 = jemaat semua		
-								'foto'=>null,
-								'id_gereja'=>$id_gereja,
-								'deleted'=>0,														
-								'created_at'=>Carbon::now(),
-								'updated_at'=>Carbon::now()																
-							)
-						);								
-						$id_anggota = DB::table('anggota')->orderBy('id', 'desc')->first();						
-						DB::table('alamat')->insert(
-							array(
-								'jalan'=>$row[6],
-								'kota'=>$row[9],								
-								'kodepos'=>$row[8],
-								'id_anggota'=>$anggota->id,								
-								'created_at'=>Carbon::now(),
-								'updated_at'=>Carbon::now()
-							)
-						);
 						DB::table('hp')->insert(
 							array(
-								'no_hp'=>$row[7],
-								'id_anggota'=>$id_anggota->id,
+								'no_hp'=>$hp,
+								'id_anggota'=>$new_anggota->id,																
 								'created_at'=>Carbon::now(),
 								'updated_at'=>Carbon::now()
 							)
 						);
-					*/																		
+						$temp_pendeta = DB::table('anggota')
+											->where('id_gereja', '=', $id_gereja)
+											->where('role', '=', 2)
+											->first();
+						if($tanggal_baptis != "")
+						{
+							DB::table('baptis')->insert(
+								array(
+									//'no_baptis'=>"",
+									'id_jemaat'=>$new_anggota->id,
+									'id_pendeta'=>$temp_pendeta->id, 
+									'tanggal_baptis'=>$tanggal_baptis,
+									'id_jenis_baptis'=>1, //= id_jenis_baptis untuk baptis
+									'id_gereja'=>$id_gereja,
+									'keterangan'=>"",
+									'deleted'=>0,
+									'created_at'=>Carbon::now(),
+									'updated_at'=>Carbon::now()
+								)
+							);
+						}
+						if($tanggal_sidi != "")
+						{
+							DB::table('baptis')->insert(
+								array(
+									//'no_baptis'=>"",
+									'id_jemaat'=>$new_anggota->id,
+									'id_pendeta'=>$temp_pendeta->id, //id anggota Pdt. GKI Ayudia
+									'tanggal_baptis'=>$tanggal_sidi,
+									'id_jenis_baptis'=>2, //= id_jenis_baptis untuk baptis
+									'id_gereja'=>$id_gereja,
+									'keterangan'=>"",
+									'deleted'=>0,
+									'created_at'=>Carbon::now(),
+									'updated_at'=>Carbon::now()
+								)
+							);
+						}
+						if($tanggal_atestasi_masuk != "")
+						{	
+							if($alasan_1_mutasi != null)
+							{
+								$alasan = DB::table('jenis_atestasi')->where('nama_atestasi', '=', $alasan_1_mutasi)->first();
+								if(count($alasan) != 0) //alasan untuk atestasi
+								{
+									DB::table('atestasi')->insert(
+										array(
+											//'no_atestasi'=>"",
+											'tanggal_atestasi'=>$tanggal_atestasi_masuk,
+											//'id_gereja_lama'=>,
+											'id_gereja_baru'=>$id_gereja,	
+											//'nama_gereja_lama'=>"",
+											'nama_gereja_baru'=>Session::get('nama'), //nama gereja login ini
+											'id_jenis_atestasi'=>$alasan->id,
+											'id_anggota'=>$new_anggota->id,
+											'keterangan'=>"",
+											'deleted'=>0,
+											'created_at'=>Carbon::now(),
+											'updated_at'=>Carbon::now()
+										)
+									);						
+								}
+								else //masuk else kalo sampai ada yang salah masukin data jenis atestasi di excel
+								{
+									DB::table('atestasi')->insert(
+										array(
+											//'no_atestasi'=>"",
+											'tanggal_atestasi'=>$tanggal_atestasi_masuk,
+											//'id_gereja_lama'=>,
+											'id_gereja_baru'=>$id_gereja,
+											//'nama_gereja_lama'=>"",
+											'nama_gereja_baru'=>Session::get('nama'), //nama gereja login ini
+											'id_jenis_atestasi'=>12, //ATP
+											'id_anggota'=>$new_anggota->id,
+											'keterangan'=>"",
+											'deleted'=>0,
+											'created_at'=>Carbon::now(),
+											'updated_at'=>Carbon::now()
+										)
+									);	
+								}							
+							}
+							else //masuk else kalo sampai ada yang salah masukin data jenis atestasi di excel
+							{
+								DB::table('atestasi')->insert(
+									array(
+										//'no_atestasi'=>"",
+										'tanggal_atestasi'=>$tanggal_atestasi_masuk,
+										//'id_gereja_lama'=>,
+										'id_gereja_baru'=>$id_gereja,
+										//'nama_gereja_lama'=>"",
+										'nama_gereja_baru'=>Session::get('nama'), //nama gereja login ini
+										'id_jenis_atestasi'=>12, //ATP 
+										'id_anggota'=>$new_anggota->id,
+										'keterangan'=>"",
+										'deleted'=>0,
+										'created_at'=>Carbon::now(),
+										'updated_at'=>Carbon::now()
+									)
+								);						
+							}						
+						}					
+						if($tanggal_atestasi_keluar != "")
+						{							
+							if($alasan_1_mutasi != null)
+							{
+								$alasan = DB::table('jenis_atestasi')->where('nama_atestasi', '=', $alasan_1_mutasi)->first();
+								if(count($alasan) != 0) //alasan untuk atestasi
+								{
+									DB::table('atestasi')->insert(
+										array(
+											//'no_atestasi'=>"",
+											'tanggal_atestasi'=>$tanggal_atestasi_keluar,
+											'id_gereja_lama'=>$id_gereja,
+											//'id_gereja_baru'=>,
+											'nama_gereja_lama'=>Session::get('nama'), //nama gereja login ini
+											//'nama_gereja_baru'=>"",
+											'id_jenis_atestasi'=>$alasan->id,
+											'id_anggota'=>$new_anggota->id,
+											'keterangan'=>"",
+											'deleted'=>0,
+											'created_at'=>Carbon::now(),
+											'updated_at'=>Carbon::now()
+										)
+									);
+								}
+								else //masuk else kalo sampai ada yang salah masukin data jenis atestasi di excel
+								{
+									DB::table('atestasi')->insert(
+										array(
+											//'no_atestasi'=>"",
+											'tanggal_atestasi'=>$tanggal_atestasi_keluar,
+											'id_gereja_lama'=>$id_gereja,
+											//'id_gereja_baru'=>,
+											'nama_gereja_lama'=>Session::get('nama'), //nama gereja login ini
+											//'nama_gereja_baru'=>"",
+											'id_jenis_atestasi'=>1, //AKK
+											'id_anggota'=>$new_anggota->id,
+											'keterangan'=>"",
+											'deleted'=>0,
+											'created_at'=>Carbon::now(),
+											'updated_at'=>Carbon::now()
+										)
+									);
+								}
+							}	
+							else //masuk else kalo sampai ada yang salah masukin data jenis atestasi di excel
+							{
+								DB::table('atestasi')->insert(
+									array(
+										//'no_atestasi'=>"",
+										'tanggal_atestasi'=>$tanggal_atestasi_keluar,
+										'id_gereja_lama'=>$id_gereja,
+										//'id_gereja_baru'=>,
+										'nama_gereja_lama'=>Session::get('nama'), //nama gereja login ini
+										//'nama_gereja_baru'=>"",
+										'id_jenis_atestasi'=>1, //AKK
+										'id_anggota'=>$new_anggota->id,
+										'keterangan'=>"",
+										'deleted'=>0,
+										'created_at'=>Carbon::now(),
+										'updated_at'=>Carbon::now()
+									)
+								);
+							}																											
+						}
+						if($tanggal_meninggal != "")
+						{
+							DB::table('kedukaan')->insert(
+								array(
+									'no_kedukaan'=>"",
+									'id_gereja'=>$id_gereja,
+									'id_jemaat'=>$new_anggota->id,
+									'keterangan'=>"",
+									'deleted'=>0,
+									'created_at'=>Carbon::now(),
+									'updated_at'=>Carbon::now()
+								)
+							);
+							DB::table('anggota')
+					            ->where('id', $new_anggota->id)
+					            ->update(array('tanggal_meninggal' => $tanggal_meninggal));
+						}
+						if($tanggal_dkh != null)
+						{
+							if($alasan_2_mutasi != null)
+							{
+								$alasan = DB::table('jenis_dkh')->where('nama_dkh', '=', $alasan_2_mutasi)->first();
+								if(count($alasan) != 0) //alasan untuk dkh
+								{	
+									DB::table('dkh')->insert(
+										array(
+											'no_dkh'=>"",
+											'id_jemaat'=>$new_anggota->id,
+											'tanggal_dkh'=>$tanggal_dkh,
+											'id_jenis_dkh'=>$alasan->id, //dkh1
+											'keterangan'=>"",
+											'deleted'=>0,
+											'created_at'=>Carbon::now(),
+											'updated_at'=>Carbon::now()
+										)						
+									);
+								}
+								else //masuk else kalo sampai ada yang salah masukin data jenis dkh di excel
+								{
+									DB::table('dkh')->insert(
+										array(
+											'no_dkh'=>"",
+											'id_jemaat'=>$new_anggota->id,
+											'tanggal_dkh'=>$tanggal_dkh,
+											'id_jenis_dkh'=>1, //dkh
+											'keterangan'=>"",
+											'deleted'=>0,
+											'created_at'=>Carbon::now(),
+											'updated_at'=>Carbon::now()
+										)						
+									);
+								}							
+							}
+							else
+							{
+								DB::table('dkh')->insert(
+									array(
+										'no_dkh'=>"",
+										'id_jemaat'=>$new_anggota->id,
+										'tanggal_dkh'=>$tanggal_dkh,
+										'id_jenis_dkh'=>1, //dkh
+										'keterangan'=>"",
+										'deleted'=>0,
+										'created_at'=>Carbon::now(),
+										'updated_at'=>Carbon::now()
+									)						
+								);
+							}												
+						}																										
+						if($tanggal_ex_dkh != null)
+						{
+							if($alasan_2_mutasi != null)
+							{
+								$alasan = DB::table('jenis_dkh')->where('nama_dkh', '=', $alasan_2_mutasi)->first();
+								if(count($alasan) != 0) //alasan untuk dkh
+								{
+									DB::table('dkh')->insert(
+										array(
+											'no_dkh'=>"",											
+											'id_jemaat'=>$new_anggota->id,
+											'tanggal_dkh'=>$tanggal_ex_dkh,
+											'id_jenis_dkh'=>$alasan->id, //ex-dkh
+											'keterangan'=>"",
+											'deleted'=>0,
+											'created_at'=>Carbon::now(),
+											'updated_at'=>Carbon::now()
+										)						
+									);
+								}
+								else
+								{
+									DB::table('dkh')->insert(
+										array(
+											'no_dkh'=>"",
+											'id_jemaat'=>$new_anggota->id,
+											'tanggal_dkh'=>$tanggal_ex_dkh,
+											'id_jenis_dkh'=>9, //ex-dkh
+											'keterangan'=>"",
+											'deleted'=>0,
+											'created_at'=>Carbon::now(),
+											'updated_at'=>Carbon::now()
+										)						
+									);	
+								}
+							}
+							else
+							{
+								DB::table('dkh')->insert(
+									array(
+										'no_dkh'=>"",
+										'id_jemaat'=>$new_anggota->id,
+										'tanggal_dkh'=>$tanggal_ex_dkh,
+										'id_jenis_dkh'=>9, //ex-dkh
+										'keterangan'=>"",
+										'deleted'=>0,
+										'created_at'=>Carbon::now(),
+										'updated_at'=>Carbon::now()
+									)						
+								);
+							}							
+						}																										
+						if($tanggal_ex_dkh4 != null)
+						{
+							if($alasan_2_mutasi != null)
+							{
+								$alasan = DB::table('jenis_dkh')->where('nama_dkh', '=', $alasan_2_mutasi)->first();
+								if(count($alasan) != 0) //alasan untuk atestasi
+								{	
+									DB::table('dkh')->insert(
+										array(
+											'no_dkh'=>"",
+											'id_jemaat'=>$new_anggota->id,
+											'tanggal_dkh'=>$tanggal_ex_dkh4,
+											'id_jenis_dkh'=>$alasan->id, //ex-dkh4
+											'keterangan'=>"",
+											'deleted'=>0,
+											'created_at'=>Carbon::now(),
+											'updated_at'=>Carbon::now()
+										)						
+									);
+								}
+								else
+								{
+									DB::table('dkh')->insert(
+										array(
+											'no_dkh'=>"",
+											'id_jemaat'=>$new_anggota->id,
+											'tanggal_dkh'=>$tanggal_ex_dkh4,
+											'id_jenis_dkh'=>13, //ex-dkh4
+											'keterangan'=>"",
+											'deleted'=>0,
+											'created_at'=>Carbon::now(),
+											'updated_at'=>Carbon::now()
+										)						
+									);
+								}
+							}
+							else
+							{
+								DB::table('dkh')->insert(
+									array(
+										'no_dkh'=>"",
+										'id_jemaat'=>$new_anggota->id,
+										'tanggal_dkh'=>$tanggal_ex_dkh4,
+										'id_jenis_dkh'=>13, //ex-dkh4
+										'keterangan'=>"",
+										'deleted'=>0,
+										'created_at'=>Carbon::now(),
+										'updated_at'=>Carbon::now()
+									)						
+								);
+							}						
+						}
+						//END INSERT						
+					}																					
 				}
 			});
 			

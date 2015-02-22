@@ -18,6 +18,7 @@ class CreateDkh extends Migration {
 			$table->increments('id');
 			$table->string('no_dkh');
 			$table->integer('id_jemaat')->unsigned();
+			$table->date('tanggal_dkh');
 			$table->integer('id_jenis_dkh')->unsigned();
 			$table->string('keterangan');
 			$table->tinyInteger('deleted');

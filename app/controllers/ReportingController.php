@@ -196,7 +196,7 @@ class ReportingController extends BaseController {
 			for($year = $year_from;$year<=$year_to;$year++){
 				$range_f =	$year.'-01-01'; 
 				$range_t =	$year.'-12-31'; 
-				$anggota = Anggota::where('id_gereja','=',$id_gereja)->where('deleted','=',0)->where('created_at','>=',$range_f)->where('created_at','<=',$range_t)->where('created_at','<=',$to)->get();
+				$anggota = Anggota::where('id_gereja','=',$id_gereja)->where('deleted','=',0)->where('created_at','<=',$range_t)->where('created_at','<=',$to)->get();
 				array_push($arr_report,count($anggota));
 				array_push($arr_tanggal,($year));
 			}

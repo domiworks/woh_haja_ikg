@@ -288,7 +288,9 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	//reporting
 	Route::get('/reporting', ['as' => 'view_reporting', 'uses' => 'ReportingController@view_reporting']);
 	Route::get('/jenis_kegiatan', ['as' => 'get_jenis_kegiatan', 'uses' => 'ReportingController@get_jenis_kegiatan']);
-	Route::get('/reporting/search_kebaktian/{from?}/{to?}/{jenis?}', ['as' => 'report_kebaktian', 'uses' => 'ReportingController@search_kebaktian']);
+	Route::get('/reporting/search_kebaktian/{id_gereja}/{from?}/{to?}/{jenis?}', ['as' => 'report_kebaktian', 'uses' => 'ReportingController@search_kebaktian']);
+	
+	Route::get('/reporting/search_anggota/{id}/{from?}/{to?}/{bulanan?}', ['as' => 'report_anggota', 'uses' => 'ReportingController@get_anggota']);
 	
 	//import eksport
 	Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@view_import_eksport']);	

@@ -25,7 +25,7 @@ class ReportingController extends BaseController {
 	}
 	
 	
-	public function search_kebaktian($from=0,$to=0,$jenis=-1){
+	public function search_kebaktian($id_gereja,$from=0,$to=0,$jenis=-1){
 		$where='';
 		
 		
@@ -67,12 +67,29 @@ class ReportingController extends BaseController {
 		}
 		
 		if($where!=''){
-			return Kegiatan::whereRaw($where)->orderBy('tanggal_mulai')->get();
+			return Kegiatan::whereRaw($where)->where('id_gereja','=',$id_gereja)->orderBy('tanggal_mulai')->get();
 		}
 		else{
 			return Kegiatan::orderBy('tanggal_mulai')->get();
 		}
 		
+	}
+	
+	public function get_anggota($id_gereja,$from, $to, $bulanan = 0){
+	
+		$anggota = Anggota::where('id_gereja','=',$id_gereja)->where('created_at','>=',$from)->where('created_at','<=',$to)->get();
+		
+		$arr_report = array();
+		
+		if($bulanan == 0){
+			
+		}
+		else{
+			
+		}
+		
+		return $anggota;
+	
 	}
 	
 		

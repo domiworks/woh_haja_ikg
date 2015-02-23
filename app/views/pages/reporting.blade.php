@@ -20,7 +20,7 @@
 				$daftar_jenis_kegiatan = response;
 				$.ajax({
 					type: 'GET',
-					url: "{{URL('user/reporting/search_kebaktian/')}}"+'/'+$from+'/'+$to+'/'+$jenis,			
+					url: "{{URL('user/reporting/search_kebaktian/')}}"+'/'+{{Session::get('id_gereja')}}+'/'+$from+'/'+$to+'/'+$jenis,			
 					success: function(response){
 						$arr_kegiatan = [];
 						$jenis_kegiatan = 0;

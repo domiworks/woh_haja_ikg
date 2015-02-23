@@ -173,7 +173,7 @@ class ReportingController extends BaseController {
 			$month_from = $temp;
 		}
 		
-		
+		//where('created_at','>=',$range_f)->
 		
 		if($bulanan == 0){
 			for($year = $year_from;$year<=$year_to;$year++){
@@ -186,7 +186,7 @@ class ReportingController extends BaseController {
 					}
 					$range_f =	$year.'-'.$month.'-01'; 
 					$range_t =	$year.'-'.$month.'-31'; 
-					$anggota = Anggota::where('id_gereja','=',$id_gereja)->where('deleted','=',0)->where('created_at','>=',$range_f)->where('created_at','<=',$range_t)->where('created_at','<=',$to)->get();
+					$anggota = Anggota::where('id_gereja','=',$id_gereja)->where('deleted','=',0)->where('created_at','<=',$range_t)->where('created_at','<=',$to)->get();
 					array_push($arr_report,count($anggota));
 					array_push($arr_tanggal,($this->getMonthFromNumber($month).' '.$year));
 				}

@@ -24,7 +24,7 @@ class ReportingController extends BaseController {
 		return JenisKegiatan::all();
 	}
 	
-	public function search_kebaktian($from=0,$to=0,$jenis=-1){
+	public function search_kebaktian($id_gereja,$from=0,$to=0,$jenis=-1){
 		$where='';
 		
 		
@@ -137,6 +137,15 @@ class ReportingController extends BaseController {
 		$arr_report = array();
 		$arr_tanggal = array();
 		
+		if($from ==0 && $to ==0){
+			$year = (int)date('Y');
+			$month = date('m');
+			$date = date('d');
+			$from = ($year-5).'-'.$month.'-'.$date;
+			$to = date('Y-m-d');
+			
+		}
+		
 		$arr_from = explode('-',$from);
 		$arr_to = explode('-',$to);
 		
@@ -172,6 +181,9 @@ class ReportingController extends BaseController {
 					$month_from = 1;
 				}
 				for($month = $month_from;$month<=12;$month++){
+					if($year==$year_to && $month>$month_to){
+						break;
+					}
 					$range_f =	$year.'-'.$month.'-01'; 
 					$range_t =	$year.'-'.$month.'-31'; 
 					$anggota = Anggota::where('id_gereja','=',$id_gereja)->where('deleted','=',0)->where('created_at','>=',$range_f)->where('created_at','<=',$range_t)->where('created_at','<=',$to)->get();

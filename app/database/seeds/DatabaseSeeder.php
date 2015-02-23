@@ -860,7 +860,7 @@ class DatabaseSeeder extends Seeder {
 		$jenisdkh13 -> save();
 
 		//---------------------------------- USER COWO/CEWE ----------------------------------			
-		/*		
+				
 		//insert cowo guntur
 		$idx = 2;	
 		$date = date_create('2016-01-03');
@@ -948,8 +948,7 @@ class DatabaseSeeder extends Seeder {
 			$count = $count." days";
 			//date_add($date, date_interval_create_from_date_string('7 days'));	
 			date_add($date, date_interval_create_from_date_string($count));	
-		}				
-		*/
+		}						
 		
 		//---------------------------------- DATA KEGIATAN/KEBAKTIAN ----------------------------------				
 		
@@ -957,7 +956,7 @@ class DatabaseSeeder extends Seeder {
 		
 		$date = date_create('2016-01-03');
 		//for($i = 1 ; $i <= 100 ; $i++)		
-		for($i = 1 ; $i <= 30 ; $i++)
+		for($i = 1 ; $i <= 50 ; $i++)
 		{			
 			//kebaktian 1		
 			$kebaktian = new Kegiatan();			

@@ -292,7 +292,7 @@ class DatabaseSeeder extends Seeder {
 		//---------------------------------- PENDETA ----------------------------------		
 		
 		$anggota1 = new Anggota();		
-		$anggota1 -> no_anggota = $gereja1->id."-1";
+		$anggota1 -> no_anggota = $gereja1->id."_1";
 		$anggota1 -> nama_depan = "Pdt. ".$gereja1->nama; //required
 		$anggota1 -> nama_tengah = "";
 		$anggota1 -> nama_belakang = "";
@@ -324,7 +324,7 @@ class DatabaseSeeder extends Seeder {
 			$hp1 -> save();
 
 		$anggota2 = new Anggota();		
-		$anggota2 -> no_anggota = $gereja2->id."-1";
+		$anggota2 -> no_anggota = $gereja2->id."_1";
 		$anggota2 -> nama_depan = "Pdt. ".$gereja2->nama; //required
 		$anggota2 -> nama_tengah = "";
 		$anggota2 -> nama_belakang = "";
@@ -356,7 +356,7 @@ class DatabaseSeeder extends Seeder {
 			$hp2 -> save();
 			
 		$anggota3 = new Anggota();		
-		$anggota3 -> no_anggota = $gereja3->id."-1";
+		$anggota3 -> no_anggota = $gereja3->id."_1";
 		$anggota3 -> nama_depan = "Pdt. ".$gereja3->nama; //required
 		$anggota3 -> nama_tengah = "";
 		$anggota3 -> nama_belakang = "";
@@ -388,7 +388,7 @@ class DatabaseSeeder extends Seeder {
 			$hp3 -> save();
 
 		$anggota4 = new Anggota();		
-		$anggota4 -> no_anggota = $gereja4->id."-1";
+		$anggota4 -> no_anggota = $gereja4->id."_1";
 		$anggota4 -> nama_depan = "Pdt. ".$gereja4->nama; //required
 		$anggota4 -> nama_tengah = "";
 		$anggota4 -> nama_belakang = "";
@@ -420,7 +420,7 @@ class DatabaseSeeder extends Seeder {
 			$hp4 -> save();				
 	
 		$anggota5 = new Anggota();		
-		$anggota5 -> no_anggota = $gereja5->id."-1";
+		$anggota5 -> no_anggota = $gereja5->id."_1";
 		$anggota5 -> nama_depan = "Pdt. ".$gereja5->nama; //required
 		$anggota5 -> nama_tengah = "";
 		$anggota5 -> nama_belakang = "";
@@ -452,7 +452,7 @@ class DatabaseSeeder extends Seeder {
 			$hp5 -> save();
 
 		$anggota6 = new Anggota();		
-		$anggota6 -> no_anggota = $gereja6->id."-1";
+		$anggota6 -> no_anggota = $gereja6->id."_1";
 		$anggota6 -> nama_depan = "Pdt. ".$gereja6->nama; //required
 		$anggota6 -> nama_tengah = "";
 		$anggota6 -> nama_belakang = "";
@@ -484,7 +484,7 @@ class DatabaseSeeder extends Seeder {
 			$hp6 -> save();
 
 		$anggota7 = new Anggota();		
-		$anggota7 -> no_anggota = $gereja7->id."-1";
+		$anggota7 -> no_anggota = $gereja7->id."_1";
 		$anggota7 -> nama_depan = "Pdt. ".$gereja7->nama; //required
 		$anggota7 -> nama_tengah = "";
 		$anggota7 -> nama_belakang = "";
@@ -516,7 +516,7 @@ class DatabaseSeeder extends Seeder {
 			$hp7 -> save();
 
 		$anggota8 = new Anggota();		
-		$anggota8 -> no_anggota = $gereja8->id."-1";
+		$anggota8 -> no_anggota = $gereja8->id."_1";
 		$anggota8 -> nama_depan = "Pdt. ".$gereja8->nama; //required
 		$anggota8 -> nama_tengah = "";
 		$anggota8 -> nama_belakang = "";
@@ -548,7 +548,7 @@ class DatabaseSeeder extends Seeder {
 			$hp8 -> save();
 
 		$anggota9 = new Anggota();		
-		$anggota9 -> no_anggota = $gereja9->id."-1";
+		$anggota9 -> no_anggota = $gereja9->id."_1";
 		$anggota9 -> nama_depan = "Pdt. ".$gereja9->nama; //required
 		$anggota9 -> nama_tengah = "";
 		$anggota9 -> nama_belakang = "";
@@ -580,7 +580,7 @@ class DatabaseSeeder extends Seeder {
 			$hp9 -> save();
 
 		$anggota10 = new Anggota();		
-		$anggota10 -> no_anggota = $gereja10->id."-1";
+		$anggota10 -> no_anggota = $gereja10->id."_1";
 		$anggota10 -> nama_depan = "Pdt. ".$gereja10->nama; //required
 		$anggota10 -> nama_tengah = "";
 		$anggota10 -> nama_belakang = "";
@@ -612,7 +612,7 @@ class DatabaseSeeder extends Seeder {
 			$hp10 -> save();
 
 		$anggota11 = new Anggota();		
-		$anggota11 -> no_anggota = $gereja11->id."-1";
+		$anggota11 -> no_anggota = $gereja11->id."_1";
 		$anggota11 -> nama_depan = "Pdt. ".$gereja11->nama; //required
 		$anggota11 -> nama_tengah = "";
 		$anggota11 -> nama_belakang = "";
@@ -642,98 +642,7 @@ class DatabaseSeeder extends Seeder {
 			$hp11 -> id_anggota = $anggota11->id; 
 			$hp11 -> no_hp = "081123456789";
 			$hp11 -> save();
-		
-		//---------------------------------- USER COWO/CEWE ----------------------------------			
-		/*		
-		//insert cowo guntur
-		$idx = 2;	
-		$date = date_create('2016-01-03');
-		for($i = 1; $i <= 200; $i++)
-		//for($i = 1; $i <= 10; $i++)
-		{		
-			$anggotacowo = new Anggota();		
-			$anggotacowo -> no_anggota = $gereja5->id."-".$idx;
-			$anggotacowo -> nama_depan = "cowo ".$idx; //required
-			$anggotacowo -> nama_tengah = "";
-			$anggotacowo -> nama_belakang = "";
-			$anggotacowo -> telp = "";
-			$anggotacowo -> gender = 1; //required
-			//$anggotacowo -> status_anggota = 0;
-			$anggotacowo -> wilayah = "";
-			$anggotacowo -> gol_darah = "";
-			$anggotacowo -> pendidikan = "";
-			$anggotacowo -> pekerjaan = "";
-			$anggotacowo -> etnis = "";
-			$anggotacowo -> kota_lahir = "";
-			$anggotacowo -> tanggal_lahir = rand(1950, 1990)."-".rand(1, 12)."-".rand(1, 31); //required
-			// $anggotacowo -> tanggal_meninggal = "";
-			$anggotacowo -> role = 1;	//sebagai jemaat
-			$anggotacowo -> id_gereja = $gereja5->id;		
-			$anggotacowo -> created_at = date_format($date, 'Y-m-d'); 
-			$anggotacowo -> save();														
-			
-			$alamat = new Alamat();
-			$alamat -> id_anggota = $anggotacowo->id;
-			$alamat -> jalan = "Jalan pria".$i;
-			$alamat -> kota = "Bandung";
-			$alamat -> kodepos = "456382";
-			$alamat -> save();
-			
-			$hp = new Hp();
-			$hp -> id_anggota = $anggotacowo->id; 
-			$hp -> no_hp = "081947382648";
-			$hp -> save();						
-			
-			$idx++;		
-			$count = rand(10, 20);	
-			$count = $count." days";
-			//date_add($date, date_interval_create_from_date_string('7 days'));	
-			date_add($date, date_interval_create_from_date_string($count));	
-		}
-		//insert cewe guntur
-		for($i = 1; $i <= 200; $i++)
-		//for($i = 1; $i <= 10; $i++)
-		{		
-			$anggotacewe = new Anggota();		
-			$anggotacewe -> no_anggota = $gereja5->id."-".$idx;
-			$anggotacewe -> nama_depan = "cewe ".$idx; //required
-			$anggotacewe -> nama_tengah = "";
-			$anggotacewe -> nama_belakang = "";
-			$anggotacewe -> telp = "";
-			$anggotacewe -> gender = 0; //required
-			//$anggotacewe -> status_anggota = 0;
-			$anggotacewe -> wilayah = "";
-			$anggotacewe -> gol_darah = "";
-			$anggotacewe -> pendidikan = "";
-			$anggotacewe -> pekerjaan = "";
-			$anggotacewe -> etnis = "";
-			$anggotacewe -> kota_lahir = "";
-			$anggotacewe -> tanggal_lahir = rand(1950, 1990)."-".rand(1, 12)."-".rand(1, 31); //required
-			// $anggotacewe -> tanggal_meninggal = "";
-			$anggotacewe -> role = 1;	//sebagai jemaat
-			$anggotacewe -> id_gereja = $gereja5->id;		
-			$anggotacewe -> created_at = date_format($date, 'Y-m-d'); 
-			$anggotacewe -> save();														
-			
-			$alamat = new Alamat();
-			$alamat -> id_anggota = $anggotacewe->id;
-			$alamat -> jalan = "Jalan wanita".$i;
-			$alamat -> kota = "Bandung";
-			$alamat -> kodepos = "758492";
-			$alamat -> save();
-			
-			$hp = new Hp();
-			$hp -> id_anggota = $anggotacewe->id; 
-			$hp -> no_hp = "081738465912";
-			$hp -> save();						
-			
-			$idx++;
-			$count = rand(10, 20);	
-			$count = $count." days";
-			//date_add($date, date_interval_create_from_date_string('7 days'));	
-			date_add($date, date_interval_create_from_date_string($count));	
-		}				
-		*/
+				
 		//---------------------------------- JENIS KEGIATAN ----------------------------------		
 		// note 'nama_kegiatan' :
 				// - kebaktian umum 1
@@ -782,76 +691,91 @@ class DatabaseSeeder extends Seeder {
 
 		$jenisatestasi1 = new JenisAtestasi();
 		$jenisatestasi1 -> nama_atestasi = "AKK";
+		$jenisatestasi1 -> tipe = 2; //keluar
 		$jenisatestasi1 -> keterangan = "Angka pengurangan, karena pindah keanggotaan ( Atestasi keluar )";
 		$jenisatestasi1 -> save();
 
 		$jenisatestasi2 = new JenisAtestasi();
 		$jenisatestasi2 -> nama_atestasi = "AKK-1";
+		$jenisatestasi2 -> tipe = 2;
 		$jenisatestasi2 -> keterangan = "Atestasi Keluar ( Wajar )";
 		$jenisatestasi2 -> save();
 
 		$jenisatestasi3 = new JenisAtestasi();
 		$jenisatestasi3 -> nama_atestasi = "AKK-2";
+		$jenisatestasi3 -> tipe = 2;
 		$jenisatestasi3 -> keterangan = "Daya dorong dari dalam / daya tarik dari luar";
 		$jenisatestasi3 -> save();
 
 		$jenisatestasi4 = new JenisAtestasi();
 		$jenisatestasi4 -> nama_atestasi = "AKK-3";
+		$jenisatestasi4 -> tipe = 2;
 		$jenisatestasi4 -> keterangan = "Atestasi Keluar Anak ( Ikut Ortu )";
 		$jenisatestasi4 -> save();
 
 		$jenisatestasi5 = new JenisAtestasi();
 		$jenisatestasi5 -> nama_atestasi = "ATL";
+		$jenisatestasi5 -> tipe = 1; //masuk
 		$jenisatestasi5 -> keterangan = "Angka pertambahan karena kelahiran dalam keluarga";
 		$jenisatestasi5 -> save();
 
 		$jenisatestasi6 = new JenisAtestasi();
 		$jenisatestasi6 -> nama_atestasi = "ATD";
+		$jenisatestasi6 -> tipe = 1;
 		$jenisatestasi6 -> keterangan = "Angka pertambahan karena Baptis Kudus Dewasa";
 		$jenisatestasi6 -> save();
 
 		$jenisatestasi7 = new JenisAtestasi();
 		$jenisatestasi7 -> nama_atestasi = "ATD-1";
+		$jenisatestasi7 -> tipe = 1;
 		$jenisatestasi7 -> keterangan = "Dari bukan keluarga Kristen (percaya baru)";
 		$jenisatestasi7 -> save();
 
 		$jenisatestasi8 = new JenisAtestasi();
 		$jenisatestasi8 -> nama_atestasi = "ATD-2";
+		$jenisatestasi8 -> tipe = 1;
 		$jenisatestasi8 -> keterangan = "Dari keluarga Kristen ( belum baptis anak )";
 		$jenisatestasi8 -> save();
 
 		$jenisatestasi9 = new JenisAtestasi();
 		$jenisatestasi9 -> nama_atestasi = "ATIS";
+		$jenisatestasi9 -> tipe = 1;
 		$jenisatestasi9 -> keterangan = "Angka pertumbuhan hasil inkubasi iman lintas generasi melalui Sidi";
 		$jenisatestasi9 -> save();
 
 		$jenisatestasi10 = new JenisAtestasi();
 		$jenisatestasi10 -> nama_atestasi = "ATIOT";
+		$jenisatestasi10 -> tipe = 1;
 		$jenisatestasi10 -> keterangan = "Angka pertambahan anak baru, karena ikut Baptis bersama-sama orang tuanya.";
 		$jenisatestasi10 -> save();
 
 		$jenisatestasi11 = new JenisAtestasi();
 		$jenisatestasi11 -> nama_atestasi = "ATPS";
+		$jenisatestasi11 -> tipe = 1;
 		$jenisatestasi11 -> keterangan = "Angka pertambahan karena pindah dari gereja lain melalui Sidi";
 		$jenisatestasi11 -> save();
 
 		$jenisatestasi12 = new JenisAtestasi();
 		$jenisatestasi12 -> nama_atestasi = "ATP";
+		$jenisatestasi12 -> tipe = 1;
 		$jenisatestasi12 -> keterangan = "Angka pertambahan, karena pindah dari gereja lain ( Atestasi Masuk )";
 		$jenisatestasi12 -> save();
 
 		$jenisatestasi13 = new JenisAtestasi();
 		$jenisatestasi13 -> nama_atestasi = "ATP-1";
+		$jenisatestasi13 -> tipe = 1;
 		$jenisatestasi13 -> keterangan = "Atestasi Masuk Dewasa";
 		$jenisatestasi13 -> save();
 
 		$jenisatestasi14 = new JenisAtestasi();
 		$jenisatestasi14 -> nama_atestasi = "ATP-2";
+		$jenisatestasi14 -> tipe = 1;
 		$jenisatestasi14 -> keterangan = "Atestasi Masuk Anak";
 		$jenisatestasi14 -> save();
 
 		$jenisatestasi15 = new JenisAtestasi();
 		$jenisatestasi15 -> nama_atestasi = "APA";
+		$jenisatestasi15 -> tipe = 1;
 		$jenisatestasi15 -> keterangan = "Anak Potensial Anggota";
 		$jenisatestasi15 -> save();
 
@@ -935,14 +859,105 @@ class DatabaseSeeder extends Seeder {
 		$jenisdkh13 -> keterangan = "Anggota DKH-4 (B) yg aktif kembali";
 		$jenisdkh13 -> save();
 
+		//---------------------------------- USER COWO/CEWE ----------------------------------			
+		/*		
+		//insert cowo guntur
+		$idx = 2;	
+		$date = date_create('2016-01-03');
+		for($i = 1; $i <= 200; $i++)
+		//for($i = 1; $i <= 10; $i++)
+		{		
+			$anggotacowo = new Anggota();		
+			$anggotacowo -> no_anggota = $gereja5->id."_".$idx;
+			$anggotacowo -> nama_depan = "cowo ".$idx; //required
+			$anggotacowo -> nama_tengah = "";
+			$anggotacowo -> nama_belakang = "";
+			$anggotacowo -> telp = "";
+			$anggotacowo -> gender = 1; //required
+			//$anggotacowo -> status_anggota = 0;
+			$anggotacowo -> wilayah = "";
+			$anggotacowo -> gol_darah = "";
+			$anggotacowo -> pendidikan = "";
+			$anggotacowo -> pekerjaan = "";
+			$anggotacowo -> etnis = "";
+			$anggotacowo -> kota_lahir = "";
+			$anggotacowo -> tanggal_lahir = rand(1950, 1990)."-".rand(1, 12)."-".rand(1, 31); //required
+			// $anggotacowo -> tanggal_meninggal = "";
+			$anggotacowo -> role = 1;	//sebagai jemaat
+			$anggotacowo -> id_gereja = $gereja5->id;		
+			$anggotacowo -> created_at = date_format($date, 'Y-m-d'); 
+			$anggotacowo -> save();														
+			
+			$alamat = new Alamat();
+			$alamat -> id_anggota = $anggotacowo->id;
+			$alamat -> jalan = "Jalan pria".$i;
+			$alamat -> kota = "Bandung";
+			$alamat -> kodepos = "456382";
+			$alamat -> save();
+			
+			$hp = new Hp();
+			$hp -> id_anggota = $anggotacowo->id; 
+			$hp -> no_hp = "081947382648";
+			$hp -> save();						
+			
+			$idx++;		
+			$count = rand(10, 20);	
+			$count = $count." days";
+			//date_add($date, date_interval_create_from_date_string('7 days'));	
+			date_add($date, date_interval_create_from_date_string($count));	
+		}
+		//insert cewe guntur
+		for($i = 1; $i <= 200; $i++)
+		//for($i = 1; $i <= 10; $i++)
+		{		
+			$anggotacewe = new Anggota();		
+			$anggotacewe -> no_anggota = $gereja5->id."_".$idx;
+			$anggotacewe -> nama_depan = "cewe ".$idx; //required
+			$anggotacewe -> nama_tengah = "";
+			$anggotacewe -> nama_belakang = "";
+			$anggotacewe -> telp = "";
+			$anggotacewe -> gender = 0; //required
+			//$anggotacewe -> status_anggota = 0;
+			$anggotacewe -> wilayah = "";
+			$anggotacewe -> gol_darah = "";
+			$anggotacewe -> pendidikan = "";
+			$anggotacewe -> pekerjaan = "";
+			$anggotacewe -> etnis = "";
+			$anggotacewe -> kota_lahir = "";
+			$anggotacewe -> tanggal_lahir = rand(1950, 1990)."-".rand(1, 12)."-".rand(1, 31); //required
+			// $anggotacewe -> tanggal_meninggal = "";
+			$anggotacewe -> role = 1;	//sebagai jemaat
+			$anggotacewe -> id_gereja = $gereja5->id;		
+			$anggotacewe -> created_at = date_format($date, 'Y-m-d'); 
+			$anggotacewe -> save();														
+			
+			$alamat = new Alamat();
+			$alamat -> id_anggota = $anggotacewe->id;
+			$alamat -> jalan = "Jalan wanita".$i;
+			$alamat -> kota = "Bandung";
+			$alamat -> kodepos = "758492";
+			$alamat -> save();
+			
+			$hp = new Hp();
+			$hp -> id_anggota = $anggotacewe->id; 
+			$hp -> no_hp = "081738465912";
+			$hp -> save();						
+			
+			$idx++;
+			$count = rand(10, 20);	
+			$count = $count." days";
+			//date_add($date, date_interval_create_from_date_string('7 days'));	
+			date_add($date, date_interval_create_from_date_string($count));	
+		}				
+		*/
 		
 		//---------------------------------- DATA KEGIATAN/KEBAKTIAN ----------------------------------				
 		
 		//dummy data for demo -> GKI GUNTUR
-		/*
+		
 		$date = date_create('2016-01-03');
 		//for($i = 1 ; $i <= 100 ; $i++)		
-		for($i = 1 ; $i <= 50 ; $i++)
+		for($i = 1 ; $i <= 30 ; $i++)
 		{			
 			//kebaktian 1		
 			$kebaktian = new Kegiatan();			
@@ -1098,7 +1113,7 @@ class DatabaseSeeder extends Seeder {
 			//add date to next week
 			date_add($date, date_interval_create_from_date_string('7 days'));	
 		}	
-		*/		
+				
 	
 	}
 

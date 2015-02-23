@@ -295,10 +295,12 @@ class SuperAdminController extends BaseController {
 		$input = json_decode($json_data);
 		
 		$nama_atestasi = $input->{'nama_atestasi'};
+		$tipe_atestasi = $input->{'tipe_atestasi'};
 		$keterangan = $input->{'keterangan'};
 		
 		$data_valid = array(
 			'nama_atestasi' => $nama_atestasi,
+			'tipe' => $tipe_atestasi,
 			'keterangan' =>	$keterangan
 		);
 		
@@ -313,6 +315,7 @@ class SuperAdminController extends BaseController {
 		$jenis_atestasi = new JenisAtestasi();
 
 		$jenis_atestasi->nama_atestasi = $nama_atestasi;
+		$jenis_atestasi->tipe = $tipe_atestasi;
 		$jenis_atestasi->keterangan = $keterangan;
 		$jenis_atestasi->deleted = 0;
 				

@@ -249,6 +249,20 @@ class BaseController extends Controller {
 			return null;
 		}
 	}
+
+	//get list jenis dkh
+	public function getListJenisDkh()
+	{
+		$count = DB::table('jenis_dkh')->where('deleted', '=', 0)->orderBy('id','asc')->lists('nama_dkh','id');
+		if(count($count) != 0)
+		{
+			return $count;
+		}
+		else
+		{
+			return null;
+		}
+	}
 	
 	//admin get list pendeta
 	public function admin_getListPendeta()

@@ -58,6 +58,39 @@
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nama Jemaat</label>
 								<div class="col-xs-4">{{Form::text('nama_jemaat', Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))}}</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Antara tanggal </label> 
+								<div class="col-xs-2">
+									{{ Form::text('tanggal_awal', Input::old('tanggal_awal'), array('id' => 'f_tanggal_awal', 'class'=>'form-control')) }}
+								</div>
+								<div class="col-xs-2">
+									{{ Form::text('tanggal_akhir', Input::old('tanggal_akhir'), array('id' => 'f_tanggal_akhir', 'class'=>'form-control')) }}
+								</div>
+								
+							</div>
+							<div class="form-group">
+								<label class="col-xs-4 control-label">Jenis Dkh</label> 
+								<div class="col-xs-3">
+									<!--<select name="jenis_baptis" id="f_jenis_baptis" class="form-control">
+										<option>bla</option>
+									</select>
+									-->
+									<?php 
+										$new_list_jenis_dkh = array(
+											'-1' => 'pilih!'
+										);									
+										foreach($list_jenis_dkh as $id => $key)
+										{
+											$new_list_jenis_dkh[$id] = $key;
+										}
+									?>
+									@if($list_jenis_dkh == null)
+										<p class="control-label pull-left">(tidak ada daftar jenis baptis)</p>
+									@else
+										{{ Form::select('jenis_dkh', $new_list_jenis_dkh, Input::old('jenis_dkh'), array('id'=>'f_jenis_dkh', 'class'=>'form-control')) }}
+									@endif								
+								</div>
 							</div>				
 							<div class="form-group">
 								<div class="col-xs-5 col-xs-push-4">
@@ -113,6 +146,47 @@
 </div>
 
 <script>
+	jQuery('#f_tanggal_awal').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});	
+	jQuery('#f_tanggal_akhir').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});
+
 //simpen detail 
 var temp_detail = "";
 
@@ -124,12 +198,18 @@ $('body').on('click', '#f_search_dkh', function(){
 	//START LOADER				
 	$('.f_loader_container').removeClass('hidden');
 		
-	$no_dkh = $('#f_nomor_dkh').val();
+	$no_dkh = $('#f_nomor_dkh').val();	
 	$nama_jemaat = $('#f_nama_jemaat').val();		
+	$jenis_dkh = $('#f_jenis_dkh').val();
+	$tanggal_awal = $('#f_tanggal_awal').val();
+	$tanggal_akhir = $('#f_tanggal_akhir').val();
 
 	$data = {
 		'no_dkh' : $no_dkh,
-		'nama_jemaat' : $nama_jemaat			
+		'nama_jemaat' : $nama_jemaat,			
+		'tanggal_awal' : $tanggal_awal,
+		'tanggal_akhir' : $tanggal_akhir,
+		'id_jenis_dkh' : $jenis_dkh
 	};
 
 	var json_data = JSON.stringify($data);

@@ -90,7 +90,34 @@ $(document).ready(function(){
 									</tbody>
 								</table>-->
 								<!-- end search table -->
-							</div>		
+							</div>	
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Tanggal Dkh
+								</label>
+								<div class="col-xs-2">
+									<input type="text" name="tanggal_dkh" id="f_tanggal_dkh" class="form-control">
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>								
+							</div>	
+							<div class="form-group">
+								<label class="col-xs-4 control-label">
+									Jenis Dkh
+								</label>
+								<div class="col-xs-2">
+									<!--<input type="text" name="jenis_baptis" id="f_jenis_baptis" class="form-control">-->
+									@if($list_jenis_dkh == null)
+									<p class="control-label pull-left">(tidak ada daftar jenis dkh)</p>
+									@else
+									{{ Form::select('jenis_dkh', $list_jenis_dkh, Input::old('jenis_dkh'), array('id'=>'f_jenis_dkh', 'class'=>'form-control')) }}
+									@endif							
+								</div>
+								<div class="col-xs-0">
+									*
+								</div>
+							</div>							
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Keterangan
@@ -123,6 +150,7 @@ $(document).ready(function(){
 </div>
 
 <script>
+
 	/*
 		COBA LIVE SEARCH ANGGOTA
 	*/
@@ -135,7 +163,7 @@ $(document).ready(function(){
 		var json_data = JSON.stringify($data);
 		$.ajax({
 			type: 'GET',
-			url: '{{URL::route('user_search_anggota')}}',
+			url: '{{--URL::route('user_search_anggota')--}}',
 			data: {
 				// 'keyword' : $keyword
 				'json_data' : json_data
@@ -196,6 +224,27 @@ $(document).ready(function(){
 	});
 	*/
 	
+	jQuery('#f_tanggal_dkh').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});		
+
 	$('body').on('click', '#f_post_dkh', function(){
 		//SHOW POP UP CONFIRM KEBAKTIAN			
 		

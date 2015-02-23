@@ -74,8 +74,9 @@ class OlahDataController extends BaseController {
 	{	
 		// $header = $this->setHeader();
 		$list_jemaat = $this->getListAnggota();		
+		$list_jenis_dkh = $this->getListJenisDkh();
 		return View::make('pages.user_olahdata.dkh_domi', 
-			compact('list_jemaat'));
+			compact('list_jemaat', 'list_jenis_dkh'));
 		
 	}
 	
@@ -857,6 +858,9 @@ class OlahDataController extends BaseController {
 		
 		$no_dkh = $input->{'no_dkh'};
 		$nama_jemaat = $input->{'nama_jemaat'};
+		$tanggal_awal = $input->{'tanggal_awal'};
+		$tanggal_akhir = $input->{'tanggal_akhir'};
+		$id_jenis_dkh = $input->{'id_jenis_dkh'};
 		
 		$dkh = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('id_gereja', '=', Auth::user()->id_gereja)->where('ang.role', '=', 1); //role hanya jemaat
 		
@@ -873,6 +877,36 @@ class OlahDataController extends BaseController {
 		// $dkh = $dkh->where('ang.role', '=', 1); // role jemaat
 		// $dkh = $dkh->where('ang.id_gereja', '=', Auth::user()->id_gereja);
 		
+		//validation range tanggal
+		if($tanggal_awal != "")
+		{
+			if($tanggal_akhir != "")
+			{
+				$dkh = $dkh->where('dkh.tanggal_dkh', '>=', $tanggal_awal);
+				$dkh = $dkh->where('dkh.tanggal_dkh', '<=', $tanggal_akhir);
+			}
+			else
+			{
+				$dkh = $dkh->where('dkh.tanggal_dkh', '>=', $tanggal_awal);
+			}
+		}
+		else
+		{
+			if($tanggal_akhir != "")
+			{				
+				$dkh = $dkh->where('dkh.tanggal_dkh', '<=', $tanggal_akhir);
+			}
+			else
+			{
+				//ga ada tanggal awal dan akhir
+			}
+		}
+
+		if($id_jenis_dkh != "")
+		{
+			$dkh = $dkh->where('dkh.id_jenis_dkh', '=', $id_jenis_dkh);
+		}
+
 		if($nama_jemaat != "")
 		{						
 			// $dkh = $dkh->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
@@ -880,6 +914,7 @@ class OlahDataController extends BaseController {
 								// ->orWhere('ang.nama_belakang', 'LIKE', '%'.$nama_jemaat.'%');
 			$dkh = $dkh->where(DB::raw('CONCAT(ang.nama_depan, " " ,ang.nama_tengah, " " ,ang.nama_belakang)'), 'LIKE', '%'.$nama_jemaat.'%');
 		}
+		
 		
 		// $dkh = $dkh->get( array(
 			// 'dkh.id AS id', 
@@ -1936,6 +1971,8 @@ class OlahDataController extends BaseController {
 			
 			$dkh->no_dkh = trim($input->{'no_dkh'});				
 			// $dkh->id_jemaat = $input->{'id_jemaat'};
+			$dkh->tanggal_dkh = $input->{'tanggal_dkh'};
+			$dkh->id_jenis_dkh = $input->{'id_jenis_dkh'};
 			$dkh->keterangan = $input->{'keterangan'};			
 			
 			try{

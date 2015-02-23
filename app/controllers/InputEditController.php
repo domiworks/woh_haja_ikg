@@ -73,9 +73,10 @@ class InputEditController extends BaseController {
 	public function view_dkh()
 	{
 		// $header = $this->setHeader();
-		$list_jemaat = $this->getListAnggota();		
+		$list_jemaat = $this->getListAnggota();	
+		$list_jenis_dkh = $this->getListJenisDkh();	
 		return View::make('pages.user_inputdata.dkh_domi', 
-			compact('list_jemaat'));		
+			compact('list_jemaat', 'list_jenis_dkh'));		
 	}
 
 /*----------------------------------------LIVE SEARCH----------------------------------------*/
@@ -862,6 +863,8 @@ class InputEditController extends BaseController {
 		$data_valid = array(
 			'no_dkh' => trim($input->{'no_dkh'}),
 			'id_jemaat' => $input->{'id_jemaat'},
+			'tanggal_dkh' => $input->{'tanggal_dkh'},
+			'id_jenis_dkh' => $input->{'id_jenis_dkh'},
 			'keterangan' => $input->{'keterangan'}
 		);
 		
@@ -891,6 +894,8 @@ class InputEditController extends BaseController {
 		$dkh = new Dkh();
 		$dkh->no_dkh = trim($input->{'no_dkh'});
 		$dkh->id_jemaat = $input->{'id_jemaat'};
+		$dkh->tanggal_dkh = $input->{'tanggal_dkh'};
+		$dkh->id_jenis_dkh = $input->{'id_jenis_dkh'};
 		$dkh->keterangan = $input->{'keterangan'};
 		$dkh->deleted = 0;
 		try{

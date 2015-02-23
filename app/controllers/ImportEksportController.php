@@ -142,7 +142,7 @@ class ImportEksportController extends BaseController {
 					//NOTE : KALO CELL DI EXCELNYA NULL BAKAL ERROR																							
 					//NOTE : DB INSERT TABLE GA AKAN KENA VALIDATION YANG ADA DI MODEL								
 					//GENERATE NO_ANGGOTA BY SYSTEM
-					$no_anggota = $id_gereja."-".$last_number;
+					$no_anggota = $id_gereja."_".$last_number;
 					$last_number++;	//generate lastnumber baru untuk looping setelahnya ini / berikutnya
 										
 					//START INSERT
@@ -431,7 +431,7 @@ class ImportEksportController extends BaseController {
 					//NOTE : KALO CELL DI EXCELNYA NULL BAKAL ERROR																							
 					//NOTE : DB INSERT TABLE GA AKAN KENA VALIDATION YANG ADA DI MODEL								
 					//GENERATE NO_ANGGOTA BY SYSTEM
-					$no_anggota = $id_gereja."-".$last_number;
+					$no_anggota = $id_gereja."_".$last_number;
 					$last_number++;	//generate lastnumber baru untuk looping setelahnya ini / berikutnya
 										
 					//START INSERT
@@ -8750,7 +8750,7 @@ class ImportEksportController extends BaseController {
 		//tanggal di row 3
 		$tanggal = array(	
 			'','','','','','','','','',''
-			,'','','Tanggal : ',(string)Carbon::now(),'','','','','',''
+			,'','Tanggal : ',(string)Carbon::now(),'','','','','','',''
 			,'','','','','','','','',''
 		);
 		$blank = array(
@@ -8771,9 +8771,9 @@ class ImportEksportController extends BaseController {
 		
 		try{
 			//START INSERT TO ROW
-			Excel::create('Export Data Anggota', function($excel) use ($data,$nama_gereja,$tanggal,$blank,$header_table_1,$header_table_2){
+			Excel::create('Export Data Anggota', function($excel) use ($data,$id_gereja,$nama_gereja,$tanggal,$blank,$header_table_1,$header_table_2){
 
-				$excel->sheet('DATA BASE ANGGOTA', function($sheet) use ($data,$nama_gereja,$tanggal,$blank,$header_table_1,$header_table_2){																		
+				$excel->sheet('DATA BASE ANGGOTA', function($sheet) use ($data,$id_gereja,$nama_gereja,$tanggal,$blank,$header_table_1,$header_table_2){
 					//row 2 - nama gereja
 					$sheet->row(2, $nama_gereja);
 					
@@ -8828,14 +8828,15 @@ class ImportEksportController extends BaseController {
 							$tanggal_sidi = $sidi->tanggal_baptis;
 						}else{
 							$tanggal_sidi = "";
-						}
+						}					
 
+						//atestasi
+						$atestasi = DB::table('atestasi as ate')->where('ate.id_anggota', '=', $row_data->id)								
+											->orderBy('ate.id', 'desc')
+											->join('jenis_atestasi as jate', 'ate.id_jenis_atestasi', '=', 'jate.id');
 						//tanggal atestasi masuk, alasan mutasi 
-						$atestasi_masuk = Atestasi::where('id_anggota', '=', $row_data->id)
-											->where('id_jenis_atestasi', '>=', 5) //atestasi masuk
-											->where('id_jenis_atestasi', '<=', 15)
-											->orderBy('id', 'desc')
-											->first();
+						$atestasi_masuk = $atestasi->where('jate.tipe', '=', 1) //masuk
+											->first();																								
 						if(count($atestasi_masuk) != 0){
 							$tanggal_atestasi_masuk = $atestasi_masuk->tanggal_atestasi;							
 						}else{
@@ -8843,11 +8844,8 @@ class ImportEksportController extends BaseController {
 						}
 
 						//tanggal atestasi keluar, alasan mutasi
-						$atestasi_keluar = Atestasi::where('id_anggota', '=', $row_data->id)
-											->where('id_jenis_atestasi', '>=', 1) //atestasi keluar
-											->where('id_jenis_atestasi', '<=', 4)
-											->orderBy('id', 'desc')
-											->first();
+						$atestasi_keluar = $atestasi->where('jate.tipe', '=', 2) //keluar
+											->first();																														
 						if(count($atestasi_keluar) != 0){
 							$tanggal_atestasi_keluar = $atestasi_keluar->tanggal_atestasi;														
 						}else{
@@ -8890,7 +8888,7 @@ class ImportEksportController extends BaseController {
 
 						//alasan 1 mutasi
 						$mutasi1 = Atestasi::where('id_anggota', '=', $row_data->id)
-										orderBy('id', 'desc')->first();
+										->orderBy('id', 'desc')->first();
 						if(count($mutasi1) != 0){
 							$alasan_1_mutasi = JenisAtestasi::where('id', '=', $mutasi1->id_jenis_atestasi)->first()->nama_atestasi;
 						}else{
@@ -8899,7 +8897,7 @@ class ImportEksportController extends BaseController {
 
 						//alasan 2 mutasi
 						$mutasi2 = Dkh::where('id_jemaat', '=', $row_data->id)
-										orderBy('id', 'desc')->first();
+										->orderBy('id', 'desc')->first();
 						if(count($mutasi2) != 0){
 							$alasan_2_mutasi = JenisDkh::where('id', '=', $mutasi2->id_jenis_dkh)->first()->nama_dkh;
 						}else{
@@ -8948,7 +8946,7 @@ class ImportEksportController extends BaseController {
 					//start styling
 						$sheet->setAutoSize(true);
 						
-						$sheet->mergeCells('W5:X5');//merge atestasi												
+						//$sheet->mergeCells('W5:X5');//merge atestasi												
 						
 						$sheet->setWidth('A', 5);
 						
@@ -8960,7 +8958,7 @@ class ImportEksportController extends BaseController {
 							));
 						});
 						
-						$sheet->cells('A5:AD6', function($cells) {						
+						$sheet->cells('A5:AC6', function($cells) {						
 							$cells->setFont(array(
 								'family'     => 'Arial',
 								'size'       => '10',
@@ -8970,12 +8968,109 @@ class ImportEksportController extends BaseController {
 						});						
 						
 						$last_row = $row_num - 1;												
-																												
-						$sheet->setBorder('A8:D'.$last_row, 'thin'); //kiri alamat
-						$sheet->setBorder('G8:AD'.$last_row, 'thin'); //kanan alamat
-						$sheet->cells('E8:F'.$last_row, function($cells) {						
-							$cells->setBorder('thin', 'none', 'thin', 'none');
-						});//tengah alamat
+						
+						//border data
+						$sheet->setBorder('A7:AC'.$last_row, 'thin');						
+
+						//border tanggal
+						$sheet->cells('L3:M3', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');							
+						});
+
+						//border header
+						$sheet->cells('A5:A6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('B5:B6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('C5:C6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('D5:D6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('E5:E6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('F5:F6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('G5:G6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('H5:H6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('I5:I6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('J5:J6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('K5:K6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('L5:L6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('M5:M6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('N5:N6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('O5:O6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('P5:P6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('Q5:Q6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('R5:R6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('S5:S6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('T5:T6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('U5:U6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('V5:V6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('W5:W6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('X5:X6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('Y5:Y6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('Z5:Z6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('AA5:AA6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('AB5:AB6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+						$sheet->cells('AC5:AC6', function($cells) {						
+							$cells->setBorder('thick', 'thick', 'thick', 'thick');
+						});
+
+						//$sheet->setBorder('A7:D'.$last_row, 'thin'); //kiri alamat
+						//$sheet->setBorder('G7:AC'.$last_row, 'thin'); //kanan alamat
+						//$sheet->cells('A7:AC'.$last_row, function($cells) {						
+						//	$cells->setBorder('thin', 'thin', 'thin', 'thin');
+						//});//tengah alamat
 								
 						// $sheet->cells('A5:AD6', function($cells) {						
 							// $cells->setBorder('none', 'solid', 'none', 'solid');
@@ -8990,11 +9085,11 @@ class ImportEksportController extends BaseController {
 							// $cells->setBorder('solid', 'none', 'none', 'none');
 						// });	//atas atestasi masuk keluar
 						
-						$sheet->cells('A5:AD6', function($cells) {							
+						$sheet->cells('A5:AC6', function($cells) {							
 							$cells->setBackground('#66FFCC');
 						}); //background color header table												
 						
-						$sheet->cells('S3:T3', function($cells) {							
+						$sheet->cells('L3:M3', function($cells) {							
 							$cells->setBackground('#66FF99');							
 						}); //background color tanggal
 						
@@ -9709,7 +9804,7 @@ class ImportEksportController extends BaseController {
 		}
 		
 		//inisialisasi REPORT DUPLICATE ROW
-		$arr_report = array();			
+		$arr_report = array();					
 
 		if($uploadSuccess){
 			
@@ -9717,8 +9812,9 @@ class ImportEksportController extends BaseController {
 			$file_path = $destinationPath.$filename;
 			//return $file_path;																		
 
-			$result = Excel::selectSheets('DATA BASE ANGGOTA')->load($file_path, function($reader) use($id_gereja){				
-															
+			$result = Excel::selectSheets('DATA BASE ANGGOTA')->load($file_path, function($reader) use ($id_gereja, $arr_report){				
+			//Excel::selectSheets('DATA BASE ANGGOTA')->load($file_path, function($reader) use ($id_gereja){																			
+
 				// Getting all results
 				$reader->skip(6); //maka skrng di row 7
 				$reader->noHeading();
@@ -9734,7 +9830,7 @@ class ImportEksportController extends BaseController {
 					if($row[1] == null) //end of record
 					{
 						break;
-					}				
+					}
 					//KOLOM NOMOR ANGGOTA DIBIARKAN KOSONG AJA, KALAU KEISI PUN HARUS HASIL DARI EXPORT									
 					$new_no_anggota = ""; 	//reset					
 					$no_anggota = "";		//reset					
@@ -9742,10 +9838,10 @@ class ImportEksportController extends BaseController {
 						//GENERATE NOMOR ANGGOTA BARU
 						$last_no_anggota = DB::table('anggota')->where('id_gereja', '=', $id_gereja)->get();
 						$last_number = count($last_no_anggota) + 1;
-						$new_no_anggota = $id_gereja."-".$last_number;
+						$new_no_anggota = $id_gereja."_".$last_number;
 					}else{					
 						$no_anggota = $row[2];						
-					}					
+					}									
 					//nama_depan
 					if($row[3] == null){
 						$nama_depan = "";
@@ -9912,41 +10008,47 @@ class ImportEksportController extends BaseController {
 					}else{
 						$alasan_2_mutasi = $row[29];
 					}
-
+									
 					//NOTE : KALO CELL DI EXCELNYA NULL BAKAL ERROR																																						
 					//PREVENTION KALO ORANG SAMPE IMPORT 2X SHEET YANG SAMA				
-					//cek nomor anggota kosong atau engga
+					//cek nomor anggota kosong atau engga					
 					$exist_no_anggota = DB::table('anggota')->where('id_gereja', '=', $id_gereja)
 												->where('no_anggota', '=', $no_anggota)
-												->first();
+												->first();																					
 					$exist_combine = DB::table('anggota')->where('id_gereja', '=', $id_gereja)
 													->where('nama_depan', '=', $nama_depan)
 													->where('nama_tengah', '=', $nama_tengah)
 													->where('nama_belakang', '=', $nama_belakang)
-													->where('tanggal_lahir', '=', $tanggal_lahir)
-													->first();							
-					if($no_anggota != "" && count($exist_no_anggota) != 0) //nomor anggota hasil generate dari export database
+													//->where('tanggal_lahir', '=', $tanggal_lahir)													
+													->first();												
+													//05/05/1990
+					if(count($exist_no_anggota) > 0) //nomor anggota hasil generate dari export database
 					{						
 						//report duplicate
-						$report = $exist_no_anggota->no_anggota." - ".
+						$report = $exist_no_anggota->no_anggota." _ ".
 									$exist_no_anggota->nama_depan." ".
 									$exist_no_anggota->nama_tengah." ".
 									$exist_no_anggota->nama_belakang;
-						array_push($arr_report, $report);						
+						//array_push($arr_report, $report);												
+						$arr_report[] = $report;
 					}							
 					//cek kombinasi nama_depan, nama_tengah, nama_belakang, dan tanggal_lahir
-					else if(count($exist_combine) != 0) //worsecase search terus kalo ada duplicate
+					else if(count($exist_combine) > 0) //worsecase search terus kalo ada duplicate
 					{	
 						//report duplicate
-						$report = $exist_combine->no_anggota." - ".
+						$report = $exist_combine->no_anggota." _ ".
 									$exist_combine->nama_depan." ".
 									$exist_combine->nama_tengah." ".
 									$exist_combine->nama_belakang;
-						array_push($arr_report, $report);						
-					}					
-					else //new data
-					{	
-						//START INSERT
+
+						//array_push($arr_report, $report);						
+						//$report = "duplicate";
+						//array_push($arr_report, $report);
+						$arr_report[] = $report;
+					}	
+					else if(count($exist_no_anggota) == 0 || count($exist_combine) == 0) //new data
+					{							
+						//START INSERT						
 						DB::table('anggota')->insert(
 							array(							
 								//IT WILL ERROR IF NO_ANGGOTA NOT UNIQUE
@@ -9972,7 +10074,7 @@ class ImportEksportController extends BaseController {
 								'created_at'=>Carbon::now(),
 								'updated_at'=>Carbon::now()																
 							)
-						);							
+						);																
 						$new_anggota = DB::table('anggota')->orderBy('id', 'desc')->first();											
 						DB::table('alamat')->insert(
 							array(
@@ -10330,14 +10432,17 @@ class ImportEksportController extends BaseController {
 									)						
 								);
 							}						
-						}
+						}								
 						//END INSERT						
 					}																					
 				}
 			});
 			
+			//$message = "Berhasil";
+			
+			//return $message.count($arr_report);
 			return 'Berhasil';
-			// return $message;
+			// return $message;		
 		}
 		else{
 			return 'Gagal upload file';

@@ -16,6 +16,7 @@ class CreateJenisAtestasi extends Migration {
 			$table->create();
 			$table->increments('id');
 			$table->string('nama_atestasi');
+			$table->tinyInteger('tipe'); //1 = masuk, 2 = keluar
 			$table->string('keterangan');
 			$table->tinyInteger('deleted');
 			$table->timestamps();

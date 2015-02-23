@@ -24,11 +24,15 @@
 		
 		$no_dkh = $('#f_nomor_dkh').val();
 		$id_jemaat = $('#f_nama_jemaat').val();
+		$tanggal_dkh = $('#f_tanggal_dkh').val();
+		$jenis_dkh = $('#f_jenis_dkh').val();
 		$keterangan = $('#f_keterangan').val();
 		
 		$data = {
 			'no_dkh' : $no_dkh,
 			'id_jemaat' : $id_jemaat,
+			'tanggal_dkh' : $tanggal_dkh,
+			'id_jenis_dkh' : $jenis_dkh,
 			'keterangan' : $keterangan
 		};
 		

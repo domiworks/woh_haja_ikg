@@ -7,10 +7,12 @@ class JenisAtestasi extends Eloquent
 	
 	public static $rules = 
 				['nama_atestasi' => 'required',
+				'tipe' => 'required',
 				'keterangan' => 'required'];
 	
 	public $fillable = 
 				['nama_atestasi',
+				'tipe',
 				'keterangan',				
 				'deleted'];	
 	

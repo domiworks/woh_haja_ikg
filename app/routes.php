@@ -13,7 +13,7 @@
 
 //example
 //Route::get('/import', ['as' => 'get.import' , 'uses' => 'ExcelController@import']);
-//Route::get('/import_kegiatan_gki_cianjur', ['as' => 'get.import_kegiatan_cianjur' , 'uses' => 'ImportEksportController@import_kegiatan_GKI_Cianjur']);
+Route::get('/import_kegiatan_gki_cianjur', ['as' => 'get.import_kegiatan_cianjur' , 'uses' => 'ImportEksportController@import_kegiatan_GKI_Cianjur']);
 //Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export']);
 
 //START SEED REAL DATA
@@ -22,7 +22,15 @@ Route::get('/import_data_dbaj_gki_cianjur', ['as' => 'import_data_dbaj_gki_cianj
 //END SEED REAL DATA
 
 
+
 Route::get('/tes', function(){
+	$temp = "05/09/1990";
+
+	$phpexcepDate = $temp-25569; //to offset to Unix epoch
+    echo strtotime("+$phpexcepDate days", mktime(0,0,0,1,1,1970));
+
+	echo "tanggal";
+
 	/*
 	$message = "Berhasil";	
 	
@@ -288,9 +296,8 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	//reporting
 	Route::get('/reporting', ['as' => 'view_reporting', 'uses' => 'ReportingController@view_reporting']);
 	Route::get('/jenis_kegiatan', ['as' => 'get_jenis_kegiatan', 'uses' => 'ReportingController@get_jenis_kegiatan']);
-	Route::get('/reporting/search_kebaktian/{id_gereja}/{from?}/{to?}/{jenis?}', ['as' => 'report_kebaktian', 'uses' => 'ReportingController@search_kebaktian']);
-	
-	Route::get('/reporting/search_anggota/{id}/{from?}/{to?}/{bulanan?}', ['as' => 'report_anggota', 'uses' => 'ReportingController@get_anggota']);
+	Route::get('/reporting/search_kebaktian/{from?}/{to?}/{jenis?}', ['as' => 'report_kebaktian', 'uses' => 'ReportingController@search_kebaktian']);
+	Route::get('/reporting/search_persembahan/{from?}/{to?}/{jenis?}', ['as' => 'report_persembahan', 'uses' => 'ReportingController@search_persembahan']);
 	
 	//import eksport
 	Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@view_import_eksport']);	

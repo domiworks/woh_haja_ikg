@@ -71,6 +71,18 @@
 											</div>
 										</div>							
 										<div class="form-group">
+											<label class="col-xs-4 control-label">Tipe</label>
+											<div class="col-xs-5">
+												<select class="form-control" id="f_tipe_atestasi" >
+													<option value="1">Masuk</option>
+													<option value="2">Keluar</option>																									
+												</select>												
+											</div>
+											<div class="col-xs-0">
+												*
+											</div>
+										</div>																	
+										<div class="form-group">
 											<label class="col-xs-4 control-label">Keterangan</label>
 											<div class="col-xs-5">
 												{{Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_keterangan', 'class'=>'form-control'))}}
@@ -230,10 +242,12 @@
 		$('.f_loader_container').removeClass('hidden');
 		
 		$nama_atestasi = $('#f_nama_jenis_atestasi').val();
+		$tipe_atestasi = $('#f_tipe_atestasi').val();
 		$keterangan = $('#f_keterangan').val();
 		
 		$data = {
 			'nama_atestasi' : $nama_atestasi,
+			'tipe' : $tipe_atestasi,
 			'keterangan' : $keterangan
 		};
 		

@@ -260,9 +260,9 @@
 									<div class="col-xs-2">										
 										<label>satuan : </label>
 										<select class="form-control" id="f_satuan_anggota" style="width:100px;display:inline;">
-											<option value="">(pilih)</option> <!-- defaultnya kayanya mending pake per bulan aj-->
-											<option value="bulan">bulan</option>
-											<option value="tahun">tahun</option>
+											<option value="0">(pilih)</option> <!-- defaultnya kayanya mending pake per bulan aj-->
+											<option value="0">bulan</option>
+											<option value="1">tahun</option>
 										</select>																
 									</div>
 									<div class="col-xs-4">
@@ -272,7 +272,7 @@
 									</div>
 								</div>
 								<div class="col-xs-12">							
-									<!--<div id="container_graph" class='col-xs-12' style="display:block;width: 100%; height: 400px; margin: 0 auto"></div>-->
+									<div id="container_graph_anggota" class='col-xs-12' style="display:block;width: 100%; height: 400px; margin: 0 auto"></div>
 								</div>						
 							</div>
 						</div>	
@@ -648,6 +648,119 @@
 			}
 		});
 	});	
+	
+	jQuery('#f_tanggal_awal_anggota').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});	
+	
+	jQuery('#f_tanggal_akhir_anggota').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});
+	
+	$('body').on('click', '#f_lihat_grafik_anggota', function(){
+		$('.f_loader_container').removeClass('hidden');
+		// get tanggal
+		$from = $('#f_tanggal_awal_anggota').val();
+		$to = $('#f_tanggal_akhir_anggota').val();
+		$bulan = $('#f_satuan_anggota').val();
+		//alert($from+' '+$to+' '+$bulan);
+
+		//kalau kosong
+		if($from == ""){
+			$from = 0;
+		}
+		if($to == ""){
+			$to = 0;
+		}
+		
+		$.ajax({
+			type: 'GET',
+			url: "{{URL('user/reporting/search_anggota/')}}"+'/'+{{Session::get('id_gereja')}}+'/'+$from+'/'+$to+'/'+$bulan,			
+			success: function(response){
+				//alert(response[0]);
+				//alert(response[1]);
+				$temp = [];
+				$arr_anggota = [];
+				
+				$arr_anggota.push({
+					name:'Anggota Gereja',
+					data:response[0]
+				});
+				$('#container_graph_anggota').highcharts({
+					title: {
+						text: 'Laporan Perkembangan Anggota Gereja',
+						x: -20 //center
+					},
+					subtitle:{
+						text: $from+" sampai "+$to,
+						x: -20
+					},
+					xAxis: {
+					// tanggal
+						categories: response[1]
+					},
+					yAxis: {
+						title: {
+							text: 'Banyak Anggota'
+						},
+						plotLines: [{
+							value: 0,
+							width: 1,
+							color: '#808080'
+						}]
+					},
+					tooltip: {
+						valueSuffix: ' jiwa'
+					},
+					legend: {
+						layout: 'vertical',
+						align: 'right',
+						verticalAlign: 'middle',
+						borderWidth: 0
+					},
+					series: $arr_anggota
+				});
+						
+				$('.f_loader_container').addClass('hidden');	
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error');
+				alert(errorThrown);
+			}
+		});
+	});
 </script>
 
 @stop

@@ -129,6 +129,100 @@ class ReportingController extends BaseController {
 		}
 		
 	}	
+	
+	public function search_anggota($id_gereja,$from, $to, $bulanan = 0){
+	
+		$report = array();
+		
+		$arr_report = array();
+		$arr_tanggal = array();
+		
+		$arr_from = explode('-',$from);
+		$arr_to = explode('-',$to);
+		
+		$year_from = (int)$arr_from[0];
+		$month_from = (int)$arr_from[1];
+		$date_from = (int)$arr_from[2];
+		
+		
+		
+		$year_to = (int)$arr_to[0];
+		$month_to = (int)$arr_to[1];
+		$date_to = (int)$arr_to[2];
+		
+		if($year_from>$year_to){
+			$temp = $year_from;
+			$year_from = $year_to;
+			$year_to = $temp;
+			$temp = $month_to;
+			$month_to = $month_from;
+			$month_from = $temp;
+		}
+		else if($year_from == $year_to && $month_to<$month_from){
+			$temp = $month_to;
+			$month_to = $month_from;
+			$month_from = $temp;
+		}
+		
+		
+		
+		if($bulanan == 0){
+			for($year = $year_from;$year<=$year_to;$year++){
+				if($year>$year_from){
+					$month_from = 1;
+				}
+				for($month = $month_from;$month<=12;$month++){
+					$range_f =	$year.'-'.$month.'-01'; 
+					$range_t =	$year.'-'.$month.'-31'; 
+					$anggota = Anggota::where('id_gereja','=',$id_gereja)->where('deleted','=',0)->where('created_at','>=',$range_f)->where('created_at','<=',$range_t)->where('created_at','<=',$to)->get();
+					array_push($arr_report,count($anggota));
+					array_push($arr_tanggal,($this->getMonthFromNumber($month).' '.$year));
+				}
+			}
+		}
+		else{
+			for($year = $year_from;$year<=$year_to;$year++){
+				$range_f =	$year.'-01-01'; 
+				$range_t =	$year.'-12-31'; 
+				$anggota = Anggota::where('id_gereja','=',$id_gereja)->where('deleted','=',0)->where('created_at','>=',$range_f)->where('created_at','<=',$range_t)->where('created_at','<=',$to)->get();
+				array_push($arr_report,count($anggota));
+				array_push($arr_tanggal,($year));
+			}
+		}
+		
+		array_push($report,$arr_report);
+		array_push($report,$arr_tanggal);
+		
+		return $report;
+	
+	}
+	
+	private function dateConverter($date){
+		
+		$arr_date = explode('-',$date);
+		
+		return $this->getMonthFromNumber((int)$arr_date[0]).' '.$arr_date[1];
+		
+	}
+	
+	private function getMonthFromNumber($month){
+		$month = $month%12;
+		switch ($month) :
+			case  1: return 'Januari';
+			case  2: return 'Februari';
+			case  3: return 'Maret';
+			case  4: return 'April';
+			case  5: return 'Mei';
+			case  6: return 'Juni';
+			case  7: return 'Juli';
+			case  8: return 'Agustus';
+			case  9: return 'September';
+			case 10: return 'Oktober';
+			case 11: return 'November';
+			case 0: return 'Desember';
+				
+		endswitch;
+	}
 }
 
 ?>

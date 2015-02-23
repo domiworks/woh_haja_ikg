@@ -213,6 +213,7 @@ class ReportingController extends BaseController {
 		
 		$arr_date = explode('-',$date);
 		
+		//cek
 		return $this->getMonthFromNumber((int)$arr_date[0]).' '.$arr_date[1];
 		
 	}

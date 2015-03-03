@@ -1,7 +1,7 @@
 //--------------------------------------------------------REVISI DATABASE--------------------------------------------------------	
 	
 	
-REVISI TABLE-TABLE DI DATABASE (8 DES 2015) :
+REVISI TABLE-TABLE DI DATABASE (8 DES 2014) :
 		
 - jadi pakai tumbstone di setiap tabel kecuali di tabel 'auth'		
 		
@@ -24,7 +24,7 @@ REVISI TABLE-TABLE DI DATABASE (8 DES 2015) :
 - kolom role di table auth -> tinyInteger jadi integer 		
 	
 
-REVISI TABLE-TABLE DI DATABASE (19 DES 2015) :
+REVISI TABLE-TABLE DI DATABASE (19 DES 2014) :
 		
 - auth ga jadi referensi ke anggota karena ga bisa langsung liat
 		
@@ -34,3 +34,10 @@ REVISI TABLE-TABLE DI DATABASE (19 DES 2015) :
 			
 	reference ke gereja
 	
+
+REVISI TABLE-TABLE DI DATABASE (24 FEB 2015) :
+
+- tambah tabel jenis_dkh
+
+- tambah field id_jenis_dkh di tabel dkh
+

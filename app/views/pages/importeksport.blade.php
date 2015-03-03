@@ -23,12 +23,23 @@
 					</div>
 					<div class="panel-body">
 						<div class="col-xs-12">
-							<div class="col-xs-3">
-								<input type="button" class="btn btn-success pull-right" id="f_import_kebaktian" value="import data kebaktian" />
+							<div class="col-xs-4">
+								<input type="button" class="btn btn-success pull-left" id="f_import_kebaktian" value="import data kebaktian" />
 								<input type='file' class='hidden' id='excel_import_kebaktian' />
 							</div>
-							<div class="col-xs-3">
-								<input type="button" class="btn btn-warning pull-right" id="f_eksport_kebaktian" value="eksport data kebaktian" />
+							<div class="col-xs-6">
+								<input type="button" class="btn btn-warning pull-left" id="f_eksport_kebaktian" value="eksport data kebaktian" />
+								<p style="display:inline;margin-left:10px;">untuk tahun pelayanan :</p>
+								<select class="form-control" id="f_tahun_pelayanan_kebaktian" style="width:150px;display:inline;">
+									<option value="2012-2013">2012-2013</option>
+									<option value="2013-2014">2013-2014</option>
+									<option value="2014-2015">2014-2015</option>
+									<option value="2015-2016">2015-2016</option>
+									<option value="2016-2017">2016-2017</option>
+									<option value="2017-2018">2017-2018</option>
+									<option value="2018-2019">2018-2019</option>
+									<option value="2019-2020">2019-2020</option>									
+								</select>
 							</div>
 						</div>
 					</div>
@@ -41,12 +52,23 @@
 					</div>
 					<div class="panel-body">
 						<div class="col-xs-12">
-							<div class="col-xs-3">
-								<input type="button" class="btn btn-success pull-right" id="f_import_anggota" value="import data anggota" />
+							<div class="col-xs-4">
+								<input type="button" class="btn btn-success pull-left" id="f_import_anggota" value="import data anggota" />
 								<input type='file' class='hidden' id='excel_import_anggota' />
 							</div>
-							<div class="col-xs-3">
-								<input type="button" class="btn btn-warning pull-right" id="f_eksport_anggota" value="eksport data anggota" />
+							<div class="col-xs-6">								
+								<input type="button" class="btn btn-warning pull-left" id="f_eksport_anggota" value="eksport data anggota" />								
+								<p style="display:inline;margin-left:10px;">untuk tahun pelayanan :</p>
+								<select class="form-control" id="f_tahun_pelayanan_anggota" style="width:150px;display:inline;">
+									<option value="2012-2013">2012-2013</option>
+									<option value="2013-2014">2013-2014</option>
+									<option value="2014-2015">2014-2015</option>
+									<option value="2015-2016">2015-2016</option>
+									<option value="2016-2017">2016-2017</option>
+									<option value="2017-2018">2017-2018</option>
+									<option value="2018-2019">2018-2019</option>
+									<option value="2019-2020">2019-2020</option>																
+								</select>
 							</div>
 						</div>
 					</div>
@@ -97,7 +119,8 @@
 	
 	//eksport data kebaktian
 	$('body').on('click', '#f_eksport_kebaktian', function(){
-		window.open("{{URL('user/export_kegiatan')}}/"+{{Session::get('id_gereja')}},'_blank');
+		$tahun_pelayanan = $('#f_tahun_pelayanan_kebaktian').val();
+		window.open("{{URL('user/export_kegiatan')}}/"+{{Session::get('id_gereja')}}+"/"+$tahun_pelayanan,'_blank');
 	});
 	
 	//import data anggota
@@ -141,7 +164,8 @@
 	
 	//eksport data anggota
 	$('body').on('click', '#f_eksport_anggota', function(){
-		window.open("{{URL('user/export_anggota')}}/"+{{Session::get('id_gereja')}},'_blank');
+		$tahun_pelayanan = $('#f_tahun_pelayanan_anggota').val();		
+		window.open("{{URL('user/export_anggota')}}/"+{{Session::get('id_gereja')}}+"/"+$tahun_pelayanan,'_blank');
 	});
 </script>
 

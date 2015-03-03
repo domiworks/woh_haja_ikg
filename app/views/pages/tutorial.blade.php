@@ -23,6 +23,9 @@
 					</div>
 					<div class="panel-body">
 						<!--<p>isi di sini halaman tutorial</p>-->
+						<video width="320" height="240" controls>
+						  	<source src="{{URL('assets/tutorial/tes.mp4')}}" type="video/mp4">
+						</video>
 					</div>
 				</div>
 			</div>

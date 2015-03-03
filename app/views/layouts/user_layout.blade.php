@@ -49,13 +49,13 @@
 
 		<!-- <div class="s_orenji_header">
 		</div> -->		
-		<div class="s_top_header" style="height:110px;">
+		<div class="s_top_header" style="height:110px;background:none;border-bottom:none;">
 			<div class="container-fluid">
 				<div class="row" style="background-color:white;">
-					<div class="col-lg-1">
+					<div class="col-md-1">
 						<img src="{{URL::to('/assets/logo/logoGKI.jpg')}}" alt="(logo GKI)" style="height: 100px; width: 100px; margin-top:5px;"/>
 					</div>
-					<div class="col-lg-4">						
+					<div class="col-md-4">						
 						<strong><h2 style="color:black; margin-top: 5px; margin-bottom: 5px;">{{ Session::get('nama') }}</h2></strong>
 						<h4 style="color:black;">
 							{{ Session::get('alamat') }} {{ Session::get('kota') }}
@@ -64,7 +64,7 @@
 							{{ Session::get('telp') }}
 						</h4>
 					</div>
-					<div class="col-lg-7" style="color:black; line-height: 160px; text-align: right;">
+					<div class="col-md-3 pull-right" style="color:black; text-align:right;">
 						Selamat datang, {{ Auth::user()->username }} | {{ HTML::linkRoute('logout', 'keluar', '', array('style'=>'color:blue;'))}}
 					</div>	
 					<!--

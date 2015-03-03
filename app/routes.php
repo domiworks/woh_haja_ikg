@@ -221,7 +221,7 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 	// Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@view_import_eksport']);	
 	
 	//tutorial
-	// Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);			
+	//Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);			
 	
 });
 
@@ -313,10 +313,10 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::post('/import_anggota/{id_gereja}', ['as' => 'post.import_anggota' , 'uses' => 'ImportEksportController@import_anggota']);	
 	
 	Route::get('/export_kegiatan/{id_gereja?}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);		
-	Route::get('/export_anggota/{id_gereja}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']); 	
+	Route::get('/export_anggota/{id_gereja}/{tahun_pelayanan}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']); 	
 		
 	//tutorial
-	Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);		
+	//Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);		
 		
 });
 

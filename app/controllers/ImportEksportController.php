@@ -8734,13 +8734,15 @@ class ImportEksportController extends BaseController {
 			)
 		);
 		
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	
 	}
 	
-	public function export_anggota($id_gereja)
+	public function export_anggota($id_gereja,$tahun_pelayanan)
 	{
-		$data = DB::table('anggota')->where('id_gereja', '=', $id_gereja)->get();
+		$end_tahun_pelayanan = explode('-',$tahun_pelayanan)[1]; //31 maret
+		$end_tanggal_pelayanan = $end_tahun_pelayanan."-03-31 23:59:59";
+
+		$data = DB::table('anggota')->where('id_gereja', '=', $id_gereja)->where('created_at', '<', $end_tanggal_pelayanan)->get();
 		
 		//$gereja = Gereja::find($id_gereja);
 		$title_table = 'DATA ANGGOTA JEMAAT '.Session::get('nama').' - BANDUNG'; //nama gereja

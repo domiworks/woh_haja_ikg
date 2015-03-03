@@ -34,32 +34,32 @@
 						</div>
 					</div>		-->
 					<div class="form-group">
-								<label class="col-xs-4 control-label">
-									Tanggal Dkh
-								</label>
-								<div class="col-xs-2">
-									<input type="text" name="tanggal_dkh" id="f_edit_tanggal_dkh" class="form-control">
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>								
-							</div>	
-							<div class="form-group">
-								<label class="col-xs-4 control-label">
-									Jenis Dkh
-								</label>
-								<div class="col-xs-2">
-									<!--<input type="text" name="jenis_baptis" id="f_jenis_baptis" class="form-control">-->
-									@if($list_jenis_dkh == null)
-									<p class="control-label pull-left">(tidak ada daftar jenis dkh)</p>
-									@else
-									{{ Form::select('jenis_dkh', $list_jenis_dkh, Input::old('jenis_dkh'), array('id'=>'f_edit_jenis_dkh', 'class'=>'form-control')) }}
-									@endif							
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
-							</div>							
+						<label class="col-xs-4 control-label">
+							Tanggal Dkh
+						</label>
+						<div class="col-xs-2">
+							<input type="text" name="tanggal_dkh" id="f_edit_tanggal_dkh" class="form-control">
+						</div>
+						<div class="col-xs-0">
+							*
+						</div>								
+					</div>	
+					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Jenis Dkh
+						</label>
+						<div class="col-xs-2">
+							<!--<input type="text" name="jenis_baptis" id="f_jenis_baptis" class="form-control">-->
+							@if($list_jenis_dkh == null)
+							<p class="control-label pull-left">(tidak ada daftar jenis dkh)</p>
+							@else
+							{{ Form::select('jenis_dkh', $list_jenis_dkh, Input::old('jenis_dkh'), array('id'=>'f_edit_jenis_dkh', 'class'=>'form-control')) }}
+							@endif							
+						</div>
+						<div class="col-xs-0">
+							*
+						</div>
+					</div>							
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
 							Keterangan
@@ -78,7 +78,7 @@
 				@if($list_jemaat == null)
 					<input type="button" id="f_edit_post_dkh" class="btn btn-success" value="Simpan Perubahan" data-dismiss="modal" disabled=true />		
 				@else
-					<input type="button" id="f_edit_post_dkh" class="btn btn-success" value="Simpan Perubahan" data-dismiss="modal"/>
+					<input type="button" id="f_edit_post_dkh" class="btn btn-success" value="Simpan Perubahan" />
 				@endif				
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
@@ -150,12 +150,21 @@
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
 					
+					//close popup
+					$('#popup_edit_dkh').modal('toggle');
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($no_dkh == ""){$('#f_edit_nomor_dkh').css('background-color','#FBE3E4');}else{$('#f_edit_nomor_dkh').css('background-color','#FFFFFF');}
+					if($tanggal_dkh == ""){$('#f_edit_tanggal_dkh').css('background-color','#FBE3E4');}else{$('#f_edit_tanggal_dkh').css('background-color','#FFFFFF');}
+					if($keterangan == ""){$('#f_edit_keterangan').css('background-color','#FBE3E4');}else{$('#f_edit_keterangan').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

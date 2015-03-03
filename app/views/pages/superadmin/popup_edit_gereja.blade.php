@@ -61,10 +61,7 @@
 							@else
 								{{Form::select('status', $list_status_gereja, Input::old('status'), array('id'=>'f_edit_status', 'class'=>'form-control'))}} 
 							@endif								
-						</div>
-						<div class="col-xs-0">
-							*
-						</div>
+						</div>						
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Gereja Induk</label>
@@ -90,7 +87,8 @@
 				
 			</div>
 			<div class="modal-footer">
-				<input type="button" value="Simpan Perubahan" id="f_edit_post_gereja" class="btn btn-success" data-dismiss="modal" />
+				<!--<input type="button" value="Simpan Perubahan" id="f_edit_post_gereja" class="btn btn-success" data-dismiss="modal" />-->
+				<input type="button" value="Simpan Perubahan" id="f_edit_post_gereja" class="btn btn-success" />
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
@@ -144,12 +142,23 @@
 					//ganti isi detail sesuai hasil edit
 					data_gereja[temp] = result.data;				
 					
+					//close popup					
+					$('.popup_edit_gereja').modal('toggle');
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
-					alert(result.messages);
+					alert(result.messages);				
+
+					//show red background validation
+					if($nama == ""){$('#f_edit_nama_gereja').css('background-color','#FBE3E4');}else{$('#f_edit_nama_gereja').css('background-color','#FFFFFF');}
+					if($alamat == ""){$('#f_edit_alamat').css('background-color','#FBE3E4');}else{$('#f_edit_alamat').css('background-color','#FFFFFF');}
+					if($kota == ""){$('#f_edit_kota').css('background-color','#FBE3E4');}else{$('#f_edit_kota').css('background-color','#FFFFFF');}
+					if($kodepos == ""){$('#f_edit_kodepos').css('background-color','#FBE3E4');}else{$('#f_edit_kodepos').css('background-color','#FFFFFF');}
+					if($telp == ""){$('#f_edit_telepon').css('background-color','#FBE3E4');}else{$('#f_edit_telepon').css('background-color','#FFFFFF');}													
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

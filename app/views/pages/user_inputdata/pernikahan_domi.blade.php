@@ -135,10 +135,7 @@
 									@else
 									{{Form::select('id_pendeta', $list_pendeta, Input::old('id_pendeta'), array('id'=>'f_id_pendeta', 'class'=>'form-control'))}}
 									@endif							
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
+								</div>								
 							</div>
 							
 							<!--

@@ -20,7 +20,7 @@
 					<div class="form-group">
 						<label class="col-xs-4 control-label">New Password</label>
 						<div class="col-xs-5">
-							{{Form::password('password', array('id' => 'f_edit_password', 'class' => 'form-control'))}}
+							{{Form::password('password', array('id' => 'f_edit_password', 'class' => 'form-control', 'placeholder' => '(kosongkan jika tidak merubah password)'))}}
 						</div>
 						<div class="col-xs-0">
 							*
@@ -34,10 +34,7 @@
 							@else
 								{{Form::select('list_gereja', $list_gereja, Input::old('list_gereja'), array('id'=>'f_edit_list_gereja', 'class'=>'form-control'))}}
 							@endif	
-						</div>
-						<div class="col-xs-0">
-							*
-						</div>
+						</div>						
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Role</label>
@@ -48,13 +45,12 @@
 							</select>
 						</div>
 					</div>
-				</form>
-				
-			</div>
+				</form>						
+			</div>			
 			<div class="modal-footer">
-				<input type="button" value="Simpan Perubahan" id="f_edit_post_auth" class="btn btn-success" data-dismiss="modal" />
+				<input type="button" value="Simpan Perubahan" id="f_edit_post_auth" class="btn btn-success" />
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
-			</div>
+			</div>			
 		</div>
 	</div>
 </div>
@@ -103,6 +99,9 @@
 					//clear password field
 					$('#f_edit_password').val('');
 					
+					//close popup
+					$('.popup_edit_auth').modal('toggle');
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}
@@ -110,6 +109,10 @@
 				{
 					alert(result.messages);
 					
+					//show red background validation					
+					if($username == ""){$('#f_edit_username').css('background-color','#FBE3E4');}else{$('#f_edit_username').css('background-color','#FFFFFF');}
+					if($password == ""){$('#f_edit_password').css('background-color','#FBE3E4');}else{$('#f_edit_password').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

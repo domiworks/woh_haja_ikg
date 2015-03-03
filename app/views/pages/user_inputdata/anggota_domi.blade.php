@@ -51,16 +51,17 @@ $(document).ready(function(){
 					</div>
 					<div class="panel-body">
 						<form class="form-horizontal">	
+							<!--
 							<div class="form-group">
-
 								<label class="col-xs-4 control-label">
 									Nomor Anggota
 								</label>
 
 								<div class="col-xs-3">
-									{{ Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_nomor_anggota', 'class'=>'form-control')) }}
+									{{-- Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_nomor_anggota', 'class'=>'form-control')) --}}
 								</div>
 							</div>	
+							-->
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Nama Depan
@@ -161,10 +162,7 @@ $(document).ready(function(){
 									{{ Form::radio('gender', '1', true, array('id'=>'f_jenis_kelamin')) }}pria 
 									
 									{{ Form::radio('gender', '0', '', array('id'=>'f_jenis_kelamin')) }}wanita 
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>						
+								</div>												
 							</div>		
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
@@ -283,10 +281,7 @@ $(document).ready(function(){
 									 @else								
 									 {{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_status', 'class'=>'form-control')) }}
 									 @endif	
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
+								</div>								
 							</div>
 							<div class="form-group">
 								<div class="col-xs-6 col-xs-push-5">

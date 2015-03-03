@@ -165,12 +165,30 @@ class InputEditController extends BaseController {
 		{
 			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Gagal memasukkan data. Terdapat duplikasi data karena data yang dimasukkan sudah ada.');
 			return json_encode($respond);
-		}
+		}		
 		
 		$kebaktian = new Kegiatan();												
-		if($input->{'id_jenis_kegiatan'} == '')
+		if($input->{'id_jenis_kegiatan'} == '') //nama kebaktian lain
 		{
-			$kebaktian->id_jenis_kegiatan = null;
+			//$kebaktian->id_jenis_kegiatan = null;
+
+			//cek jenis kegiatan baru
+			$arr_temp = JenisKegiatan::where('id_gereja', '=', Auth::user()->id_gereja)
+							->where('nama_kegiatan', '=', trim($input->{'nama_jenis_kegiatan'}))->get();
+			if(count($arr_temp) == 0) //nama_jenis_kegiatan belum pernah terdaftar
+			{
+				//add ke jenis_kegiatan
+				$jeniskegiatanbaru = new JenisKegiatan();
+				$jeniskegiatanbaru -> nama_kegiatan = trim($input->{'nama_jenis_kegiatan'});
+					$jeniskegiatanbaru -> id_gereja = Auth::user()->id_gereja;
+				$jeniskegiatanbaru -> save();
+
+				$kebaktian->id_jenis_kegiatan = $jeniskegiatanbaru->id;
+			}			
+			else
+			{
+				$kebaktian->id_jenis_kegiatan = null;
+			}
 		}
 		else
 		{
@@ -266,8 +284,7 @@ class InputEditController extends BaseController {
 		$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil menyimpan data anggota.');
 		return json_encode($respond);
 		*/
-		
-		
+				
 		//BEFORE
 		$data_valid = array(
 			'nama_depan' => trim(Input::get('nama_depan')),
@@ -342,7 +359,7 @@ class InputEditController extends BaseController {
 		}
 		
 		$anggota = new Anggota();
-		$anggota->no_anggota = trim(Input::get('no_anggota'));
+		//$anggota->no_anggota = trim(Input::get('no_anggota'));
 		$anggota->nama_depan = trim(Input::get('nama_depan'));
 		$anggota->nama_tengah = trim(Input::get('nama_tengah'));
 		$anggota->nama_belakang = trim(Input::get('nama_belakang'));

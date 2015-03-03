@@ -75,9 +75,10 @@ class UserBehaviorController extends BaseController {
 	{			
 		// $header = $this->setHeader();
 		$list_jemaat = $this->getListAnggota();		
-		$list_gereja = $this->getListGereja();		
+		$list_gereja = $this->getListGereja();	
+		$list_jenis_dkh = $this->getListJenisDkh();	
 		return View::make('pages.admin.dkh', 
-			compact('list_jemaat','list_gereja'));
+			compact('list_jemaat','list_gereja','list_jenis_dkh'));
 		
 	}
 	
@@ -1400,10 +1401,12 @@ class UserBehaviorController extends BaseController {
 		
 		// $input = Input::get('data');
 		
-		// $gereja = $input->{'gereja'};
+		// $gereja = $input->{'gereja'};		
 		$no_dkh = $input->{'no_dkh'};
 		$nama_jemaat = $input->{'nama_jemaat'};
-		
+		$tanggal_awal = $input->{'tanggal_awal'};
+		$tanggal_akhir = $input->{'tanggal_akhir'};
+		$id_jenis_dkh = $input->{'id_jenis_dkh'};
 		
 		
 		// $dkh = DB::table('anggota AS ang')->where('ang.deleted', '=', 0)->where('id_gereja', '=', Auth::user()->id_gereja)->where('ang.role', '=', 1); //role hanya jemaat
@@ -1428,6 +1431,36 @@ class UserBehaviorController extends BaseController {
 		// $dkh = $dkh->where('ang.role', '=', 1); // role jemaat
 		// $dkh = $dkh->where('ang.id_gereja', '=', Auth::user()->id_gereja);
 		
+		//validation range tanggal
+		if($tanggal_awal != "")
+		{
+			if($tanggal_akhir != "")
+			{
+				$dkh = $dkh->where('dkh.tanggal_dkh', '>=', $tanggal_awal);
+				$dkh = $dkh->where('dkh.tanggal_dkh', '<=', $tanggal_akhir);
+			}
+			else
+			{
+				$dkh = $dkh->where('dkh.tanggal_dkh', '>=', $tanggal_awal);
+			}
+		}
+		else
+		{
+			if($tanggal_akhir != "")
+			{				
+				$dkh = $dkh->where('dkh.tanggal_dkh', '<=', $tanggal_akhir);
+			}
+			else
+			{
+				//ga ada tanggal awal dan akhir
+			}
+		}
+
+		if($id_jenis_dkh != "")
+		{
+			$dkh = $dkh->where('dkh.id_jenis_dkh', '=', $id_jenis_dkh);
+		}
+
 		if($nama_jemaat != "")
 		{						
 			// $dkh = $dkh->where('ang.nama_depan', 'LIKE', '%'.$nama_jemaat.'%')
@@ -2341,7 +2374,8 @@ class UserBehaviorController extends BaseController {
 				
 		//validate
 		if($input->{'tanggal_meninggal'} == '' ||
-			$input->{'no_kedukaan'} == '' )
+			$input->{'no_kedukaan'} == '' ||
+			$input->{'keterangan'} == '')
 		{	
 			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
 			return json_encode($respond);
@@ -2451,7 +2485,7 @@ class UserBehaviorController extends BaseController {
 			return json_encode($respond);
 			// return "Bagian yang bertanda (*) harus diisi.";
 		}*/
-		if($input->{'no_dkh'} == '' || $input->{'keterangan'} == '')
+		if($input->{'no_dkh'} == '' || $input->{'tanggal_dkh'} == '' || $input->{'keterangan'} == '')
 		{
 			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
 			return json_encode($respond);
@@ -2492,6 +2526,8 @@ class UserBehaviorController extends BaseController {
 			
 			$dkh->no_dkh = $input->{'no_dkh'};				
 			// $dkh->id_jemaat = $input->{'id_jemaat'};
+			$dkh->tanggal_dkh = $input->{'tanggal_dkh'};
+			$dkh->id_jenis_dkh = $input->{'id_jenis_dkh'};
 			$dkh->keterangan = $input->{'keterangan'};			
 			
 			try{

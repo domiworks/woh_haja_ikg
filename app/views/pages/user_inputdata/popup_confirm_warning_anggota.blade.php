@@ -24,8 +24,8 @@
 		var data, xhr;
 		data = new FormData();
 
-		$nomor_anggota = $('#f_nomor_anggota').val();			
-		data.append('no_anggota', $nomor_anggota);		
+		//$nomor_anggota = $('#f_nomor_anggota').val();			
+		//data.append('no_anggota', $nomor_anggota);		
 		$nama_depan = $('#f_nama_depan').val();	
 		data.append('nama_depan', $nama_depan);
 		$nama_tengah = $('#f_nama_tengah').val();	
@@ -95,6 +95,17 @@
 				else
 				{
 					alert(result.messages);
+					
+					//show red background validation
+					if($nama_depan == ""){$('#f_nama_depan').css('background-color','#FBE3E4');}else{$('#f_nama_depan').css('background-color','#FFFFFF');}												
+					if($jalan == ""){$('#f_alamat').css('background-color','#FBE3E4');}else{$('#f_alamat').css('background-color','#FFFFFF');}						
+					if($kota == ""){$('#f_kota').css('background-color','#FBE3E4');}else{$('#f_kota').css('background-color','#FFFFFF');}						
+					if($telp == ""){$('#f_telp').css('background-color','#FBE3E4');}else{$('#f_telp').css('background-color','#FFFFFF');}						
+					if($gol_darah == ""){$('#f_gol_darah').css('background-color','#FBE3E4');}else{$('#f_gol_darah').css('background-color','#FFFFFF');}						
+					if($pekerjaan == ""){$('#f_pekerjaan').css('background-color','#FBE3E4');}else{$('#f_pekerjaan').css('background-color','#FFFFFF');}						
+					if($kota_lahir == ""){$('#f_kota_lahir').css('background-color','#FBE3E4');}else{$('#f_kota_lahir').css('background-color','#FFFFFF');}						
+					if($tanggal_lahir == ""){$('#f_tanggal_lahir').css('background-color','#FBE3E4');}else{$('#f_tanggal_lahir').css('background-color','#FFFFFF');}						
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}				

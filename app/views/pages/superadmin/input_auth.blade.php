@@ -88,10 +88,7 @@
 												@else
 													{{Form::select('list_gereja', $list_gereja, Input::old('list_gereja'), array('id'=>'f_list_gereja', 'class'=>'form-control'))}}
 												@endif	
-											</div>
-											<div class="col-xs-0">
-												*
-											</div>
+											</div>											
 										</div>
 										<div class="form-group">
 											<label class="col-xs-4 control-label">Role</label>
@@ -112,6 +109,9 @@
 											</div>
 										</div>
 									</form>
+								</div>
+								<div class="panel-footer" style="background-color: white;">
+									(*) wajib diisi
 								</div>	
 							</div>	
 						</div>	
@@ -177,6 +177,10 @@
 		$('#f_edit_password').val('');
 		$('#f_edit_list_gereja').val(data_auth[$index]['id_gereja']);
 		$('#f_edit_list_role').val(data_auth[$index]['role']);
+
+		//clear background
+		$('#f_edit_username').css('background-color','#FFFFFF');
+		$('#f_edit_password').css('background-color','#FFFFFF');
 	});
 	
 	//click delete button
@@ -225,6 +229,11 @@
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($username == ""){$('#f_username').css('background-color','#FBE3E4');}else{$('#f_username').css('background-color','#FFFFFF');}
+					if($password == ""){$('#f_password').css('background-color','#FBE3E4');}else{$('#f_password').css('background-color','#FFFFFF');}					
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

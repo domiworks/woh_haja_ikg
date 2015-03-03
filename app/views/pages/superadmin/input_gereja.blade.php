@@ -114,10 +114,7 @@
 												@else
 													{{Form::select('status', $list_status_gereja, Input::old('status'), array('id'=>'f_status', 'class'=>'form-control'))}} 
 												@endif								
-											</div>
-											<div class="col-xs-0">
-												*
-											</div>
+											</div>											
 										</div>
 										<div class="form-group">
 											<label class="col-xs-4 control-label">Gereja Induk</label>
@@ -145,6 +142,9 @@
 											</div>
 										</div>
 									</form>
+								</div>
+								<div class="panel-footer" style="background-color: white;">
+									(*) wajib diisi
 								</div>
 							</div>
 						</div>
@@ -289,6 +289,12 @@
 			$('#f_edit_list_gereja').val(data_gereja[$index]['id_parent_gereja']);
 		}
 		
+		//clear background
+		$('#f_edit_nama_gereja').css('background-color','#FFFFFF');
+		$('#f_edit_alamat').css('background-color','#FFFFFF');
+		$('#f_edit_kota').css('background-color','#FFFFFF');
+		$('#f_edit_kodepos').css('background-color','#FFFFFF');
+		$('#f_edit_telepon').css('background-color','#FFFFFF');
 	});
 	
 	//click delete button
@@ -351,6 +357,14 @@
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($nama == ""){$('#f_nama_gereja').css('background-color','#FBE3E4');}else{$('#f_nama_gereja').css('background-color','#FFFFFF');}
+					if($alamat == ""){$('#f_alamat').css('background-color','#FBE3E4');}else{$('#f_alamat').css('background-color','#FFFFFF');}
+					if($kota == ""){$('#f_kota').css('background-color','#FBE3E4');}else{$('#f_kota').css('background-color','#FFFFFF');}
+					if($kodepos == ""){$('#f_kodepos').css('background-color','#FBE3E4');}else{$('#f_kodepos').css('background-color','#FFFFFF');}
+					if($telp == ""){$('#f_telepon').css('background-color','#FBE3E4');}else{$('#f_telepon').css('background-color','#FFFFFF');}									
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

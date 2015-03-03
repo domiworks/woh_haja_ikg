@@ -5,6 +5,7 @@
 			$('#f_edit_nama_gereja_lama').attr('disabled', false);			
 			$('#f_edit_nama_gereja_lama').val("");
 			$('#f_edit_list_gereja_lama').attr('disabled', true);								
+			$('#f_edit_nama_gereja_lama').css('background-color','#FFFFFF');	
 		}
 		else
 		{
@@ -14,6 +15,7 @@
 			selected = $('#f_edit_list_gereja_lama').find(":selected").text();
 			$('#f_edit_nama_gereja_lama').val(selected);	
 			$('#f_edit_list_gereja_lama').attr('disabled', false);				
+			$('#f_edit_nama_gereja_lama').css('background-color','#eee');	
 		}
 	});
 
@@ -22,7 +24,8 @@
 			$('#f_edit_check_gereja_baru').val(1); //pakai pembicara luar jika value f_edit_check_gereja_baru == 1
 			$('#f_edit_nama_gereja_baru').attr('disabled', false);			
 			$('#f_edit_nama_gereja_baru').val("");
-			$('#f_edit_list_gereja_baru').attr('disabled', true);								
+			$('#f_edit_list_gereja_baru').attr('disabled', true);	
+			$('#f_edit_nama_gereja_baru').css('background-color','#FFFFFF');							
 		}
 		else
 		{
@@ -30,7 +33,8 @@
 			$('#f_edit_nama_gereja_baru').attr('disabled', true);	
 			selected = $('#f_edit_list_gereja_baru').find(":selected").text();
 			$('#f_edit_nama_gereja_baru').val(selected);
-			$('#f_edit_list_gereja_baru').attr('disabled', false);				
+			$('#f_edit_list_gereja_baru').attr('disabled', false);			
+			$('#f_edit_nama_gereja_baru').css('background-color','#eee');	
 		}
 	});
 	
@@ -69,10 +73,7 @@
 							@else
 								{{Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_edit_jemaat', 'class'=>'form-control'))}}							
 							@endif
-						</div>
-						<div class="col-xs-0">
-							*
-						</div>
+						</div>						
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -96,10 +97,7 @@
 							@else
 								{{Form::select('jenis_atestasi', $list_jenis_atestasi, Input::old('pembaptis'), array('id'=>'f_edit_jenis_atestasi', 'class'=>'form-control'))}}
 							@endif							
-						</div>
-						<div class="col-xs-0">
-							*
-						</div>
+						</div>						
 					</div>		
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -184,7 +182,7 @@
 				@if($list_gereja == null || $list_jenis_atestasi == null)
 					<input type="button" id="f_edit_post_atestasi" class="btn btn-success" disabled=true value="Simpan Data Atestasi" />
 				@else
-					<input type="button" id="f_edit_post_atestasi" class="btn btn-success" value="Simpan Data Atestasi" data-dismiss="modal" />
+					<input type="button" id="f_edit_post_atestasi" class="btn btn-success" value="Simpan Data Atestasi" />
 				@endif	
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
@@ -282,12 +280,22 @@ $('body').on('click', '#f_edit_post_atestasi', function(){
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;					
 					
+					//close popup
+					$('#popup_edit_atestasi').modal('toggle');
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($no_atestasi == ""){$('#f_edit_nomor_atestasi').css('background-color','#FBE3E4');}else{$('#f_edit_nomor_atestasi').css('background-color','#FFFFFF');}
+					if($tanggal_atestasi == ""){$('#f_edit_tanggal_atestasi').css('background-color','#FBE3E4');}else{$('#f_edit_tanggal_atestasi').css('background-color','#FFFFFF');}	
+					if($nama_gereja_lama == ""){$('#f_edit_nama_gereja_lama').css('background-color','#FBE3E4');}else{$('#f_edit_nama_gereja_lama').css('background-color','#FFFFFF');}
+					if($nama_gereja_baru == ""){$('#f_edit_nama_gereja_baru').css('background-color','#FBE3E4');}else{$('#f_edit_nama_gereja_baru').css('background-color','#FFFFFF');}					
+					
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

@@ -89,6 +89,10 @@ class CreateZForeignKey extends Migration {
 		    $table->foreign('id_gereja')->references('id')->on('gereja');
 		});			
 				
+		Schema::table('jenis_kegiatan', function($table)
+		{
+			$table->foreign('id_gereja')->references('id')->on('gereja');
+		});
 	}
 
 	/**

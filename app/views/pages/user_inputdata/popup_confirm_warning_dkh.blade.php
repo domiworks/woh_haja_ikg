@@ -56,6 +56,12 @@
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($no_dkh == ""){$('#f_nomor_dkh').css('background-color','#FBE3E4');}else{$('#f_nomor_dkh').css('background-color','#FFFFFF');}
+					if($tanggal_dkh == ""){$('#f_tanggal_dkh').css('background-color','#FBE3E4');}else{$('#f_tanggal_dkh').css('background-color','#FFFFFF');}
+					if($keterangan == ""){$('#f_keterangan').css('background-color','#FBE3E4');}else{$('#f_keterangan').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');	
 				}

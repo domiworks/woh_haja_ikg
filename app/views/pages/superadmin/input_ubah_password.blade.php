@@ -49,13 +49,15 @@
 								</div>
 							</div>							
 							<div class="form-group">								
-								<div class="col-xs-6 col-xs-push-5">								
-								
+								<div class="col-xs-6 col-xs-push-5">																
 									<input type="button" value="Ubah Password" id="f_post_ubah_password" class="btn btn-success" />
 								</div>	
 							</div>
 						</form>
-					</div>								
+					</div>
+					<div class="panel-footer" style="background-color: white;">
+									(*) wajib diisi
+								</div>								
 				</div>	
 				
 			</div>			
@@ -99,6 +101,11 @@
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation					
+					if($password_baru == ""){$('#f_password_baru').css('background-color','#FBE3E4');}else{$('#f_password_baru').css('background-color','#FFFFFF');}
+					if($password_baru_confirm == ""){$('#f_password_baru_confirm').css('background-color','#FBE3E4');}else{$('#f_password_baru_confirm').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

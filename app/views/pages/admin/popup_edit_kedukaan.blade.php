@@ -36,12 +36,15 @@
 						</label>
 						<div class="col-xs-6">
 							{{ Form::textarea('keterangan', Input::old('keterangan'), array('id'=>'f_edit_keterangan', 'class'=>'form-control'))}}
-						</div>						
+						</div>	
+						<div class="col-xs-0">
+							*
+						</div>					
 					</div>										
 				</form>									
 			</div>
 			<div class="modal-footer">
-				<input type="button" id="f_edit_post_kedukaan" class="btn btn-success" value="Simpan Data Kedukaan" data-dismiss="modal" />
+				<input type="button" id="f_edit_post_kedukaan" class="btn btn-success" value="Simpan Data Kedukaan" />
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
@@ -108,12 +111,21 @@
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
 					
+					//close popup
+					$('#popup_edit_kedukaan').modal('toggle');
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($no_kedukaan == ""){$('#f_edit_nomor_kedukaan').css('background-color','#FBE3E4');}else{$('#f_edit_nomor_kedukaan').css('background-color','#FFFFFF');}
+					if($tanggal_meninggal == ""){$('#f_edit_tanggal_meninggal').css('background-color','#FBE3E4');}else{$('#f_edit_tanggal_meninggal').css('background-color','#FFFFFF');}
+					if($keterangan == ""){$('#f_edit_keterangan').css('background-color','#FBE3E4');}else{$('#f_edit_keterangan').css('background-color','#FFFFFF');}
+					
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

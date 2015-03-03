@@ -30,7 +30,7 @@
 				
 			</div>
 			<div class="modal-footer">
-				<input type="button" value="Simpan Perubahan" id="f_edit_post_jenis_baptis" class="btn btn-success" data-dismiss="modal" />
+				<input type="button" value="Simpan Perubahan" id="f_edit_post_jenis_baptis" class="btn btn-success"  />
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
@@ -72,13 +72,21 @@
 					$('.tabel_nama_jenis_baptis'+temp).html(result.data['nama_jenis_baptis']);				
 					//ganti isi detail sesuai hasil edit
 					data_jenis_baptis[temp] = result.data;	
-					
+
+					//close popup
+					$('.popup_edit_jenis_baptis').modal('toggle');
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}
 				else				
 				{
 					alert(result.messages);
+
+					//show red background validation					
+					if($nama_jenis_baptis == ""){$('#f_edit_nama_jenis_baptis').css('background-color','#FBE3E4');}else{$('#f_edit_nama_jenis_baptis').css('background-color','#FFFFFF');}
+					if($keterangan == ""){$('#f_edit_keterangan').css('background-color','#FBE3E4');}else{$('#f_edit_keterangan').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

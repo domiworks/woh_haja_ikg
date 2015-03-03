@@ -209,9 +209,15 @@ class BaseController extends Controller {
 	}
 	
 	//get list jenis kegiatan
+	//note: udh dimodifikasi untuk menambah sendiri otomatis jika ada jenis kegiatan baru yang dicantumkan oleh gereja masing-masing
 	public function getListJenisKegiatan()
 	{
-		$count = DB::table('jenis_kegiatan')->where('deleted', '=', 0)->orderBy('id','asc')->lists('nama_kegiatan','id');
+		$count = DB::table('jenis_kegiatan')
+						->whereNull('id_gereja')						
+						->orWhere('id_gereja', '=', Auth::user()->id_gereja)
+						->where('deleted', '=', 0)
+						->orderBy('id','asc')
+						->lists('nama_kegiatan','id');
 		if(count($count) != 0)
 		{
 			return $count;

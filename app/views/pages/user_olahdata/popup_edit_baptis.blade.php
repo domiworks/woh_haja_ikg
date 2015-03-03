@@ -31,10 +31,7 @@
 							@else
 								{{ Form::select('pembaptis', $list_pembaptis, Input::old('pembaptis'), array('id'=>'f_edit_pembaptis', 'class'=>'form-control')) }}
 							@endif							
-						</div>
-						<div class="col-xs-0">
-							*
-						</div>
+						</div>						
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -48,10 +45,7 @@
 							@else
 								{{ Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_edit_jemaat', 'class'=>'form-control')) }}							
 							@endif							
-						</div>
-						<div class="col-xs-0">
-							*
-						</div>
+						</div>						
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -65,10 +59,7 @@
 							@else
 								{{ Form::select('jenis_baptis', $list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_edit_jenis_baptis', 'class'=>'form-control')) }}
 							@endif							
-						</div>
-						<div class="col-xs-0">
-							*
-						</div>
+						</div>						
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -97,7 +88,7 @@
 				@if($list_jemaat == null || $list_pembaptis == null || 	$list_jenis_baptis == null)
 					<input type="button" id="f_edit_post_baptis" class="btn btn-success" value="Simpan Perubahan" disabled=true />
 				@else
-					<input type="button" id="f_edit_post_baptis" class="btn btn-success" value="Simpan Perubahan" data-dismiss="modal" />
+					<input type="button" id="f_edit_post_baptis" class="btn btn-success" value="Simpan Perubahan"  />
 				@endif							
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
@@ -172,12 +163,20 @@
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
 					
+					//close popup
+					$('#popup_edit_baptis').modal('toggle');
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($nomor_baptis == ""){$('#f_edit_nomor_baptis').css('background-color','#FBE3E4');}else{$('#f_edit_nomor_baptis').css('background-color','#FFFFFF');}
+					if($tanggal_baptis == ""){$('#f_edit_tanggal_baptis').css('background-color','#FBE3E4');}else{$('#f_edit_tanggal_baptis').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

@@ -74,10 +74,7 @@ $(document).ready(function(){
 									@else								
 										{{Form::select('nama_jemaat', $list_jemaat, Input::old('nama_jemaat'), array('id'=>'f_nama_jemaat', 'class'=>'form-control'))}}
 									@endif
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
+								</div>								
 								<!-- start search table -->
 								<!--<table class="table table-bordered table-striped">
 									<thead>
@@ -113,10 +110,7 @@ $(document).ready(function(){
 									@else
 									{{ Form::select('jenis_dkh', $list_jenis_dkh, Input::old('jenis_dkh'), array('id'=>'f_jenis_dkh', 'class'=>'form-control')) }}
 									@endif							
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
+								</div>								
 							</div>							
 							<div class="form-group">
 								<label class="col-xs-4 control-label">

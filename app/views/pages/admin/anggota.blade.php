@@ -634,6 +634,16 @@ $('body').on('click', '.detailButton', function(){
 			lastIdx++;							
 		}
 	}	
+
+	//clear background		
+	$('#f_edit_nama_depan').css('background-color','#FFFFFF');	
+	$('#f_edit_alamat').css('background-color','#FFFFFF');	
+	$('#f_edit_kota').css('background-color','#FFFFFF');	
+	$('#f_edit_telp').css('background-color','#FFFFFF');	
+	$('#f_edit_gol_darah').css('background-color','#FFFFFF');	
+	$('#f_edit_pekerjaan').css('background-color','#FFFFFF');	
+	$('#f_edit_kota_lahir').css('background-color','#FFFFFF');	
+	$('#f_edit_tanggal_lahir').css('background-color','#FFFFFF');	
 });	
 
 //click delete button

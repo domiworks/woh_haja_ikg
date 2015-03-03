@@ -658,7 +658,19 @@
 		
 		$('#f_edit_id_persembahan').val(temp_detail[$index]['id_persembahan']);
 		
-		
+		//clear background		
+		$('#f_edit_nama_kebaktian').css('background-color','#eee');
+		$('#f_edit_nama_pengkotbah').css('background-color','#eee');
+		$('#f_edit_tanggal_mulai').css('background-color','#FFFFFF');
+		$('#f_edit_tanggal_selesai').css('background-color','#FFFFFF');
+		$('#f_edit_jam_mulai').css('background-color','#FFFFFF');
+		$('#f_edit_jam_selesai').css('background-color','#FFFFFF');
+		$('#f_edit_banyak_jemaat').css('background-color','#FFFFFF');
+		$('#f_edit_banyak_simpatisan').css('background-color','#FFFFFF');
+		$('#f_edit_banyak_penatua').css('background-color','#FFFFFF');
+		$('#f_edit_banyak_pemusik').css('background-color','#FFFFFF');
+		$('#f_edit_banyak_komisi').css('background-color','#FFFFFF');
+		$('#f_edit_jumlah_persembahan').css('background-color','#FFFFFF');
 		// $data = {
 			// 'id' : $id
 		// };

@@ -14,13 +14,17 @@ class AccountController extends BaseController {
 		{
 			if(Auth::attempt($data, $remember_me))		
 			{
-				//add session
-				$gereja = Gereja::find(Auth::user()->id_gereja);					
-				Session::put('nama', $gereja->nama);					
-				Session::put('alamat', $gereja->alamat);					
-				Session::put('telp', $gereja->telp);					
-				Session::put('kota', $gereja->kota);
-				Session::put('id_gereja', Auth::user()->id_gereja);
+				if(Auth::user()->role <= 1)
+				{
+					//add session
+					$gereja = Gereja::find(Auth::user()->id_gereja);
+					Session::put('nama', $gereja->nama);
+					Session::put('alamat', $gereja->alamat);
+					Session::put('telp', $gereja->telp);
+					Session::put('kota', $gereja->kota);
+					Session::put('id_gereja', Auth::user()->id_gereja);
+					Session::put('role', Auth::user()->role);	
+				}				
 					
 				if(Auth::user()->role == 0)			
 				{				
@@ -50,13 +54,17 @@ class AccountController extends BaseController {
 		{
 			if(Auth::attempt($data, false))		
 			{
-				//add session
-				$gereja = Gereja::find(Auth::user()->id_gereja);					
-				Session::put('nama', $gereja->nama);					
-				Session::put('alamat', $gereja->alamat);					
-				Session::put('telp', $gereja->telp);					
-				Session::put('kota', $gereja->kota);
-				Session::put('id_gereja', Auth::user()->id_gereja);
+				if(Auth::user()->role <= 1)
+				{
+					//add session
+					$gereja = Gereja::find(Auth::user()->id_gereja);					
+					Session::put('nama', $gereja->nama);					
+					Session::put('alamat', $gereja->alamat);					
+					Session::put('telp', $gereja->telp);					
+					Session::put('kota', $gereja->kota);
+					Session::put('id_gereja', Auth::user()->id_gereja);
+					Session::put('role', Auth::user()->role);
+				}
 				
 				if(Auth::user()->role == 0)			
 				{					

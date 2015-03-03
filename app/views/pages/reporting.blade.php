@@ -368,12 +368,29 @@
 						$temp = [];
 						$.each($daftar_jenis_kegiatan,function(){
 							$jenis_kegiatan = $(this)[0].id;
+							//$nama_kegiatan = $(this)[0].nama_kegiatan;
 							$.each(response,function(){
 								if($(this)[0].id_jenis_kegiatan == $jenis_kegiatan){
-									$temp.push($(this)[0].banyak_jemaat_pria+$(this)[0].banyak_jemaat_wanita+$(this)[0].banyak_jemaat+$(this)[0].banyak_simpatisan_pria+$(this)[0].banyak_simpatisan_wanita+$(this)[0].banyak_simpatisan+$(this)[0].banyak_penatua_pria+$(this)[0].banyak_penatua_wanita+$(this)[0].banyak_penatua+$(this)[0].banyak_pemusik_pria+$(this)[0].banyak_pemusik_wanita+$(this)[0].banyak_pemusik+$(this)[0].banyak_komisi_pria+$(this)[0].banyak_komisi_wanita)+$(this)[0].banyak_komisi;
+								//if($(this)[0].nama_jenis_kegiatan == $nama_kegiatan){								
+									$temp.push(0+parseInt($(this)[0].banyak_jemaat_pria)+
+										parseInt($(this)[0].banyak_jemaat_wanita)+
+										parseInt($(this)[0].banyak_jemaat)+
+										parseInt($(this)[0].banyak_simpatisan_pria)+
+										parseInt($(this)[0].banyak_simpatisan_wanita)+
+										parseInt($(this)[0].banyak_simpatisan)+
+										parseInt($(this)[0].banyak_penatua_pria)+
+										parseInt($(this)[0].banyak_penatua_wanita)+
+										parseInt($(this)[0].banyak_penatua)+
+										parseInt($(this)[0].banyak_pemusik_pria)+
+										parseInt($(this)[0].banyak_pemusik_wanita)+
+										parseInt($(this)[0].banyak_pemusik)+
+										parseInt($(this)[0].banyak_komisi_pria)+
+										parseInt($(this)[0].banyak_komisi_wanita)+
+										parseInt($(this)[0].banyak_komisi));
 								}
 							});
 							//$arr_kegiatan.push($temp);
+							//alert($temp+"<br/>");
 							
 							$arr_kegiatan.push({
 								name:$(this)[0].nama_kegiatan,
@@ -382,7 +399,7 @@
 							
 							$temp = [];
 						});
-						
+												
 						$tanggal_recent ='';
 						
 						$.each(response,function(){
@@ -463,7 +480,7 @@
 								}]
 							},
 							tooltip: {
-								valueSuffix: 'orang'
+								valueSuffix: ' orang'
 							},
 							legend: {
 								layout: 'vertical',
@@ -489,6 +506,46 @@
 		});
 	});
 		
+	jQuery('#f_tanggal_awal_persembahan').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});	
+	
+	jQuery('#f_tanggal_akhir_persembahan').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});
+	
 	$('body').on('click', '#f_lihat_grafik_persembahan', function(){
 		$('.f_loader_container').removeClass('hidden');
 		// get tanggal
@@ -530,7 +587,7 @@
 							$.each(response,function(){
 								if($(this)[0].id_jenis_kegiatan == $jenis_kegiatan){
 									//$temp.push($(this)[0].banyak_jemaat_pria+$(this)[0].banyak_jemaat_wanita+$(this)[0].banyak_jemaat+$(this)[0].banyak_simpatisan_pria+$(this)[0].banyak_simpatisan_wanita+$(this)[0].banyak_simpatisan+$(this)[0].banyak_penatua_pria+$(this)[0].banyak_penatua_wanita+$(this)[0].banyak_penatua+$(this)[0].banyak_pemusik_pria+$(this)[0].banyak_pemusik_wanita+$(this)[0].banyak_pemusik+$(this)[0].banyak_komisi_pria+$(this)[0].banyak_komisi_wanita)+$(this)[0].banyak_komisi;
-									$temp.push($(this)[0].jumlah_persembahan);
+									$temp.push(parseInt($(this)[0].jumlah_persembahan));
 								}
 							});
 							//$arr_kegiatan.push($temp);
@@ -704,7 +761,7 @@
 		if($to == ""){
 			$to = 0;
 		}
-		
+				
 		$.ajax({
 			type: 'GET',
 			url: "{{URL('user/reporting/search_anggota/')}}"+'/'+{{Session::get('id_gereja')}}+'/'+$from+'/'+$to+'/'+$bulan,			

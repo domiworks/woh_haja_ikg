@@ -4,6 +4,19 @@ use Carbon\Carbon;
 
 class ImportEksportController extends BaseController {
 
+	public function admin_view_import_eksport()
+	{
+		return View::make('pages.admin.importeksport');	
+	}
+
+	public function view_import_eksport()
+	{		
+		// $header = $this->setHeader();
+		// return View::make('pages.importeksport',
+				// compact('header'));	
+		return View::make('pages.importeksport');	
+	}
+
 	//START FUNGSI BUAT IMPORT REAL DATA, ADA BEBERAPA FUNGSI KARENA TEMPLATE TIAP GEREJA BEDA-BEDA
 	public function import_data_dbaj_gki_ayudia()
 	{			
@@ -808,15 +821,7 @@ class ImportEksportController extends BaseController {
 		}
 	}
 	//END FUNGSI IMPORT REAL DATA
-
-
-	public function view_import_eksport()
-	{		
-		// $header = $this->setHeader();
-		// return View::make('pages.importeksport',
-				// compact('header'));	
-		return View::make('pages.importeksport');	
-	}
+	
 	
 	public function import_kegiatan_GKI_Cianjur(){
 		DB::table('kegiatan')->insert(
@@ -8792,8 +8797,23 @@ class ImportEksportController extends BaseController {
 					foreach($data as $row_data)
 					{
 						$alamat = Alamat::where('id_anggota', '=', $row_data->id)->first();
+						if(count($alamat) != 0){
+							$jalan = $alamat->jalan;
+							$kota = $alamat->kota;
+							$kodepos = $alamat->kodepos;
+						}else{
+							$jalan = "";
+							$kota = "";
+							$kodepos = "";
+						}						
+
 						$hp = Hp::where('id_anggota', '=', $row_data->id)->first();
-						
+						if(count($hp) != 0){
+							$no_hp = $hp->no_hp;
+						}else{
+							$no_hp = "";
+						}
+
 						//gender
 						if($row_data->gender == 1){
 							$gender = "P";
@@ -8910,11 +8930,15 @@ class ImportEksportController extends BaseController {
 							$row_data->nama_depan, //3 nama_depan
 							$row_data->nama_tengah, //4 nama_tengah
 							$row_data->nama_belakang, //5 nama_belakang
-							$alamat->jalan, //6 alamat = jalan
-							$alamat->kota, //7 kota
-							$alamat->kodepos, //8 kodepos
+							//$alamat->jalan, //6 alamat = jalan
+							$jalan, //6 alamat = jalan
+							//$alamat->kota, //7 kota
+							$kota, //7 kota							
+							//$alamat->kodepos, //8 kodepos
+							$kodepos, // 8 kodepos
 							$row_data->telp, //9 telp
-							$hp->no_hp, //10 hp
+							//$hp->no_hp, //10 hp
+							$no_hp, //10 hp
 							$gender, //11 gender
 							$status_anggota, //12 status anggota
 							$row_data->wilayah, //13 wilayah
@@ -9110,8 +9134,8 @@ class ImportEksportController extends BaseController {
 		$kegiatan = new Kegiatan();
 		
 		$gereja = Gereja::find($id_gereja);
-		
-		$result = $kegiatan->where('id_gereja','=',$id_gereja)->orderBy('tanggal_mulai')->orderBy('id_jenis_kegiatan')->get();
+				
+		$result = $kegiatan->where('id_gereja','=',$id_gereja)->orderBy('tanggal_mulai')->orderBy('id_jenis_kegiatan')->where('deleted', '=', 0)->get();
 		
 		if(count($result) == 0){
 			return 'Belum ada data.';
@@ -9167,9 +9191,9 @@ class ImportEksportController extends BaseController {
 			$current_month = $arr_now[1];
 			
 			$current_year = $arr_now[0];
-			
-			$anggota_pria = count(Anggota::where('id_gereja','=',$id_gereja)->where('created_at','>',($now.' 00:00:00.000000'))->where('gender','=',1)->get());
-			$anggota_wanita = count(Anggota::where('id_gereja','=',$id_gereja)->where('created_at','>',($now.' 00:00:00.000000'))->where('gender','=',0)->get());
+
+			$anggota_pria = count(Anggota::where('id_gereja','=',$id_gereja)->where('created_at','<',($now.' 00:00:00.000000'))->where('gender','=',1)->get());
+			$anggota_wanita = count(Anggota::where('id_gereja','=',$id_gereja)->where('created_at','<',($now.' 00:00:00.000000'))->where('gender','=',0)->get());
 			
 			//sama bulan?
 			if($temp_bulan == $current_month){
@@ -9394,8 +9418,8 @@ class ImportEksportController extends BaseController {
 		// create excel
 		try{
 			//inisialisasi
-			$data = array();
-			$tahun_pelayanan = '2010-2011';
+			$data = array();			
+			$tahun_pelayanan = '2015-2016'; //sementara karena data dummy
 			$alamat = $gereja->nama.' '.$gereja->alamat;
 			
 			//setting header
@@ -9458,8 +9482,7 @@ class ImportEksportController extends BaseController {
 				
 				$counter_bulan+=8;
 				
-				
-				
+								
 				$title = array('1. Data Kehadiran Kebaktian Minggu.','','','','','','','','','','','','','','','','','',$this->getMonthFromNumber($bulan),'',$tahun);
 				
 				array_push($data,$nama_gereja);
@@ -9841,13 +9864,14 @@ class ImportEksportController extends BaseController {
 							}
 							if($row[5] != 'Jumlah' && $row[5] != 'Rata-rata' && $row[5] != 'Total'){
 								if($row[1] != NULL){
-									$tanggal = $this->dateReversal($row[1]);
+									//$tanggal = $this->dateReversal($row[1]);
+									$tanggal = $row[1]; //format harus tanggal
 								}
 								$nama_kegiatan = $row[5];
 								
 								//select
 								
-								$kegiatan = Kegiatan::where('id_gereja','=',$id_gereja)->where('tanggal_mulai','=',$tanggal)->where('nama_jenis_kegiatan','=',$nama_kegiatan)->get();
+								$kegiatan = Kegiatan::where('id_gereja','=',$id_gereja)->where('tanggal_mulai','=',$tanggal)->where('nama_jenis_kegiatan','=',$nama_kegiatan)->where('deleted','=',0)->get();
 								
 								for($i = 6; $i<17;$i++){
 									if($row[$i] == NULL){
@@ -9862,23 +9886,27 @@ class ImportEksportController extends BaseController {
 										array(
 											'tanggal_mulai'=>$tanggal,
 											'tanggal_selesai'=>$tanggal,
-											'jam_mulai'=>'00:00:00.000000',
-											'jam_selesai'=>'00:00:00.000000',
+											//'jam_mulai'=>'00:00:00.000000',
+											//'jam_selesai'=>'00:00:00.000000',
 											'banyak_jemaat_pria'=> $row[6],
 											'banyak_jemaat_wanita'=> $row[7],
-											'banyak_jemaat'=>'0',
+											//'banyak_jemaat'=>'0',
+											'banyak_jemaat'=>$row[8],
 											'banyak_simpatisan_pria'=> $row[9],
 											'banyak_simpatisan_wanita'=> $row[10],
-											'banyak_simpatisan'=>'0',
+											//'banyak_simpatisan'=>'0',
+											'banyak_simpatisan'=>$row[11],
 											'banyak_penatua_pria'=> $row[12],
 											'banyak_penatua_wanita'=>$row[13],
-											'banyak_penatua'=>'0',
+											//'banyak_penatua'=>'0',
+											'banyak_penatua'=>$row[14],
 											'banyak_pemusik_pria'=> $row[15],
 											'banyak_pemusik_wanita'=> $row[16],
-											'banyak_pemusik'=>'0',
-											'banyak_komisi_pria'=> '0',
-											'banyak_komisi_wanita'=> '0',
-											'banyak_komisi'=>'0',
+											//'banyak_pemusik'=>'0',
+											'banyak_pemusik'=>$row[17],
+											//'banyak_komisi_pria'=> '0',
+											//'banyak_komisi_wanita'=> '0',
+											//'banyak_komisi'=>'0',
 											'keterangan'=>'',
 											'deleted'=>0,
 											'updated_at'=>Carbon::now()
@@ -9899,16 +9927,20 @@ class ImportEksportController extends BaseController {
 											'jam_selesai'=>'00:00:00.000000',
 											'banyak_jemaat_pria'=> $row[6],
 											'banyak_jemaat_wanita'=> $row[7],
-											'banyak_jemaat'=>'0',
+											//'banyak_jemaat'=>'0',
+											'banyak_jemaat'=>$row[8],
 											'banyak_simpatisan_pria'=> $row[9],
 											'banyak_simpatisan_wanita'=> $row[10],
-											'banyak_simpatisan'=>'0',
+											//'banyak_simpatisan'=>'0',
+											'banyak_simpatisan'=>$row[11],
 											'banyak_penatua_pria'=> $row[12],
 											'banyak_penatua_wanita'=>$row[13],
-											'banyak_penatua'=>'0',
+											//'banyak_penatua'=>'0',
+											'banyak_penatua'=>$row[14],
 											'banyak_pemusik_pria'=> $row[15],
 											'banyak_pemusik_wanita'=> $row[16],
-											'banyak_pemusik'=>'0',
+											//'banyak_pemusik'=>'0',
+											'banyak_pemusik'=>$row[17],
 											'banyak_komisi_pria'=> '0',
 											'banyak_komisi_wanita'=> '0',
 											'banyak_komisi'=>'0',

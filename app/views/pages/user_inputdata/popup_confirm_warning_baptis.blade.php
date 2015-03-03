@@ -63,6 +63,11 @@
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($nomor_baptis == ""){$('#f_nomor_baptis').css('background-color','#FBE3E4');}else{$('#f_nomor_baptis').css('background-color','#FFFFFF');}
+					if($tanggal_baptis == ""){$('#f_tanggal_baptis').css('background-color','#FBE3E4');}else{$('#f_tanggal_baptis').css('background-color','#FFFFFF');}	
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}			

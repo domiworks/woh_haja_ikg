@@ -334,7 +334,13 @@ $('body').on('click', '#f_search_kedukaan', function(){
 		$('#f_edit_nomor_kedukaan').val(temp_detail[$index]['no_kedukaan']);
 		$('#f_edit_tanggal_meninggal').val(temp_detail[$index]['tanggal_meninggal']);
 		$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);
-				
+		
+
+		//clear background
+		$('#f_edit_nomor_kedukaan').css('background-color','#FFFFFF');		
+		$('#f_edit_tanggal_meninggal').css('background-color','#FFFFFF');		
+		$('#f_edit_keterangan').css('background-color','#FFFFFF');		
+		
 		/*
 		$data = {
 			'id' : $id

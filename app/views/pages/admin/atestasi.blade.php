@@ -521,6 +521,8 @@ $('body').on('click', '.detailButton', function(){
 		$('#f_edit_list_gereja_lama').attr('disabled', true);
 		$('#f_edit_nama_gereja_lama').attr('disabled', false);
 		$('#f_edit_nama_gereja_lama').val(temp_detail[$index]['nama_gereja_lama']);			
+		//clear background
+		$('#f_edit_nama_gereja_lama').css('background-color','#FFFFFF');	
 	}
 	else
 	{
@@ -529,7 +531,9 @@ $('body').on('click', '.detailButton', function(){
 		$('#f_edit_list_gereja_lama').attr('disabled', false);
 		$('#f_edit_nama_gereja_lama').attr('disabled', true);
 		$('#f_edit_list_gereja_lama').val(temp_detail[$index]['id_gereja_lama']);
-		$('#f_edit_nama_gereja_lama').val(temp_detail[$index]['nama_gereja_lama']);			
+		$('#f_edit_nama_gereja_lama').val(temp_detail[$index]['nama_gereja_lama']);		
+		//clear background
+		$('#f_edit_nama_gereja_lama').css('background-color','#eee');		
 	}
 	if(temp_detail[$index]['id_gereja_baru'] == null)
 	{
@@ -538,6 +542,8 @@ $('body').on('click', '.detailButton', function(){
 		$('#f_edit_list_gereja_baru').attr('disabled', true);
 		$('#f_edit_nama_gereja_baru').attr('disabled', false);
 		$('#f_edit_nama_gereja_baru').val(temp_detail[$index]['nama_gereja_baru']);			
+		//clear background
+		$('#f_edit_nama_gereja_baru').css('background-color','#FFFFFF');
 	}
 	else
 	{
@@ -547,8 +553,14 @@ $('body').on('click', '.detailButton', function(){
 		$('#f_edit_nama_gereja_baru').attr('disabled', true);
 		$('#f_edit_list_gereja_baru').val(temp_detail[$index]['id_gereja_baru']);
 		$('#f_edit_nama_gereja_baru').val(temp_detail[$index]['nama_gereja_baru']);				
+		//clear background
+		$('#f_edit_nama_gereja_baru').css('background-color','#eee');
 	}	
 	$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);			
+
+	//clear background		
+	$('#f_edit_nomor_atestasi').css('background-color','#FFFFFF');
+	$('#f_edit_tanggal_atestasi').css('background-color','#FFFFFF');		
 });	
 
 //click delete button

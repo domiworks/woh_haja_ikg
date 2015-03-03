@@ -78,40 +78,31 @@ $(document).ready(function(){
 								<label class="col-xs-4 control-label">
 									Pembaptis
 								</label>
-
 								<div class="col-xs-4">							
 									@if($list_pembaptis == null)
 									<p class="control-label pull-left">(tidak ada daftar pembaptis)</p>
 									@else
 									{{ Form::select('pembaptis', $list_pembaptis, Input::old('pembaptis'), array('id'=>'f_pembaptis', 'class'=>'form-control')) }}
 									@endif							
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
+								</div>								
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Jemaat
 								</label>
-
 								<div class="col-xs-4">
 									<!--<input type="text" name="jemaat" id="f_jemaat" class="form-control">-->
 									@if($list_jemaat == null)
 									<p class="control-label pull-left">(tidak ada daftar jemaat)</p>
 									@else
-									{{ Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control')) }}							
+									{{ Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control')) }}																	
 									@endif							
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
+								</div>								
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
 									Jenis Baptis
 								</label>
-
 								<div class="col-xs-3">
 									<!--<input type="text" name="jenis_baptis" id="f_jenis_baptis" class="form-control">-->
 									@if($list_jenis_baptis == null)
@@ -119,10 +110,7 @@ $(document).ready(function(){
 									@else
 									{{ Form::select('jenis_baptis', $list_jenis_baptis, Input::old('jenis_baptis'), array('id'=>'f_jenis_baptis', 'class'=>'form-control')) }}
 									@endif							
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
+								</div>								
 							</div>							
 							<div class="form-group">
 								<label class="col-xs-4 control-label">

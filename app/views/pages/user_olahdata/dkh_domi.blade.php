@@ -78,7 +78,7 @@
 									-->
 									<?php 
 										$new_list_jenis_dkh = array(
-											'-1' => 'pilih!'
+											'' => 'pilih!'
 										);									
 										foreach($list_jenis_dkh as $id => $key)
 										{
@@ -237,7 +237,7 @@ $('body').on('click', '#f_search_dkh', function(){
 							result += '</th>';
 							result += '<th>';
 								result += 'Nama Anggota';
-							result += '</th>';
+							result += '</th>';							
 							result += '<th>';
 								
 							result += '</th>';
@@ -347,7 +347,14 @@ $('body').on('click', '.detailButton', function(){
 	
 	$('#f_edit_nomor_dkh').val(temp_detail[$index]['no_dkh']);
 	$('#f_edit_nama_jemaat').val(temp_detail[$index]['id_jemaat']);
+	$('#f_edit_tanggal_dkh').val(temp_detail[$index]['tanggal_dkh']);
 	$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);
+
+	//clear background
+	$('#f_edit_nomor_dkh').css('background-color','#FFFFFF');		
+	$('#f_edit_tanggal_dkh').css('background-color','#FFFFFF');		
+	$('#f_edit_keterangan').css('background-color','#FFFFFF');		
+
 	/*
 	$data = {
 		'id' : $id

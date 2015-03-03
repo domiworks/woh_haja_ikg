@@ -40,7 +40,7 @@
 								margin-right: 25px;">								
 					</div>
 				</li>
-				<li><a href="{{--URL::to('/admin/importeksport')--}}"><span class="glyphicon glyphicon-import" style="color:#2974FF; margin-right:10px;"></span>Import / Eksport <span class="glyphicon glyphicon-export" style="color:#2974FF; margin-right:10px;"></span></a></li>			
+				<li><a href="{{URL::to('/admin/importeksport')}}"><span class="glyphicon glyphicon-import" style="color:#2974FF; margin-right:10px;"></span>Import / Eksport <span class="glyphicon glyphicon-export" style="color:#2974FF; margin-right:10px;"></span></a></li>			
 				
 				<!--
 				<li><a href="#">Other Link</a></li>

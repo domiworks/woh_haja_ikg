@@ -35,6 +35,30 @@
 					</div>		-->
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
+							Tanggal Dkh
+						</label>
+						<div class="col-xs-2">
+							<input type="text" name="tanggal_dkh" id="f_edit_tanggal_dkh" class="form-control">
+						</div>
+						<div class="col-xs-0">
+							*
+						</div>								
+					</div>	
+					<div class="form-group">
+						<label class="col-xs-4 control-label">
+							Jenis Dkh
+						</label>
+						<div class="col-xs-2">
+							<!--<input type="text" name="jenis_baptis" id="f_jenis_baptis" class="form-control">-->
+							@if($list_jenis_dkh == null)
+							<p class="control-label pull-left">(tidak ada daftar jenis dkh)</p>
+							@else
+							{{ Form::select('jenis_dkh', $list_jenis_dkh, Input::old('jenis_dkh'), array('id'=>'f_edit_jenis_dkh', 'class'=>'form-control')) }}
+							@endif							
+						</div>						
+					</div>		
+					<div class="form-group">
+						<label class="col-xs-4 control-label">
 							Keterangan
 						</label>
 						<div class="col-xs-6">
@@ -53,7 +77,11 @@
 				else
 					<input type="button" id="f_edit_post_dkh" class="btn btn-success" value="Simpan Perubahan" data-dismiss="modal"/>
 				endif-->
-				<input type="button" id="f_edit_post_dkh" class="btn btn-success" value="Simpan Perubahan" data-dismiss="modal" />
+				@if($list_jemaat == null)
+					<input type="button" id="f_edit_post_dkh" class="btn btn-success" value="Simpan Perubahan" data-dismiss="modal" disabled=true />		
+				@else
+					<input type="button" id="f_edit_post_dkh" class="btn btn-success" value="Simpan Perubahan" />
+				@endif				
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
@@ -61,6 +89,27 @@
 </div>
 
 <script>
+	jQuery('#f_edit_tanggal_dkh').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});		
+
 	$('body').on('click', '#f_edit_post_dkh', function(){
 		
 		//START LOADER				
@@ -68,11 +117,15 @@
 		
 		$no_dkh = $('#f_edit_nomor_dkh').val();
 		// $id_jemaat = $('#f_edit_nama_jemaat').val();
+		$tanggal_dkh = $('#f_edit_tanggal_dkh').val();
+		$jenis_dkh = $('#f_edit_jenis_dkh').val();
 		$keterangan = $('#f_edit_keterangan').val();
 		
 		$data = {
 			'id' : $id,
 			'no_dkh' : $no_dkh,
+			'tanggal_dkh' : $tanggal_dkh,
+			'id_jenis_dkh' : $jenis_dkh,
 			// 'id_jemaat' : $id_jemaat,
 			'keterangan' : $keterangan
 		};
@@ -99,12 +152,21 @@
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
 					
+					//close popup
+					$('#popup_edit_dkh').modal('toggle');
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($no_dkh == ""){$('#f_edit_nomor_dkh').css('background-color','#FBE3E4');}else{$('#f_edit_nomor_dkh').css('background-color','#FFFFFF');}
+					if($tanggal_dkh == ""){$('#f_edit_tanggal_dkh').css('background-color','#FBE3E4');}else{$('#f_edit_tanggal_dkh').css('background-color','#FFFFFF');}
+					if($keterangan == ""){$('#f_edit_keterangan').css('background-color','#FBE3E4');}else{$('#f_edit_keterangan').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

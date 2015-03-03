@@ -610,6 +610,8 @@
 			$('#f_edit_check_jemaat_wanita').prop('checked', true);				
 			$('#f_edit_nama_mempelai_wanita').attr('disabled', false);	
 			$('#f_edit_list_jemaat_wanita').attr('disabled', true);
+			//clear background
+			$('#f_edit_nama_mempelai_wanita').css('background-color','#FFFFFF');	
 		}				
 		else
 		{
@@ -619,6 +621,8 @@
 			
 			$('#f_edit_nama_mempelai_wanita').attr('disabled', true);
 			$('#f_edit_list_jemaat_wanita').attr('disabled', false);
+			//clear background
+			$('#f_edit_nama_mempelai_wanita').css('background-color','#eee');	
 		}
 		$('#f_edit_nama_mempelai_wanita').val(temp_detail[$index]['nama_wanita']);	
 		if(temp_detail[$index]['id_jemaat_pria'] == null)
@@ -627,6 +631,8 @@
 			$('#f_edit_check_jemaat_pria').prop('checked', true);				
 			$('#f_edit_nama_mempelai_pria').attr('disabled', false);	
 			$('#f_edit_list_jemaat_pria').attr('disabled', true);
+			//clear background
+			$('#f_edit_nama_mempelai_pria').css('background-color','#FFFFFF');	
 		}				
 		else
 		{
@@ -635,7 +641,9 @@
 			
 			$('#f_edit_list_jemaat_pria').val(temp_detail[$index]['id_jemaat_pria']);
 			$('#f_edit_nama_mempelai_pria').attr('disabled', true);
-			$('#f_edit_list_jemaat_pria').attr('disabled', false);					
+			$('#f_edit_list_jemaat_pria').attr('disabled', false);				
+			//clear background
+			$('#f_edit_nama_mempelai_pria').css('background-color','#eee');		
 		}
 		$('#f_edit_nama_mempelai_pria').val(temp_detail[$index]['nama_pria']);	
 		$('#f_edit_nomor_pernikahan').val(temp_detail[$index]['no_pernikahan']);		
@@ -643,6 +651,10 @@
 		$('#f_edit_id_pendeta').val(temp_detail[$index]['id_pendeta']);
 		$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);
 				
+		//clear background
+		$('#f_edit_nomor_pernikahan').css('background-color','#FFFFFF');
+		$('#f_edit_tanggal_pernikahan').css('background-color','#FFFFFF');		
+		
 		/*
 		$data = {
 			'id' : $id

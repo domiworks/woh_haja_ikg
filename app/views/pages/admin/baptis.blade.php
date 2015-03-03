@@ -520,6 +520,11 @@
 		$('#f_edit_jenis_baptis').val(temp_detail[$index]['id_jenis_baptis']);	
 		$('#f_edit_tanggal_baptis').val(temp_detail[$index]['tanggal_baptis']);					
 		$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);
+
+		//clear background
+		$('#f_edit_nomor_baptis').css('background-color','#FFFFFF');	
+		$('#f_edit_tanggal_baptis').css('background-color','#FFFFFF');	
+		
 		/*
 		$data = {
 			'id' : $id			

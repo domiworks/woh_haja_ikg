@@ -83,6 +83,13 @@
 					else
 					{
 						alert(result.messages);
+
+						//show red background validation
+						if($no_pernikahan == ""){$('#f_nomor_pernikahan').css('background-color','#FBE3E4');}else{$('#f_nomor_pernikahan').css('background-color','#FFFFFF');}
+						if($tanggal_pernikahan == ""){$('#f_tanggal_pernikahan').css('background-color','#FBE3E4');}else{$('#f_tanggal_pernikahan').css('background-color','#FFFFFF');}	
+						if($nama_mempelai_pria == ""){$('#f_nama_mempelai_pria').css('background-color','#FBE3E4');}else{$('#f_nama_mempelai_pria').css('background-color','#FFFFFF');}	
+						if($nama_mempelai_wanita == ""){$('#f_nama_mempelai_wanita').css('background-color','#FBE3E4');}else{$('#f_nama_mempelai_wanita').css('background-color','#FFFFFF');}
+
 						//END LOADER				
 						$('.f_loader_container').addClass('hidden');	
 					}				

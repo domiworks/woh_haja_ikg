@@ -88,6 +88,9 @@
 										</div>
 									</form>
 								</div>
+								<div class="panel-footer" style="background-color: white;">
+									(*) wajib diisi
+								</div>
 							</div>	
 						</div>	
 					</div>
@@ -216,6 +219,9 @@
 		$('#f_edit_nama_jenis_baptis').val(data_jenis_baptis[$index]['nama_jenis_baptis']);
 		$('#f_edit_keterangan').val(data_jenis_baptis[$index]['keterangan']);
 		
+		//clear background
+		$('#f_edit_nama_jenis_baptis').css('background-color','#FFFFFF');
+		$('#f_edit_keterangan').css('background-color','#FFFFFF');
 	});
 	
 	//click delete button
@@ -260,6 +266,11 @@
 				else				
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($nama_jenis_baptis == ""){$('#f_nama_jenis_baptis').css('background-color','#FBE3E4');}else{$('#f_nama_jenis_baptis').css('background-color','#FFFFFF');}
+					if($keterangan == ""){$('#f_keterangan').css('background-color','#FBE3E4');}else{$('#f_keterangan').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

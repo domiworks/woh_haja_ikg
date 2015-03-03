@@ -96,44 +96,67 @@
 		
 		var json_data = JSON.stringify($data);
 		
-		$.ajax({
-			type: 'POST',
-			url: "{{URL('user/post_kebaktian')}}",
-			data : {
-				'json_data' : json_data
-				// 'data' : $data
-			},
-			success: function(response){				
-				result = JSON.parse(response);				
-				if(result.code==201)
-				{
-					// alert("Berhasil simpan data kebaktian");					
-					// location.reload();
-					alert(result.messages);
-					// $(".loader").fadeIn(200, function(){});
-					
-					// window.location = '{{URL::route('view_inputdata_kebaktian')}}';					
-					location.reload();
-					
-					// $(".loader").fadeOut(200, function(){});
-										
-				}
-				else
-				{
-					alert(result.messages);
-					
-					//show val_message
-					$('.val_message').removeClass('hidden');
-					
+		//validator panjang nama kebaktian hanya boleh 17 karakter
+		if($nama_kebaktian.length <= 25){
+			$.ajax({
+				type: 'POST',
+				url: "{{URL('user/post_kebaktian')}}",
+				data : {
+					'json_data' : json_data
+					// 'data' : $data
+				},
+				success: function(response){				
+					result = JSON.parse(response);				
+					if(result.code==201)
+					{
+						// alert("Berhasil simpan data kebaktian");					
+						// location.reload();
+						alert(result.messages);
+						// $(".loader").fadeIn(200, function(){});
+						
+						// window.location = '{{--URL::route('view_inputdata_kebaktian')--}}';
+						location.reload();
+						
+						// $(".loader").fadeOut(200, function(){});
+											
+					}
+					else
+					{
+						alert(result.messages);
+						
+						//show red background validation
+						if($nama_kebaktian == ""){$('#f_nama_kebaktian').css('background-color','#FBE3E4');}else{$('#f_nama_kebaktian').css('background-color','#FFFFFF');}						
+						if($nama_pendeta == ""){$('#f_nama_pengkotbah').css('background-color','#FBE3E4');}else{$('#f_nama_pengkotbah').css('background-color','#FFFFFF');}
+						if($tanggal_mulai == ""){$('#f_tanggal_mulai').css('background-color','#FBE3E4');}else{$('#f_tanggal_mulai').css('background-color','#FFFFFF');}
+						if($tanggal_selesai == ""){$('#f_tanggal_selesai').css('background-color','#FBE3E4');}else{$('#f_tanggal_selesai').css('background-color','#FFFFFF');}
+						if($jam_mulai == ""){$('#f_jam_mulai').css('background-color','#FBE3E4');}else{$('#f_jam_mulai').css('background-color','#FFFFFF');}
+						if($jam_selesai == ""){$('#f_jam_selesai').css('background-color','#FBE3E4');}else{$('#f_jam_selesai').css('background-color','#FFFFFF');}
+						if($banyak_jemaat == ""){$('#f_banyak_jemaat').css('background-color','#FBE3E4');}else{$('#f_banyak_jemaat').css('background-color','#FFFFFF');}
+						if($banyak_simpatisan == ""){$('#f_banyak_simpatisan').css('background-color','#FBE3E4');}else{$('#f_banyak_simpatisan').css('background-color','#FFFFFF');}
+						if($banyak_penatua == ""){$('#f_banyak_penatua').css('background-color','#FBE3E4');}else{$('#f_banyak_penatua').css('background-color','#FFFFFF');}
+						if($banyak_pemusik == ""){$('#f_banyak_pemusik').css('background-color','#FBE3E4');}else{$('#f_banyak_pemusik').css('background-color','#FFFFFF');}
+						if($banyak_komisi == ""){$('#f_banyak_komisi').css('background-color','#FBE3E4');}else{$('#f_banyak_komisi').css('background-color','#FFFFFF');}
+						if($jumlah_persembahan == ""){$('#f_jumlah_persembahan').css('background-color','#FBE3E4');}else{$('#f_jumlah_persembahan').css('background-color','#FFFFFF');}
+						
+						//END LOADER				
+						$('.f_loader_container').addClass('hidden');	
+					}				
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert(errorThrown);
 					//END LOADER				
-					$('.f_loader_container').addClass('hidden');	
-				}				
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				alert(errorThrown);
-				//END LOADER				
-				$('.f_loader_container').addClass('hidden');
-			}			
-		},'json');	
+					$('.f_loader_container').addClass('hidden');
+				}			
+			},'json');	
+		}
+		else
+		{
+			//show message validator
+			alert('maksimal 17 karakter untuk nama_kebaktian !');
+			//END LOADER				
+			$('.f_loader_container').addClass('hidden');
+		}
+
+		
 	});
 </script>

@@ -16,6 +16,7 @@ class CreateJenisKegiatan extends Migration {
 			$table->create();
 			$table->increments('id');
 			$table->string('nama_kegiatan');
+				$table->integer('id_gereja')->unsigned()->nullable();
 			$table->string('keterangan');
 			$table->tinyInteger('deleted');
 			$table->timestamps();

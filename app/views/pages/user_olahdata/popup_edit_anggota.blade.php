@@ -14,7 +14,7 @@
 						</label>
 
 						<div class="col-xs-3">
-							{{ Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_edit_nomor_anggota', 'class'=>'form-control')) }}
+							{{ Form::text('nomor_anggota', Input::old('nomor_anggota'), array('id' => 'f_edit_nomor_anggota', 'class'=>'form-control', 'disabled'=>'true')) }}
 						</div>
 					</div>	
 					<div class="form-group">
@@ -119,10 +119,7 @@
 
 						<div class="col-xs-2">
 							{{ Form::radio('edit_gender', '1', true, array('id'=>'f_edit_jenis_kelamin_1')) }}pria    {{ Form::radio('edit_gender', '0', '', array('id'=>'f_edit_jenis_kelamin_0')) }}wanita 
-						</div>
-						<div class="col-xs-0">
-							*
-						</div>							
+						</div>						
 					</div>		
 					<div class="form-group">
 						<label class="col-xs-4 control-label">
@@ -242,10 +239,7 @@
 							@else
 								{{ Form::select('status', $list_role, Input::old('status'), array('id' => 'f_edit_status', 'class'=>'form-control')) }}
 							@endif
-						</div>
-						<div class="col-xs-0">
-							*
-						</div>
+						</div>						
 					</div>					
 				</form>
 			</div>
@@ -253,7 +247,7 @@
 				@if($list_wilayah == null || $list_gol_darah == null || $list_pendidikan == null || $list_pekerjaan == null || $list_etnis == null || $list_role == null)
 					<input type="button" id="f_edit_post_anggota" class="btn btn-success" value="Simpan Perubahan" disabled=true />
 				@else
-					<input type="button" id="f_edit_post_anggota" class="btn btn-success" value="Simpan Perubahan" data-dismiss="modal" />
+					<input type="button" id="f_edit_post_anggota" class="btn btn-success" value="Simpan Perubahan" />
 				@endif
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
@@ -435,6 +429,9 @@
 					
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
+
+					//close popup
+					$('#popup_edit_anggota').modal('toggle');
 					
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
@@ -442,6 +439,17 @@
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($nama_depan == ""){$('#f_edit_nama_depan').css('background-color','#FBE3E4');}else{$('#f_edit_nama_depan').css('background-color','#FFFFFF');}
+					if($jalan == ""){$('#f_edit_alamat').css('background-color','#FBE3E4');}else{$('#f_edit_alamat').css('background-color','#FFFFFF');}
+					if($kota == ""){$('#f_edit_kota').css('background-color','#FBE3E4');}else{$('#f_edit_kota').css('background-color','#FFFFFF');}
+					if($telp == ""){$('#f_edit_telp').css('background-color','#FBE3E4');}else{$('#f_edit_telp').css('background-color','#FFFFFF');}
+					if($gol_darah == ""){$('#f_edit_gol_darah').css('background-color','#FBE3E4');}else{$('#f_edit_gol_darah').css('background-color','#FFFFFF');}
+					if($pekerjaan == ""){$('#f_edit_pekerjaan').css('background-color','#FBE3E4');}else{$('#f_edit_pekerjaan').css('background-color','#FFFFFF');}
+					if($kota_lahir == ""){$('#f_edit_kota_lahir').css('background-color','#FBE3E4');}else{$('#f_edit_kota_lahir').css('background-color','#FFFFFF');}
+					if($tanggal_lahir == ""){$('#f_edit_tanggal_lahir').css('background-color','#FBE3E4');}else{$('#f_edit_tanggal_lahir').css('background-color','#FFFFFF');}					
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

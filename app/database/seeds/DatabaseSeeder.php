@@ -657,34 +657,42 @@ class DatabaseSeeder extends Seeder {
 
 		$jeniskegiatan1 = new JenisKegiatan();
 		$jeniskegiatan1 -> nama_kegiatan = "kebaktian umum 1";
+			$jeniskegiatan1 -> id_gereja = null;
 		$jeniskegiatan1 -> save();
 		
 		$jeniskegiatan2 = new JenisKegiatan();
 		$jeniskegiatan2 -> nama_kegiatan = "kebaktian umum 2";
+			$jeniskegiatan2 -> id_gereja = null;
 		$jeniskegiatan2 -> save();
 		
 		$jeniskegiatan3 = new JenisKegiatan();
 		$jeniskegiatan3 -> nama_kegiatan = "kebaktian umum 3";
+			$jeniskegiatan3 -> id_gereja = null;
 		$jeniskegiatan3 -> save();
 		
 		$jeniskegiatan4 = new JenisKegiatan();
 		$jeniskegiatan4 -> nama_kegiatan = "kebaktian umum 4";
+			$jeniskegiatan4 -> id_gereja = null;
 		$jeniskegiatan4 -> save();
 		
 		$jeniskegiatan5 = new JenisKegiatan();
 		$jeniskegiatan5 -> nama_kegiatan = "kebaktian umum 5";
+			$jeniskegiatan5 -> id_gereja = null;
 		$jeniskegiatan5 -> save();
 		
 		$jeniskegiatan6 = new JenisKegiatan();
 		$jeniskegiatan6 -> nama_kegiatan = "kebaktian anak";
+			$jeniskegiatan6 -> id_gereja = null;
 		$jeniskegiatan6 -> save();
 		
 		$jeniskegiatan7 = new JenisKegiatan();
 		$jeniskegiatan7 -> nama_kegiatan = "kebaktian remaja";
+			$jeniskegiatan7 -> id_gereja = null;
 		$jeniskegiatan7 -> save();
 		
 		$jeniskegiatan8 = new JenisKegiatan();
 		$jeniskegiatan8 -> nama_kegiatan = "kebaktian pemuda";
+			$jeniskegiatan8 -> id_gereja = null;
 		$jeniskegiatan8 -> save();		
 				
 		//---------------------------------- JENIS ATESTASI ----------------------------------		
@@ -863,8 +871,9 @@ class DatabaseSeeder extends Seeder {
 				
 		//insert cowo guntur
 		$idx = 2;	
-		$date = date_create('2016-01-03');
-		for($i = 1; $i <= 200; $i++)
+		//$date = date_create('2016-01-03');
+		$date = date_create('2015-01-04');
+		for($i = 1; $i <= 100; $i++)
 		//for($i = 1; $i <= 10; $i++)
 		{		
 			$anggotacowo = new Anggota();		
@@ -906,8 +915,9 @@ class DatabaseSeeder extends Seeder {
 			//date_add($date, date_interval_create_from_date_string('7 days'));	
 			date_add($date, date_interval_create_from_date_string($count));	
 		}
+		$date = date_create('2015-01-04');
 		//insert cewe guntur
-		for($i = 1; $i <= 200; $i++)
+		for($i = 1; $i <= 100; $i++)
 		//for($i = 1; $i <= 10; $i++)
 		{		
 			$anggotacewe = new Anggota();		
@@ -954,9 +964,9 @@ class DatabaseSeeder extends Seeder {
 		
 		//dummy data for demo -> GKI GUNTUR
 		
-		$date = date_create('2016-01-03');
-		//for($i = 1 ; $i <= 100 ; $i++)		
-		for($i = 1 ; $i <= 50 ; $i++)
+		$date = date_create('2015-01-04');
+		for($i = 1 ; $i <= 100 ; $i++)		
+		//for($i = 1 ; $i <= 20 ; $i++)
 		{			
 			//kebaktian 1		
 			$kebaktian = new Kegiatan();			

@@ -11,6 +11,7 @@ class JenisKegiatan extends Eloquent
 	
 	public $fillable = 
 				['nama_kegiatan',
+				'id_gereja',
 				'keterangan',				
 				'deleted'];	
 	

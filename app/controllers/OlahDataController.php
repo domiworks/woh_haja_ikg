@@ -1820,7 +1820,8 @@ class OlahDataController extends BaseController {
 				
 		//validate
 		if($input->{'tanggal_meninggal'} == '' ||
-			$input->{'no_kedukaan'} == '' )
+			$input->{'no_kedukaan'} == '' ||
+			$input->{'keterangan'} == '')
 		{	
 			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
 			return json_encode($respond);
@@ -1930,7 +1931,7 @@ class OlahDataController extends BaseController {
 			return json_encode($respond);
 			// return "Bagian yang bertanda (*) harus diisi.";
 		}*/
-		if($input->{'no_dkh'} == '' || $input->{'keterangan'} == '')
+		if($input->{'no_dkh'} == '' || $input->{'tanggal_dkh'} || $input->{'keterangan'} == '')
 		{
 			$respond = array('code'=>'400','status' => 'Bad Request','messages' => 'Bagian yang bertanda (*) harus diisi.');
 			return json_encode($respond);

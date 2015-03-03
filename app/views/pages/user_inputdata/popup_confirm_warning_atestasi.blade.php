@@ -83,6 +83,13 @@
 				else
 				{
 					alert(result.messages);
+					
+					//show red background validation
+					if($no_atestasi == ""){$('#f_nomor_atestasi').css('background-color','#FBE3E4');}else{$('#f_nomor_atestasi').css('background-color','#FFFFFF');}
+					if($tanggal_atestasi == ""){$('#f_tanggal_atestasi').css('background-color','#FBE3E4');}else{$('#f_tanggal_atestasi').css('background-color','#FFFFFF');}
+					if($nama_gereja_lama == ""){$('#f_nama_gereja_lama').css('background-color','#FBE3E4');}else{$('#f_nama_gereja_lama').css('background-color','#FFFFFF');}
+					if($nama_gereja_baru == ""){$('#f_nama_gereja_baru').css('background-color','#FBE3E4');}else{$('#f_nama_gereja_baru').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');	
 				}

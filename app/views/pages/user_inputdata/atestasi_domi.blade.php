@@ -130,10 +130,7 @@
 									@else
 									{{Form::select('jemaat', $list_jemaat, Input::old('jemaat'), array('id'=>'f_jemaat', 'class'=>'form-control'))}}							
 									@endif
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
+								</div>								
 							</div>							
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
@@ -145,10 +142,7 @@
 									@else
 									{{Form::select('jenis_atestasi', $list_jenis_atestasi, Input::old('pembaptis'), array('id'=>'f_jenis_atestasi', 'class'=>'form-control'))}}
 									@endif							
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
+								</div>								
 							</div>		
 							<div class="form-group">
 								<label class="col-xs-4 control-label">
@@ -312,7 +306,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: "{{URL('user/post_atestasi')}}",
+			url: "{{--URL('user/post_atestasi')--}}",
 			data: {
 				'json_data' : json_data
 				// 'data' : $data
@@ -324,7 +318,7 @@
 					// alert("Berhasil simpan data kebaktian");					
 					// location.reload();
 					alert(result.messages);
-					window.location = '{{URL::route('view_inputdata_atestasi')}}';
+					window.location = '{{--URL::route('view_inputdata_atestasi')--}}';
 				}
 				else
 				{

@@ -16,6 +16,15 @@
 						<div class="col-xs-0">
 							*
 						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">Keterangan</label>
+						<div class="col-xs-2">
+							<select class="form-control" id="f_edit_tipe_atestasi">								
+								<option value = 1>Masuk</option>
+								<option value = 2>Keluar</option>
+							</select>
+						</div>
 					</div>							
 					<div class="form-group">
 						<label class="col-xs-4 control-label">Keterangan</label>
@@ -30,7 +39,7 @@
 				
 			</div>
 			<div class="modal-footer">
-				<input type="button" value="Simpan Perubahan" id="f_edit_post_jenis_atestasi" class="btn btn-success" data-dismiss="modal" />
+				<input type="button" value="Simpan Perubahan" id="f_edit_post_jenis_atestasi" class="btn btn-success" />
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
@@ -44,11 +53,13 @@
 		$('.f_loader_container').removeClass('hidden');
 		
 		$nama_atestasi = $('#f_edit_nama_jenis_atestasi').val();
+		$tipe_atestasi = $('#f_edit_tipe_atestasi').val();
 		$keterangan = $('#f_edit_keterangan').val();
 		
 		$data = {
 			'id' : $id,
 			'nama_atestasi' : $nama_atestasi,
+			'tipe' : $tipe_atestasi,
 			'keterangan' : $keterangan
 		};
 		
@@ -69,16 +80,32 @@
 					
 					//ganti isi row sesuai hasil edit
 					//tabel id_jenis_atestasi
-					$('.tabel_nama_jenis_atestasi'+temp).html(result.data['nama_atestasi']);				
+					$('.tabel_nama_jenis_atestasi'+temp).html(result.data['nama_atestasi']);									
+					if(result.data['tipe'] == 1)
+					{
+						$('.tabel_tipe_atestasi'+temp).html("Masuk");				
+					}
+					else
+					{
+						$('.tabel_tipe_atestasi'+temp).html("Keluar");					
+					}					
 					//ganti isi detail sesuai hasil edit
 					data_jenis_atestasi[temp] = result.data;	
 					
+					//close popup
+					$('.popup_edit_jenis_atestasi').modal('toggle');
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}
 				else				
 				{
 					alert(result.messages);
+
+					//show red background validation					
+					if($nama_atestasi == ""){$('#f_edit_nama_jenis_atestasi').css('background-color','#FBE3E4');}else{$('#f_edit_nama_jenis_atestasi').css('background-color','#FFFFFF');}
+					if($keterangan == ""){$('#f_edit_keterangan').css('background-color','#FBE3E4');}else{$('#f_edit_keterangan').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

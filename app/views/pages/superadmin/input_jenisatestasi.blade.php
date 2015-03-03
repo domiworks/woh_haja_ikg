@@ -72,15 +72,12 @@
 										</div>							
 										<div class="form-group">
 											<label class="col-xs-4 control-label">Tipe</label>
-											<div class="col-xs-5">
+											<div class="col-xs-2">
 												<select class="form-control" id="f_tipe_atestasi" >
 													<option value="1">Masuk</option>
 													<option value="2">Keluar</option>																									
 												</select>												
-											</div>
-											<div class="col-xs-0">
-												*
-											</div>
+											</div>											
 										</div>																	
 										<div class="form-group">
 											<label class="col-xs-4 control-label">Keterangan</label>
@@ -98,6 +95,9 @@
 										</div>
 									</form>
 								</div>
+								<div class="panel-footer" style="background-color: white;">
+									(*) wajib diisi
+								</div>
 							</div>	
 						</div>	
 					</div>
@@ -109,7 +109,8 @@
 						<thead>
 							<tr class="active">
 								<td class="col-md-2"><strong>ID Jenis Atestasi</strong></td>
-								<td class="col-md-4"><strong>Nama Jenis Atestasi</strong></td>
+								<td class="col-md-3"><strong>Nama Jenis Atestasi</strong></td>
+								<td class="col-md-1"><strong>Tipe</strong></td>
 								<td class="col-md-1"><strong>Visible</strong></td>
 								<td class="col-md-4"><!-- edit delete --></td>
 							</tr>								
@@ -121,6 +122,7 @@
 								<tr>
 									<td class="tabel_id_jenis_atestasi<?php echo $index; ?>">{{$atestasi->id}}</td>
 									<td class="tabel_nama_jenis_atestasi<?php echo $index; ?>">{{$atestasi->nama_atestasi}}</td>
+									<td class="tabel_tipe_atestasi<?php echo $index; ?>"><?php if($atestasi->tipe == 1){ echo "Masuk"; }else{ echo "Keluar"; } ?></td>
 									<td class="tabel_visible<?php echo $index; ?>">
 										@if($atestasi->deleted == 0)
 											<span style="color:green;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
@@ -225,8 +227,12 @@
 		
 		//set value di popup detail/edit
 		$('#f_edit_nama_jenis_atestasi').val(data_jenis_atestasi[$index]['nama_atestasi']);
-		$('#f_edit_keterangan').val(data_jenis_atestasi[$index]['keterangan']);
-		
+		$('#f_edit_tipe_atestasi').val(data_jenis_atestasi[$index]['tipe']);
+		$('#f_edit_keterangan').val(data_jenis_atestasi[$index]['keterangan']);		
+
+		//clear background
+		$('#f_edit_nama_jenis_atestasi').css('background-color','#FFFFFF');
+		$('#f_edit_keterangan').css('background-color','#FFFFFF');
 	});
 	
 	//click delete button
@@ -272,6 +278,11 @@
 				else				
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($nama_atestasi == ""){$('#f_nama_jenis_atestasi').css('background-color','#FBE3E4');}else{$('#f_nama_jenis_atestasi').css('background-color','#FFFFFF');}
+					if($keterangan == ""){$('#f_keterangan').css('background-color','#FBE3E4');}else{$('#f_keterangan').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

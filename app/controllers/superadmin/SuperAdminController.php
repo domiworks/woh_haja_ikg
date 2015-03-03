@@ -165,7 +165,7 @@ class SuperAdminController extends BaseController {
 		$lowercase = preg_match('@[a-z]@', $password);
 		$number    = preg_match('@[0-9]@', $password);
 
-		if(!$uppercase || !$lowercase || !$number || strlen(			$password) < 8) {
+		if(!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
 			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data akun. Password tidak memenuhi standar.');
 			return json_encode($respond);
 		}
@@ -295,7 +295,7 @@ class SuperAdminController extends BaseController {
 		$input = json_decode($json_data);
 		
 		$nama_atestasi = $input->{'nama_atestasi'};
-		$tipe_atestasi = $input->{'tipe_atestasi'};
+		$tipe_atestasi = $input->{'tipe'};
 		$keterangan = $input->{'keterangan'};
 		
 		$data_valid = array(
@@ -634,10 +634,12 @@ class SuperAdminController extends BaseController {
 		$id = $input->{'id'};
 		
 		$nama_atestasi = $input->{'nama_atestasi'};
+		$tipe_atestasi = $input->{'tipe'};
 		$keterangan = $input->{'keterangan'};
 		
 		$data_valid = array(
 			'nama_atestasi' => $nama_atestasi,
+			'tipe' => $tipe_atestasi,
 			'keterangan' =>	$keterangan
 		);
 		
@@ -659,6 +661,7 @@ class SuperAdminController extends BaseController {
 		else
 		{
 			$jenis_atestasi->nama_atestasi = $nama_atestasi;
+			$jenis_atestasi->tipe = $tipe_atestasi;
 			$jenis_atestasi->keterangan = $keterangan;
 			// $jenis_atestasi->deleted = 0;
 					

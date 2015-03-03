@@ -417,6 +417,10 @@
 			}
 		});
 		*/
+
+		//clear background
+		$('#f_edit_nomor_baptis').css('background-color','#FFFFFF');	
+		$('#f_edit_tanggal_baptis').css('background-color','#FFFFFF');			
 	});
 	
 	//click delete button

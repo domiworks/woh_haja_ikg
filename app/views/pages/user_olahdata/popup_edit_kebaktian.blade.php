@@ -1,10 +1,11 @@
-<script>
+<script>	
 	$('body').on('click', '#f_edit_check_kebaktian_lain', function(){		
 		if($('#f_edit_check_kebaktian_lain').val() == 0){	
 			$('#f_edit_check_kebaktian_lain').val(1); //pakai pembicara luar jika value f_check_pembicara_luar == 1
 			$('#f_edit_nama_kebaktian').attr('disabled', false);			
 			$('#f_edit_nama_kebaktian').val("");
 			$('#f_edit_kebaktian_ke').attr('disabled', true);								
+			$('#f_edit_nama_kebaktian').css('background-color','#FFFFFF');
 		}
 		else
 		{
@@ -12,7 +13,8 @@
 			$('#f_edit_nama_kebaktian').attr('disabled', true);				
 			selected = $('#f_edit_kebaktian_ke').find(":selected").text();
 			$('#f_edit_nama_kebaktian').val(selected);	
-			$('#f_edit_kebaktian_ke').attr('disabled', false);				
+			$('#f_edit_kebaktian_ke').attr('disabled', false);	
+			$('#f_edit_nama_kebaktian').css('background-color','#eee');			
 		}
 	});
 	
@@ -22,6 +24,7 @@
 			$('#f_edit_nama_pengkotbah').attr('disabled', false);			
 			$('#f_edit_nama_pengkotbah').val("");
 			$('#f_edit_pengkotbah').attr('disabled', true);								
+			$('#f_edit_nama_pengkotbah').css('background-color','#FFFFFF');
 		}
 		else
 		{
@@ -31,6 +34,7 @@
 			selected = $('#f_edit_pengkotbah').find(":selected").text();
 			$('#f_edit_nama_pengkotbah').val(selected);	
 			$('#f_edit_pengkotbah').attr('disabled', false);				
+			$('#f_edit_nama_pengkotbah').css('background-color','#eee');
 		}
 	});
 
@@ -507,7 +511,7 @@
 				@if($list_jenis_kegiatan == null || $list_pembicara == null)
 					<input type="button" value="Simpan Perubahan" id="f_edit_post_kebaktian" class="btn btn-success" disabled=true />
 				@else
-					<input type="button" value="Simpan Perubahan" id="f_edit_post_kebaktian" class="btn btn-success" data-dismiss="modal" />
+					<input type="button" value="Simpan Perubahan" id="f_edit_post_kebaktian" class="btn btn-success" />
 				@endif 							
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
@@ -621,12 +625,30 @@
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
 					
+					//close popup
+					$('#popup_edit_kebaktian').modal('toggle');
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($nama_kebaktian == ""){$('#f_edit_nama_kebaktian').css('background-color','#FBE3E4');}else{$('#f_edit_nama_kebaktian').css('background-color','#FFFFFF');}
+					if($nama_pendeta == ""){$('#f_edit_nama_pengkotbah').css('background-color','#FBE3E4');}else{$('#f_edit_nama_pengkotbah').css('background-color','#FFFFFF');}
+					if($tanggal_mulai == ""){$('#f_edit_tanggal_mulai').css('background-color','#FBE3E4');}else{$('#f_edit_tanggal_mulai').css('background-color','#FFFFFF');}
+					if($tanggal_selesai == ""){$('#f_edit_tanggal_selesai').css('background-color','#FBE3E4');}else{$('#f_edit_tanggal_selesai').css('background-color','#FFFFFF');}
+					if($jam_mulai == ""){$('#f_edit_jam_mulai').css('background-color','#FBE3E4');}else{$('#f_edit_jam_mulai').css('background-color','#FFFFFF');}
+					if($jam_selesai == ""){$('#f_edit_jam_selesai').css('background-color','#FBE3E4');}else{$('#f_edit_jam_selesai').css('background-color','#FFFFFF');}
+					if($banyak_jemaat == ""){$('#f_edit_banyak_jemaat').css('background-color','#FBE3E4');}else{$('#f_edit_banyak_jemaat').css('background-color','#FFFFFF');}
+					if($banyak_simpatisan == ""){$('#f_edit_banyak_simpatisan').css('background-color','#FBE3E4');}else{$('#f_edit_banyak_simpatisan').css('background-color','#FFFFFF');}
+					if($banyak_penatua == ""){$('#f_edit_banyak_penatua').css('background-color','#FBE3E4');}else{$('#f_edit_banyak_penatua').css('background-color','#FFFFFF');}
+					if($banyak_pemusik == ""){$('#f_edit_banyak_pemusik').css('background-color','#FBE3E4');}else{$('#f_edit_banyak_pemusik').css('background-color','#FFFFFF');}
+					if($banyak_komisi == ""){$('#f_edit_banyak_komisi').css('background-color','#FBE3E4');}else{$('#f_edit_banyak_komisi').css('background-color','#FFFFFF');}
+					if($jumlah_persembahan == ""){$('#f_edit_jumlah_persembahan').css('background-color','#FBE3E4');}else{$('#f_edit_jumlah_persembahan').css('background-color','#FFFFFF');}
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

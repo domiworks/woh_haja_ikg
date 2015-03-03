@@ -13,7 +13,7 @@
 
 //example
 //Route::get('/import', ['as' => 'get.import' , 'uses' => 'ExcelController@import']);
-Route::get('/import_kegiatan_gki_cianjur', ['as' => 'get.import_kegiatan_cianjur' , 'uses' => 'ImportEksportController@import_kegiatan_GKI_Cianjur']);
+//Route::get('/import_kegiatan_gki_cianjur', ['as' => 'get.import_kegiatan_cianjur' , 'uses' => 'ImportEksportController@import_kegiatan_GKI_Cianjur']);
 //Route::get('/export', ['as' => 'get.export' , 'uses' => 'ExcelController@export']);
 
 //START SEED REAL DATA
@@ -23,13 +23,9 @@ Route::get('/import_data_dbaj_gki_cianjur', ['as' => 'import_data_dbaj_gki_cianj
 
 
 
-Route::get('/tes', function(){
-	$temp = "05/09/1990";
+Route::get('/tes', function(){		
 
-	$phpexcepDate = $temp-25569; //to offset to Unix epoch
-    echo strtotime("+$phpexcepDate days", mktime(0,0,0,1,1,1970));
-
-	echo "tanggal";
+	echo count(Anggota::where('id_gereja','=',5)->where('created_at','<',('2015-03-30'.' 00:00:00.000000'))->where('gender','=',1)->get());
 
 	/*
 	$message = "Berhasil";	
@@ -206,16 +202,26 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 	Route::delete('/delete_dkh', ['as' => 'admin_delete_dkh', 'uses' => 'UserBehaviorController@admin_delete_dkh']);
 	
 	//reporting
-	Route::get('/reporting', ['as' => 'admin_view_reporting', 'uses' => 'ReportingController@admin_view_reporting']);
-	Route::get('/jenis_kegiatan', ['as' => 'admin_get_jenis_kegiatan', 'uses' => 'ReportingController@get_jenis_kegiatan']);
-	Route::get('/reporting/search_kebaktian/{from?}/{to?}/{jenis?}', ['as' => 'admin_report_kebaktian', 'uses' => 'ReportingController@search_kebaktian']);
+	Route::get('/reporting', ['as' => 'view_reporting', 'uses' => 'ReportingController@admin_view_reporting']);
+	Route::get('/jenis_kegiatan', ['as' => 'get_jenis_kegiatan', 'uses' => 'ReportingController@get_jenis_kegiatan']);
+	Route::get('/reporting/search_kebaktian/{id_gereja}/{from?}/{to?}/{jenis?}', ['as' => 'report_kebaktian', 'uses' => 'ReportingController@search_kebaktian']);
+	Route::get('/reporting/search_persembahan/{from?}/{to?}/{jenis?}', ['as' => 'report_persembahan', 'uses' => 'ReportingController@search_persembahan']);
+	Route::get('/reporting/search_anggota/{id_gereja}/{from?}/{to?}/{jenis?}', ['as' => 'report_anggota', 'uses' => 'ReportingController@search_anggota']);
 	
+	//import eksport
+	Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@admin_view_import_eksport']);	
+	
+	Route::post('/import_kegiatan/{id_gereja}', ['as' => 'post.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan']);	
+	Route::post('/import_anggota/{id_gereja}', ['as' => 'post.import_anggota' , 'uses' => 'ImportEksportController@import_anggota']);	
+	
+	Route::get('/export_kegiatan/{id_gereja?}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);		
+	Route::get('/export_anggota/{id_gereja}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']); 		
+
 	//import eksport
 	// Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@view_import_eksport']);	
 	
 	//tutorial
-	// Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);	
-		
+	// Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);			
 	
 });
 
@@ -298,7 +304,7 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::get('/jenis_kegiatan', ['as' => 'get_jenis_kegiatan', 'uses' => 'ReportingController@get_jenis_kegiatan']);
 	Route::get('/reporting/search_kebaktian/{id_gereja}/{from?}/{to?}/{jenis?}', ['as' => 'report_kebaktian', 'uses' => 'ReportingController@search_kebaktian']);
 	Route::get('/reporting/search_persembahan/{from?}/{to?}/{jenis?}', ['as' => 'report_persembahan', 'uses' => 'ReportingController@search_persembahan']);
-	Route::get('/reporting/search_anggota/{id_gereja}/{from?}/{to?}/{jenis?}', ['as' => 'report_persembahan', 'uses' => 'ReportingController@search_anggota']);
+	Route::get('/reporting/search_anggota/{id_gereja}/{from?}/{to?}/{jenis?}', ['as' => 'report_anggota', 'uses' => 'ReportingController@search_anggota']);
 	
 	//import eksport
 	Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@view_import_eksport']);	
@@ -307,9 +313,7 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::post('/import_anggota/{id_gereja}', ['as' => 'post.import_anggota' , 'uses' => 'ImportEksportController@import_anggota']);	
 	
 	Route::get('/export_kegiatan/{id_gereja?}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);		
-	Route::get('/export_anggota/{id_gereja}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']);
- 
-	// Route::get('/export_anggota/{id_jenis_kegiatan?}/{id_gereja?}/{dateF?}/{dateT?}', ['as' => 'get.import_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);		
+	Route::get('/export_anggota/{id_gereja}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']); 	
 		
 	//tutorial
 	Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);		

@@ -5,6 +5,7 @@
 			$('#f_edit_nama_mempelai_wanita').attr('disabled', false);			
 			$('#f_edit_nama_mempelai_wanita').val("");
 			$('#f_edit_list_jemaat_wanita').attr('disabled', true);								
+			$('#f_edit_nama_mempelai_wanita').css('background-color','#FFFFFF');								
 		}
 		else
 		{
@@ -14,6 +15,7 @@
 			selected = $('#f_edit_list_jemaat_wanita').find(":selected").text();
 			$('#f_edit_nama_mempelai_wanita').val(selected);	
 			$('#f_edit_list_jemaat_wanita').attr('disabled', false);				
+			$('#f_edit_nama_mempelai_wanita').css('background-color','#eee');								
 		}
 	});
 
@@ -22,7 +24,8 @@
 			$('#f_edit_check_jemaat_pria').val(1); //pakai pembicara luar jika value f_edit_check_jemaat_pria == 1
 			$('#f_edit_nama_mempelai_pria').attr('disabled', false);			
 			$('#f_edit_nama_mempelai_pria').val("");
-			$('#f_edit_list_jemaat_pria').attr('disabled', true);								
+			$('#f_edit_list_jemaat_pria').attr('disabled', true);	
+			$('#f_edit_nama_mempelai_pria').css('background-color','#FFFFFF');								
 		}
 		else
 		{
@@ -30,7 +33,8 @@
 			$('#f_edit_nama_mempelai_pria').attr('disabled', true);	
 			selected = $('#f_edit_list_jemaat_pria').find(":selected").text();
 			$('#f_edit_nama_mempelai_pria').val(selected);
-			$('#f_edit_list_jemaat_pria').attr('disabled', false);				
+			$('#f_edit_list_jemaat_pria').attr('disabled', false);		
+			$('#f_edit_nama_mempelai_pria').css('background-color','#eee');			
 		}
 	});	
 </script>
@@ -80,10 +84,7 @@
 							@else
 								{{Form::select('id_pendeta', $list_pendeta, Input::old('id_pendeta'), array('id'=>'f_edit_id_pendeta', 'class'=>'form-control'))}}
 							@endif
-						</div>
-						<div class="col-xs-0">
-							*
-						</div>
+						</div>						
 					</div>
 					
 					<!--
@@ -185,7 +186,7 @@
 				else					
 					<input type="button" id="f_edit_post_pernikahan" class="btn btn-success" value="Simpan Data Pernikahan" data-dismiss="modal" />
 				endif	-->
-				<input type="button" id="f_edit_post_pernikahan" class="btn btn-success" value="Simpan Data Pernikahan" data-dismiss="modal" />
+				<input type="button" id="f_edit_post_pernikahan" class="btn btn-success" value="Simpan Data Pernikahan" />
 				<button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
 			</div>
 		</div>
@@ -281,12 +282,22 @@
 					//ganti isi detail sesuai hasil edit
 					temp_detail[temp] = result.data;
 					
+					//close popup
+					$('#popup_edit_pernikahan').modal('toggle');
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}
 				else
 				{
 					alert(result.messages);
+
+					//show red background validation
+					if($no_pernikahan == ""){$('#f_edit_nomor_pernikahan').css('background-color','#FBE3E4');}else{$('#f_edit_nomor_pernikahan').css('background-color','#FFFFFF');}
+					if($tanggal_pernikahan == ""){$('#f_edit_tanggal_pernikahan').css('background-color','#FBE3E4');}else{$('#f_edit_tanggal_pernikahan').css('background-color','#FFFFFF');}	
+					if($nama_mempelai_wanita == ""){$('#f_edit_nama_mempelai_wanita').css('background-color','#FBE3E4');}else{$('#f_edit_nama_mempelai_wanita').css('background-color','#FFFFFF');}
+					if($nama_mempelai_pria == ""){$('#f_edit_nama_mempelai_pria').css('background-color','#FBE3E4');}else{$('#f_edit_nama_mempelai_pria').css('background-color','#FFFFFF');}					
+
 					//END LOADER				
 					$('.f_loader_container').addClass('hidden');
 				}

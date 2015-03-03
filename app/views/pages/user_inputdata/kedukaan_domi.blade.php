@@ -82,10 +82,7 @@ $(document).ready(function(){
 									@else
 									{{Form::select('list_jemaat', $list_anggota, Input::old('list_jemaat'), array('id'=>'f_list_jemaat', 'class'=>'form-control'))}}
 									@endif	
-								</div>
-								<div class="col-xs-0">
-									*
-								</div>
+								</div>								
 							</div>
 							<div class="form-group">
 								<label class="col-xs-4 control-label">

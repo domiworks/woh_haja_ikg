@@ -9131,9 +9131,14 @@ class ImportEksportController extends BaseController {
 		}		
 	}
 	
-	public function export_kegiatan($id_gereja,$tahun_awal,$tahun_akhir){
+	public function export_kegiatan($id_gereja,$tahun){
 	
 		$kegiatan = new Kegiatan();
+		
+		$arr_thn = explode('-',$tahun);
+		
+		$tahun_awal = $arr_thn[0];
+		$tahun_akhir = $arr_thn[1];
 		
 		$gereja = Gereja::find($id_gereja);
 				
@@ -9422,7 +9427,7 @@ class ImportEksportController extends BaseController {
 		try{
 			//inisialisasi
 			$data = array();			
-			$tahun_pelayanan = '2015-2016'; //sementara karena data dummy
+			$tahun_pelayanan = $tahun; //sementara karena data dummy
 			$alamat = $gereja->nama.' '.$gereja->alamat;
 			
 			//setting header

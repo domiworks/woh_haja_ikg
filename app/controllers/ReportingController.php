@@ -10,7 +10,8 @@ class ReportingController extends BaseController {
 		// return View::make('pages.admin_reporting',
 				// compact('header'));	
 		//return View::make('pages.admin_reporting');	
-		return View::make('pages.admin.reporting');
+		//return View::make('pages.admin.reporting');		
+		return View::make('pages.__admin.reporting');
 	}
 	
 	public function view_reporting()
@@ -18,7 +19,8 @@ class ReportingController extends BaseController {
 		// $header = $this->setHeader();
 		// return View::make('pages.reporting',
 				// compact('header'));	
-		return View::make('pages.reporting');	
+		// return View::make('pages.reporting');			
+		return View::make('pages.__user.reporting');			
 	}
 	
 	

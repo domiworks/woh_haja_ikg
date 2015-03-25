@@ -1,3 +1,8 @@
+
+<!-- 
+	THIS VIEW TEMPORARY UNUSED 
+									-->
+									
 <section>
 	ini adalah header userview GKI
 	

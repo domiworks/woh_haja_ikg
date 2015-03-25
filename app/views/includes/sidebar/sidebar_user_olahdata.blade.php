@@ -11,6 +11,6 @@
 	<li>{{HTML::linkRoute('view_olahdata_atestasi', 'Olah Data Atestasi', '' , array('style'=>'color:white;'))}}</li>
 	<li>{{HTML::linkRoute('view_olahdata_pernikahan', 'Olah Data Pernikahan', '' , array('style'=>'color:white;'))}}</li>
 	<li>{{HTML::linkRoute('view_olahdata_kedukaan', 'Olah Data Kedukaan', '' , array('style'=>'color:white;'))}}</li>
-	<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh', '' , array('style'=>'color:white;'))}}</li>
-	
+	<li>{{HTML::linkRoute('view_olahdata_dkh', 'Olah Data Dkh', '' , array('style'=>'color:white;'))}}</li>	
+
 </ul>

@@ -12,7 +12,8 @@ class UserBehaviorController extends BaseController {
 		$list_gereja = $this->getListGereja();		
 		// return View::make('pages.user_olahdata.kebaktian_domi',
 			// compact('header','list_jenis_kegiatan', 'list_pembicara'));		
-		return View::make('pages.admin.kebaktian', compact('list_jenis_kegiatan','list_pembicara','list_gereja'));
+		//return View::make('pages.admin.kebaktian', compact('list_jenis_kegiatan','list_pembicara','list_gereja'));
+		return View::make('pages.__admin.__olah.kebaktian', compact('list_jenis_kegiatan','list_pembicara','list_gereja'));
 	}		
 
 	public function admin_view_anggota()
@@ -25,7 +26,9 @@ class UserBehaviorController extends BaseController {
 		$list_pekerjaan = $this->getListPekerjaan();
 		$list_etnis = $this->getListEtnis();
 		$list_role = $this->getListRoleAnggota();		
-		return View::make('pages.admin.anggota', 
+		// return View::make('pages.admin.anggota', 
+		// 	compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
+		return View::make('pages.__admin.__olah.anggota', 
 			compact('list_gereja','list_wilayah','list_gol_darah','list_pendidikan','list_pekerjaan','list_etnis','list_role'));
 	}	
 	
@@ -36,7 +39,9 @@ class UserBehaviorController extends BaseController {
 		$list_jenis_baptis = $this->getListJenisBaptis();
 		$list_gereja = $this->getListGereja();				
 		$list_jemaat = $this->getListAnggota();				
-		return View::make('pages.admin.baptis', 
+		// return View::make('pages.admin.baptis', 
+		// 	compact('list_pembaptis','list_jenis_baptis','list_gereja','list_jemaat'));
+		return View::make('pages.__admin.__olah.baptis', 
 			compact('list_pembaptis','list_jenis_baptis','list_gereja','list_jemaat'));
 	}
 	
@@ -46,7 +51,9 @@ class UserBehaviorController extends BaseController {
 		$list_jenis_atestasi = $this->getListJenisAtestasi();
 		$list_jemaat = $this->getListAnggota();
 		$list_gereja = $this->getListGereja();		
-		return View::make('pages.admin.atestasi', 
+		// return View::make('pages.admin.atestasi', 
+		// 	compact('list_jenis_atestasi','list_jemaat','list_gereja'));		
+		return View::make('pages.__admin.__olah.atestasi', 
 			compact('list_jenis_atestasi','list_jemaat','list_gereja'));		
 		// return null;	
 	}
@@ -58,7 +65,9 @@ class UserBehaviorController extends BaseController {
 		$list_jemaat_pria = $this->getListAnggotaPria();
 		$list_jemaat_wanita = $this->getListAnggotaWanita();
 		$list_gereja = $this->getListGereja();		
-		return View::make('pages.admin.pernikahan', 
+		// return View::make('pages.admin.pernikahan', 
+		// 		compact('list_pendeta','list_jemaat_pria','list_jemaat_wanita','list_gereja'));				
+		return View::make('pages.__admin.__olah.pernikahan', 
 				compact('list_pendeta','list_jemaat_pria','list_jemaat_wanita','list_gereja'));				
 	}
 		
@@ -67,7 +76,9 @@ class UserBehaviorController extends BaseController {
 		// $header = $this->setHeader();
 		$list_anggota = $this->getListAnggotaHidup();
 		$list_gereja = $this->getListGereja();		
-		return View::make('pages.admin.kedukaan', 
+		// return View::make('pages.admin.kedukaan', 
+		// 	compact('list_anggota','list_gereja'));				
+		return View::make('pages.__admin.__olah.kedukaan', 
 			compact('list_anggota','list_gereja'));				
 	}
 	
@@ -77,7 +88,9 @@ class UserBehaviorController extends BaseController {
 		$list_jemaat = $this->getListAnggota();		
 		$list_gereja = $this->getListGereja();	
 		$list_jenis_dkh = $this->getListJenisDkh();	
-		return View::make('pages.admin.dkh', 
+		// return View::make('pages.admin.dkh', 
+		// 	compact('list_jemaat','list_gereja','list_jenis_dkh'));
+		return View::make('pages.__admin.__olah.dkh', 
 			compact('list_jemaat','list_gereja','list_jenis_dkh'));
 		
 	}

@@ -1,3 +1,8 @@
+<!-- 
+	THIS VIEW TEMPORARY UNUSED 
+	(asumsi admin ga bisa input data, hanya bisa memantau untuk edit/delete permanent)
+									-->
+
 <ul style="margin-top:15px;">
 	<!--
 	for ($i = 0; $i < 10; $i++)

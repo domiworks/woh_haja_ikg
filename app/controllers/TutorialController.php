@@ -4,6 +4,10 @@ use Carbon\Carbon;
 
 class TutorialController extends BaseController {
 
+	/*
+		THIS CONTROLLER TEMPORARY UNUSED
+	*/
+	
 	public function view_tutorial()
 	{			
 		// $header = $this->setHeader();

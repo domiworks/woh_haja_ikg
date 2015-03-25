@@ -6,7 +6,8 @@ class ImportEksportController extends BaseController {
 
 	public function admin_view_import_eksport()
 	{
-		return View::make('pages.admin.importeksport');	
+		//return View::make('pages.admin.importeksport');			
+		return View::make('pages.__admin.importeksport');			
 	}
 
 	public function view_import_eksport()
@@ -14,7 +15,8 @@ class ImportEksportController extends BaseController {
 		// $header = $this->setHeader();
 		// return View::make('pages.importeksport',
 				// compact('header'));	
-		return View::make('pages.importeksport');	
+		// return View::make('pages.importeksport');			
+		return View::make('pages.__user.importeksport');			
 	}
 
 	//START FUNGSI BUAT IMPORT REAL DATA, ADA BEBERAPA FUNGSI KARENA TEMPLATE TIAP GEREJA BEDA-BEDA
@@ -675,6 +677,7 @@ class ImportEksportController extends BaseController {
 									array(
 										'no_dkh'=>"",
 										'id_jemaat'=>$new_anggota->id,
+										'tanggal_dkh'=>$tanggal_dkh,
 										'id_jenis_dkh'=>$alasan->id, //dkh1
 										'keterangan'=>"",
 										'deleted'=>0,
@@ -689,6 +692,7 @@ class ImportEksportController extends BaseController {
 									array(
 										'no_dkh'=>"",
 										'id_jemaat'=>$new_anggota->id,
+										'tanggal_dkh'=>$tanggal_dkh,
 										'id_jenis_dkh'=>1, //dkh
 										'keterangan'=>"",
 										'deleted'=>0,
@@ -704,6 +708,7 @@ class ImportEksportController extends BaseController {
 								array(
 									'no_dkh'=>"",
 									'id_jemaat'=>$new_anggota->id,
+									'tanggal_dkh'=>$tanggal_dkh,
 									'id_jenis_dkh'=>1, //dkh
 									'keterangan'=>"",
 									'deleted'=>0,
@@ -724,6 +729,7 @@ class ImportEksportController extends BaseController {
 									array(
 										'no_dkh'=>"",
 										'id_jemaat'=>$new_anggota->id,
+										'tanggal_dkh'=>$tanggal_ex_dkh,
 										'id_jenis_dkh'=>$alasan->id, //ex-dkh
 										'keterangan'=>"",
 										'deleted'=>0,
@@ -738,6 +744,7 @@ class ImportEksportController extends BaseController {
 									array(
 										'no_dkh'=>"",
 										'id_jemaat'=>$new_anggota->id,
+										'tanggal_dkh'=>$tanggal_ex_dkh,
 										'id_jenis_dkh'=>9, //ex-dkh
 										'keterangan'=>"",
 										'deleted'=>0,
@@ -753,6 +760,7 @@ class ImportEksportController extends BaseController {
 								array(
 									'no_dkh'=>"",
 									'id_jemaat'=>$new_anggota->id,
+									'tanggal_dkh'=>$tanggal_ex_dkh,
 									'id_jenis_dkh'=>9, //ex-dkh
 									'keterangan'=>"",
 									'deleted'=>0,
@@ -773,6 +781,7 @@ class ImportEksportController extends BaseController {
 									array(
 										'no_dkh'=>"",
 										'id_jemaat'=>$new_anggota->id,
+										'tanggal_dkh'=>$tanggal_ex_dkh4,
 										'id_jenis_dkh'=>$alasan->id, //ex-dkh4
 										'keterangan'=>"",
 										'deleted'=>0,
@@ -787,6 +796,7 @@ class ImportEksportController extends BaseController {
 									array(
 										'no_dkh'=>"",
 										'id_jemaat'=>$new_anggota->id,
+										'tanggal_dkh'=>$tanggal_ex_dkh4,
 										'id_jenis_dkh'=>13, //ex-dkh4
 										'keterangan'=>"",
 										'deleted'=>0,
@@ -802,6 +812,7 @@ class ImportEksportController extends BaseController {
 								array(
 									'no_dkh'=>"",
 									'id_jemaat'=>$new_anggota->id,
+									'tanggal_dkh'=>$tanggal_ex_dkh4,
 									'id_jenis_dkh'=>13, //ex-dkh4
 									'keterangan'=>"",
 									'deleted'=>0,
@@ -8737,13 +8748,16 @@ class ImportEksportController extends BaseController {
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	
 	}
 	
-	public function export_anggota($id_gereja,$tahun_pelayanan)
-	{
-		$end_tahun_pelayanan = explode('-',$tahun_pelayanan)[1]; //31 maret
-		$end_tanggal_pelayanan = $end_tahun_pelayanan."-03-31 23:59:59";
+	public function export_anggota($id_gereja,$tahun_awal,$tahun_akhir)
+	{		
+		$end_tanggal_pelayanan = $tahun_akhir."-03-31 23:59:59";
 
-		$data = DB::table('anggota')->where('id_gereja', '=', $id_gereja)->where('created_at', '<', $end_tanggal_pelayanan)->get();
+		$data = DB::table('anggota')->where('id_gereja', '=', $id_gereja)->where('created_at', '<=', $end_tanggal_pelayanan)->where('deleted', '=', 0)->get();
 		
+		if(count($data) == 0){
+			return 'Belum ada data.';
+		}
+
 		//$gereja = Gereja::find($id_gereja);
 		$title_table = 'DATA ANGGOTA JEMAAT '.Session::get('nama').' - BANDUNG'; //nama gereja
 		

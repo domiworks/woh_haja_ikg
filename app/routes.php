@@ -25,7 +25,7 @@ Route::get('/import_data_dbaj_gki_cianjur', ['as' => 'import_data_dbaj_gki_cianj
 
 Route::get('/tes', function(){		
 
-	echo count(Anggota::where('id_gereja','=',5)->where('created_at','<',('2015-03-30'.' 00:00:00.000000'))->where('gender','=',1)->get());
+	//echo count(Anggota::where('id_gereja','=',5)->where('created_at','<',('2015-03-30'.' 00:00:00.000000'))->where('gender','=',1)->get());
 
 	/*
 	$message = "Berhasil";	
@@ -115,6 +115,7 @@ Route::group(['prefix' => 'superadmin', 'before' => 'authSuperAdmin'], function 
 	Route::get('/view_jeniskegiatan', ['as' => 'superadmin_view_input_jenis_kegiatan', 'uses' => 'SuperAdminController@superadmin_view_input_jenis_kegiatan']);	
 	Route::get('/view_account', ['as' => 'superadmin_view_input_auth', 'uses' => 'SuperAdminController@superadmin_view_input_auth']);	
 	Route::get('/view_ubah_password', ['as' => 'superadmin_view_input_ubah_password', 'uses' => 'SuperAdminController@superadmin_view_input_ubah_password']);
+	Route::get('/view_video', ['as' => 'superadmin_view_input_video', 'uses' => 'SuperAdminController@superadmin_view_input_video']);
 	
 	//post data
 	Route::post('/post_gereja', ['as' => 'superadmin_post_gereja', 'uses' => 'SuperAdminController@superadmin_postGereja']);
@@ -122,6 +123,8 @@ Route::group(['prefix' => 'superadmin', 'before' => 'authSuperAdmin'], function 
 	Route::post('/post_jenis_atestasi', ['as' => 'superadmin_post_jenis_atestasi', 'uses' => 'SuperAdminController@superadmin_postJenisAtestasi']);
 	Route::post('/post_jenis_kegiatan', ['as' => 'superadmin_post_jenis_kegiatan', 'uses' => 'SuperAdminController@superadmin_postJenisKegiatan']);
 	Route::post('/post_auth', ['as' => 'superadmin_post_auth', 'uses' => 'SuperAdminController@superadmin_postAuth']);
+	Route::post('/post_video', ['as' => 'superadmin_post_video', 'uses' => 'SuperAdminController@superadmin_postVideo']);
+
 	
 	//edit data
 	Route::post('/edit_gereja', ['as' => 'superadmin_edit_gereja', 'uses' => 'SuperAdminController@superadmin_edit_gereja']);
@@ -143,6 +146,7 @@ Route::group(['prefix' => 'superadmin', 'before' => 'authSuperAdmin'], function 
 	Route::delete('/delete_jenis_atestasi', ['as' => 'superadmin_delete_jenis_atestasi', 'uses' => 'SuperAdminController@superadmin_delete_jenis_atestasi']);
 	Route::delete('/delete_jenis_kegiatan', ['as' => 'superadmin_delete_jenis_kegiatan', 'uses' => 'SuperAdminController@superadmin_delete_jenis_kegiatan']);
 	Route::delete('/delete_auth', ['as' => 'superadmin_delete_auth', 'uses' => 'SuperAdminController@superadmin_delete_auth']);
+
 });
 
 //admin ---> asumsi superuser atau majelis yang bisa lakuin akses apa aj
@@ -213,9 +217,9 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 	
 	Route::post('/import_kegiatan/{id_gereja}', ['as' => 'post.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan']);	
 	Route::post('/import_anggota/{id_gereja}', ['as' => 'post.import_anggota' , 'uses' => 'ImportEksportController@import_anggota']);	
-	
-	Route::get('/export_kegiatan/{id_gereja?}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);		
-	Route::get('/export_anggota/{id_gereja}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']); 		
+		
+	Route::get('/export_kegiatan/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);
+	Route::get('/export_anggota/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']); 		
 
 	//import eksport
 	// Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@view_import_eksport']);	
@@ -312,11 +316,11 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	Route::post('/import_kegiatan/{id_gereja}', ['as' => 'post.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan']);	
 	Route::post('/import_anggota/{id_gereja}', ['as' => 'post.import_anggota' , 'uses' => 'ImportEksportController@import_anggota']);	
 	
-	Route::get('/export_kegiatan/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);		
-	Route::get('/export_anggota/{id_gereja}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']); 	
+	Route::get('/export_kegiatan/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);
+	Route::get('/export_anggota/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']); 	
 		
 	//tutorial
-	Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);		
+	//Route::get('/tutorial', ['as' => 'view_tutorial', 'uses' => 'TutorialController@view_tutorial']);		
 		
 });
 

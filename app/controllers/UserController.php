@@ -3,7 +3,11 @@
 use Carbon\Carbon;
 
 class UserController extends BaseController {
-
+	
+	/*
+		THIS CONTROLLER TEMPORARY UNUSED
+	*/
+	
 	public function view_profile()
 	{
 		$authId = Auth::user()->id;

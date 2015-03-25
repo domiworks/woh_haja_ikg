@@ -8,7 +8,8 @@ class SuperAdminController extends BaseController {
 	{
 		$list_gereja = $this->getListGereja();
 		$data_auth = $this->getDataAuth();
-		return View::make('pages.superadmin.input_auth', compact('list_gereja','data_auth'));
+		// return View::make('pages.superadmin.input_auth', compact('list_gereja','data_auth'));
+		return View::make('pages.__superadmin.input_auth', compact('list_gereja','data_auth'));
 	}
 	
 	public function superadmin_view_input_gereja()
@@ -16,44 +17,43 @@ class SuperAdminController extends BaseController {
 		$list_status_gereja = $this->getListStatusGereja();
 		$list_gereja = $this->getListGereja();	
 		$data_gereja = $this->getDataGereja();		
-		return View::make('pages.superadmin.input_gereja', compact('list_status_gereja','list_gereja','data_gereja'));
+		// return View::make('pages.superadmin.input_gereja', compact('list_status_gereja','list_gereja','data_gereja'));
+		return View::make('pages.__superadmin.input_gereja', compact('list_status_gereja','list_gereja','data_gereja'));
 	}
 	
 	public function superadmin_view_input_jenis_baptis()
 	{
 		$data_jenis_baptis = $this->getDataJenisBaptis();
-		return View::make('pages.superadmin.input_jenisbaptis', compact('data_jenis_baptis'));
+		// return View::make('pages.superadmin.input_jenisbaptis', compact('data_jenis_baptis'));
+		return View::make('pages.__superadmin.input_jenisbaptis', compact('data_jenis_baptis'));
 	}
 	
 	public function superadmin_view_input_jenis_atestasi()
 	{
 		$data_jenis_atestasi = $this->getDataJenisAtestasi();
-		return View::make('pages.superadmin.input_jenisatestasi', compact('data_jenis_atestasi'));
+		// return View::make('pages.superadmin.input_jenisatestasi', compact('data_jenis_atestasi'));
+		return View::make('pages.__superadmin.input_jenisatestasi', compact('data_jenis_atestasi'));
 	}
 	
 	public function superadmin_view_input_jenis_kegiatan()
 	{
 		$data_jenis_kegiatan = $this->getDataJenisKegiatan();
-		return View::make('pages.superadmin.input_jeniskegiatan', compact('data_jenis_kegiatan'));
+		// return View::make('pages.superadmin.input_jeniskegiatan', compact('data_jenis_kegiatan'));
+		return View::make('pages.__superadmin.input_jeniskegiatan', compact('data_jenis_kegiatan'));
 	}
 	
 	public function superadmin_view_input_ubah_password()
 	{
-		return View::make('pages.superadmin.input_ubah_password');
+		// return View::make('pages.superadmin.input_ubah_password');
+		return View::make('pages.__superadmin.input_ubah_password');
 	}
 
-/*----------------------------------------LIVE SEARCH----------------------------------------*/
-
-	public function admin_search_anggota()
-	{	
-		/*
-		try{
-		}catch(Exception $e)
-		{
-		}
-		*/
-		return null;
+	public function superadmin_view_input_video()
+	{
+		// return View::make('pages.superadmin.input_video');
+		return View::make('pages.__superadmin.input_video');
 	}
+
 	
 /*----------------------------------------GET----------------------------------------*/
 
@@ -366,6 +366,51 @@ class SuperAdminController extends BaseController {
 			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal menyimpan data jenis kegiatan');
 			return json_encode($respond);
 		}
+	}
+
+	public function superadmin_postVideo()
+	{					
+		//save video
+		if (Input::hasFile('video'))
+		{		
+			$file = Input::file('video');
+			$destinationPath = "assets/tutorial/";
+			switch (Input::get('kode')) {
+			     case "1": $fileName = "input_kebaktian.mp4"; break;
+			     case "2": $fileName = "input_anggota.mp4"; break;
+			     case "3": $fileName = "input_baptis.mp4"; break;
+			     case "4": $fileName = "input_atestasi.mp4"; break;
+			     case "5": $fileName = "input_pernikahan.mp4"; break;
+			     case "6": $fileName = "input_kedukaan.mp4"; break;
+			     case "7": $fileName = "input_dkh.mp4"; break;
+			     case "8": $fileName = "olah_kebaktian.mp4"; break;
+			     case "9": $fileName = "olah_anggota.mp4"; break;
+			     case "10": $fileName = "olah_baptis.mp4"; break;
+			     case "11": $fileName = "olah_atestasi.mp4"; break;
+			     case "12": $fileName = "olah_pernikahan.mp4"; break;
+			     case "13": $fileName = "olah_kedukaan.mp4"; break;
+			     case "14": $fileName = "olah_dkh.mp4"; break;
+			     case "15": $fileName = "laporan_kebaktian.mp4"; break;
+			     case "16": $fileName = "laporan_persembahan.mp4"; break;
+			     case "17": $fileName = "laporan_anggota.mp4"; break;
+			     case "18": $fileName = "import_eksport_kebaktian.mp4"; break;			     
+			     case "19": $fileName = "import_eksport_anggota.mp4"; break;
+			}										
+			try{
+				$uploadSuccess = $file->move($destinationPath, $fileName);			
+			}catch(Exception $e){																				
+				$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal upload video.');
+				return json_encode($respond);				
+			}					
+			
+		}
+		else
+		{
+			$respond = array('code' => '500', 'status' => 'Internal Server Error', 'messages' => 'Gagal upload video.');			
+			return json_encode($respond);			
+		}
+		$respond = array('code' => '201', 'status' => 'Created', 'messages' => 'Berhasil upload video.');
+		return json_encode($respond);		
 	}
 	
 /*----------------------------------------EDIT----------------------------------------*/	

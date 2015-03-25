@@ -5,28 +5,28 @@
 		@include('includes.head_user')
 		<script>
 
-		function startTime() {
-			var m_names = new Array("Januari", "Februari", "Maret", 
-			"April", "Mei", "Juni", "Juli", "Agustus", "September", 
-			"Oktober", "November", "Desember");
+			function startTime() {
+				var m_names = new Array("Januari", "Februari", "Maret", 
+				"April", "Mei", "Juni", "Juli", "Agustus", "September", 
+				"Oktober", "November", "Desember");
 
-		    var today=new Date();
-		    var mo=today.getMonth();
-		    var da=today.getDate();
-		    var y=today.getFullYear();
-		    var h=today.getHours();
-		    var m=today.getMinutes();
-		    var s=today.getSeconds();
-		    m = checkTime(m);
-		    s = checkTime(s);
-		    document.getElementById('f_clock').innerHTML = da+" "+m_names[mo]+" "+y+" - "+h+":"+m+":"+s;
-		    var t = setTimeout(function(){startTime()},500);
-		}
+			    var today=new Date();
+			    var mo=today.getMonth();
+			    var da=today.getDate();
+			    var y=today.getFullYear();
+			    var h=today.getHours();
+			    var m=today.getMinutes();
+			    var s=today.getSeconds();
+			    m = checkTime(m);
+			    s = checkTime(s);
+			    document.getElementById('f_clock').innerHTML = da+" "+m_names[mo]+" "+y+" - "+h+":"+m+":"+s;
+			    var t = setTimeout(function(){startTime()},500);
+			}
 
-		function checkTime(i) {
-		    if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
-		    return i;
-		}
+			function checkTime(i) {
+			    if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
+			    return i;
+			}
 		</script>
 	</head>
 	<!--<body onload="startTime()">-->
@@ -52,10 +52,10 @@
 		<div class="s_top_header" style="height:110px;background:none;border-bottom:none;">
 			<div class="container-fluid">
 				<div class="row" style="background-color:white;">
-					<div class="col-md-1">
+					<div class="col-md-1 pull-left">
 						<img src="{{URL::to('/assets/logo/logoGKI.jpg')}}" alt="(logo GKI)" style="height: 100px; width: 100px; margin-top:5px;"/>
 					</div>
-					<div class="col-md-4">						
+					<div class="col-md-4 pull-left">						
 						<strong><h2 style="color:black; margin-top: 5px; margin-bottom: 5px;">{{ Session::get('nama') }}</h2></strong>
 						<h4 style="color:black;">
 							{{ Session::get('alamat') }} {{ Session::get('kota') }}
@@ -65,8 +65,12 @@
 						</h4>
 					</div>
 					<div class="col-md-3 pull-right" style="color:black; text-align:right;">
-						Selamat datang, {{ Auth::user()->username }} | {{ HTML::linkRoute('logout', 'keluar', '', array('style'=>'color:blue;'))}}
+						<div style="margin-top:80px;">
+							<p style="color:black;">Selamat datang, {{ Auth::user()->username }} | {{ HTML::linkRoute('logout', 'keluar', '', array('style'=>'color:blue;top:150px;'))}}</p>
+						</div>
 					</div>	
+					<div class="clearfix">
+					</div>
 					<!--
 					<div class="col-lg-8" style="line-height: 69px; text-align: right;">
 						log in as admin | <a href="#">log out</a>
@@ -75,9 +79,11 @@
 				</div>
 			</div>
 		</div>
-			
+							
+		
 		@include('includes.navigation.user')
 		
+
 		<div id="yield_content" class=""> <!-- s_content_admin -->
 			@yield('content')
 		</div>

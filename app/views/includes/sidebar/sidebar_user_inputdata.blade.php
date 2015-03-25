@@ -11,6 +11,6 @@
 	<li>{{HTML::linkRoute('view_inputdata_atestasi', 'Input Data Atestasi', '' , array('style'=>'color:white;'))}}</li>
 	<li>{{HTML::linkRoute('view_inputdata_pernikahan', 'Input Data Pernikahan', '' , array('style'=>'color:white;'))}}</li>
 	<li>{{HTML::linkRoute('view_inputdata_kedukaan', 'Input Data Kedukaan', '' , array('style'=>'color:white;'))}}</li>
-	<li>{{HTML::linkRoute('view_inputdata_dkh', 'Input Data Dkh', '' , array('style'=>'color:white;'))}}</li>
+	<li>{{HTML::linkRoute('view_inputdata_dkh', 'Input Data Dkh', '' , array('style'=>'color:white;'))}}</li>	
 	
 </ul>

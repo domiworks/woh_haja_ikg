@@ -12,5 +12,6 @@
 	<li>{{HTML::linkRoute('superadmin_view_input_jenis_kegiatan', 'Jenis Kebaktian', '' , array('style'=>'color:white;'))}}</li> 
 	<li>{{HTML::linkRoute('superadmin_view_input_auth', 'Akun', '' , array('style'=>'color:white;'))}}</li> 	
 	<li>{{HTML::linkRoute('superadmin_view_input_ubah_password', 'Ubah Password', '' , array('style'=>'color:white;'))}}</li> 	
-	
+	<li>{{HTML::linkRoute('superadmin_view_input_video', 'Video', '' , array('style'=>'color:white;'))}}</li>
+
 </ul>

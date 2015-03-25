@@ -3,7 +3,9 @@
 use Carbon\Carbon;
 
 class InputEditAdminController extends BaseController {
-	
+	/*
+		THIS CONTROLLER TEMPORARY UNUSED
+	*/
 	public function admin_view_input_auth()
 	{
 		$list_gereja = $this->getListGereja();

@@ -1,3 +1,7 @@
+<!-- 
+	THIS VIEW TEMPORARY UNUSED 
+									-->
+
 @extends('layouts.default')
 @section('content')
 	

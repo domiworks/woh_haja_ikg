@@ -2,6 +2,10 @@
 
 class ExcelController extends BaseController {
 
+	/*
+		THIS CONTROLLER TEMPORARY UNUSED
+	*/
+	
 	public function import(){
 		
 		$temp = Excel::selectSheets('Test')->load('public/assets/file_excel/LKKJBULANANGKICianjur10-11.xls','UTF-8');

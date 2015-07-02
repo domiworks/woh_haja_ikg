@@ -52,6 +52,7 @@
 					<div class="panel-body">
 						<form class="form-horizontal">								
 							<div class="pull-right" style="position:relative;">
+								<input type="button" value="Ekspor" id="f_export_filtered_pernikahan" class="btn btn-warning" />
 								<input type="button" value="Help ?" class="btn btn-danger" data-toggle="modal" data-target=".popup_video_olah_pernikahan" />
 							</div>
 							<div class="form-group">
@@ -158,6 +159,23 @@
 
 
 <script>
+	//eksport data pernikahan
+	$('body').on('click', '#f_export_filtered_pernikahan', function(){
+		$no_pernikahan = ($('#f_nomor_pernikahan').val() != "") ? $('#f_nomor_pernikahan').val() : "none" ;		
+		$tanggal_awal = ($('#f_tanggal_awal').val() != "") ? $('#f_tanggal_awal').val() : "none" ;
+		$tanggal_akhir = ($('#f_tanggal_akhir').val() != "") ? $('#f_tanggal_akhir').val() : "none" ;
+		$id_pendeta = ($('#f_id_pendeta').val() != -1) ? $('#f_id_pendeta').val() : -1 ;			
+		$nama_mempelai_wanita = ($('#f_nama_mempelai_wanita').val() != "") ? $('#f_nama_mempelai_wanita').val() : "none" ;
+		$nama_mempelai_pria = ($('#f_nama_mempelai_pria').val() != "") ? $('#f_nama_mempelai_pria').val() : "none" ;		
+		window.open("{{URL('admin/export_filtered_pernikahan')}}/"+
+						$no_pernikahan+"/"+						
+						$tanggal_awal+"/"+					
+						$tanggal_akhir+"/"+					
+						$id_pendeta+"/"+					
+						$nama_mempelai_wanita+"/"+					
+						$nama_mempelai_pria,'_blank');		
+	});
+
 	jQuery('#f_tanggal_awal').datetimepicker({
 		lang:'en',
 		i18n:{

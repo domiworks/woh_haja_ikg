@@ -52,6 +52,7 @@
 					<div class="panel-body">
 						<form class="form-horizontal">	
 							<div class="pull-right" style="position:relative;">
+								<input type="button" value="Ekspor" id="f_export_filtered_dkh" class="btn btn-warning" />
 								<input type="button" value="Help ?" id="f_video_olah_dkh" class="btn btn-danger" data-toggle="modal" data-target=".popup_video_olah_dkh" />
 							</div>
 							<div class="form-group">
@@ -81,7 +82,7 @@
 									-->
 									<?php 
 										$new_list_jenis_dkh = array(
-											'' => 'pilih!'
+											'-1' => 'pilih!'
 										);									
 										foreach($list_jenis_dkh as $id => $key)
 										{
@@ -149,6 +150,22 @@
 </div>
 
 <script>
+	//eksport data dkh
+	$('body').on('click', '#f_export_filtered_dkh', function(){
+		$no_dkh = ($('#f_nomor_dkh').val() != "") ? $('#f_nomor_dkh').val() : "none" ;	
+		$nama_jemaat = ($('#f_nama_jemaat').val() != "") ? $('#f_nama_jemaat').val() : "none" ;		
+		$jenis_dkh = ($('#f_jenis_dkh').val() != -1) ? $('#f_jenis_dkh').val() : -1 ;
+		$tanggal_awal = ($('#f_tanggal_awal').val() != "") ? $('#f_tanggal_awal').val() : "none" ;
+		$tanggal_akhir = ($('#f_tanggal_akhir').val() != "") ? $('#f_tanggal_akhir').val() : "none" ;
+		
+		window.open("{{URL('user/export_filtered_dkh')}}/"+						
+						$no_dkh+"/"+
+						$nama_jemaat+"/"+
+						$jenis_dkh+"/"+
+						$tanggal_awal+"/"+						
+						$tanggal_akhir,'_blank');		
+	});
+
 	jQuery('#f_tanggal_awal').datetimepicker({
 		lang:'en',
 		i18n:{

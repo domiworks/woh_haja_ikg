@@ -50,11 +50,9 @@
 					<div class="panel-body">
 						<form class="form-horizontal">	
 							<div class="pull-right" style="position:relative;">
+								<input type="button" value="Ekspor" id="f_export_filtered_atestasi" class="btn btn-warning" />
 								<input type="button" value="Help ?" id="f_video_olah_atestasi" class="btn btn-danger" data-toggle="modal" data-target=".popup_video_olah_atestasi" />
-							</div>
-							<div class="pull-right" style="position:relative;">
-								<input type="button" value="Help ?" id="f_video_olah_atestasi" class="btn btn-danger" data-toggle="modal" data-target=".popup_video_olah_atestasi" />
-							</div>
+							</div>							
 							<div class="form-group">
 								<label class="col-xs-4 control-label">Nomor Piagam Atestasi</label>
 								<div class="col-xs-4">{{ Form::text('nomor_atestasi', Input::old('nomor_atestasi'), array('id' => 'f_nomor_atestasi', 'class'=>'form-control')) }}</div>
@@ -160,291 +158,312 @@
 </div>	
 
 <script>	
-jQuery('#f_tanggal_awal').datetimepicker({
-	lang:'en',
-	i18n:{
-		en:{
-			months:[
-			'Januari','Februari','Maret','April',
-			'Mei','Juni','Juli','Agustus',
-			'September','Oktober','November','Desember',
-			],
-			dayOfWeek:[
-			"Ming.", "Sen.", "Sel.", "Rab.", 
-			"Kam.", "Jum.", "Sab.",
-			]
-			
-		}
-	},
-	timepicker:false,
-	format: 'Y-m-d',					
-	yearStart: '1900'
-});			
-jQuery('#f_tanggal_akhir').datetimepicker({
-	lang:'en',
-	i18n:{
-		en:{
-			months:[
-			'Januari','Februari','Maret','April',
-			'Mei','Juni','Juli','Agustus',
-			'September','Oktober','November','Desember',
-			],
-			dayOfWeek:[
-			"Ming.", "Sen.", "Sel.", "Rab.", 
-			"Kam.", "Jum.", "Sab.",
-			]
-			
-		}
-	},
-	timepicker:false,
-	format: 'Y-m-d',					
-	yearStart: '1900'
-});	
-	
-//simpen detail 
-var temp_detail = "";
 
-//global variable buat ajax ganti view
-var temp = '';
-	
-$('body').on('click', '#f_search_atestasi', function(){
-
-	//START LOADER				
-	$('.f_loader_container').removeClass('hidden');
+	//eksport data atestasi
+	$('body').on('click', '#f_export_filtered_atestasi', function(){
+		$no_atestasi = ($('#f_nomor_atestasi').val() != "") ? $('#f_nomor_atestasi').val() : "none";			
+		$nama_jemaat = ($('#f_jemaat').val() != "") ? $('#f_jemaat').val() : "none";
+		$tanggal_awal = ($('#f_tanggal_awal').val() != "") ? $('#f_tanggal_awal').val() : "none";		
+		$tanggal_akhir = ($('#f_tanggal_akhir').val() != "") ? $('#f_tanggal_akhir').val() : "none";
+		$id_jenis_atestasi = ($('#f_jenis_atestasi').val() != -1) ? $('#f_jenis_atestasi').val() : -1;		
+		$nama_gereja_lama = ($('#f_nama_gereja_lama').val() != "") ? $('#f_nama_gereja_lama').val() : "none";		
+		$nama_gereja_baru = ($('#f_nama_gereja_baru').val() != "") ? $('#f_nama_gereja_baru').val() : "none";		
 		
-	$no_atestasi = $('#f_nomor_atestasi').val();			
-	$nama_jemaat = $('#f_jemaat').val();
-	$tanggal_awal = $('#f_tanggal_awal').val();		
-	$tanggal_akhir = $('#f_tanggal_akhir').val();
-	$id_jenis_atestasi = $('#f_jenis_atestasi').val();		
-	$nama_gereja_lama = $('#f_nama_gereja_lama').val();		
-	$nama_gereja_baru = $('#f_nama_gereja_baru').val();		
+		window.open("{{URL('user/export_filtered_atestasi')}}/"+
+						$no_atestasi+"/"+
+						$nama_jemaat+"/"+
+						$tanggal_awal+"/"+
+						$tanggal_akhir+"/"+
+						$id_jenis_atestasi+"/"+
+						$nama_gereja_lama+"/"+						
+						$nama_gereja_baru,'_blank');		
+	});
 
-	$data = {
-		'no_atestasi' : $no_atestasi,
-		'nama_jemaat' : $nama_jemaat,
-		'tanggal_awal' : $tanggal_awal,
-		'tanggal_akhir' : $tanggal_akhir,
-		'id_jenis_atestasi' : $id_jenis_atestasi,			
-		'nama_gereja_lama' : $nama_gereja_lama,			
-		'nama_gereja_baru' : $nama_gereja_baru			
-	};		
-
-	var json_data = JSON.stringify($data);
-	
-	$.ajax({
-		type: 'POST',
-		url: "{{URL('user/search_atestasi')}}",
-		data: {
-			'json_data' : json_data
-			// 'data' : $data
-		},
-		success: function(response){	
-			result = JSON.parse(response);
-			if(result.code==200)
-			{
-				// alert(result.messages);
-				alert('Data ditemukan.');
-				temp_detail = result.messages;
-				//$('#temp_result').html(JSON.stringify(temp_detail));
-				var result = "";					
-				result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
-					result += '<thead>';
-						result += '<tr>';
-							result += '<th>';
-								result += 'No. Piagam Atestasi';
-							result += '</th>';
-							result += '<th>';
-								result += 'Nama Anggota';
-							result += '</th>';
-							result += '<th>';
-								result += 'Gereja Lama';
-							result += '</th>';
-							result += '<th>';
-								result += 'Gereja Baru';
-							result += '</th>';
-							result += '<th>';
-								
-							result += '</th>';
-						result += '</tr>';
-					result += '</thead>';
-					result += '<tbody id="f_result_body_atestasi">';
-					//set value di tabel result
-					for($i = 0; $i < temp_detail.length; $i++)
-					{
-						result+= '<tr class="tabel_row'+$i+'">';
-							result+='<td class="tabel_no_atestasi'+$i+'">';
-								result+=temp_detail[$i]['no_atestasi'];								
-							result+='</td>';
-							result+='<td class="tabel_nama_jemaat'+$i+'">';
-								result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];							
-							result+='</td>';
-							result+='<td class="tabel_nama_gereja_lama'+$i+'">';
-								result+=temp_detail[$i]['nama_gereja_lama'];								
-							result+='</td>';
-							result+='<td class="tabel_nama_gereja_baru'+$i+'">';
-								result+=temp_detail[$i]['nama_gereja_baru'];								
-							result+='</td>';
-							result+='<td>';
-								result+='<div class="pull-right">';								
-									result+='<input type="hidden" value='+$i+' />';								
-									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-									result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_atestasi">';
-										result+='Detail/Edit';
-									result+='</button>';
-									result+='<input type="hidden" value='+$i+' />';
-									result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
-									result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
-										result+='Delete';
-									result+='</button>';	
-								result+='</div>';	
-							result+='</td>';							
-						result+='</tr>';
-						// alert(response[$i]['tanggal_mulai']);
-					}
-					result += '</tbody>';
-				result += '</table>';
+	jQuery('#f_tanggal_awal').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
 				
-				// $('#f_result_body_atestasi').html(result);
-				$('#f_result_atestasi').html(result);
-				
-				//END LOADER				
-				$('.f_loader_container').addClass('hidden');
 			}
-			else
-			{
-				alert(result.messages);
-				$('#f_result_atestasi').html("<p>Hasil pencarian tidak didapatkan.</p>");
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});			
+	jQuery('#f_tanggal_akhir').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
 				
-				//END LOADER				
-				$('.f_loader_container').addClass('hidden');
-					
-				// $('#f_result_body_atestasi').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
-				
-			}				
-			/*
-			alert("Berhasil cari data atestasi");
-				// alert(JSON.stringify(response));
-				// $('#temp_result').html(JSON.stringify(response));
-				
-				temp_detail = response;
-				
-				if(response != "no result")
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});	
+		
+	//simpen detail 
+	var temp_detail = "";
+
+	//global variable buat ajax ganti view
+	var temp = '';
+		
+	$('body').on('click', '#f_search_atestasi', function(){
+
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+			
+		$no_atestasi = $('#f_nomor_atestasi').val();			
+		$nama_jemaat = $('#f_jemaat').val();
+		$tanggal_awal = $('#f_tanggal_awal').val();		
+		$tanggal_akhir = $('#f_tanggal_akhir').val();
+		$id_jenis_atestasi = $('#f_jenis_atestasi').val();		
+		$nama_gereja_lama = $('#f_nama_gereja_lama').val();		
+		$nama_gereja_baru = $('#f_nama_gereja_baru').val();		
+
+		$data = {
+			'no_atestasi' : $no_atestasi,
+			'nama_jemaat' : $nama_jemaat,
+			'tanggal_awal' : $tanggal_awal,
+			'tanggal_akhir' : $tanggal_akhir,
+			'id_jenis_atestasi' : $id_jenis_atestasi,			
+			'nama_gereja_lama' : $nama_gereja_lama,			
+			'nama_gereja_baru' : $nama_gereja_baru			
+		};		
+
+		var json_data = JSON.stringify($data);
+		
+		$.ajax({
+			type: 'POST',
+			url: "{{URL('user/search_atestasi')}}",
+			data: {
+				'json_data' : json_data
+				// 'data' : $data
+			},
+			success: function(response){	
+				result = JSON.parse(response);
+				if(result.code==200)
 				{
+					// alert(result.messages);
+					alert('Data ditemukan.');
+					temp_detail = result.messages;
+					//$('#temp_result').html(JSON.stringify(temp_detail));
 					var result = "";					
+					result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
+						result += '<thead>';
+							result += '<tr>';
+								result += '<th>';
+									result += 'No. Piagam Atestasi';
+								result += '</th>';
+								result += '<th>';
+									result += 'Nama Anggota';
+								result += '</th>';
+								result += '<th>';
+									result += 'Gereja Lama';
+								result += '</th>';
+								result += '<th>';
+									result += 'Gereja Baru';
+								result += '</th>';
+								result += '<th>';
+									
+								result += '</th>';
+							result += '</tr>';
+						result += '</thead>';
+						result += '<tbody id="f_result_body_atestasi">';
+						//set value di tabel result
+						for($i = 0; $i < temp_detail.length; $i++)
+						{
+							result+= '<tr class="tabel_row'+$i+'">';
+								result+='<td class="tabel_no_atestasi'+$i+'">';
+									result+=temp_detail[$i]['no_atestasi'];								
+								result+='</td>';
+								result+='<td class="tabel_nama_jemaat'+$i+'">';
+									result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];							
+								result+='</td>';
+								result+='<td class="tabel_nama_gereja_lama'+$i+'">';
+									result+=temp_detail[$i]['nama_gereja_lama'];								
+								result+='</td>';
+								result+='<td class="tabel_nama_gereja_baru'+$i+'">';
+									result+=temp_detail[$i]['nama_gereja_baru'];								
+								result+='</td>';
+								result+='<td>';
+									result+='<div class="pull-right">';								
+										result+='<input type="hidden" value='+$i+' />';								
+										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+										result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_atestasi">';
+											result+='Detail/Edit';
+										result+='</button>';
+										result+='<input type="hidden" value='+$i+' />';
+										result+='<input type="hidden" value='+temp_detail[$i]['id']+' />';
+										result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
+											result+='Delete';
+										result+='</button>';	
+									result+='</div>';	
+								result+='</td>';							
+							result+='</tr>';
+							// alert(response[$i]['tanggal_mulai']);
+						}
+						result += '</tbody>';
+					result += '</table>';
 					
-					//set value di tabel result
-					for($i = 0; $i < response.length; $i++)
-					{
-						result+= '<tr>';
-							result+='<td>';
-								result+=response[$i]['no_atestasi'];								
-							result+='</td>';
-							result+='<td>';
-								result+=response[$i]['nama_depan']+' '+response[$i]['nama_tengah']+' '+response[$i]['nama_belakang'];							
-							result+='</td>';
-														
-							result+='<td>';
-								result+='<input type="hidden" value='+$i+' />';
-								result+='<input type="hidden" value='+response[$i]['id_atestasi']+' />';
-								result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_atestasi">';
-									result+='Edit';
-								result+='</button>';
-								result+='<input type="hidden" value='+response[$i]['id_atestasi']+' />';
-								result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
-									result+='delete';
-								result+='</button>';
-							result+='</td>';
-						result+='</tr>';
-						// alert(response[$i]['tanggal_mulai']);
-					}
+					// $('#f_result_body_atestasi').html(result);
+					$('#f_result_atestasi').html(result);
 					
-					$('#f_result_body_atestasi').html(result);
-				}					
-				else				
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
+				}
+				else
 				{
-					$('#f_result_body_atestasi').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
-				}								
+					alert(result.messages);
+					$('#f_result_atestasi').html("<p>Hasil pencarian tidak didapatkan.</p>");
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
+						
+					// $('#f_result_body_atestasi').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
+					
+				}				
+				/*
+				alert("Berhasil cari data atestasi");
+					// alert(JSON.stringify(response));
+					// $('#temp_result').html(JSON.stringify(response));
+					
+					temp_detail = response;
+					
+					if(response != "no result")
+					{
+						var result = "";					
+						
+						//set value di tabel result
+						for($i = 0; $i < response.length; $i++)
+						{
+							result+= '<tr>';
+								result+='<td>';
+									result+=response[$i]['no_atestasi'];								
+								result+='</td>';
+								result+='<td>';
+									result+=response[$i]['nama_depan']+' '+response[$i]['nama_tengah']+' '+response[$i]['nama_belakang'];							
+								result+='</td>';
+															
+								result+='<td>';
+									result+='<input type="hidden" value='+$i+' />';
+									result+='<input type="hidden" value='+response[$i]['id_atestasi']+' />';
+									result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_atestasi">';
+										result+='Edit';
+									result+='</button>';
+									result+='<input type="hidden" value='+response[$i]['id_atestasi']+' />';
+									result+='<button type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_atestasi">';
+										result+='delete';
+									result+='</button>';
+								result+='</td>';
+							result+='</tr>';
+							// alert(response[$i]['tanggal_mulai']);
+						}
+						
+						$('#f_result_body_atestasi').html(result);
+					}					
+					else				
+					{
+						$('#f_result_body_atestasi').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");					
+					}								
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					alert(errorThrown);
+				}
+				*/
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				alert(errorThrown);
+				//END LOADER				
+				$('.f_loader_container').addClass('hidden');
 			}
-			*/
-		},
-		error: function(jqXHR, textStatus, errorThrown){
-			alert(errorThrown);
-			//END LOADER				
-			$('.f_loader_container').addClass('hidden');
+		},'json');
+	});
+
+	//click detail button
+	$('body').on('click', '.detailButton', function(){
+		$id = $(this).prev().val();	
+		$index = $(this).prev().prev().val();
+		
+		temp = $(this).prev().prev().val();
+		
+		//set value di table pop up detail
+		$('#f_edit_nomor_atestasi').val(temp_detail[$index]['no_atestasi']);
+		$('#f_edit_jemaat').val(temp_detail[$index]['id_anggota']);
+		$('#f_edit_tanggal_atestasi').val(temp_detail[$index]['tanggal_atestasi']);
+		$('#f_edit_jenis_atestasi').val(temp_detail[$index]['id_jenis_atestasi']);
+		if(temp_detail[$index]['id_gereja_lama'] == null)
+		{
+			$('#f_edit_check_gereja_lama').val(1);
+			$('#f_edit_check_gereja_lama').prop('checked', true);
+			$('#f_edit_list_gereja_lama').attr('disabled', true);
+			$('#f_edit_nama_gereja_lama').attr('disabled', false);
+			$('#f_edit_nama_gereja_lama').val(temp_detail[$index]['nama_gereja_lama']);			
+			//clear background
+			$('#f_edit_nama_gereja_lama').css('background-color','#FFFFFF');	
 		}
-	},'json');
-});
+		else
+		{
+			$('#f_edit_check_gereja_lama').val(0);
+			
+			$('#f_edit_list_gereja_lama').attr('disabled', false);
+			$('#f_edit_nama_gereja_lama').attr('disabled', true);
+			$('#f_edit_list_gereja_lama').val(temp_detail[$index]['id_gereja_lama']);
+			$('#f_edit_nama_gereja_lama').val(temp_detail[$index]['nama_gereja_lama']);			
+			//clear background
+			$('#f_edit_nama_gereja_lama').css('background-color','#eee');	
+		}
+		if(temp_detail[$index]['id_gereja_baru'] == null)
+		{
+			$('#f_edit_check_gereja_baru').val(1);
+			$('#f_edit_check_gereja_baru').prop('checked', true);
+			$('#f_edit_list_gereja_baru').attr('disabled', true);
+			$('#f_edit_nama_gereja_baru').attr('disabled', false);
+			$('#f_edit_nama_gereja_baru').val(temp_detail[$index]['nama_gereja_baru']);			
+			//clear background
+			$('#f_edit_nama_gereja_baru').css('background-color','#FFFFFF');
+		}
+		else
+		{
+			$('#f_edit_check_gereja_baru').val(0);
+			
+			$('#f_edit_list_gereja_baru').attr('disabled', false);
+			$('#f_edit_nama_gereja_baru').attr('disabled', true);
+			$('#f_edit_list_gereja_baru').val(temp_detail[$index]['id_gereja_baru']);
+			$('#f_edit_nama_gereja_baru').val(temp_detail[$index]['nama_gereja_baru']);				
+			//clear background
+			$('#f_edit_nama_gereja_baru').css('background-color','#eee');
+		}	
+		$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);			
 
-//click detail button
-$('body').on('click', '.detailButton', function(){
-	$id = $(this).prev().val();	
-	$index = $(this).prev().prev().val();
-	
-	temp = $(this).prev().prev().val();
-	
-	//set value di table pop up detail
-	$('#f_edit_nomor_atestasi').val(temp_detail[$index]['no_atestasi']);
-	$('#f_edit_jemaat').val(temp_detail[$index]['id_anggota']);
-	$('#f_edit_tanggal_atestasi').val(temp_detail[$index]['tanggal_atestasi']);
-	$('#f_edit_jenis_atestasi').val(temp_detail[$index]['id_jenis_atestasi']);
-	if(temp_detail[$index]['id_gereja_lama'] == null)
-	{
-		$('#f_edit_check_gereja_lama').val(1);
-		$('#f_edit_check_gereja_lama').prop('checked', true);
-		$('#f_edit_list_gereja_lama').attr('disabled', true);
-		$('#f_edit_nama_gereja_lama').attr('disabled', false);
-		$('#f_edit_nama_gereja_lama').val(temp_detail[$index]['nama_gereja_lama']);			
-		//clear background
-		$('#f_edit_nama_gereja_lama').css('background-color','#FFFFFF');	
-	}
-	else
-	{
-		$('#f_edit_check_gereja_lama').val(0);
-		
-		$('#f_edit_list_gereja_lama').attr('disabled', false);
-		$('#f_edit_nama_gereja_lama').attr('disabled', true);
-		$('#f_edit_list_gereja_lama').val(temp_detail[$index]['id_gereja_lama']);
-		$('#f_edit_nama_gereja_lama').val(temp_detail[$index]['nama_gereja_lama']);			
-		//clear background
-		$('#f_edit_nama_gereja_lama').css('background-color','#eee');	
-	}
-	if(temp_detail[$index]['id_gereja_baru'] == null)
-	{
-		$('#f_edit_check_gereja_baru').val(1);
-		$('#f_edit_check_gereja_baru').prop('checked', true);
-		$('#f_edit_list_gereja_baru').attr('disabled', true);
-		$('#f_edit_nama_gereja_baru').attr('disabled', false);
-		$('#f_edit_nama_gereja_baru').val(temp_detail[$index]['nama_gereja_baru']);			
-		//clear background
-		$('#f_edit_nama_gereja_baru').css('background-color','#FFFFFF');
-	}
-	else
-	{
-		$('#f_edit_check_gereja_baru').val(0);
-		
-		$('#f_edit_list_gereja_baru').attr('disabled', false);
-		$('#f_edit_nama_gereja_baru').attr('disabled', true);
-		$('#f_edit_list_gereja_baru').val(temp_detail[$index]['id_gereja_baru']);
-		$('#f_edit_nama_gereja_baru').val(temp_detail[$index]['nama_gereja_baru']);				
-		//clear background
-		$('#f_edit_nama_gereja_baru').css('background-color','#eee');
-	}	
-	$('#f_edit_keterangan').val(temp_detail[$index]['keterangan']);			
+		//clear background		
+		$('#f_edit_nomor_atestasi').css('background-color','#FFFFFF');
+		$('#f_edit_tanggal_atestasi').css('background-color','#FFFFFF');		
+	});	
 
-	//clear background		
-	$('#f_edit_nomor_atestasi').css('background-color','#FFFFFF');
-	$('#f_edit_tanggal_atestasi').css('background-color','#FFFFFF');		
-});	
-
-//click delete button
-$('body').on('click', '.deleteButton', function(){
-	$id = $(this).prev().val();
-	temp = $(this).prev().prev().val();
-});
+	//click delete button
+	$('body').on('click', '.deleteButton', function(){
+		$id = $(this).prev().val();
+		temp = $(this).prev().prev().val();
+	});
 
 </script>
 

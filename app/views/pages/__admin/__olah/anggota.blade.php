@@ -53,6 +53,7 @@
 					<div class="panel-body">						
 						<form class="form-horizontal">								
 							<div class="pull-right" style="position:relative;">
+								<input type="button" value="Ekspor" id="f_export_filtered_anggota" class="btn btn-warning" />
 								<input type="button" value="Help ?" class="btn btn-danger" data-toggle="modal" data-target=".popup_video_olah_anggota" />
 							</div>
 							<div class="form-group">
@@ -227,6 +228,36 @@
 
 
 <script>	
+//eksport data anggota
+	$('body').on('click', '#f_export_filtered_anggota', function(){
+		$nomor_anggota = ($('#f_nomor_anggota').val() != "") ? $('#f_nomor_anggota').val() : "none" ;					
+		$nama = ($('#f_nama').val() != "") ? $('#f_nama').val() : "none" ;					
+		$tanggal_awal = ($('#f_tanggal_awal').val() != "") ? $('#f_tanggal_awal').val() : "none" ;		
+		$tanggal_akhir = ($('#f_tanggal_akhir').val() != "") ? $('#f_tanggal_akhir').val() : "none" ;		
+		$kota = ($('#f_kota').val() != "") ? $('#f_kota').val() : "none" ;				
+		$gender = ($('#f_gender').val() != "") ? $('#f_gender').val() : "none" ;		
+		$wilayah = ($('#f_wilayah').val() != "") ? $('#f_wilayah').val() : "none" ;			
+		$gol_darah = ($('#f_gol_darah').val() != "") ? $('#f_gol_darah').val() : "none" ;				
+		$pendidikan = ($('#f_pendidikan').val() != "") ? $('#f_pendidikan').val() : "none" ;			
+		$pekerjaan = ($('#f_pekerjaan').val() != "") ? $('#f_pekerjaan').val() : "none" ;			
+		$etnis = ($('#f_etnis').val() != "") ? $('#f_etnis').val() : "none" ;					
+		$role = ($('#f_status').val() != "") ? $('#f_status').val() : "none" ;
+				
+		window.open("{{URL('admin/export_filtered_anggota')}}/"+
+						$nomor_anggota+"/"+
+						$nama+"/"+
+						$tanggal_awal+"/"+
+						$tanggal_akhir+"/"+
+						$kota+"/"+
+						$gender+"/"+
+						$wilayah+"/"+
+						$gol_darah+"/"+
+						$pendidikan+"/"+
+						$pekerjaan+"/"+
+						$etnis+"/"+						
+						$role,'_blank');		
+	});
+
 jQuery('#f_tanggal_awal').datetimepicker({
 	lang:'en',
 	i18n:{

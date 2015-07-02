@@ -50,6 +50,7 @@
 					<div class="panel-body">
 						<form class="form-horizontal">								
 							<div class="pull-right" style="position:relative;">
+								<input type="button" value="Ekspor" id="f_export_filtered_atestasi" class="btn btn-warning" />
 								<input type="button" value="Help ?" class="btn btn-danger" data-toggle="modal" data-target=".popup_video_olah_atestasi" />
 							</div>
 							<div class="form-group">
@@ -157,6 +158,26 @@
 </div>	
 
 <script>	
+//eksport data atestasi
+	$('body').on('click', '#f_export_filtered_atestasi', function(){
+		$no_atestasi = ($('#f_nomor_atestasi').val() != "") ? $('#f_nomor_atestasi').val() : "none";			
+		$nama_jemaat = ($('#f_jemaat').val() != "") ? $('#f_jemaat').val() : "none";
+		$tanggal_awal = ($('#f_tanggal_awal').val() != "") ? $('#f_tanggal_awal').val() : "none";		
+		$tanggal_akhir = ($('#f_tanggal_akhir').val() != "") ? $('#f_tanggal_akhir').val() : "none";
+		$id_jenis_atestasi = ($('#f_jenis_atestasi').val() != -1) ? $('#f_jenis_atestasi').val() : -1;		
+		$nama_gereja_lama = ($('#f_nama_gereja_lama').val() != "") ? $('#f_nama_gereja_lama').val() : "none";		
+		$nama_gereja_baru = ($('#f_nama_gereja_baru').val() != "") ? $('#f_nama_gereja_baru').val() : "none";		
+		
+		window.open("{{URL('admin/export_filtered_atestasi')}}/"+
+						$no_atestasi+"/"+
+						$nama_jemaat+"/"+
+						$tanggal_awal+"/"+
+						$tanggal_akhir+"/"+
+						$id_jenis_atestasi+"/"+
+						$nama_gereja_lama+"/"+						
+						$nama_gereja_baru,'_blank');		
+	});
+
 jQuery('#f_tanggal_awal').datetimepicker({
 	lang:'en',
 	i18n:{

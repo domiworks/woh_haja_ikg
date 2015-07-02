@@ -51,6 +51,7 @@
 					<div class="panel-body">
 						<form class="form-horizontal">								
 							<div class="pull-right" style="position:relative;">
+								<input type="button" value="Ekspor" id="f_export_filtered_kedukaan" class="btn btn-warning" />
 								<input type="button" value="Help ?" class="btn btn-danger" data-toggle="modal" data-target=".popup_video_olah_kedukaan" />
 							</div>
 							<div class="form-group">
@@ -130,6 +131,19 @@
 </div>		
 
 <script>
+//eksport data kedukaan
+	$('body').on('click', '#f_export_filtered_kedukaan', function(){
+		$no_kedukaan = ($('#f_nomor_kedukaan').val() != "") ? $('#f_nomor_kedukaan').val() : "none" ;
+		$tanggal_awal = ($('#f_tanggal_awal').val() != "") ? $('#f_tanggal_awal').val() : "none" ;
+		$tanggal_akhir = ($('#f_tanggal_akhir').val() != "") ? $('#f_tanggal_akhir').val() : "none" ;
+		$nama_jemaat = ($('#f_nama_jemaat').val() != "") ? $('#f_nama_jemaat').val() : "none" ;		
+		window.open("{{URL('admin/export_filtered_kedukaan')}}/"+
+			$no_kedukaan+"/"+
+			$tanggal_awal+"/"+
+			$tanggal_akhir+"/"+			
+			$nama_jemaat,'_blank');		
+	});
+
 jQuery('#f_tanggal_awal').datetimepicker({
 	lang:'en',
 	i18n:{

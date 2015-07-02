@@ -60,6 +60,7 @@
 					<div class="panel-body">					
 						<form class="form-horizontal">
 							<div class="pull-right" style="position:relative;">
+								<input type="button" value="Ekspor" id="f_export_filtered_kebaktian" class="btn btn-warning" />
 								<input type="button" value="Help ?" class="btn btn-danger" data-toggle="modal" data-target=".popup_video_olah_kebaktian" />
 							</div>
 							<div class="form-group">
@@ -197,6 +198,43 @@
 </div>	
 
 <script>
+	//eksport data kebaktian
+	$('body').on('click', '#f_export_filtered_kebaktian', function(){
+		$nama_kebaktian = ($('#f_nama_kebaktian').val() != "") ? $('#f_nama_kebaktian').val() : "none" ;				
+		$nama_pendeta = ($('#f_nama_pengkotbah').val() != "") ? $('#f_nama_pengkotbah').val() : "none";					
+		$tanggal_awal = ($('#f_tanggal_awal').val() != "") ? $('#f_tanggal_awal').val() : "none";
+		$tanggal_akhir = ($('#f_tanggal_akhir').val() != "") ? $('#f_tanggal_akhir').val() : "none";
+		$jam_awal = ($('#f_jam_awal').val() != "") ? $('#f_jam_awal').val() : "none";
+		$jam_akhir = ($('#f_jam_akhir').val() != "") ? $('#f_jam_akhir').val() : "none";		
+		$batas_bawah_hadir_jemaat = ($('#f_batas_bawah_hadir_jemaat').val() != "") ? $('#f_batas_bawah_hadir_jemaat').val() : "none";
+		$batas_atas_hadir_jemaat = ($('#f_batas_atas_hadir_jemaat').val() != "") ? $('#f_batas_atas_hadir_jemaat').val() : "none";
+		$batas_bawah_hadir_simpatisan = ($('#f_batas_bawah_hadir_simpatisan').val() != "") ? $('#f_batas_bawah_hadir_simpatisan').val() : "none";
+		$batas_atas_hadir_simpatisan = ($('#f_batas_atas_hadir_simpatisan').val() != "") ? $('#f_batas_atas_hadir_simpatisan').val() : "none";
+		$batas_bawah_hadir_penatua = ($('#f_batas_bawah_hadir_penatua').val() != "") ? $('#f_batas_bawah_hadir_penatua').val() : "none";
+		$batas_atas_hadir_penatua = ($('#f_batas_atas_hadir_penatua').val() != "") ? $('#f_batas_atas_hadir_penatua').val() : "none";
+		$batas_bawah_hadir_pemusik = ($('#f_batas_bawah_hadir_pemusik').val() != "") ? $('#f_batas_bawah_hadir_pemusik').val() : "none";
+		$batas_atas_hadir_pemusik = ($('#f_batas_atas_hadir_pemusik').val() != "") ? $('#f_batas_atas_hadir_pemusik').val() : "none";
+		$batas_bawah_hadir_komisi = ($('#f_batas_bawah_hadir_komisi').val() != "") ? $('#f_batas_bawah_hadir_komisi').val() : "none";
+		$batas_atas_hadir_komisi = ($('#f_batas_atas_hadir_komisi').val() != "") ? $('#f_batas_atas_hadir_komisi').val() : "none";								
+		window.open("{{URL('admin/export_filtered_kegiatan')}}/"+
+						$nama_kebaktian+"/"+
+						$nama_pendeta+"/"+
+						$tanggal_awal+"/"+
+						$tanggal_akhir+"/"+
+						$jam_awal+"/"+
+						$jam_akhir+"/"+
+						$batas_bawah_hadir_jemaat+"/"+
+						$batas_atas_hadir_jemaat+"/"+
+						$batas_bawah_hadir_simpatisan+"/"+
+						$batas_atas_hadir_simpatisan+"/"+
+						$batas_bawah_hadir_penatua+"/"+
+						$batas_atas_hadir_penatua+"/"+
+						$batas_bawah_hadir_pemusik+"/"+
+						$batas_atas_hadir_pemusik+"/"+
+						$batas_bawah_hadir_komisi+"/"+
+						$batas_atas_hadir_komisi,'_blank');		
+	});
+
 	// $('#f_tanggal_awal').datepicker({
 		// format: 'yyyy-m-d'
 	// });

@@ -916,7 +916,7 @@ class OlahDataController extends BaseController {
 			}
 		}
 
-		if($id_jenis_dkh != "")
+		if($id_jenis_dkh != -1)
 		{
 			$dkh = $dkh->where('dkh.id_jenis_dkh', '=', $id_jenis_dkh);
 		}

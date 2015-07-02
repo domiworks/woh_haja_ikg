@@ -18,7 +18,7 @@
 				<div style="margin-top: 15px;" class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">
-							IMPORT / EKSPORT DATA KEBAKTIAN
+							IMPOR / EKSPOR DATA KEBAKTIAN
 						</h3>
 					</div>
 					<div class="panel-body">
@@ -50,7 +50,7 @@
 				<div style="margin-top: 15px;" class="panel panel-primary">
 					<div class="panel-heading">
 						<h3 class="panel-title">
-							IMPORT / EKSPORT DATA ANGGOTA
+							IMPOR / EKSPOR DATA ANGGOTA
 						</h3>
 					</div>
 					<div class="panel-body">

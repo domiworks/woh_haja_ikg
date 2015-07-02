@@ -53,6 +53,7 @@
 					<div class="panel-body">						
 						<form class="form-horizontal">	
 							<div class="pull-right" style="position:relative;">
+								<input type="button" value="Ekspor" id="f_export_filtered_anggota" class="btn btn-warning" />
 								<input type="button" value="Help ?" id="f_video_olah_anggota" class="btn btn-danger" data-toggle="modal" data-target=".popup_video_olah_anggota" />
 							</div>
 							<div class="form-group">
@@ -227,358 +228,389 @@
 
 
 <script>	
-jQuery('#f_tanggal_awal').datetimepicker({
-	lang:'en',
-	i18n:{
-		en:{
-			months:[
-			'Januari','Februari','Maret','April',
-			'Mei','Juni','Juli','Agustus',
-			'September','Oktober','November','Desember',
-			],
-			dayOfWeek:[
-			"Ming.", "Sen.", "Sel.", "Rab.", 
-			"Kam.", "Jum.", "Sab.",
-			]
-		}
-	},
-	timepicker:false,
-	format: 'Y-m-d',					
-	yearStart: '1900'
-});	
-		
-jQuery('#f_tanggal_akhir').datetimepicker({
-	lang:'en',
-	i18n:{
-		en:{
-			months:[
-			'Januari','Februari','Maret','April',
-			'Mei','Juni','Juli','Agustus',
-			'September','Oktober','November','Desember',
-			],
-			dayOfWeek:[
-			"Ming.", "Sen.", "Sel.", "Rab.", 
-			"Kam.", "Jum.", "Sab.",
-			]
-			
-		}
-	},
-	timepicker:false,
-	format: 'Y-m-d',					
-	yearStart: '1900'
-});	
 
-$('body').on('change','#f_edit_foto',function(){
-	var i = 0, len = this.files.length, img, reader, file;			
-	for ( ; i < len; i++ ) {
-		file = this.files[i];
-		if (!!file.type.match(/image.*/)) {
-			if ( window.FileReader ) {
-				reader = new FileReader();
-				reader.onloadend = function (e) { 										
-					$('#show_foto').attr('src', e.target.result);																	
-				};
-				reader.readAsDataURL(file);
-			}
-			imageUpload = file;
-		}	
-	}
-});
-
-function isNumberKey(evt){
-	var charCode = (evt.which) ? evt.which : event.keyCode
-	if (charCode > 31 && (charCode < 48 || charCode > 57))
-		return false;
-	return true;
-}
-
-//simpen detail 
-var temp_detail = "";
-
-//global variable buat ajax ganti view
-var temp = '';
-	
-$('body').on('click', '#f_search_anggota', function(){			
-
-	//START LOADER				
-	$('.f_loader_container').removeClass('hidden');
-		
-	var data, xhr;
-	data = new FormData();
-	
-	$nomor_anggota = $('#f_nomor_anggota').val();			
-	data.append('no_anggota', $nomor_anggota);	
-	// alert($nomor_anggota);
-	$nama = $('#f_nama').val();	
-	data.append('nama', $nama);				
-	// alert($nama);
-	$kota = $('#f_kota').val();
-	data.append('kota', $kota);		
-	// alert($kota);
-	// $gender = $('input[name="gender"]:checked').val()	
-	$gender = $('#f_gender').val();
-	data.append('gender', $gender);			
-	
-	// alert($gender);
-	$wilayah = $('#f_wilayah').val();	
-	data.append('wilayah', $wilayah);			
-	// alert($wilayah);
-	$gol_darah = $('#f_gol_darah').val();		
-	data.append('gol_darah', $gol_darah);
-	// alert($gol_darah);
-	$pendidikan = $('#f_pendidikan').val();	
-	data.append('pendidikan', $pendidikan);
-	// alert($pendidikan);
-	$pekerjaan = $('#f_pekerjaan').val();	
-	data.append('pekerjaan', $pekerjaan);
-	// alert($pekerjaan);
-	$etnis = $('#f_etnis').val();	
-	data.append('etnis', $etnis);		
-	// alert($etnis);
-	// $tanggal_lahir = $('#f_tanggal_lahir').val();	
-		// data.append('tanggal_lahir', $tanggal_lahir);
-	$tanggal_awal = $('#f_tanggal_awal').val();
-	data.append('tanggal_awal', $tanggal_awal);
-	$tanggal_akhir = $('#f_tanggal_akhir').val();
-	data.append('tanggal_akhir', $tanggal_akhir);
-	// alert($tanggal_lahir);
-	// $anggota_gereja = $('#f_id_gereja').val();			
-		// data.append('id_gereja', $anggota_gereja);		
-	// alert($anggota_gereja);
-	$role = $('#f_status').val();
-	data.append('role', $role);	
-	// alert($role);
-	
-		
-	$.ajax({
-		type: 'POST',
-		url: "{{URL('user/search_anggota')}}",
-		data : data,
-		processData: false,
-		contentType: false,	
-		success: function(response){	
-			// alert('hemmm');
-			
-			result = JSON.parse(response);		
-			
-			if(result.code==200)
-			{			
-				alert('Data ditemukan.');			
-				temp_detail = result.messages;				
-					// $('#temp_result').html(JSON.stringify(temp_detail));
-				var result = '';
-				result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
-					result += '<thead>';
-						result += '<tr>';
-							result += '<th>';
-								result += 'No. Anggota';
-							result += '</th>';
-							result += '<th>';
-								result += 'Nama Anggota';
-							result += '</th>';
-							result += '<th>';
-								result += 'Status';
-							result += '</th>';
-							result += '<th>';
-								
-							result += '</th>';
-						result += '</tr>';
-					result += '</thead>';
-					result += '<tbody id="f_result_body_anggota">';
-					//set value di tabel result
-					for($i = 0; $i < temp_detail.length; $i++)
-					{
-						result+= '<tr class="tabel_row'+$i+'">';
-							result+='<td class="tabel_no_anggota'+$i+'">';
-								result+=temp_detail[$i]['no_anggota'];								
-							result+='</td>';
-							result+='<td class="tabel_nama_anggota'+$i+'">';
-								result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
-							result+='</td>';
-							result+='<td class="tabel_status'+$i+'">';
-								//set status
-								if(temp_detail[$i]['role'] == 1)
-								{
-									result+='jemaat';
-								}
-								else if(temp_detail[$i]['role'] == 2)
-								{
-									result+='pendeta';
-								}
-								else if(temp_detail[$i]['role'] == 3)
-								{
-									result+='penatua';
-								}
-								else if(temp_detail[$i]['role'] == 4)
-								{
-									result+='majelis';
-								}
-							result+='</td>';
-							result+='<td>';
-								result+='<div class="pull-right">';
-									result+='<input type="hidden" value='+$i+' />';
-									result+='<input type="hidden" value='+temp_detail[$i]['id_anggota']+' />';
-									result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_anggota">';
-										result+='Detail/Edit';
-									result+='</button>';
-									result+='<input type="hidden" value='+$i+' />';
-									result+='<input type="hidden" value='+temp_detail[$i]['id_anggota']+' />';
-									result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_anggota">';
-										result+='Delete';
-									result+='</button>';
-								result+='</div>';	
-							result+='</td>';							
-						result+='</tr>';							
-					
-					}
-					result+='</tbody>';
-				result+='</table>';					
-					
-				$('#f_result_anggota').html(result);
-				// $('#f_result_body_anggota').html(result);										
-				//END LOADER				
-				$('.f_loader_container').addClass('hidden');
-			}
-			else				
-			{
-				alert(result.messages);
-				$('#f_result_anggota').html("<p>Hasil pencarian tidak didapatkan.</p>");
+	//eksport data anggota
+	$('body').on('click', '#f_export_filtered_anggota', function(){
+		$nomor_anggota = ($('#f_nomor_anggota').val() != "") ? $('#f_nomor_anggota').val() : "none" ;					
+		$nama = ($('#f_nama').val() != "") ? $('#f_nama').val() : "none" ;					
+		$tanggal_awal = ($('#f_tanggal_awal').val() != "") ? $('#f_tanggal_awal').val() : "none" ;		
+		$tanggal_akhir = ($('#f_tanggal_akhir').val() != "") ? $('#f_tanggal_akhir').val() : "none" ;		
+		$kota = ($('#f_kota').val() != "") ? $('#f_kota').val() : "none" ;				
+		$gender = ($('#f_gender').val() != "") ? $('#f_gender').val() : "none" ;		
+		$wilayah = ($('#f_wilayah').val() != "") ? $('#f_wilayah').val() : "none" ;			
+		$gol_darah = ($('#f_gol_darah').val() != "") ? $('#f_gol_darah').val() : "none" ;				
+		$pendidikan = ($('#f_pendidikan').val() != "") ? $('#f_pendidikan').val() : "none" ;			
+		$pekerjaan = ($('#f_pekerjaan').val() != "") ? $('#f_pekerjaan').val() : "none" ;			
+		$etnis = ($('#f_etnis').val() != "") ? $('#f_etnis').val() : "none" ;					
+		$role = ($('#f_status').val() != "") ? $('#f_status').val() : "none" ;
 				
+		window.open("{{URL('user/export_filtered_anggota')}}/"+
+						$nomor_anggota+"/"+
+						$nama+"/"+
+						$tanggal_awal+"/"+
+						$tanggal_akhir+"/"+
+						$kota+"/"+
+						$gender+"/"+
+						$wilayah+"/"+
+						$gol_darah+"/"+
+						$pendidikan+"/"+
+						$pekerjaan+"/"+
+						$etnis+"/"+						
+						$role,'_blank');		
+	});
+
+	jQuery('#f_tanggal_awal').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});	
+			
+	jQuery('#f_tanggal_akhir').datetimepicker({
+		lang:'en',
+		i18n:{
+			en:{
+				months:[
+				'Januari','Februari','Maret','April',
+				'Mei','Juni','Juli','Agustus',
+				'September','Oktober','November','Desember',
+				],
+				dayOfWeek:[
+				"Ming.", "Sen.", "Sel.", "Rab.", 
+				"Kam.", "Jum.", "Sab.",
+				]
+				
+			}
+		},
+		timepicker:false,
+		format: 'Y-m-d',					
+		yearStart: '1900'
+	});	
+
+	$('body').on('change','#f_edit_foto',function(){
+		var i = 0, len = this.files.length, img, reader, file;			
+		for ( ; i < len; i++ ) {
+			file = this.files[i];
+			if (!!file.type.match(/image.*/)) {
+				if ( window.FileReader ) {
+					reader = new FileReader();
+					reader.onloadend = function (e) { 										
+						$('#show_foto').attr('src', e.target.result);																	
+					};
+					reader.readAsDataURL(file);
+				}
+				imageUpload = file;
+			}	
+		}
+	});
+
+	function isNumberKey(evt){
+		var charCode = (evt.which) ? evt.which : event.keyCode
+		if (charCode > 31 && (charCode < 48 || charCode > 57))
+			return false;
+		return true;
+	}
+
+	//simpen detail 
+	var temp_detail = "";
+
+	//global variable buat ajax ganti view
+	var temp = '';
+		
+	$('body').on('click', '#f_search_anggota', function(){			
+
+		//START LOADER				
+		$('.f_loader_container').removeClass('hidden');
+			
+		var data, xhr;
+		data = new FormData();
+		
+		$nomor_anggota = $('#f_nomor_anggota').val();			
+		data.append('no_anggota', $nomor_anggota);	
+		// alert($nomor_anggota);
+		$nama = $('#f_nama').val();	
+		data.append('nama', $nama);				
+		// alert($nama);
+		$kota = $('#f_kota').val();
+		data.append('kota', $kota);		
+		// alert($kota);
+		// $gender = $('input[name="gender"]:checked').val()	
+		$gender = $('#f_gender').val();
+		data.append('gender', $gender);			
+		
+		// alert($gender);
+		$wilayah = $('#f_wilayah').val();	
+		data.append('wilayah', $wilayah);			
+		// alert($wilayah);
+		$gol_darah = $('#f_gol_darah').val();		
+		data.append('gol_darah', $gol_darah);
+		// alert($gol_darah);
+		$pendidikan = $('#f_pendidikan').val();	
+		data.append('pendidikan', $pendidikan);
+		// alert($pendidikan);
+		$pekerjaan = $('#f_pekerjaan').val();	
+		data.append('pekerjaan', $pekerjaan);
+		// alert($pekerjaan);
+		$etnis = $('#f_etnis').val();	
+		data.append('etnis', $etnis);		
+		// alert($etnis);
+		// $tanggal_lahir = $('#f_tanggal_lahir').val();	
+			// data.append('tanggal_lahir', $tanggal_lahir);
+		$tanggal_awal = $('#f_tanggal_awal').val();
+		data.append('tanggal_awal', $tanggal_awal);
+		$tanggal_akhir = $('#f_tanggal_akhir').val();
+		data.append('tanggal_akhir', $tanggal_akhir);
+		// alert($tanggal_lahir);
+		// $anggota_gereja = $('#f_id_gereja').val();			
+			// data.append('id_gereja', $anggota_gereja);		
+		// alert($anggota_gereja);
+		$role = $('#f_status').val();
+		data.append('role', $role);	
+		// alert($role);
+		
+			
+		$.ajax({
+			type: 'POST',
+			url: "{{URL('user/search_anggota')}}",
+			data : data,
+			processData: false,
+			contentType: false,	
+			success: function(response){	
+				// alert('hemmm');
+				
+				result = JSON.parse(response);		
+				
+				if(result.code==200)
+				{			
+					alert('Data ditemukan.');			
+					temp_detail = result.messages;				
+						// $('#temp_result').html(JSON.stringify(temp_detail));
+					var result = '';
+					result += '<table style="margin-bottom: 0px;" class="table table-bordered">';
+						result += '<thead>';
+							result += '<tr>';
+								result += '<th>';
+									result += 'No. Anggota';
+								result += '</th>';
+								result += '<th>';
+									result += 'Nama Anggota';
+								result += '</th>';
+								result += '<th>';
+									result += 'Status';
+								result += '</th>';
+								result += '<th>';
+									
+								result += '</th>';
+							result += '</tr>';
+						result += '</thead>';
+						result += '<tbody id="f_result_body_anggota">';
+						//set value di tabel result
+						for($i = 0; $i < temp_detail.length; $i++)
+						{
+							result+= '<tr class="tabel_row'+$i+'">';
+								result+='<td class="tabel_no_anggota'+$i+'">';
+									result+=temp_detail[$i]['no_anggota'];								
+								result+='</td>';
+								result+='<td class="tabel_nama_anggota'+$i+'">';
+									result+=temp_detail[$i]['nama_depan']+' '+temp_detail[$i]['nama_tengah']+' '+temp_detail[$i]['nama_belakang'];								
+								result+='</td>';
+								result+='<td class="tabel_status'+$i+'">';
+									//set status
+									if(temp_detail[$i]['role'] == 1)
+									{
+										result+='jemaat';
+									}
+									else if(temp_detail[$i]['role'] == 2)
+									{
+										result+='pendeta';
+									}
+									else if(temp_detail[$i]['role'] == 3)
+									{
+										result+='penatua';
+									}
+									else if(temp_detail[$i]['role'] == 4)
+									{
+										result+='majelis';
+									}
+								result+='</td>';
+								result+='<td>';
+									result+='<div class="pull-right">';
+										result+='<input type="hidden" value='+$i+' />';
+										result+='<input type="hidden" value='+temp_detail[$i]['id_anggota']+' />';
+										result+='<button type="button" class="btn btn-warning detailButton" data-toggle="modal" data-target=".popup_edit_anggota">';
+											result+='Detail/Edit';
+										result+='</button>';
+										result+='<input type="hidden" value='+$i+' />';
+										result+='<input type="hidden" value='+temp_detail[$i]['id_anggota']+' />';
+										result+='<button style="margin-left:10px;" type="button" class="btn btn-danger deleteButton" data-toggle="modal" data-target=".popup_delete_warning_anggota">';
+											result+='Delete';
+										result+='</button>';
+									result+='</div>';	
+								result+='</td>';							
+							result+='</tr>';							
+						
+						}
+						result+='</tbody>';
+					result+='</table>';					
+						
+					$('#f_result_anggota').html(result);
+					// $('#f_result_body_anggota').html(result);										
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
+				}
+				else				
+				{
+					alert(result.messages);
+					$('#f_result_anggota').html("<p>Hasil pencarian tidak didapatkan.</p>");
+					
+					//END LOADER				
+					$('.f_loader_container').addClass('hidden');
+					// $('#f_result_body_anggota').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
+				}
+				
+			
+			// alert(response.length);
+			
+			/*
+			var temp;				
+			if(response.length > 0)
+			{
+				alert(response.length);
+				for($i = 0 ; $i < response.length ; $i++)
+				{
+					// temp += response[$i]['nama_depan']+",";
+					alert(response[$i]['nama_depan']);
+				}
+				// alert(temp);
+			}
+			else
+			{
+				alert(response);
+			}
+			*/
+			
+			// if(response == true)
+			// {	
+				// alert("Berhasil simpan data anggota");
+			// }
+			// else
+			// {
+				// alert(response);
+			// }
+			
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('error');
+				alert(errorThrown);
 				//END LOADER				
 				$('.f_loader_container').addClass('hidden');
-				// $('#f_result_body_anggota').html("<tr><td>Hasil pencarian tidak didapatkan</td></tr>");
 			}
-			
+		},'json');	
 		
-		// alert(response.length);
+	});
+
+	//simpen last index
+	var lastIdx = 2;
+
+	//click edit button
+	$('body').on('click', '.detailButton', function(){
+		$id = $(this).prev().val();
+		$index = $(this).prev().prev().val();
 		
-		/*
-		var temp;				
-		if(response.length > 0)
+		temp = $(this).prev().prev().val();
+		
+		//reset 	
+		lastIdx = 2;
+		
+		//set value di table pop up detail
+		$('#f_edit_nomor_anggota').val(temp_detail[$index]['no_anggota']);
+		$('#f_edit_nama_depan').val(temp_detail[$index]['nama_depan']);
+		$('#f_edit_nama_tengah').val(temp_detail[$index]['nama_tengah']);
+		$('#f_edit_nama_belakang').val(temp_detail[$index]['nama_belakang']);
+		$('#f_edit_telp').val(temp_detail[$index]['telp']);		
+		if(temp_detail[$index]['gender'] == 0)
 		{
-			alert(response.length);
-			for($i = 0 ; $i < response.length ; $i++)
-			{
-				// temp += response[$i]['nama_depan']+",";
-				alert(response[$i]['nama_depan']);
-			}
-			// alert(temp);
+			$("#f_edit_jenis_kelamin_0").prop("checked", true);
 		}
 		else
 		{
-			alert(response);
-		}
-		*/
-		
-		// if(response == true)
-		// {	
-			// alert("Berhasil simpan data anggota");
-		// }
-		// else
-		// {
-			// alert(response);
-		// }
-		
-		},
-		error: function(jqXHR, textStatus, errorThrown){
-			alert('error');
-			alert(errorThrown);
-			//END LOADER				
-			$('.f_loader_container').addClass('hidden');
-		}
-	},'json');	
-	
-});
-
-//simpen last index
-var lastIdx = 2;
-
-//click edit button
-$('body').on('click', '.detailButton', function(){
-	$id = $(this).prev().val();
-	$index = $(this).prev().prev().val();
-	
-	temp = $(this).prev().prev().val();
-	
-	//reset 	
-	lastIdx = 2;
-	
-	//set value di table pop up detail
-	$('#f_edit_nomor_anggota').val(temp_detail[$index]['no_anggota']);
-	$('#f_edit_nama_depan').val(temp_detail[$index]['nama_depan']);
-	$('#f_edit_nama_tengah').val(temp_detail[$index]['nama_tengah']);
-	$('#f_edit_nama_belakang').val(temp_detail[$index]['nama_belakang']);
-	$('#f_edit_telp').val(temp_detail[$index]['telp']);		
-	if(temp_detail[$index]['gender'] == 0)
-	{
-		$("#f_edit_jenis_kelamin_0").prop("checked", true);
-	}
-	else
-	{
-		$("#f_edit_jenis_kelamin_1").prop("checked", true);
-	}	
-	$('#f_edit_wilayah').val(temp_detail[$index]['wilayah']);
-	$('#f_edit_gol_darah').val(temp_detail[$index]['gol_darah']);
-	$('#f_edit_pendidikan').val(temp_detail[$index]['pendidikan']);
-	$('#f_edit_pekerjaan').val(temp_detail[$index]['pekerjaan']);
-	$('#f_edit_etnis').val(temp_detail[$index]['etnis']);
-	$('#f_edit_kota_lahir').val(temp_detail[$index]['kota_lahir']);
-	$('#f_edit_tanggal_lahir').val(temp_detail[$index]['tanggal_lahir']);
-	$('#f_edit_status_anggota').val(temp_detail[$index]['status_anggota']);
-	// $('#f_edit_').val(temp_detail[$index]['tanggal_meninggal']);
-	$('#f_edit_status').val(temp_detail[$index]['role']);
-	// $('#f_edit_').val(temp_detail[$index]['foto']);
-	//foto
-	if(temp_detail[$index]['foto'] == '' || temp_detail[$index]['foto'] == null)
-	{
-		$('#edit_show_foto').attr('src', '');
-		
-	}
-	else
-	{
-		var cobafoto = temp_detail[$index]['foto'];
-		// $('#edit_show_foto').attr('src', 'http://localhost/gki_git/public/'+temp_detail[$index]['foto'] );
-		$('#edit_show_foto').attr('src', '{{URL::to("/'+cobafoto+'")}}' );
-	}
-	$('#f_edit_alamat').val(temp_detail[$index]['jalan']); //alamat
-	$('#f_edit_kota').val(temp_detail[$index]['kota']);
-	$('#f_edit_kodepos').val(temp_detail[$index]['kodepos']);
-	
-	$temp_arr_hp = temp_detail[$index]['arr_hp'];
-	if($temp_arr_hp.length > 0)
-	{
-		$('#f_edit_hp1').val($temp_arr_hp[0]);
-		$('#edit_addHp').html("");
-		for($i = 1; $i < $temp_arr_hp.length; $i++)
+			$("#f_edit_jenis_kelamin_1").prop("checked", true);
+		}	
+		$('#f_edit_wilayah').val(temp_detail[$index]['wilayah']);
+		$('#f_edit_gol_darah').val(temp_detail[$index]['gol_darah']);
+		$('#f_edit_pendidikan').val(temp_detail[$index]['pendidikan']);
+		$('#f_edit_pekerjaan').val(temp_detail[$index]['pekerjaan']);
+		$('#f_edit_etnis').val(temp_detail[$index]['etnis']);
+		$('#f_edit_kota_lahir').val(temp_detail[$index]['kota_lahir']);
+		$('#f_edit_tanggal_lahir').val(temp_detail[$index]['tanggal_lahir']);
+		$('#f_edit_status_anggota').val(temp_detail[$index]['status_anggota']);
+		// $('#f_edit_').val(temp_detail[$index]['tanggal_meninggal']);
+		$('#f_edit_status').val(temp_detail[$index]['role']);
+		// $('#f_edit_').val(temp_detail[$index]['foto']);
+		//foto
+		if(temp_detail[$index]['foto'] == '' || temp_detail[$index]['foto'] == null)
 		{
-			var newRow = "";							
-			newRow +="<input style='width:200px; margin-top:10px;' type='text' id='f_edit_hp"+lastIdx+"' class='form-control' name='hp"+lastIdx+"' value='"+$temp_arr_hp[$i]+"' onkeypress='return isNumberKey(event)'/>";
-			newRow +="<input type='button' value='X' id='delHp"+lastIdx+"' onClick='delHp()' />";
-			$('#delHp'+(lastIdx-1)).hide();
-			$('#edit_addHp').append(newRow);
-			if(lastIdx==5){
-				$('#edit_refHp').hide();									
-			}
-			lastIdx++;							
+			$('#edit_show_foto').attr('src', '');
+			
 		}
-	}
+		else
+		{
+			var cobafoto = temp_detail[$index]['foto'];
+			// $('#edit_show_foto').attr('src', 'http://localhost/gki_git/public/'+temp_detail[$index]['foto'] );
+			$('#edit_show_foto').attr('src', '{{URL::to("/'+cobafoto+'")}}' );
+		}
+		$('#f_edit_alamat').val(temp_detail[$index]['jalan']); //alamat
+		$('#f_edit_kota').val(temp_detail[$index]['kota']);
+		$('#f_edit_kodepos').val(temp_detail[$index]['kodepos']);
+		
+		$temp_arr_hp = temp_detail[$index]['arr_hp'];
+		if($temp_arr_hp.length > 0)
+		{
+			$('#f_edit_hp1').val($temp_arr_hp[0]);
+			$('#edit_addHp').html("");
+			for($i = 1; $i < $temp_arr_hp.length; $i++)
+			{
+				var newRow = "";							
+				newRow +="<input style='width:200px; margin-top:10px;' type='text' id='f_edit_hp"+lastIdx+"' class='form-control' name='hp"+lastIdx+"' value='"+$temp_arr_hp[$i]+"' onkeypress='return isNumberKey(event)'/>";
+				newRow +="<input type='button' value='X' id='delHp"+lastIdx+"' onClick='delHp()' />";
+				$('#delHp'+(lastIdx-1)).hide();
+				$('#edit_addHp').append(newRow);
+				if(lastIdx==5){
+					$('#edit_refHp').hide();									
+				}
+				lastIdx++;							
+			}
+		}
 
-	//clear background		
-	$('#f_edit_nama_depan').css('background-color','#FFFFFF');	
-	$('#f_edit_alamat').css('background-color','#FFFFFF');	
-	$('#f_edit_kota').css('background-color','#FFFFFF');	
-	$('#f_edit_telp').css('background-color','#FFFFFF');	
-	$('#f_edit_gol_darah').css('background-color','#FFFFFF');	
-	$('#f_edit_pekerjaan').css('background-color','#FFFFFF');	
-	$('#f_edit_kota_lahir').css('background-color','#FFFFFF');	
-	$('#f_edit_tanggal_lahir').css('background-color','#FFFFFF');	
-});	
+		//clear background		
+		$('#f_edit_nama_depan').css('background-color','#FFFFFF');	
+		$('#f_edit_alamat').css('background-color','#FFFFFF');	
+		$('#f_edit_kota').css('background-color','#FFFFFF');	
+		$('#f_edit_telp').css('background-color','#FFFFFF');	
+		$('#f_edit_gol_darah').css('background-color','#FFFFFF');	
+		$('#f_edit_pekerjaan').css('background-color','#FFFFFF');	
+		$('#f_edit_kota_lahir').css('background-color','#FFFFFF');	
+		$('#f_edit_tanggal_lahir').css('background-color','#FFFFFF');	
+	});	
 
-//click delete button
-$('body').on('click', '.deleteButton', function(){
-	$id = $(this).prev().val();	
-	temp = $(this).prev().prev().val();
-});	
+	//click delete button
+	$('body').on('click', '.deleteButton', function(){
+		$id = $(this).prev().val();	
+		temp = $(this).prev().prev().val();
+	});	
 
 </script>
 

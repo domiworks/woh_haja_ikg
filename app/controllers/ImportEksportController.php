@@ -10751,6 +10751,96 @@ class ImportEksportController extends BaseController {
 			return 'Gagal upload file';
 		}
 	}
+
+	public function export_kegiatan_plain($id_gereja,$tahun_awal,$tahun_akhir){
+	
+		$kegiatan = new Kegiatan();
+		
+		$gereja = Gereja::find($id_gereja);
+				
+		$result = $kegiatan->where('id_gereja','=',$id_gereja)->where('tanggal_mulai','>=',$tahun_awal.'-04-01')->where('tanggal_mulai','<=',$tahun_akhir.'-03-31')->orderBy('tanggal_mulai')->orderBy('id_jenis_kegiatan')->where('deleted', '=', 0)->get();
+		
+		//return $result;
+		if(count($result) == 0){
+			return 'Belum ada data.';
+		}
+
+		//create array data
+
+		$arr_header1 = array("Laporan Kebaktian ".$gereja->nama,"","","","","","","","","","","","","","","","","","","","");
+		$arr_tahun_pelayanan = array("Tahun Pelayanan ".$tahun_awal."-".$tahun_akhir,"","","","","","","","","","","","","","","","","","","","");
+		$clear = array("","","","","","","","","","","","","","","","","","","","","");
+
+		$arr_data = array();
+
+		array_push($arr_data,$arr_header1);
+		array_push($arr_data,$arr_tahun_pelayanan);
+		array_push($arr_data,$clear);
+
+		$title = array("No","Tanggal","Nama Kebaktian","Jam Mulai","Jam Selesai","Nama Pengkhotbah","Jemaat Pria","Jemaat Wanita","Total Jemaat","Simpatisan Pria","Simpatisan Wanita","Total Simpatisan","Penatua Pria","Penatua Wanita","Total Penatua","Pemusik Pria","Pemusik Wanita","Total Pemusik","Komisi Pria","Komisi Wanita","Total Komisi");
+		array_push($arr_data,$title);
+
+		$count = 1;
+		foreach($result as $key){
+			$row_data = array($count,$key->tanggal_mulai,$key->nama_jenis_kegiatan,$key->jam_mulai,$key->jam_selesai,$key->nama_pendeta,$key->banyak_jemaat_pria,$key->banyak_jemaat_wanita,$key->banyak_jemaat,$key->banyak_simpatisan_pria,$key->banyak_simpatisan_wanita,$key->banyak_simpatisan,$key->banyak_penatua_pria,$key->banyak_penatua_wanita,$key->banyak_penatua,$key->banyak_pemusik_pria,$key->banyak_pemusik_wanita,$key->banyak_pemusik,$key->banyak_komisi_pria,$key->banyak_komisi_wanita,$key->banyak_komisi);
+			array_push($arr_data, $row_data);
+			$count++;
+		}
+
+		Excel::create('Laporan Kebaktian '.$gereja->nama." Tahun Pelayanan ".$tahun_awal."-".$tahun_akhir, function($excel) use($arr_data,$count) {
+
+		    $excel->sheet('Laporan Kebaktian', function($sheet) use($arr_data,$count) {
+		        $sheet->fromArray($arr_data, null, 'A1', false, false);
+		        $sheet->mergeCells('A1:U1');
+		        $sheet->mergeCells('A2:U2');
+		        $sheet->mergeCells('A3:U3');
+		        $sheet->setBorder('A4:U'.($count+3), 'thin');
+		        $sheet->cells('A1:U'.($count+3), function($cells) {						
+					$cells->setAlignment('center');
+				});
+		    });
+
+		})->export('xlsx');
+		return "Berhasil";
+	}
+
+	public function import_kegiatan_plain($id_gereja){
+		// $nama_gereja = Session::get('nama');
+	
+		//get uploaded file
+		$destinationPath = 'assets/file_excel/kebaktian/'.$id_gereja.'/';
+		// $destinationPath = 'assets/file_excel/kebaktian/'.$nama_gereja.'/';		
+		$filename = '';
+		
+		if(Input::hasFile('excel_file')){
+			$file = Input::file('excel_file');
+			$filename = $file->getClientOriginalName();
+			$uploadSuccess = $file->move($destinationPath, $filename);
+		}
+		else{
+			return 'Tidak ada file yang dipilih';
+		}
+		$uploadSuccess = true;
+		
+		if($uploadSuccess){
+			$file_path = $destinationPath.$filename;
+			$result = Excel::selectSheets('Laporan Kebaktian')->load($file_path, function($reader) use($id_gereja){
+				$reader->noHeading();
+				$results = $reader->toArray();
+			})->get();
+			
+			return $result;
+			return "Berhasil";
+		}
+		else{
+			return 'Gagal upload file';
+		}
+		
+		//import begin
+		
+		
+
+	}
 	
 	private function getMonthFromNumber($month){
 		$month = $month%12;

@@ -321,10 +321,10 @@ Route::group(['prefix' => 'user', 'before' => 'authUser'], function () {
 	//import eksport
 	Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@view_import_eksport']);	
 	
-	Route::post('/import_kegiatan/{id_gereja}', ['as' => 'post.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan']);	
+	Route::post('/import_kegiatan/{id_gereja}', ['as' => 'post.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan_plain']);	
 	Route::post('/import_anggota/{id_gereja}', ['as' => 'post.import_anggota' , 'uses' => 'ImportEksportController@import_anggota']);	
 	
-	Route::get('/export_kegiatan/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);
+	Route::get('/export_kegiatan/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan_plain']);
 	Route::get('/export_anggota/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']); 	
 
 	//export filtered	

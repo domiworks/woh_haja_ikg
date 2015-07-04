@@ -10826,6 +10826,7 @@ class ImportEksportController extends BaseController {
 			$result = Excel::selectSheets('Laporan Kebaktian')->load($file_path, function($reader) use($id_gereja){
 				$reader->noHeading();
 				$reader->skip(4);
+				$reader->formatDates(true, 'Y-m-d');
 				$results = $reader->toArray();
 				foreach($results as $row){
 					$tanggal = $row[2];

@@ -215,11 +215,11 @@ Route::group(['prefix' => 'admin', 'before' => 'authAdmin'], function () {
 	//import eksport
 	Route::get('/importeksport', ['as' => 'view_importeksport', 'uses' => 'ImportEksportController@admin_view_import_eksport']);	
 	
-	Route::post('/import_kegiatan/{id_gereja}', ['as' => 'post.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan']);	
+	Route::post('/import_kegiatan/{id_gereja}', ['as' => 'post.import_kegiatan' , 'uses' => 'ImportEksportController@import_kegiatan_plain']);	
 	Route::post('/import_anggota/{id_gereja}', ['as' => 'post.import_anggota' , 'uses' => 'ImportEksportController@import_anggota']);	
 		
-	Route::get('/export_kegiatan/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan']);
-	Route::get('/export_anggota/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']); 		
+	Route::get('/export_kegiatan/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_kegiatan' , 'uses' => 'ImportEksportController@export_kegiatan_plain']);
+	Route::get('/export_anggota/{id_gereja}/{tahun_awal}/{tahun_akhir}', ['as' => 'get.export_anggota', 'uses' => 'ImportEksportController@export_anggota']); 			
 
 	//export filtered	
 	Route::get('/export_filtered_kegiatan/{nama_kebaktian}/{nama_pendeta}/{tanggal_awal}/{tanggal_akhir}/{jam_awal}/{jam_akhir}/{batas_bawah_hadir_jemaat}/{batas_atas_hadir_jemaat}/{batas_bawah_hadir_simpatisan}/{batas_atas_hadir_simpatisan}/{batas_bawah_hadir_penatua}/{batas_atas_hadir_penatua}/{batas_bawah_hadir_pemusik}/{batas_atas_hadir_pemusik}/{batas_bawah_hadir_komisi}/{batas_atas_hadir_komisi}', ['as' => 'get.export_filtered_kegiatan' , 'uses' => 'ExportFilteredController@admin_export_filtered_kegiatan']);

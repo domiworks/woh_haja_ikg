@@ -10873,12 +10873,19 @@ class ImportEksportController extends BaseController {
 								'updated_at'=>Carbon::now()
 							)
 						);
+						DB::table('persembahan')->where('id_kegiatan',"=",$kegiatan[0]->id)->where("tanggal_persembahan","=",$tanggal)->update(
+							array(
+								"jumlah_persembahan"=>$row[22],
+								"id_gereja"=>$id_gereja,
+								"updated_at"=>Carbon::now()
+							)
+						);
 					}
 					else{
 						$jenis_kegiatan = JenisKegiatan::where('nama_kegiatan','=',$nama_kegiatan)->first()->id;
 
 						//insert
-						DB::table('kegiatan')->insert(
+						$inserted = DB::table('kegiatan')->insert(
 							array(
 								'id_jenis_kegiatan'=>$jenis_kegiatan,
 								'nama_jenis_kegiatan'=>$nama_kegiatan,
@@ -10908,6 +10915,22 @@ class ImportEksportController extends BaseController {
 								'deleted'=>0,
 								'created_at'=>Carbon::now(),
 								'updated_at'=>Carbon::now()
+							)
+						);
+
+						DB::table('persembahan')->insert(
+							array(
+								"tanggal_persembahan"=>$tanggal,
+								"jumlah_persembahan"=>$row[22],
+								"id_gereja"=>$id_gereja,
+								"id_anggota"=>null,
+								"id_kegiatan"=>$inserted->id,
+								"jenis"=>1,
+								'keterangan'=>'',
+								'deleted'=>0,
+								'created_at'=>Carbon::now(),
+								'updated_at'=>Carbon::now()
+
 							)
 						);
 					}

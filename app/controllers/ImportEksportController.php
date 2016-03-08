@@ -10873,13 +10873,37 @@ class ImportEksportController extends BaseController {
 								'updated_at'=>Carbon::now()
 							)
 						);
-						DB::table('persembahan')->where('id_kegiatan',"=",$kegiatan[0]->id)->where("tanggal_persembahan","=",$tanggal)->update(
-							array(
-								"jumlah_persembahan"=>$row[22],
-								"id_gereja"=>$id_gereja,
-								"updated_at"=>Carbon::now()
-							)
-						);
+
+						$persembahan = Persembahan::where('id_kegiatan','=',$kegiatan[0]->id)->get();
+
+						if(count($persembahan)>0){
+							DB::table('persembahan')->where('id_kegiatan',"=",$kegiatan[0]->id)->where("tanggal_persembahan","=",$tanggal)->update(
+								array(
+									"jumlah_persembahan"=>$row[22],
+									"id_gereja"=>$id_gereja,
+									"updated_at"=>Carbon::now()
+								)
+							);
+						}
+						else{
+							DB::table('persembahan')->insert(
+								array(
+									"tanggal_persembahan"=>$tanggal,
+									"jumlah_persembahan"=>$row[22],
+									"id_gereja"=>$id_gereja,
+									"id_anggota"=>null,
+									"id_kegiatan"=>$inserted->id,
+									"jenis"=>1,
+									'keterangan'=>'',
+									'deleted'=>0,
+									'created_at'=>Carbon::now(),
+									'updated_at'=>Carbon::now()
+
+								)
+							);
+						}
+
+						
 					}
 					else{
 						$jenis_kegiatan = JenisKegiatan::where('nama_kegiatan','=',$nama_kegiatan)->first()->id;

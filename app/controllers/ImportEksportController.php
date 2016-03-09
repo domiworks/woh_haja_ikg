@@ -10892,7 +10892,7 @@ class ImportEksportController extends BaseController {
 									"jumlah_persembahan"=>$row[22],
 									"id_gereja"=>$id_gereja,
 									"id_anggota"=>null,
-									"id_kegiatan"=>$inserted->id,
+									"id_kegiatan"=>$kegiatan[0]->id,
 									"jenis"=>1,
 									'keterangan'=>'',
 									'deleted'=>0,
@@ -10909,7 +10909,7 @@ class ImportEksportController extends BaseController {
 						$jenis_kegiatan = JenisKegiatan::where('nama_kegiatan','=',$nama_kegiatan)->first()->id;
 
 						//insert
-						$inserted = DB::table('kegiatan')->insert(
+						$inserted_id = DB::table('kegiatan')->insertGetId(
 							array(
 								'id_jenis_kegiatan'=>$jenis_kegiatan,
 								'nama_jenis_kegiatan'=>$nama_kegiatan,
@@ -10948,7 +10948,7 @@ class ImportEksportController extends BaseController {
 								"jumlah_persembahan"=>$row[22],
 								"id_gereja"=>$id_gereja,
 								"id_anggota"=>null,
-								"id_kegiatan"=>$inserted->id,
+								"id_kegiatan"=>$inserted_id,
 								"jenis"=>1,
 								'keterangan'=>'',
 								'deleted'=>0,

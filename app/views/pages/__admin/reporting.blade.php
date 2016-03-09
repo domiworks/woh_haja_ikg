@@ -383,19 +383,20 @@
 								//if($(this)[0].nama_jenis_kegiatan == $nama_kegiatan){								
 									$temp.push(0+parseInt($(this)[0].banyak_jemaat_pria)+
 										parseInt($(this)[0].banyak_jemaat_wanita)+
-										parseInt($(this)[0].banyak_jemaat)+
+										// parseInt($(this)[0].banyak_jemaat)+
 										parseInt($(this)[0].banyak_simpatisan_pria)+
 										parseInt($(this)[0].banyak_simpatisan_wanita)+
-										parseInt($(this)[0].banyak_simpatisan)+
+										// parseInt($(this)[0].banyak_simpatisan)+
 										parseInt($(this)[0].banyak_penatua_pria)+
 										parseInt($(this)[0].banyak_penatua_wanita)+
-										parseInt($(this)[0].banyak_penatua)+
+										// parseInt($(this)[0].banyak_penatua)+
 										parseInt($(this)[0].banyak_pemusik_pria)+
 										parseInt($(this)[0].banyak_pemusik_wanita)+
-										parseInt($(this)[0].banyak_pemusik)+
+										// parseInt($(this)[0].banyak_pemusik)+
 										parseInt($(this)[0].banyak_komisi_pria)+
-										parseInt($(this)[0].banyak_komisi_wanita)+
-										parseInt($(this)[0].banyak_komisi));
+										parseInt($(this)[0].banyak_komisi_wanita)
+										// parseInt($(this)[0].banyak_komisi)
+										);
 								}
 							});
 							//$arr_kegiatan.push($temp);
